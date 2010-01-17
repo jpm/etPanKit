@@ -10,6 +10,20 @@
 
 @implementation LEPIMAPFolder
 
+@synthesize uidValidity = _uidValidity;
+
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)name
 {
 #warning should be implemented
@@ -44,6 +58,24 @@
 {
 #warning should be implemented
     return nil;
+}
+
+@end
+
+@implementation LEPIMAPFetchFolderMessagesRequest
+
+@synthesize messages = _messages;
+
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
 }
 
 @end

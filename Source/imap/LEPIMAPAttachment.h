@@ -8,11 +8,12 @@
     NSString * _mimeType;
 }
 
-- (LEPIMAPFetchAttachmentRequest *) fetch;
+- (LEPIMAPFetchAttachmentRequest *) fetchRequest;
 
 @end
 
 @interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
+	NSData * _data;
 }
 
 @property (nonatomic, readonly) NSData * data;

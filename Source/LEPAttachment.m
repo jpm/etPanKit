@@ -14,4 +14,19 @@
 @synthesize mimeType = _mimeType;
 @synthesize data = _data;
 
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+    [_filename release];
+    [_mimeType release];
+    [_data release];
+	[super dealloc];
+}
+
 @end

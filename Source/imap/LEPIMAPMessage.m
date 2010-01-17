@@ -18,6 +18,18 @@
 
 @synthesize flags = _flags;
 
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (LEPIMAPFetchMessageRequest *) fetchRequest
 {
     return nil;

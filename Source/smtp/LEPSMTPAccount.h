@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "LEPConstants.h"
 
+@class LEPSMTPRequest;
+@class LEPMessage;
+
 @interface LEPSMTPAccount : NSObject {
     NSString * _host;
     uint16_t _port;
@@ -22,5 +25,7 @@
 @property (nonatomic, copy) NSString * login;
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
+
+- (LEPSMTPRequest *) sendRequest:(LEPMessage *)message;
 
 @end

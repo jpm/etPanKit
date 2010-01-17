@@ -13,6 +13,18 @@
 @synthesize filename = _filename;
 @synthesize mimeType = _mimeType;
 
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest
 {
 #warning should be implemented
@@ -22,5 +34,19 @@
 @end
 
 @implementation LEPIMAPFetchAttachmentRequest
+
+@synthesize data = _data;
+
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
 
 @end

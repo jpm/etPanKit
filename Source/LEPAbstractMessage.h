@@ -13,4 +13,7 @@
 @property (nonatomic, copy, readonly) NSArray * bcc;
 @property (nonatomic, copy, readonly) NSString * subject;
 
+- (id) init;
+- (void) dealloc;
+
 @end

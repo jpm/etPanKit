@@ -5,6 +5,7 @@
 @class LEPAbstractMessage;
 
 @interface LEPIMAPFolder : NSObject {
+	NSString * _uidValidity;
 }
 
 @property (nonatomic, readonly) NSString * uidValidity;
@@ -19,6 +20,7 @@
 @end
 
 @interface LEPIMAPFetchFolderMessagesRequest : LEPIMAPRequest {
+	NSArray * _messages;
 }
 
 @property (nonatomic, readonly) NSArray * /* LEPIMAPMessage */ messages;

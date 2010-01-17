@@ -2,6 +2,7 @@
 #import "LEPConstants.h"
 
 @class LEPIMAPRequest;
+@class LEPIMAPSession;
 
 @interface LEPIMAPAccount : NSObject {
     NSString * _host;
@@ -12,6 +13,7 @@
     NSArray * _subscribedFolders;
     NSArray * _allFolders;
     BOOL _idleEnabled;
+	LEPIMAPSession * _session;
 }
 
 @property (nonatomic, copy) NSString * host;

@@ -16,12 +16,8 @@
 
 #define LEPLogStack(...)
 #define LEPLog(...)
-#define LEPLOG(...)
-#define LEPASSERT(condition) NSAssert(condition, @#condition)
 #define LEPAssert(condition) NSAssert(condition, @#condition)
-#define		LEP_DEBUG_METHOD_BEGIN
-#define		LEP_DEBUG_LOG(...)
-#define LEPCRASH() NSAssert(0, @"LEPCRASH")
+#define LEPCrash() NSAssert(0, @"LEPCrash")
 
 #define LEPPROPERTY(propName)    @#propName
 
@@ -35,12 +31,8 @@
 
 #define LEPLogStack(...) LEPLogInternal(__FILE__, __LINE__, 1, __VA_ARGS__)
 #define LEPLog(...) LEPLogInternal(__FILE__, __LINE__, 0, __VA_ARGS__)
-#define LEPLOG(...) LEPLogInternal(__FILE__, __LINE__, 0, __VA_ARGS__)
-#define LEPASSERT(condition) NSAssert(condition, @#condition)
 #define LEPAssert(condition) NSAssert(condition, @#condition)
-#define		LEP_DEBUG_METHOD_BEGIN			NSLog(@"%s (%@:%d)", __PRETTY_FUNCTION__, [[NSString stringWithFormat:@"%s", __FILE__] lastPathComponent], __LINE__);
-#define		LEP_DEBUG_LOG(...) LEPLogInternal(__FILE__, __LINE__, 0, __VA_ARGS__)
-#define LEPCRASH() NSAssert(0, @"LEPCRASH")
+#define LEPCrash() NSAssert(0, @"LEPCrash")
 
 //
 // Use LEPPROPERTY for safer KVC.

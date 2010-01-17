@@ -11,15 +11,27 @@
 
 @implementation LEPAbstractAttachment
 
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (NSString *) filename
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSString *) mimeType
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 

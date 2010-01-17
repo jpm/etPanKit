@@ -9,6 +9,6 @@
 @property (nonatomic, copy) NSString * filename;
 @property (nonatomic, copy) NSString * mimeType;
 
-@property (nonatomic, copy) NSData * data;
+@property (nonatomic, retain) NSData * data;
 
 @end

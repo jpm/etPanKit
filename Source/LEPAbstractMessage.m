@@ -11,51 +11,63 @@
 
 @implementation LEPAbstractMessage
 
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+} 
+
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (NSString *) messageID
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSArray *) reference
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSArray *) inReplyTo
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSString *) from
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSArray *) to
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSArray *) cc
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSArray *) bcc
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
 - (NSString *) subject
 {
-    LEPCRASH();
+    LEPCrash();
     return nil;
 }
 
