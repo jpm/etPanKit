@@ -10,6 +10,7 @@
     NSString * _login;
     NSString * _password;
     LEPAuthType _authType;
+	NSString * _realm;
     NSArray * _subscribedFolders;
     NSArray * _allFolders;
     BOOL _idleEnabled;
@@ -21,6 +22,7 @@
 @property (nonatomic, copy) NSString * login;
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
+@property (nonatomic, copy) NSString * realm; // for NTLM
 
 @property (nonatomic, copy, readonly) NSArray * subscribedFolders;
 @property (nonatomic, copy, readonly) NSArray * allFolders;

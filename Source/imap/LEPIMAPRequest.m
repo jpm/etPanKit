@@ -7,11 +7,19 @@
 //
 
 #import "LEPIMAPRequest.h"
+#import "LEPIMAPSession.h"
+
+@interface LEPIMAPRequest ()
+
+- (void) _finished;
+
+@end
 
 @implementation LEPIMAPRequest
 
 @synthesize delegate = _delegate;
 @synthesize error = _error;
+@synthesize session = _session;
 
 - (id) init
 {
@@ -22,17 +30,48 @@
 
 - (void) dealloc
 {
+	[_error release];
+	[_session release];
 	[super dealloc];
 }
 
 - (void) startRequest
 {
-#warning should be implemented
+	[_session queueOperation:self];
 }
 
 - (void) cancel
 {
-#warning should be implemented
+	[super cancel];
+}
+
+- (void) main
+{
+	if ([self isCancelled]) {
+		return;
+	}
+	
+	[self mainRequest];
+	
+	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:YES];
+}
+
+- (void) mainRequest
+{
+}
+
+- (void) mainFinished
+{
+}
+
+- (void) _finished
+{
+	if ([self isCancelled]) {
+		return;
+	}
+	
+	[self mainFinished];
+	[[self delegate] LEPIMAPRequest_finished:self];
 }
 
 @end

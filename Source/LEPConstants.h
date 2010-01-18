@@ -9,7 +9,6 @@
 
 typedef enum {
 	LEPAuthTypeClear,
-	LEPAuthTypeTryStartTLS,
 	LEPAuthTypeStartTLS,
 	LEPAuthTypeTLS,
 	LEPAuthTypeSASLCRAMMD5,
@@ -19,6 +18,5 @@ typedef enum {
 	LEPAuthTypeSASLLogin,
 	LEPAuthTypeSASLSRP,
 	LEPAuthTypeSASLNTLM,
-	LEPAuthTypeSASLOTP,
 	LEPAuthTypeSASLKerberosV4,
 } LEPAuthType;

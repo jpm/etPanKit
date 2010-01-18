@@ -32,11 +32,13 @@
 
 - (LEPIMAPFetchMessageRequest *) fetchRequest
 {
+#warning should be implemented
     return nil;
 }
 
 - (LEPIMAPFetchMessageBodyRequest *) fetchMessageBodyRequest
 {
+#warning should be implemented
     return nil;
 }
 

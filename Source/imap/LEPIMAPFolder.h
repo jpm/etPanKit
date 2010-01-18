@@ -6,6 +6,7 @@
 
 @interface LEPIMAPFolder : NSObject {
 	NSString * _uidValidity;
+	char _separator;
 }
 
 @property (nonatomic, readonly) NSString * uidValidity;
@@ -16,6 +17,12 @@
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
 - (LEPIMAPRequest *) appendMessageRequest:(LEPAbstractMessage *)message;
 - (LEPIMAPRequest *) appendMessagesRequest:(NSArray * /* LEPAbstractMessage */)message;
+
+- (LEPIMAPRequest *) subscribeRequest;
+- (LEPIMAPRequest *) unsubscribeRequest;
+
+- (LEPIMAPRequest *) deleteRequest;
+//- (LEPIMAPRequest *) renameRequest;
 
 @end
 

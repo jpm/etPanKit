@@ -10,6 +10,8 @@
 
 #import "LEPIMAPSession.h"
 #import "LEPUtils.h"
+#import "LEPIMAPFetchSubscribedFoldersRequest.h"
+#import "LEPIMAPFetchAllFoldersRequest.h"
 
 @interface LEPIMAPAccount ()
 
@@ -25,6 +27,7 @@
 @synthesize login = _login;
 @synthesize password = _password;
 @synthesize authType = _authType;
+@synthesize realm = _realm;
 
 @synthesize subscribedFolders = _subscribedFolders;
 @synthesize allFolders = _allFolders;
@@ -40,6 +43,7 @@
 
 - (void) dealloc
 {
+	[_realm release];
     [_host release];
     [_login release];
     [_password release];
@@ -50,14 +54,22 @@
 
 - (LEPIMAPRequest *) fetchSubscribedFoldersRequest
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchSubscribedFoldersRequest * request;
+	
+	request = [[LEPIMAPFetchSubscribedFoldersRequest alloc] init];
+	[request setAccount:self];
+	
+    return [request autorelease];
 }
 
 - (LEPIMAPRequest *) fetchAllFoldersRequest
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchAllFoldersRequest * request;
+	
+	request = [[LEPIMAPFetchAllFoldersRequest alloc] init];
+	[request setAccount:self];
+	
+    return [request autorelease];
 }
 
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)name
@@ -76,12 +88,25 @@
 	[_session setLogin:[self login]];
 	[_session setPassword:[self password]];
 	[_session setAuthType:[self authType]];
+	[_session setRealm:[self realm]];
 }
 
 - (void) _unsetupSession
 {
 	[_session release];
 	_session = nil;
+}
+
+- (void) _setSubscribedFolders:(NSArray * )folders
+{
+	[_subscribedFolders release];
+	_subscribedFolders = [folders retain];
+}
+
+- (void) _setAllFolders:(NSArray * )folders
+{
+	[_allFolders release];
+	_allFolders = [folders retain];
 }
 
 @end

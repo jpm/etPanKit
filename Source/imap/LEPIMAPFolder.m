@@ -24,6 +24,11 @@
 	[super dealloc];
 }
 
+- (void) _setSeparator:(char)separator
+{
+	_separator = separator;
+}
+
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)name
 {
 #warning should be implemented
@@ -55,6 +60,12 @@
 }
 
 - (LEPIMAPRequest *) appendMessagesRequest:(NSArray * /* LEPAbstractMessage */)message
+{
+#warning should be implemented
+    return nil;
+}
+
+- (LEPIMAPRequest *) deleteRequest
 {
 #warning should be implemented
     return nil;

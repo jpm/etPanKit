@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		C62200C910F1559A00A207C0 /* LEPAbstractAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200C810F1559A00A207C0 /* LEPAbstractAttachment.m */; };
 		C62200CB10F155A300A207C0 /* LEPAbstractMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */; };
 		C62200CD10F155AE00A207C0 /* LEPAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200CC10F155AE00A207C0 /* LEPAttachment.m */; };
@@ -17,7 +16,6 @@
 		C622010A10F1600500A207C0 /* LEPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C622010910F1600500A207C0 /* LEPUtils.m */; };
 		C622012D10F1650600A207C0 /* LEPConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C622012C10F1650600A207C0 /* LEPConstants.h */; };
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
-		C63C936D1103738D006B5066 /* libsasl2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C936C1103738D006B5066 /* libsasl2.dylib */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; };
 		C655A78410F11344009E6B45 /* LEPAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77210F11344009E6B45 /* LEPAttachment.h */; };
@@ -44,9 +42,13 @@
 		C681665210F5142D00B07764 /* LEPSMTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C681663E10F5142D00B07764 /* LEPSMTPRequest.m */; };
 		C681665310F5142D00B07764 /* LEPSMTPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = C681663F10F5142D00B07764 /* LEPSMTPSession.h */; };
 		C681665410F5142D00B07764 /* LEPSMTPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C681664010F5142D00B07764 /* LEPSMTPSession.m */; };
-		C681666C10F5496A00B07764 /* LEPIMAPConnectRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C681666A10F5496A00B07764 /* LEPIMAPConnectRequest.h */; };
-		C681666D10F5496A00B07764 /* LEPIMAPConnectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C681666B10F5496A00B07764 /* LEPIMAPConnectRequest.m */; };
 		C681666F10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */; };
+		C6E572451103998300897274 /* LEPError.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572441103998300897274 /* LEPError.h */; };
+		C6E572541103E2D200897274 /* LEPIMAPAccountPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */; };
+		C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */; };
+		C6E572581103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */; };
+		C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
+		C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +98,6 @@
 		C622010910F1600500A207C0 /* LEPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPUtils.m; sourceTree = "<group>"; };
 		C622012C10F1650600A207C0 /* LEPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPConstants.h; sourceTree = "<group>"; };
 		C63C92AE110372F7006B5066 /* libetpan.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libetpan.xcodeproj; path = "Externals/libetpan/build-mac/libetpan.xcodeproj"; sourceTree = "<group>"; };
-		C63C936C1103738D006B5066 /* libsasl2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsasl2.dylib; path = /usr/lib/libsasl2.dylib; sourceTree = "<absolute>"; };
 		C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAttachment.h; sourceTree = "<group>"; };
 		C655A77110F11344009E6B45 /* LEPAbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessage.h; sourceTree = "<group>"; };
 		C655A77210F11344009E6B45 /* LEPAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAttachment.h; sourceTree = "<group>"; };
@@ -123,9 +124,12 @@
 		C681663E10F5142D00B07764 /* LEPSMTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPRequest.m; sourceTree = "<group>"; };
 		C681663F10F5142D00B07764 /* LEPSMTPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSession.h; sourceTree = "<group>"; };
 		C681664010F5142D00B07764 /* LEPSMTPSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPSession.m; sourceTree = "<group>"; };
-		C681666A10F5496A00B07764 /* LEPIMAPConnectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPConnectRequest.h; sourceTree = "<group>"; };
-		C681666B10F5496A00B07764 /* LEPIMAPConnectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPConnectRequest.m; sourceTree = "<group>"; };
 		C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPSessionPrivate.h; sourceTree = "<group>"; };
+		C6E572441103998300897274 /* LEPError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPError.h; sourceTree = "<group>"; };
+		C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAccountPrivate.h; sourceTree = "<group>"; };
+		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
+		C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchAllFoldersRequest.m; sourceTree = "<group>"; };
+		C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFolderPrivate.h; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -134,9 +138,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				C63C935611037309006B5066 /* libetpan.a in Frameworks */,
-				C63C936D1103738D006B5066 /* libsasl2.dylib in Frameworks */,
+				C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +170,6 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				C63C936C1103738D006B5066 /* libsasl2.dylib */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -245,6 +247,7 @@
 				C622010910F1600500A207C0 /* LEPUtils.m */,
 				C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */,
 				C681643E10F3EB6100B07764 /* NSData+LEPUTF8.m */,
+				C6E572441103998300897274 /* LEPError.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -254,12 +257,16 @@
 			children = (
 				C681662C10F5142D00B07764 /* LEPIMAPAccount.h */,
 				C681662D10F5142D00B07764 /* LEPIMAPAccount.m */,
+				C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */,
 				C681662E10F5142D00B07764 /* LEPIMAPAttachment.h */,
 				C681662F10F5142D00B07764 /* LEPIMAPAttachment.m */,
+				C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */,
+				C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */,
 				C681663010F5142D00B07764 /* LEPIMAPFetchSubscribedFoldersRequest.h */,
 				C681663110F5142D00B07764 /* LEPIMAPFetchSubscribedFoldersRequest.m */,
 				C681663210F5142D00B07764 /* LEPIMAPFolder.h */,
 				C681663310F5142D00B07764 /* LEPIMAPFolder.m */,
+				C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */,
 				C681663410F5142D00B07764 /* LEPIMAPMessage.h */,
 				C681663510F5142D00B07764 /* LEPIMAPMessage.m */,
 				C681663610F5142D00B07764 /* LEPIMAPRequest.h */,
@@ -267,8 +274,6 @@
 				C681663810F5142D00B07764 /* LEPIMAPSession.h */,
 				C681663910F5142D00B07764 /* LEPIMAPSession.m */,
 				C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */,
-				C681666A10F5496A00B07764 /* LEPIMAPConnectRequest.h */,
-				C681666B10F5496A00B07764 /* LEPIMAPConnectRequest.m */,
 			);
 			path = imap;
 			sourceTree = "<group>";
@@ -310,8 +315,11 @@
 				C681664F10F5142D00B07764 /* LEPSMTPAccount.h in Headers */,
 				C681665110F5142D00B07764 /* LEPSMTPRequest.h in Headers */,
 				C681665310F5142D00B07764 /* LEPSMTPSession.h in Headers */,
-				C681666C10F5496A00B07764 /* LEPIMAPConnectRequest.h in Headers */,
 				C681666F10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h in Headers */,
+				C6E572451103998300897274 /* LEPError.h in Headers */,
+				C6E572541103E2D200897274 /* LEPIMAPAccountPrivate.h in Headers */,
+				C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */,
+				C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +426,7 @@
 				C681665010F5142D00B07764 /* LEPSMTPAccount.m in Sources */,
 				C681665210F5142D00B07764 /* LEPSMTPRequest.m in Sources */,
 				C681665410F5142D00B07764 /* LEPSMTPSession.m in Sources */,
-				C681666D10F5496A00B07764 /* LEPIMAPConnectRequest.m in Sources */,
+				C6E572581103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +468,11 @@
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-lsasl2",
+					"-lssl",
+					"-lcrypto",
+				);
 				PRODUCT_NAME = etPanKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -478,6 +491,11 @@
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-lsasl2",
+					"-lssl",
+					"-lcrypto",
+				);
 				PRODUCT_NAME = etPanKit;
 				WRAPPER_EXTENSION = framework;
 			};
