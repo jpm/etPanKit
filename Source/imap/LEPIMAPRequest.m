@@ -11,6 +11,8 @@
 
 @interface LEPIMAPRequest ()
 
+@property (nonatomic, copy) NSError * error;
+
 - (void) _finished;
 
 @end
@@ -62,6 +64,9 @@
 
 - (void) mainFinished
 {
+    if ([_session error] != nil) {
+        [self setError:[_session error]];
+    }
 }
 
 - (void) _finished

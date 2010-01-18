@@ -24,8 +24,8 @@
 @property (nonatomic) LEPAuthType authType;
 @property (nonatomic, copy) NSString * realm; // for NTLM
 
-@property (nonatomic, copy, readonly) NSArray * subscribedFolders;
-@property (nonatomic, copy, readonly) NSArray * allFolders;
+@property (nonatomic, retain, readonly) NSArray * subscribedFolders;
+@property (nonatomic, retain, readonly) NSArray * allFolders;
 
 @property (nonatomic, getter=isIdleEnabled) BOOL idleEnabled;
 

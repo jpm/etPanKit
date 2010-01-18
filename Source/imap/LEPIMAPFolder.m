@@ -10,7 +10,9 @@
 
 @implementation LEPIMAPFolder
 
+@synthesize account = _account;
 @synthesize uidValidity = _uidValidity;
+@synthesize path = _path;
 
 - (id) init
 {
@@ -21,12 +23,31 @@
 
 - (void) dealloc
 {
+    [_uidValidity release];
+    [_path release];
 	[super dealloc];
 }
 
-- (void) _setSeparator:(char)separator
+- (void) _setDelimiter:(char)delimiter
 {
-	_separator = separator;
+	_delimiter = delimiter;
+}
+
+- (void) _setPath:(NSString *)path
+{
+    [_path release];
+    _path = [path copy];
+}
+
+- (void) _setFlags:(int)flags
+{
+    _flags = flags;
+}
+
+- (NSArray *) pathComponents
+{
+#warning should be implemented
+    return nil;
 }
 
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)name
@@ -66,6 +87,18 @@
 }
 
 - (LEPIMAPRequest *) deleteRequest
+{
+#warning should be implemented
+    return nil;
+}
+
+- (LEPIMAPRequest *) subscribeRequest
+{
+#warning should be implemented
+    return nil;
+}
+
+- (LEPIMAPRequest *) unsubscribeRequest
 {
 #warning should be implemented
     return nil;

@@ -9,6 +9,8 @@
 
 @interface LEPIMAPFolder (LEPIMAPFolderPrivate)
 
-- (void) _setSeparator:(char)separator;
+- (void) _setDelimiter:(char)delimiter;
+- (void) _setPath:(NSString *)path;
+- (void) _setFlags:(int)flags;
 
 @end

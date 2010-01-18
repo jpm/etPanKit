@@ -12,11 +12,14 @@
 #import "LEPUtils.h"
 #import "LEPIMAPFetchSubscribedFoldersRequest.h"
 #import "LEPIMAPFetchAllFoldersRequest.h"
+#import "LEPError.h"
 
 @interface LEPIMAPAccount ()
 
-@property (nonatomic, copy) NSArray * subscribedFolders;
-@property (nonatomic, copy) NSArray * allFolders;
+@property (nonatomic, retain) NSArray * subscribedFolders;
+@property (nonatomic, retain) NSArray * allFolders;
+
+- (void) _setupRequest:(LEPIMAPRequest *)request;
 
 @end
 
@@ -59,6 +62,8 @@
 	request = [[LEPIMAPFetchSubscribedFoldersRequest alloc] init];
 	[request setAccount:self];
 	
+    [self _setupRequest:request];
+    
     return [request autorelease];
 }
 
@@ -68,7 +73,9 @@
 	
 	request = [[LEPIMAPFetchAllFoldersRequest alloc] init];
 	[request setAccount:self];
-	
+    
+    [self _setupRequest:request];
+    
     return [request autorelease];
 }
 
@@ -95,6 +102,19 @@
 {
 	[_session release];
 	_session = nil;
+}
+
+- (void) _setupRequest:(LEPIMAPRequest *)request
+{
+    if (_session == nil) {
+        [self _setupSession];
+    }
+    
+    [request setSession:_session];
+    
+    if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
+        [self _unsetupSession];
+    }
 }
 
 - (void) _setSubscribedFolders:(NSArray * )folders

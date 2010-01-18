@@ -20,3 +20,10 @@ typedef enum {
 	LEPAuthTypeSASLNTLM,
 	LEPAuthTypeSASLKerberosV4,
 } LEPAuthType;
+
+typedef enum {
+    LEPMailboxFlagMarked      = 1,
+    LEPMailboxFlagUnmarked    = 2,
+    LEPMailboxFlagNoSelect    = 4,
+    LEPMailboxFlagNoInferiors = 8,
+} LEPMailboxFlags;

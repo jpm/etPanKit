@@ -3,13 +3,21 @@
 
 @class LEPIMAPFetchFolderMessagesRequest;
 @class LEPAbstractMessage;
+@class LEPIMAPAccount;
 
 @interface LEPIMAPFolder : NSObject {
+    LEPIMAPAccount * _account;
 	NSString * _uidValidity;
-	char _separator;
+	char _delimiter;
+    int _flags;
+    NSString * _path;
 }
 
+@property (nonatomic, assign) LEPIMAPAccount * account;
 @property (nonatomic, readonly) NSString * uidValidity;
+@property (nonatomic, readonly) NSString * path;
+
+- (NSArray *) pathComponents;
 
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)name;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;

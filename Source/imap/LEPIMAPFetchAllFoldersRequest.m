@@ -32,12 +32,12 @@
 
 - (void) mainRequest
 {
-	_folders = [_session _fetchSubscribedFolders];
+	_folders = [_session _fetchAllFolders];
 }
 
 - (void) mainFinished
 {
-	[_account _setSubscribedFolders:_folders];
+	[_account _setAllFolders:_folders];
 }
 
 @end

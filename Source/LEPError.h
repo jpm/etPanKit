@@ -15,4 +15,5 @@ enum {
 	LEPErrorAuthentication,
 	LEPErrorNotImplemented,
 	LEPErrorNonExistantMailbox,
+    LEPErrorParse,
 };

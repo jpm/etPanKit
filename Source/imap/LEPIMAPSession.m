@@ -10,6 +10,8 @@
 #import "LEPUtils.h"
 #import "LEPError.h"
 #import "LEPIMAPRequest.h"
+#import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
 #import <libetpan/libetpan.h>
 
 struct lepData {
@@ -214,14 +216,6 @@ enum {
 		case LEPAuthTypeTLS:
 		default:
 			r = mailimap_login(_imap, [[self login] UTF8String], [[self password] UTF8String]);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLCRAMMD5:
@@ -231,14 +225,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLPlain:
@@ -248,14 +234,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLGSSAPI:
@@ -266,14 +244,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLDIGESTMD5:
@@ -300,14 +270,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLSRP:
@@ -317,14 +279,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLNTLM:
@@ -334,14 +288,6 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], [[self realm] UTF8String]);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLKerberosV4:
@@ -351,16 +297,33 @@ enum {
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 	}
+    if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r != MAILIMAP_NO_ERROR) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    
 	_state = STATE_LOGGEDIN;
 }
 
@@ -371,7 +334,23 @@ enum {
 	LEPAssert(_state == STATE_LOGGEDIN);
 	
 	r = mailimap_select(_imap, [mailbox UTF8String]);
-	if (r != MAILIMAP_NO_ERROR) {
+    if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNonExistantMailbox userInfo:nil];
@@ -392,27 +371,120 @@ enum {
 	_state = STATE_DISCONNECTED;
 }
 
+static int imap_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
+{
+    int flags;
+    clistiter * cur;
+    
+    flags = 0;
+    if (imap_flags->mbf_type == MAILIMAP_MBX_LIST_FLAGS_SFLAG) {
+        switch (imap_flags->mbf_sflag) {
+            case MAILIMAP_MBX_LIST_SFLAG_MARKED:
+                flags |= LEPMailboxFlagMarked;
+                break;
+            case MAILIMAP_MBX_LIST_SFLAG_NOSELECT:
+                flags |= LEPMailboxFlagNoSelect;
+                break;
+            case MAILIMAP_MBX_LIST_SFLAG_UNMARKED:
+                flags |= LEPMailboxFlagUnmarked;
+                break;
+        }
+    }
+    
+    for(cur = clist_begin(imap_flags->mbf_oflags) ; cur != NULL ;
+        cur = clist_next(cur)) {
+        struct mailimap_mbx_list_oflag * oflag;
+        
+        oflag = clist_content(cur);
+        
+        switch (oflag->of_type) {
+            case MAILIMAP_MBX_LIST_OFLAG_NOINFERIORS:
+                flags |= LEPMailboxFlagNoInferiors;
+                break;
+        }
+    }
+    
+    return flags;
+}
+
+- (NSArray *) _getResultsFromError:(int)r list:(clist *)list
+{
+    clistiter * cur;
+	clist * imap_folders;
+    NSMutableArray * result;
+	
+    result = [NSMutableArray array];
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNonExistantMailbox userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+	
+    for(cur = clist_begin(list) ; cur != NULL ; cur = cur->next) {
+        struct mailimap_mailbox_list * mb_list;
+        int flags;
+        LEPIMAPFolder * folder;
+        
+        mb_list = cur->data;
+        
+        flags = 0;
+        if (mb_list->mb_flag != NULL)
+            flags = imap_flags_to_flags(mb_list->mb_flag);
+        
+        folder = [[LEPIMAPFolder alloc] init];
+        [folder _setPath:[NSString stringWithUTF8String:mb_list->mb_name]];
+        [folder _setDelimiter:mb_list->mb_delimiter];
+        [folder _setFlags:flags];
+        
+        [result addObject:folder];
+        
+        [folder release];
+    }
+    
+	mailimap_list_result_free(imap_folders);
+	
+	return result;
+}
+
 - (NSArray *) _fetchSubscribedFolders
 {
-	clist * imap_folders;
-	
+    int r;
+    clist * imap_folders;
+    
 	[self _loginIfNeeded];
 	
 	r = mailimap_lsub(_imap, "", "*", &imap_folders);
-	
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder release];
-	
-	mailimap_list_result_free(imap_folders);
-	
-	return nil;
+    return [self _getResultsFromError:r list:imap_folders];
 }
 
 - (NSArray *) _fetchAllFolders
 {
+    int r;
+    clist * imap_folders;
+    
 	[self _loginIfNeeded];
-#warning should be implemented
-	return nil;
+	
+	r = mailimap_list(_imap, "", "*", &imap_folders);
+    return [self _getResultsFromError:r list:imap_folders];
 }
 
 @end
