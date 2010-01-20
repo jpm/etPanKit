@@ -11,5 +11,9 @@
 
 - (void) _setSubscribedFolders:(NSArray * )folders;
 - (void) _setAllFolders:(NSArray * )folders;
+- (LEPIMAPSession *) _session;
+
+- (void) _setupSession;
+- (void) _unsetupSession;
 
 @end

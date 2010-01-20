@@ -7,6 +7,15 @@
 //
 
 #import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
+
+#import "LEPIMAPAccount.h"
+#import "LEPIMAPAccountPrivate.h"
+#import "LEPIMAPRenameFolderRequest.h"
+#import "LEPIMAPDeleteFolderRequest.h"
+#import "LEPIMAPSubscribeFolderRequest.h"
+#import "LEPIMAPUnsubscribeFolderRequest.h"
+#import "LEPError.h"
 
 @implementation LEPIMAPFolder
 
@@ -46,14 +55,20 @@
 
 - (NSArray *) pathComponents
 {
-#warning should be implemented
-    return nil;
+    return [[self path] componentsSeparatedByString:[NSString stringWithFormat:@"%c", _delimiter]];
 }
 
-- (LEPIMAPRequest *) createFolderRequest:(NSString *)name
+- (void) _setupRequest:(LEPIMAPRequest *)request
 {
-#warning should be implemented
-    return nil;
+    if ([_account _session] == nil) {
+        [_account _setupSession];
+    }
+    
+    [request setSession:[_account _session]];
+    
+    if (([[[_account _session] error] code] == LEPErrorConnection) || ([[[_account _session] error] code] == LEPErrorParse)) {
+        [_account _unsetupSession];
+    }
 }
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest
@@ -88,38 +103,52 @@
 
 - (LEPIMAPRequest *) deleteRequest
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPDeleteFolderRequest * request;
+	
+	request = [[LEPIMAPDeleteFolderRequest alloc] init];
+    [request setPath:[self path]];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPRequest *) renameRequestWithNewPath:(NSString *)newPath
+{
+	LEPIMAPRenameFolderRequest * request;
+	
+	request = [[LEPIMAPRenameFolderRequest alloc] init];
+    [request setOldPath:[self path]];
+    [request setNewPath:newPath];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 - (LEPIMAPRequest *) subscribeRequest
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPSubscribeFolderRequest * request;
+	
+	request = [[LEPIMAPSubscribeFolderRequest alloc] init];
+    [request setPath:[self path]];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 - (LEPIMAPRequest *) unsubscribeRequest
 {
-#warning should be implemented
-    return nil;
-}
-
-@end
-
-@implementation LEPIMAPFetchFolderMessagesRequest
-
-@synthesize messages = _messages;
-
-- (id) init
-{
-	self = [super init];
+	LEPIMAPUnsubscribeFolderRequest * request;
 	
-	return self;
-} 
-
-- (void) dealloc
-{
-	[super dealloc];
+	request = [[LEPIMAPUnsubscribeFolderRequest alloc] init];
+    [request setPath:[self path]];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 @end
+

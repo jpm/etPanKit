@@ -11,9 +11,14 @@
 
 enum {
 	LEPErrorConnection,
+    LEPErrorParse,
+	LEPErrorNotImplemented,
 	LEPErrorStartTLSNotAvailable,
 	LEPErrorAuthentication,
-	LEPErrorNotImplemented,
 	LEPErrorNonExistantMailbox,
-    LEPErrorParse,
+    LEPErrorRename,
+    LEPErrorCreate,
+    LEPErrorDelete,
+    LEPErrorSubscribe,
+    LEPErrorUnsubscribe,
 };

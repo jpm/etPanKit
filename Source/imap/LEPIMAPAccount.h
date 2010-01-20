@@ -35,6 +35,6 @@
 // after the operation is created, it should be started
 - (LEPIMAPRequest *) fetchAllFoldersRequest;
 
-- (LEPIMAPRequest *) createFolderRequest:(NSString *)name;
+- (LEPIMAPRequest *) createFolderRequest:(NSString *)path;
 
 @end

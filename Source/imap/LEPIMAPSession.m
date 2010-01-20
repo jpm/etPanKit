@@ -7,6 +7,7 @@
 //
 
 #import "LEPIMAPSession.h"
+#import "LEPIMAPSessionPrivate.h"
 #import "LEPUtils.h"
 #import "LEPError.h"
 #import "LEPIMAPRequest.h"
@@ -471,7 +472,9 @@ static int imap_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
     clist * imap_folders;
     
 	[self _loginIfNeeded];
-	
+	if ([self error] != nil)
+        return nil;
+    
 	r = mailimap_lsub(_imap, "", "*", &imap_folders);
     return [self _getResultsFromError:r list:imap_folders];
 }
@@ -482,9 +485,180 @@ static int imap_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
     clist * imap_folders;
     
 	[self _loginIfNeeded];
+	if ([self error] != nil)
+        return nil;
 	
 	r = mailimap_list(_imap, "", "*", &imap_folders);
     return [self _getResultsFromError:r list:imap_folders];
+}
+
+- (void) _renameFolder:(NSString *)path withNewPath:(NSString *)newPath
+{
+    int r;
+    
+    [self _selectIfNeeded:@"INBOX"];
+	if ([self error] != nil)
+        return;
+    
+    r = mailimap_rename(_imap, [path UTF8String], [newPath UTF8String]);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorRename userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+}
+
+- (void) _deleteFolder:(NSString *)path
+{
+    int r;
+    
+    [self _selectIfNeeded:@"INBOX"];
+	if ([self error] != nil)
+        return;
+    
+    r = mailimap_delete(_imap, [path UTF8String]);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorDelete userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+}
+
+- (void) _createFolder:(NSString *)path
+{
+    int r;
+    
+    [self _selectIfNeeded:@"INBOX"];
+	if ([self error] != nil)
+        return;
+    
+    r = mailimap_create(_imap, [path UTF8String]);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCreate userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+    
+    [self _subscribeFolder:path];
+}
+
+- (void) _subscribeFolder:(NSString *)path
+{
+    int r;
+    
+    r = mailimap_subscribe(_imap, [path UTF8String]);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorSubscribe userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+}
+
+- (void) _unsubscribeFolder:(NSString *)path
+{
+    int r;
+    
+    r = mailimap_unsubscribe(_imap, [path UTF8String]);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorUnsubscribe userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "LEPUtils.h"
 #import "LEPIMAPFetchSubscribedFoldersRequest.h"
 #import "LEPIMAPFetchAllFoldersRequest.h"
+#import "LEPIMAPCreateFolderRequest.h"
 #import "LEPError.h"
 
 @interface LEPIMAPAccount ()
@@ -79,10 +80,16 @@
     return [request autorelease];
 }
 
-- (LEPIMAPRequest *) createFolderRequest:(NSString *)name
+- (LEPIMAPRequest *) createFolderRequest:(NSString *)path
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPCreateFolderRequest * request;
+	
+	request = [[LEPIMAPCreateFolderRequest alloc] init];
+    [request setPath:path];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 - (void) _setupSession
@@ -127,6 +134,11 @@
 {
 	[_allFolders release];
 	_allFolders = [folders retain];
+}
+
+- (LEPIMAPSession *) _session
+{
+    return _session;
 }
 
 @end

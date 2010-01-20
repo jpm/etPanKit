@@ -12,4 +12,11 @@
 - (NSArray *) _fetchSubscribedFolders;
 - (NSArray *) _fetchAllFolders;
 
+- (void) _renameFolder:(NSString *)path withNewPath:(NSString *)newPath;
+- (void) _deleteFolder:(NSString *)path;
+- (void) _createFolder:(NSString *)path;
+
+- (void) _subscribeFolder:(NSString *)path;
+- (void) _unsubscribeFolder:(NSString *)path;
+
 @end

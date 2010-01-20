@@ -19,7 +19,6 @@
 
 - (NSArray *) pathComponents;
 
-- (LEPIMAPRequest *) createFolderRequest:(NSString *)name;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromSequenceNumber:(uint32_t)sequenceNumber;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
@@ -30,14 +29,6 @@
 - (LEPIMAPRequest *) unsubscribeRequest;
 
 - (LEPIMAPRequest *) deleteRequest;
-//- (LEPIMAPRequest *) renameRequest;
-
-@end
-
-@interface LEPIMAPFetchFolderMessagesRequest : LEPIMAPRequest {
-	NSArray * _messages;
-}
-
-@property (nonatomic, readonly) NSArray * /* LEPIMAPMessage */ messages;
+- (LEPIMAPRequest *) renameRequestWithNewPath:(NSString *)newPath;
 
 @end
