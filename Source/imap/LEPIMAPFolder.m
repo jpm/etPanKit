@@ -15,7 +15,12 @@
 #import "LEPIMAPDeleteFolderRequest.h"
 #import "LEPIMAPSubscribeFolderRequest.h"
 #import "LEPIMAPUnsubscribeFolderRequest.h"
+#import "LEPIMAPAppendMessageRequest.h"
+#import "LEPIMAPCopyMessageRequest.h"
+#import "LEPIMAPMessage.h"
+#import "LEPMessage.h"
 #import "LEPError.h"
+#import "LEPUtils.h"
 
 @implementation LEPIMAPFolder
 
@@ -71,36 +76,6 @@
     }
 }
 
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest
-{
-#warning should be implemented
-    return nil;
-}
-
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromSequenceNumber:(uint32_t)sequenceNumber
-{
-#warning should be implemented
-    return nil;
-}
-
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid
-{
-#warning should be implemented
-    return nil;
-}
-
-- (LEPIMAPRequest *) appendMessageRequest:(LEPAbstractMessage *)message
-{
-#warning should be implemented
-    return nil;
-}
-
-- (LEPIMAPRequest *) appendMessagesRequest:(NSArray * /* LEPAbstractMessage */)message
-{
-#warning should be implemented
-    return nil;
-}
-
 - (LEPIMAPRequest *) deleteRequest
 {
 	LEPIMAPDeleteFolderRequest * request;
@@ -148,6 +123,66 @@
     [self _setupRequest:request];
     
     return [request autorelease];
+}
+
+- (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
+{
+	LEPIMAPAppendMessageRequest * request;
+	
+	request = [[LEPIMAPAppendMessageRequest alloc] init];
+    [request setData:[message data]];
+    [request setPath:[self path]];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)toFolder;
+{
+	LEPIMAPCopyMessageRequest * request;
+	LEPIMAPAccount * account;
+    LEPIMAPFolder * sourceFolder;
+    NSMutableArray * uidSet;
+    
+    LEPAssert([messages count] > 0);
+    
+    uidSet = [[NSMutableArray alloc] init];
+    sourceFolder = [[messages objectAtIndex:0] folder];
+    LEPAssert([sourceFolder account] == account);
+    for(LEPIMAPMessage * message in messages) {
+        LEPAssert([message folder] == sourceFolder);
+        [uidSet addObject:[message uid]];
+    }
+    
+	request = [[LEPIMAPCopyMessageRequest alloc] init];
+    [request setUidSet:uidSet];
+    [request setFromPath:[self path]];
+    [request setToPath:[toFolder path]];
+    
+    [self _setupRequest:request];
+    
+    [uidSet release];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest
+{
+#warning should be implemented
+    return nil;
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid
+{
+#warning should be implemented
+    return nil;
+}
+
+- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
+{
+#warning should be implemented
+    return nil;
 }
 
 @end

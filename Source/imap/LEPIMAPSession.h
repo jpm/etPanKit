@@ -25,6 +25,7 @@
 	
 	int _state;
 	NSError * _error;
+    NSArray * _resultUidSet;
 	NSString * _currentMailbox;
 }
 
@@ -37,6 +38,7 @@
 
 // result
 @property (nonatomic, readonly, copy) NSError * error;
+@property (nonatomic, readonly, retain) NSArray * resultUidSet;
 
 - (void) queueOperation:(LEPIMAPRequest *)request;
 

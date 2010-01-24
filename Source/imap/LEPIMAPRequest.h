@@ -7,12 +7,15 @@
 	id <LEPIMAPRequestDelegate> _delegate;
 	LEPIMAPSession * _session;
 	NSError * _error;
+    NSMutableArray * _resultUidSet;
 }
 
 @property (assign) id <LEPIMAPRequestDelegate> delegate;
 
+// response
 @property (nonatomic, readonly, copy) NSError * error;
 @property (nonatomic, retain) LEPIMAPSession * session;
+@property (nonatomic, readonly, retain) NSArray * resultUidSet;
 
 - (void) startRequest;
 - (void) cancel;

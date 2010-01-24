@@ -22,6 +22,7 @@
 @synthesize delegate = _delegate;
 @synthesize error = _error;
 @synthesize session = _session;
+@synthesize resultUidSet = _resultUidSet;
 
 - (id) init
 {
@@ -32,6 +33,7 @@
 
 - (void) dealloc
 {
+    [_resultUidSet release];
 	[_error release];
 	[_session release];
 	[super dealloc];

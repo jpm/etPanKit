@@ -7,6 +7,9 @@
  *
  */
 
+#import "LEPIMAPSession.h"
+#import "LEPIMAPMessage.h"
+
 @interface LEPIMAPSession (LEPIMAPSessionPrivate)
 
 - (NSArray *) _fetchSubscribedFolders;
@@ -18,5 +21,8 @@
 
 - (void) _subscribeFolder:(NSString *)path;
 - (void) _unsubscribeFolder:(NSString *)path;
+
+- (void) _appendMessageData:(NSData *)messageData flags:(LEPIMAPMessageFlag)flags toPath:(NSString *)path;
+- (void) _copyMessages:(NSArray * /* NSNumber */)uidSet fromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 
 @end

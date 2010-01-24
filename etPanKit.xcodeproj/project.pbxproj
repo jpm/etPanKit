@@ -32,6 +32,10 @@
 		C673590911068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673590711068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m */; };
 		C673590C11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673590A11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h */; };
 		C673590D11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673590B11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m */; };
+		C673595D11092026004D4928 /* LEPIMAPAppendMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673595B11092026004D4928 /* LEPIMAPAppendMessageRequest.h */; };
+		C673595E11092026004D4928 /* LEPIMAPAppendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673595C11092026004D4928 /* LEPIMAPAppendMessageRequest.m */; };
+		C673596B11092699004D4928 /* LEPIMAPCopyMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673596911092699004D4928 /* LEPIMAPCopyMessageRequest.h */; };
+		C673596C11092699004D4928 /* LEPIMAPCopyMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673596A11092699004D4928 /* LEPIMAPCopyMessageRequest.m */; };
 		C681643F10F3EB6100B07764 /* NSData+LEPUTF8.h in Headers */ = {isa = PBXBuildFile; fileRef = C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */; };
 		C681644010F3EB6100B07764 /* NSData+LEPUTF8.m in Sources */ = {isa = PBXBuildFile; fileRef = C681643E10F3EB6100B07764 /* NSData+LEPUTF8.m */; };
 		C681664110F5142D00B07764 /* LEPIMAPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = C681662C10F5142D00B07764 /* LEPIMAPAccount.h */; };
@@ -126,6 +130,10 @@
 		C673590711068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPSubscribeFolderRequest.m; sourceTree = "<group>"; };
 		C673590A11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPUnsubscribeFolderRequest.h; sourceTree = "<group>"; };
 		C673590B11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPUnsubscribeFolderRequest.m; sourceTree = "<group>"; };
+		C673595B11092026004D4928 /* LEPIMAPAppendMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAppendMessageRequest.h; sourceTree = "<group>"; };
+		C673595C11092026004D4928 /* LEPIMAPAppendMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPAppendMessageRequest.m; sourceTree = "<group>"; };
+		C673596911092699004D4928 /* LEPIMAPCopyMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPCopyMessageRequest.h; sourceTree = "<group>"; };
+		C673596A11092699004D4928 /* LEPIMAPCopyMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPCopyMessageRequest.m; sourceTree = "<group>"; };
 		C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+LEPUTF8.h"; sourceTree = "<group>"; };
 		C681643E10F3EB6100B07764 /* NSData+LEPUTF8.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+LEPUTF8.m"; sourceTree = "<group>"; };
 		C681662C10F5142D00B07764 /* LEPIMAPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAccount.h; sourceTree = "<group>"; };
@@ -310,6 +318,10 @@
 				C681663810F5142D00B07764 /* LEPIMAPSession.h */,
 				C681663910F5142D00B07764 /* LEPIMAPSession.m */,
 				C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */,
+				C673595B11092026004D4928 /* LEPIMAPAppendMessageRequest.h */,
+				C673595C11092026004D4928 /* LEPIMAPAppendMessageRequest.m */,
+				C673596911092699004D4928 /* LEPIMAPCopyMessageRequest.h */,
+				C673596A11092699004D4928 /* LEPIMAPCopyMessageRequest.m */,
 			);
 			path = imap;
 			sourceTree = "<group>";
@@ -362,6 +374,8 @@
 				C67358DE11068A54004D4928 /* LEPIMAPFetchFolderMessagesRequest.h in Headers */,
 				C673590811068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.h in Headers */,
 				C673590C11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h in Headers */,
+				C673595D11092026004D4928 /* LEPIMAPAppendMessageRequest.h in Headers */,
+				C673596B11092699004D4928 /* LEPIMAPCopyMessageRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +489,8 @@
 				C67358DF11068A54004D4928 /* LEPIMAPFetchFolderMessagesRequest.m in Sources */,
 				C673590911068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m in Sources */,
 				C673590D11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m in Sources */,
+				C673595E11092026004D4928 /* LEPIMAPAppendMessageRequest.m in Sources */,
+				C673596C11092699004D4928 /* LEPIMAPCopyMessageRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,27 +1,20 @@
 #import "LEPAbstractMessage.h"
 #import "LEPIMAPRequest.h"
-
-typedef enum {
-	LEPIMAPMessageFlagSeen          = 1 << 0,
-	LEPIMAPMessageFlagAnswered      = 1 << 1,
-	LEPIMAPMessageFlagFlagged       = 1 << 2,
-	LEPIMAPMessageFlagDeleted       = 1 << 3,
-	LEPIMAPMessageFlagDraft         = 1 << 4,
-	LEPIMAPMessageFlagRecent        = 1 << 5,
-	LEPIMAPMessageFlagMDNSent       = 1 << 6,
-	LEPIMAPMessageFlagForwarded     = 1 << 7,
-	LEPIMAPMessageFlagSubmitPending = 1 << 8,
-	LEPIMAPMessageFlagSubmitted     = 1 << 9,
-} LEPIMAPMessageFlag;
+#import "LEPConstants.h"
 
 @class LEPIMAPFetchMessageRequest;
 @class LEPIMAPFetchMessageBodyRequest;
+@class LEPIMAPFolder;
 
 @interface LEPIMAPMessage : LEPAbstractMessage {
     LEPIMAPMessageFlag _flags;
+    NSString * _uid;
+    LEPIMAPFolder * _folder;
 }
 
 @property (nonatomic, readonly) LEPIMAPMessageFlag flags;
+@property (nonatomic, readonly, copy) NSString * uid;
+@property (nonatomic, readonly, retain) LEPIMAPFolder * folder;
 
 - (LEPIMAPFetchMessageRequest *) fetchRequest;
 - (LEPIMAPFetchMessageBodyRequest *) fetchMessageBodyRequest;

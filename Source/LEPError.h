@@ -21,4 +21,6 @@ enum {
     LEPErrorDelete,
     LEPErrorSubscribe,
     LEPErrorUnsubscribe,
+    LEPErrorAppend,
+    LEPErrorCopy,
 };

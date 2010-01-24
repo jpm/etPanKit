@@ -22,8 +22,21 @@ typedef enum {
 } LEPAuthType;
 
 typedef enum {
-    LEPMailboxFlagMarked      = 1,
-    LEPMailboxFlagUnmarked    = 2,
-    LEPMailboxFlagNoSelect    = 4,
-    LEPMailboxFlagNoInferiors = 8,
+    LEPIMAPMailboxFlagMarked      = 1,
+    LEPIMAPMailboxFlagUnmarked    = 2,
+    LEPIMAPMailboxFlagNoSelect    = 4,
+    LEPIMAPMailboxFlagNoInferiors = 8,
 } LEPMailboxFlags;
+
+typedef enum {
+	LEPIMAPMessageFlagSeen          = 1 << 0,
+	LEPIMAPMessageFlagAnswered      = 1 << 1,
+	LEPIMAPMessageFlagFlagged       = 1 << 2,
+	LEPIMAPMessageFlagDeleted       = 1 << 3,
+	LEPIMAPMessageFlagDraft         = 1 << 4,
+	LEPIMAPMessageFlagRecent        = 1 << 5,
+	LEPIMAPMessageFlagMDNSent       = 1 << 6,
+	LEPIMAPMessageFlagForwarded     = 1 << 7,
+	LEPIMAPMessageFlagSubmitPending = 1 << 8,
+	LEPIMAPMessageFlagSubmitted     = 1 << 9,
+} LEPIMAPMessageFlag;

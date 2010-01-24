@@ -17,6 +17,8 @@
 @implementation LEPIMAPMessage
 
 @synthesize flags = _flags;
+@synthesize uid = _uid;
+@synthesize folder = _folder;
 
 - (id) init
 {
@@ -27,6 +29,8 @@
 
 - (void) dealloc
 {
+    [_uid release];
+    [_folder release];
 	[super dealloc];
 }
 

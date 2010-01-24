@@ -2,8 +2,11 @@
 #import "LEPConstants.h"
 
 @class LEPIMAPFetchFolderMessagesRequest;
-@class LEPAbstractMessage;
+@class LEPIMAPFetchFolderMessagesUIDRequest;
+@class LEPMessage;
+@class LEPIMAPMessage;
 @class LEPIMAPAccount;
+@class LEPIMAPFolder;
 
 @interface LEPIMAPFolder : NSObject {
     LEPIMAPAccount * _account;
@@ -20,10 +23,11 @@
 - (NSArray *) pathComponents;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromSequenceNumber:(uint32_t)sequenceNumber;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
-- (LEPIMAPRequest *) appendMessageRequest:(LEPAbstractMessage *)message;
-- (LEPIMAPRequest *) appendMessagesRequest:(NSArray * /* LEPAbstractMessage */)message;
+- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
+
+- (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
+- (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;
 
 - (LEPIMAPRequest *) subscribeRequest;
 - (LEPIMAPRequest *) unsubscribeRequest;
