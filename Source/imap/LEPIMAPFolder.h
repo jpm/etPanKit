@@ -24,6 +24,7 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequest;
 - (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;

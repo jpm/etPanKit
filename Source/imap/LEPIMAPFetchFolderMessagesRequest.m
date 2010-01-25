@@ -10,6 +10,8 @@
 
 @implementation LEPIMAPFetchFolderMessagesRequest
 
+@synthesize fromUID = _fromUID;
+@synthesize toUID = _toUID;
 @synthesize messages = _messages;
 
 - (id) init

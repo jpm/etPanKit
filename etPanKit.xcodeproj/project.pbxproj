@@ -15,6 +15,8 @@
 		C622010810F15B8F00A207C0 /* LEPUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C622010710F15B8F00A207C0 /* LEPUtils.h */; };
 		C622010A10F1600500A207C0 /* LEPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C622010910F1600500A207C0 /* LEPUtils.m */; };
 		C622012D10F1650600A207C0 /* LEPConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C622012C10F1650600A207C0 /* LEPConstants.h */; };
+		C6304F92110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6304F90110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.h */; };
+		C6304F93110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6304F91110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.m */; };
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; };
@@ -113,6 +115,8 @@
 		C622010710F15B8F00A207C0 /* LEPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPUtils.h; sourceTree = "<group>"; };
 		C622010910F1600500A207C0 /* LEPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPUtils.m; sourceTree = "<group>"; };
 		C622012C10F1650600A207C0 /* LEPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPConstants.h; sourceTree = "<group>"; };
+		C6304F90110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchFolderMessagesUIDRequest.h; sourceTree = "<group>"; };
+		C6304F91110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchFolderMessagesUIDRequest.m; sourceTree = "<group>"; };
 		C63C92AE110372F7006B5066 /* libetpan.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libetpan.xcodeproj; path = "Externals/libetpan/build-mac/libetpan.xcodeproj"; sourceTree = "<group>"; };
 		C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAttachment.h; sourceTree = "<group>"; };
 		C655A77110F11344009E6B45 /* LEPAbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessage.h; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 				C681663310F5142D00B07764 /* LEPIMAPFolder.m */,
 				C67358DC11068A54004D4928 /* LEPIMAPFetchFolderMessagesRequest.h */,
 				C67358DD11068A54004D4928 /* LEPIMAPFetchFolderMessagesRequest.m */,
+				C6304F90110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.h */,
+				C6304F91110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.m */,
 				C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */,
 				C681663410F5142D00B07764 /* LEPIMAPMessage.h */,
 				C681663510F5142D00B07764 /* LEPIMAPMessage.m */,
@@ -376,6 +382,7 @@
 				C673590C11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h in Headers */,
 				C673595D11092026004D4928 /* LEPIMAPAppendMessageRequest.h in Headers */,
 				C673596B11092699004D4928 /* LEPIMAPCopyMessageRequest.h in Headers */,
+				C6304F92110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +498,7 @@
 				C673590D11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m in Sources */,
 				C673595E11092026004D4928 /* LEPIMAPAppendMessageRequest.m in Sources */,
 				C673596C11092699004D4928 /* LEPIMAPCopyMessageRequest.m in Sources */,
+				C6304F93110D246200FDD7CA /* LEPIMAPFetchFolderMessagesUIDRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

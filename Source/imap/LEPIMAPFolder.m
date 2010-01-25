@@ -17,6 +17,8 @@
 #import "LEPIMAPUnsubscribeFolderRequest.h"
 #import "LEPIMAPAppendMessageRequest.h"
 #import "LEPIMAPCopyMessageRequest.h"
+#import "LEPIMAPFetchFolderMessagesRequest.h"
+#import "LEPIMAPFetchFolderMessagesUIDRequest.h"
 #import "LEPIMAPMessage.h"
 #import "LEPMessage.h"
 #import "LEPError.h"
@@ -169,20 +171,38 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest
 {
-#warning should be implemented
-    return nil;
+    return [self fetchMessagesRequestFromUID:1];
 }
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchFolderMessagesRequest * request;
+	
+	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
+    [request setFromUID:uid];
+    [request setToUID:0];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequest
+{
+    return [self fetchMessagesUIDRequestToUID:0];
 }
 
 - (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchFolderMessagesUIDRequest * request;
+	
+	request = [[LEPIMAPFetchFolderMessagesUIDRequest alloc] init];
+    [request setFromUID:1];
+    [request setToUID:uid];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 @end

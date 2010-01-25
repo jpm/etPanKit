@@ -34,9 +34,8 @@ typedef enum {
 	LEPIMAPMessageFlagFlagged       = 1 << 2,
 	LEPIMAPMessageFlagDeleted       = 1 << 3,
 	LEPIMAPMessageFlagDraft         = 1 << 4,
-	LEPIMAPMessageFlagRecent        = 1 << 5,
-	LEPIMAPMessageFlagMDNSent       = 1 << 6,
-	LEPIMAPMessageFlagForwarded     = 1 << 7,
-	LEPIMAPMessageFlagSubmitPending = 1 << 8,
-	LEPIMAPMessageFlagSubmitted     = 1 << 9,
+	LEPIMAPMessageFlagMDNSent       = 1 << 5,
+	LEPIMAPMessageFlagForwarded     = 1 << 6,
+	LEPIMAPMessageFlagSubmitPending = 1 << 7,
+	LEPIMAPMessageFlagSubmitted     = 1 << 8,
 } LEPIMAPMessageFlag;

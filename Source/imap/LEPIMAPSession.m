@@ -28,8 +28,7 @@ enum {
 	STATE_SELECTED,
 };
 
-#pragma mark flags conversion
-
+#pragma mark mailbox flags conversion
 
 static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
 {
@@ -67,6 +66,8 @@ static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_fla
     return flags;
 }
 
+#pragma mark message flags conversion
+
 /*
  LEPIMAPMessageFlagSeen          = 1 << 0,
  LEPIMAPMessageFlagAnswered      = 1 << 1,
@@ -80,9 +81,8 @@ static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_fla
  LEPIMAPMessageFlagSubmitted     = 1 << 9,
  */
 
-struct mailimap_flag_list * etpan_basic_flags_to_lep(int value)
+static struct mailimap_flag_list * flags_to_lep(LEPIMAPMessageFlag value)
 {
-    int ep_value;
     struct mailimap_flag_list * flag_list;
     
     flag_list = mailimap_flag_list_new_empty();
@@ -101,10 +101,6 @@ struct mailimap_flag_list * etpan_basic_flags_to_lep(int value)
     
     if ((value & LEPIMAPMessageFlagAnswered) != 0) {
         mailimap_flag_list_add(flag_list, mailimap_flag_new_answered());
-    }
-    
-    if ((value & LEPIMAPMessageFlagRecent) != 0) {
-        mailimap_flag_list_add(flag_list, mailimap_flag_new_recent());
     }
     
     if ((value & LEPIMAPMessageFlagDraft) != 0) {
@@ -127,85 +123,114 @@ struct mailimap_flag_list * etpan_basic_flags_to_lep(int value)
         mailimap_flag_list_add(flag_list, mailimap_flag_new_flag_keyword(strdup("$Submitted")));
     }
     
-    return ep_value;
+    return flag_list;
 }
 
-static int etpan_basic_flags_from_lep(int lep_value)
+static LEPIMAPMessageFlag flags_from_lep(struct mailimap_flag_list * flag_list)
 {
-    int value;
-    
-    value = 0;
-    
-    if ((lep_value & MAIL_FLAG_SEEN) != 0)
-        value |= ETPAN_FLAGS_SEEN;
-    
-    if ((lep_value & MAIL_FLAG_FLAGGED) != 0)
-        value |= ETPAN_FLAGS_FLAGGED;
-    
-    if ((lep_value & MAIL_FLAG_DELETED) != 0)
-        value |= ETPAN_FLAGS_DELETED;
-    
-    if ((lep_value & MAIL_FLAG_ANSWERED) != 0)
-        value |= ETPAN_FLAGS_ANSWERED;
-    
-    if ((lep_value & MAIL_FLAG_FORWARDED) != 0)
-        value |= ETPAN_FLAGS_FORWARDED;
-    
-    return value;
-}
-
-struct mail_flags *
-etpan_lep_flags_to_lep(struct etpan_message_flags * flags)
-{
-    struct mail_flags * ep_flags;
-    carray * ext_list;
-    unsigned int i;
-    int basic_flags;
-    int r;
-    
-    ep_flags = mail_flags_new_empty();
-    if (ep_flags == NULL)
-        ETPAN_LOG_MEMORY_ERROR;
-    
-    basic_flags = etpan_message_flags_get_value(flags);
-    ep_flags->fl_flags = etpan_basic_flags_to_lep(basic_flags);
-    
-    ext_list = etpan_message_flags_get_ext(flags);
-    for(i = 0 ; i < carray_count(ext_list) ; i ++) {
-        char * ext;
-        
-        ext = carray_get(ext_list, i);
-        r = mail_flags_add_extension(ep_flags, ext);
-        if (r != MAIL_NO_ERROR) {
-            ETPAN_LOG_MEMORY_ERROR;
-        }
-    }
-    
-    return ep_flags;
-}
-
-struct etpan_message_flags *
-etpan_lep_flags_from_lep(struct mail_flags * lep_flags)
-{
-    struct etpan_message_flags * flags;
+    LEPIMAPMessageFlag flags;
     clistiter * iter;
     
-    flags = etpan_message_flags_new();
-    etpan_message_flags_set_value(flags,
-                                  etpan_basic_flags_from_lep(lep_flags->fl_flags));
-    
-    for(iter = clist_begin(lep_flags->fl_extension) ; iter != NULL ;
-        iter = clist_next(iter)) {
-        char * ext;
+    flags = 0;
+    for(iter = clist_begin(flag_list->fl_list) ;iter != NULL ; iter = clist_next(iter)) {
+        struct mailimap_flag * flag;
         
-        ext = clist_content(iter);
-        etpan_message_flags_add_ext(flags, ext);
+        flag = clist_content(iter);
+        
+        switch (flag->fl_type) {
+            case MAILIMAP_FLAG_ANSWERED:
+                flags |= LEPIMAPMessageFlagAnswered;
+                break;
+            case MAILIMAP_FLAG_FLAGGED:
+                flags |= LEPIMAPMessageFlagFlagged;
+                break;
+            case MAILIMAP_FLAG_DELETED:
+                flags |= LEPIMAPMessageFlagDeleted;
+                break;
+            case MAILIMAP_FLAG_SEEN:
+                flags |= LEPIMAPMessageFlagSeen;
+                break;
+            case MAILIMAP_FLAG_DRAFT:
+                flags |= LEPIMAPMessageFlagDraft;
+                break;
+            case MAILIMAP_FLAG_KEYWORD:
+                if (strcasecmp(flag->fl_data.fl_keyword, "$Forwarded") == 0) {
+                    flags |= LEPIMAPMessageFlagForwarded;
+                }
+                else if (strcasecmp(flag->fl_data.fl_keyword, "$MDNSent") == 0) {
+                    flags |= LEPIMAPMessageFlagMDNSent;
+                }
+                else if (strcasecmp(flag->fl_data.fl_keyword, "$SubmitPending") == 0) {
+                    flags |= LEPIMAPMessageFlagSubmitPending;
+                }
+                else if (strcasecmp(flag->fl_data.fl_keyword, "$Submitted") == 0) {
+                    flags |= LEPIMAPMessageFlagSubmitted;
+                }
+                break;
+        }
     }
     
     return flags;
 }
 
+#pragma mark set conversion
 
+static NSArray * arrayFromSet(struct mailimap_set * imap_set)
+{
+    NSMutableArray * result;
+    clistiter * iter;
+    
+    result = [NSMutableArray array];
+    for(iter = clist_begin(imap_set->set_list) ; iter != NULL ; iter = clist_next(iter)) {
+        struct mailimap_set_item * item;
+        unsigned long i;
+        
+        item = clist_content(iter);
+        for(i = item->set_first ; i <= item->set_last ; i ++) {
+            NSNumber * nb;
+            
+            nb = [NSNumber numberWithLong:i];
+            [result addObject:nb];
+        }
+    }
+    
+    return result;
+}
+
+static struct mailimap_set * setFromArray(NSArray * array)
+{
+    unsigned int currentIndex;
+    unsigned int currentFirst;
+    unsigned int currentValue;
+    unsigned int lastValue;
+    struct mailimap_set * imap_set;
+    
+    currentFirst = 0;
+    currentValue = 0;
+    lastValue = 0;
+    
+    imap_set = mailimap_set_new_empty();
+    
+	while (currentIndex < [array count]) {
+        currentValue = [[array objectAtIndex:currentIndex] unsignedLongValue];
+        if (currentFirst == 0) {
+            currentFirst = currentValue;
+        }
+        
+        if (lastValue != 0) {
+            if (currentValue != lastValue + 1) {
+                mailimap_set_add_interval(imap_set, currentFirst, lastValue);
+                currentFirst = 0;
+            }
+        }
+        else {
+            lastValue = currentValue;
+            currentValue ++;
+        }
+    }
+    
+    return imap_set;
+}
 
 @interface LEPIMAPSession ()
 
@@ -813,8 +838,9 @@ etpan_lep_flags_from_lep(struct mail_flags * lep_flags)
     struct mailimap_flag_list * flag_list;
     
     flag_list = NULL;
-#warning flags should be converted
+    flag_list = flags_to_lep(flags);
     r = mailimap_append(_imap, [path UTF8String], flag_list, NULL, [messageData bytes], [messageData length]);
+    mailimap_flag_list_free(flag_list);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
@@ -850,9 +876,9 @@ etpan_lep_flags_from_lep(struct mail_flags * lep_flags)
 	if ([self error] != nil)
         return;
     
-#warning set should be generated
-    set = NULL;
+    set = setFromArray(uidSet);
     r = mailimap_uid_copy(_imap, set, [toPath UTF8String]);
+    mailimap_set_free(set);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
