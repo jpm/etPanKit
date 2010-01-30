@@ -8,11 +8,16 @@
 
 #import "LEPIMAPFetchFolderMessagesRequest.h"
 
+#import "LEPIMAPSession.h"
+#import "LEPIMAPSessionPrivate.h"
+
 @implementation LEPIMAPFetchFolderMessagesRequest
 
+@synthesize path = _path;
 @synthesize fromUID = _fromUID;
 @synthesize toUID = _toUID;
 @synthesize messages = _messages;
+@synthesize fetchKind = _fetchKind;
 
 - (id) init
 {
@@ -24,7 +29,13 @@
 - (void) dealloc
 {
     [_messages release];
+    [_path release];
 	[super dealloc];
+}
+
+- (void) mainRequest
+{
+	_messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind] retain];
 }
 
 @end

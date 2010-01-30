@@ -8,13 +8,13 @@
 
 @interface LEPIMAPMessage : LEPAbstractMessage {
     LEPIMAPMessageFlag _flags;
-    NSString * _uid;
+    uint32_t _uid;
     LEPIMAPFolder * _folder;
 }
 
 @property (nonatomic, readonly) LEPIMAPMessageFlag flags;
-@property (nonatomic, readonly, copy) NSString * uid;
-@property (nonatomic, readonly, retain) LEPIMAPFolder * folder;
+@property (nonatomic, readonly) uint32_t uid;
+@property (nonatomic, retain, readonly) LEPIMAPFolder * folder;
 
 - (LEPIMAPFetchMessageRequest *) fetchRequest;
 - (LEPIMAPFetchMessageBodyRequest *) fetchMessageBodyRequest;

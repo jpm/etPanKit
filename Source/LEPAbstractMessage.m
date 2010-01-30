@@ -29,7 +29,7 @@
     return nil;
 }
 
-- (NSArray *) reference
+- (NSArray *) references
 {
     LEPCrash();
     return nil;
@@ -41,7 +41,7 @@
     return nil;
 }
 
-- (NSString *) from
+- (LEPAddress *) from
 {
     LEPCrash();
     return nil;
@@ -65,7 +65,19 @@
     return nil;
 }
 
+- (NSArray *) replyTo
+{
+    LEPCrash();
+    return nil;
+}
+
 - (NSString *) subject
+{
+    LEPCrash();
+    return nil;
+}
+
+- (NSDate *) date
 {
     LEPCrash();
     return nil;

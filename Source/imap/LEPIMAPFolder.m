@@ -18,7 +18,7 @@
 #import "LEPIMAPAppendMessageRequest.h"
 #import "LEPIMAPCopyMessageRequest.h"
 #import "LEPIMAPFetchFolderMessagesRequest.h"
-#import "LEPIMAPFetchFolderMessagesUIDRequest.h"
+#import "LEPIMAPExpungeRequest.h"
 #import "LEPIMAPMessage.h"
 #import "LEPMessage.h"
 #import "LEPError.h"
@@ -154,7 +154,7 @@
     LEPAssert([sourceFolder account] == account);
     for(LEPIMAPMessage * message in messages) {
         LEPAssert([message folder] == sourceFolder);
-        [uidSet addObject:[message uid]];
+        [uidSet addObject:[NSNumber numberWithUnsignedLong:[message uid]]];
     }
     
 	request = [[LEPIMAPCopyMessageRequest alloc] init];
@@ -179,6 +179,8 @@
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags];
+    [request setPath:[self path]];
     [request setFromUID:uid];
     [request setToUID:0];
     
@@ -187,18 +189,32 @@
     return [request autorelease];
 }
 
-- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequest
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest
 {
-    return [self fetchMessagesUIDRequestToUID:0];
+    return [self fetchMessagesUIDFlagsRequestToUID:0];
 }
 
-- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestToUID:(uint32_t)uid;
 {
-	LEPIMAPFetchFolderMessagesUIDRequest * request;
+	LEPIMAPFetchFolderMessagesRequest * request;
 	
-	request = [[LEPIMAPFetchFolderMessagesUIDRequest alloc] init];
+	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders];
+    [request setPath:[self path]];
     [request setFromUID:1];
     [request setToUID:uid];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPRequest *) expungeRequest
+{
+	LEPIMAPExpungeRequest * request;
+	
+	request = [[LEPIMAPExpungeRequest alloc] init];
+    [request setPath:[self path]];
     
     [self _setupRequest:request];
     

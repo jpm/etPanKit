@@ -2,7 +2,6 @@
 #import "LEPConstants.h"
 
 @class LEPIMAPFetchFolderMessagesRequest;
-@class LEPIMAPFetchFolderMessagesUIDRequest;
 @class LEPMessage;
 @class LEPIMAPMessage;
 @class LEPIMAPAccount;
@@ -24,8 +23,8 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
-- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequest;
-- (LEPIMAPFetchFolderMessagesUIDRequest *) fetchMessagesUIDRequestToUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestToUID:(uint32_t)uid;
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;
@@ -35,5 +34,7 @@
 
 - (LEPIMAPRequest *) deleteRequest;
 - (LEPIMAPRequest *) renameRequestWithNewPath:(NSString *)newPath;
+
+- (LEPIMAPRequest *) expungeRequest;
 
 @end

@@ -39,3 +39,8 @@ typedef enum {
 	LEPIMAPMessageFlagSubmitPending = 1 << 7,
 	LEPIMAPMessageFlagSubmitted     = 1 << 8,
 } LEPIMAPMessageFlag;
+
+typedef enum {
+    LEPIMAPMessagesRequestKindFlags         = 1 << 0,
+    LEPIMAPMessagesRequestKindHeaders       = 1 << 1,
+} LEPIMAPMessagesRequestKind;

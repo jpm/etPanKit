@@ -10,8 +10,6 @@
 
 @interface LEPIMAPMessage ()
 
-@property (nonatomic) LEPIMAPMessageFlag flags;
-
 @end
 
 @implementation LEPIMAPMessage
@@ -29,9 +27,22 @@
 
 - (void) dealloc
 {
-    [_uid release];
     [_folder release];
 	[super dealloc];
+}
+
+- (void) _setUid:(uint32_t)uid
+{
+}
+
+- (void) _setFlags:(LEPIMAPMessageFlag)flags
+{
+}
+
+- (void) _setFolder:(LEPIMAPFolder *)folder
+{
+    [_folder release];
+    _folder = [folder retain];
 }
 
 - (LEPIMAPFetchMessageRequest *) fetchRequest

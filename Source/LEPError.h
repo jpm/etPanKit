@@ -23,4 +23,6 @@ enum {
     LEPErrorUnsubscribe,
     LEPErrorAppend,
     LEPErrorCopy,
+    LEPErrorExpunge,
+    LEPErrorFetch,
 };
