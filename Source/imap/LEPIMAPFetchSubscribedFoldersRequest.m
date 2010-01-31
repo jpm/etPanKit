@@ -15,6 +15,7 @@
 @implementation LEPIMAPFetchSubscribedFoldersRequest
 
 @synthesize account = _account;
+@synthesize folders = _folders;
 
 - (id) init
 {
@@ -33,11 +34,6 @@
 - (void) mainRequest
 {
 	_folders = [_session _fetchSubscribedFolders];
-}
-
-- (void) mainFinished
-{
-	[_account _setSubscribedFolders:_folders];
 }
 
 @end

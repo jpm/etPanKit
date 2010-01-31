@@ -1,24 +1,11 @@
 #import <Foundation/Foundation.h>
 
-@class LEPAddress;
+@class LEPMessageHeader;
 
 @interface LEPAbstractMessage : NSObject {
+	LEPMessageHeader * _header;
 }
 
-@property (nonatomic, retain, readonly) NSDate * date;
-
-@property (nonatomic, copy, readonly) NSString * messageID;
-@property (nonatomic, copy, readonly) NSArray * /* NSString */ references;
-@property (nonatomic, copy, readonly) NSArray * /* NSString */ inReplyTo;
-
-@property (nonatomic, copy, readonly) LEPAddress * from;
-@property (nonatomic, copy, readonly) NSArray * /* LEPAddress */ to;
-@property (nonatomic, copy, readonly) NSArray * /* LEPAddress */ cc;
-@property (nonatomic, copy, readonly) NSArray * /* LEPAddress */ bcc;
-@property (nonatomic, copy, readonly) NSArray * /* LEPAddress */ replyTo;
-@property (nonatomic, copy, readonly) NSString * subject;
-
-- (id) init;
-- (void) dealloc;
+@property (nonatomic, retain, readonly) LEPMessageHeader * header;
 
 @end

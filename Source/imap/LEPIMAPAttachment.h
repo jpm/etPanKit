@@ -4,8 +4,7 @@
 @class LEPIMAPFetchAttachmentRequest;
 
 @interface LEPIMAPAttachment : LEPAbstractAttachment {
-    NSString * _filename;
-    NSString * _mimeType;
+	NSString * _partID;
 }
 
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest;

@@ -16,6 +16,8 @@
 #import "LEPIMAPMessage.h"
 #import "LEPIMAPMessagePrivate.h"
 #import "LEPAddress.h"
+#import "LEPMessageHeader.h"
+#import "LEPMessageHeaderPrivate.h"
 #import <libetpan/libetpan.h>
 
 struct lepData {
@@ -260,98 +262,6 @@ static struct mailimap_set * setFromArray(NSArray * array)
     return imap_set;
 }
 
-#pragma mark mailbox conversion
-
-#define DEFAULT_INCOMING_CHARSET "iso-8859-1"
-#define DEFAULT_DISPLAY_CHARSET "utf-8"
-
-static char * decode_mime_header(char * phrase)
-{
-    int r;
-    size_t cur_token;
-    char * decoded;
-    
-    if (* phrase == '\0') {
-        decoded = strdup("");
-        return decoded;
-    }
-    
-    cur_token = 0;
-    mailmime_encoded_phrase_parse(DEFAULT_INCOMING_CHARSET,
-                                  phrase, strlen(phrase),
-                                  &cur_token, DEFAULT_DISPLAY_CHARSET,
-                                  &decoded);
-    
-    return decoded;
-}
-
-static LEPAddress * imap_address_to_address(struct mailimap_address * imap_addr)
-{
-    char * dsp_name;
-    LEPAddress * address;
-    NSString * mailbox;
-    
-    if (imap_addr->ad_personal_name == NULL)
-        dsp_name = NULL;
-    else {
-        dsp_name = imap_addr->ad_personal_name;
-    }
-    
-    if (imap_addr->ad_host_name == NULL) {
-        char * addr;
-        
-        if (imap_addr->ad_mailbox_name == NULL) {
-            addr = "";
-        }
-        else {
-            addr = imap_addr->ad_mailbox_name;
-        }
-        mailbox = [NSString stringWithUTF8String:addr];
-    }
-    else if (imap_addr->ad_mailbox_name == NULL) {
-        // fix by Gabor Cselle, (http://gaborcselle.com/), reported 8/16/2009
-        mailbox = [NSString stringWithFormat:@"@%@", [NSString stringWithUTF8String:imap_addr->ad_host_name]];
-    }
-    else {
-        mailbox = [NSString stringWithFormat:@"%@@%@", [NSString stringWithUTF8String:imap_addr->ad_mailbox_name], [NSString stringWithUTF8String:imap_addr->ad_host_name]];
-    }
-    
-    address = [[LEPAddress alloc] init];
-    if (dsp_name != NULL) {
-        char * decoded;
-        
-        decoded = decode_mime_header(dsp_name);
-        [address setDisplayName:[NSString stringWithUTF8String:decoded]];
-        free(decoded);
-    }
-    [address setMailbox:mailbox];
-    
-    return [address autorelease];
-}
-
-static NSArray * imap_mailbox_list_to_address_array(clist * imap_mailbox_list)
-{
-    clistiter * cur;
-    NSMutableArray * result;
-    
-    result = [NSMutableArray array];
-    
-    for(cur = clist_begin(imap_mailbox_list) ; cur != NULL ;
-        cur = clist_next(cur)) {
-        struct mailimap_address * imap_addr;
-        LEPAddress * address;
-        
-        imap_addr = clist_content(cur);
-        
-        if (imap_addr->ad_mailbox_name == NULL)
-            continue;
-        
-        address = imap_address_to_mailbox(imap_addr);
-        [result addObject:address];
-    }
-    
-    return result;
-}
 
 @interface LEPIMAPSession ()
 
@@ -1104,6 +1014,11 @@ static NSArray * imap_mailbox_list_to_address_array(clist * imap_mailbox_list)
         fetch_att = mailimap_fetch_att_new_body_peek_section(section);
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
     }
+	if ((kind * LEPIMAPMessagesRequestKindStructure) != 0) {
+		// message structure
+		fetch_att = mailimap_fetch_att_new_bodystructure();
+        mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+	}
     
     r = mailimap_uid_fetch(_imap, imap_set, fetch_type, &fetch_result);
     mailimap_fetch_type_free(fetch_type);
@@ -1149,11 +1064,10 @@ static NSArray * imap_mailbox_list_to_address_array(clist * imap_mailbox_list)
             
             att_item = clist_content(item_iter);
             if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_DYNAMIC) {
-                clist * att_list;
-                
-                att_list = att_item->att_data.att_dyn->att_list;
-                if (att_list != NULL) {
-                }
+				LEPIMAPMessageFlag flags;
+				
+				flags = flags_from_lep_att_dynamic(att_item->att_data.att_dyn);
+				[msg _setFlags:flags];
             }
             else if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
                 struct mailimap_msg_att_static * att_static;
@@ -1163,134 +1077,39 @@ static NSArray * imap_mailbox_list_to_address_array(clist * imap_mailbox_list)
                     uid = att_static->att_data.att_uid;
                 }
                 else if (att_static->att_type == MAILIMAP_MSG_ATT_ENVELOPE) {
-                    int r;
                     struct mailimap_envelope * env;
                     
                     env = att_static->att_data.att_env;
-                    if (env->env_date != NULL) {
-                        size_t cur_token;
-                        struct mailimf_date_time * date_time;
-                        
-                        cur_token = 0;
-                        r = mailimf_date_time_parse(env->env_date, strlen(env->env_date),
-                                                    &cur_token, &date_time);
-                        if (r == MAILIMF_NO_ERROR) {
-                            // date
-                            mailimf_date_time_free(date_time);
-                        }
-                    }
-                    
-                    if (env->env_subject != NULL) {
-                        char * subject;
-                        
-                        subject = env->env_subject;
-                    	// subject
-                    }
-                    
-                    if (env->env_from != NULL) {
-                        if (env->env_from->frm_list != NULL) {
-                            struct mailimf_mailbox_list * mb_list;
-							NSArray * addresses;
-                            
-                        	addresses = imap_mailbox_list_to_address_array(env->env_from->frm_list);
-                            if ([addresses count] > 0) {
-                                [msg _setFrom:[addresses objectAtIndex:0]];
-                            }
-                        }
-                    }
-                    
-                    // skip Sender header
-                    
-                    if (env->env_reply_to != NULL) {
-                        if (env->env_reply_to->rt_list != NULL) {
-							NSArray * addresses;
-                            
-                            addresses = imap_mailbox_list_to_address_array(env->env_reply_to->rt_list);
-                            [msg _setReplyTo:addresses];
-                        }
-                    }
-                    
-                    if (env->env_to != NULL) {
-                        if (env->env_to->to_list != NULL) {
-							NSArray * addresses;
-                            
-                            addresses = imap_mailbox_list_to_address_array(env->env_to->to_list);
-                            [msg _setTo:addresses];
-                        }
-                    }
-                    
-                    if (env->env_cc != NULL) {
-                        if (env->env_cc->cc_list != NULL) {
-							NSArray * addresses;
-                            
-                            addresses = imap_mailbox_list_to_address_array(env->env_cc->cc_list);
-                            [msg _setCc:addresses];
-                        }
-                    }
-                    
-                    if (env->env_bcc != NULL) {
-                        if (env->env_bcc->bcc_list != NULL) {
-							NSArray * addresses;
-                            
-                            addresses = imap_mailbox_list_to_address_array(env->env_bcc->bcc_list);
-                            [msg _setBcc:addresses];
-                        }
-                    }
-                    
-                    if (env->env_in_reply_to != NULL) {
-                        struct mailimf_in_reply_to * in_reply_to;
-                        size_t cur_token;
-                        clist * msg_id_list;
-                        
-                        cur_token = 0;
-                        r = mailimf_msg_id_list_parse(env->env_in_reply_to,
-                                                      strlen(env->env_in_reply_to), &cur_token, &msg_id_list);
-                        if (r == MAILIMF_NO_ERROR) {
-                            // in-reply-to
-                            clist_foreach(msg_id_list, (clist_func) mailimf_msg_id_free, NULL);
-                            clist_free(msg_id_list);
-                        }
-                    }
-                    
-                    if (env->env_message_id != NULL) {
-                        char * msgid;
-                        struct mailimf_message_id * msg_id;
-                        size_t cur_token;
-                        
-                        cur_token = 0;
-                        r = mailimf_msg_id_parse(env->env_message_id, strlen(env->env_message_id),
-                                                 &cur_token, &msgid);
-                        if (r == MAILIMF_NO_ERROR) {
-                            // msg id
-                            mailimf_message_id_free(msg_id);
-                        }
-                    }
+					[[msg header] setFromIMAPEnvelope:env];
                 }
                 else if (att_static->att_type == MAILIMAP_MSG_ATT_BODY_SECTION) {
                     char * references;
                     size_t ref_size;
                     
+                    // references
                     references = att_static->att_data.att_body_section->sec_body_part;
                     ref_size = att_static->att_data.att_body_section->sec_length;
-                    // references
-                }
+					
+					[[msg header] setFromIMAPReferences:[NSData dataWithBytes:references length:ref_size]];
+					
+				}
+				else if (att_static->att_type == MAILIMAP_MSG_ATT_BODYSTRUCTURE) {
+					// bodystructure
+#warning needs to be implemented
+				}
             }
         }
         if (uid != 0) {
-            [msg setUid:[NSString stringWithFormat:@"%lu", (unsigned long) uid]];
+            [msg _setUid:uid];
         }
+		
+		[result addObject:msg];
+		[msg release];
     }
     
     mailimap_fetch_list_free(fetch_result);
     
     return result;
-}
-
-- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
-{
-    [self _selectIfNeeded:path];
-	if ([self error] != nil)
-        return nil;
 }
 
 @end

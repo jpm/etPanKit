@@ -11,6 +11,10 @@
 
 @implementation LEPAbstractAttachment
 
+@synthesize filename = _filename;
+@synthesize mimeType = _mimeType;
+@synthesize inlineAttachment = _inlineAttachment;
+
 - (id) init
 {
 	self = [super init];
@@ -20,19 +24,9 @@
 
 - (void) dealloc
 {
+	[_filename release];
+	[_mimeType release];
 	[super dealloc];
-}
-
-- (NSString *) filename
-{
-    LEPCrash();
-    return nil;
-}
-
-- (NSString *) mimeType
-{
-    LEPCrash();
-    return nil;
 }
 
 @end

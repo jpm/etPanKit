@@ -1,14 +1,16 @@
 #import "LEPAbstractAttachment.h"
 
 @interface LEPAttachment : LEPAbstractAttachment {
-    NSString * _filename;
-    NSString * _mimeType;
     NSData * _data;
 }
 
-@property (nonatomic, copy) NSString * filename;
-@property (nonatomic, copy) NSString * mimeType;
-
 @property (nonatomic, retain) NSData * data;
+
++ (LEPAttachment *) attachmentWithContentsOfFile:(NSString *)filename;
+
++ (LEPAttachment *) attachmentWithHTMLString:(NSString *)html; // with alternative by default
++ (LEPAttachment *) attachmentWithHTMLString:(NSString *)html withTextAlternative:(BOOL)hasAlternative;
+
++ (LEPAttachment *) attachmentWithString:(NSString *)stringValue;
 
 @end

@@ -1,16 +1,16 @@
 //
-//  LEPAbstractMessage.m
+//  LEPAbstractMessageAttachment.m
 //  etPanKit
 //
-//  Created by DINH Viêt Hoà on 03/01/2010.
+//  Created by DINH Viêt Hoà on 31/01/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "LEPAbstractMessage.h"
-#import "LEPMessageHeader.h"
-#import "LEPUtils.h"
+#import "LEPAbstractMessageAttachment.h"
 
-@implementation LEPAbstractMessage
+#import "LEPMessageHeader.h"
+
+@implementation LEPAbstractMessageAttachment
 
 @synthesize header = _header;
 
@@ -21,7 +21,7 @@
 	_header = [[LEPMessageHeader alloc] init];
 	
 	return self;
-} 
+}
 
 - (void) dealloc
 {

@@ -17,6 +17,7 @@
 @synthesize flags = _flags;
 @synthesize uid = _uid;
 @synthesize folder = _folder;
+@synthesize attachments = _attachements;
 
 - (id) init
 {
@@ -27,6 +28,7 @@
 
 - (void) dealloc
 {
+	[_attachements release];
     [_folder release];
 	[super dealloc];
 }
@@ -45,13 +47,13 @@
     _folder = [folder retain];
 }
 
-- (LEPIMAPFetchMessageRequest *) fetchRequest
+- (LEPIMAPFetchMessageStructureRequest *) fetchMessageStructureRequest;
 {
 #warning should be implemented
     return nil;
 }
 
-- (LEPIMAPFetchMessageBodyRequest *) fetchMessageBodyRequest
+- (LEPIMAPFetchMessageRequest *) fetchMessageRequest;
 {
 #warning should be implemented
     return nil;

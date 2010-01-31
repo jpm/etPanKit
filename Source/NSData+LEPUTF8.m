@@ -10,7 +10,7 @@
 
 @implementation NSData (LEPUTF8)
 
-- (NSString *) LEPUTF8String
+- (NSString *) lepUTF8String
 {
 	return [[[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding] autorelease];
 }

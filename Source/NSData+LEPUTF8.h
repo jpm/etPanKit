@@ -10,6 +10,6 @@
 
 @interface NSData (LEPUTF8)
 
-- (NSString *) LEPUTF8String;
+- (NSString *) lepUTF8String;
 
 @end

@@ -10,9 +10,6 @@
 
 @implementation LEPIMAPAttachment
 
-@synthesize filename = _filename;
-@synthesize mimeType = _mimeType;
-
 - (id) init
 {
 	self = [super init];

@@ -13,6 +13,9 @@
     NSString * _mailbox;
 }
 
++ (LEPAddress *) addressWithDisplayName:(NSString *)displayName mailbox:(NSString *)mailbox;
++ (LEPAddress *) addressWithMailbox:(NSString *)mailbox;
+
 @property (nonatomic, copy) NSString * displayName;
 @property (nonatomic, copy) NSString * mailbox;
 

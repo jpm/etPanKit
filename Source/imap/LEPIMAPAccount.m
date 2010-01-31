@@ -17,9 +17,6 @@
 
 @interface LEPIMAPAccount ()
 
-@property (nonatomic, retain) NSArray * subscribedFolders;
-@property (nonatomic, retain) NSArray * allFolders;
-
 - (void) _setupRequest:(LEPIMAPRequest *)request;
 
 @end
@@ -32,9 +29,6 @@
 @synthesize password = _password;
 @synthesize authType = _authType;
 @synthesize realm = _realm;
-
-@synthesize subscribedFolders = _subscribedFolders;
-@synthesize allFolders = _allFolders;
 
 @synthesize idleEnabled = _idleEnabled;
 
@@ -51,8 +45,6 @@
     [_host release];
     [_login release];
     [_password release];
-    [_subscribedFolders release];
-    [_allFolders release];
 	[super dealloc];
 }
 
@@ -122,18 +114,6 @@
     if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
         [self _unsetupSession];
     }
-}
-
-- (void) _setSubscribedFolders:(NSArray * )folders
-{
-	[_subscribedFolders release];
-	_subscribedFolders = [folders retain];
-}
-
-- (void) _setAllFolders:(NSArray * )folders
-{
-	[_allFolders release];
-	_allFolders = [folders retain];
 }
 
 - (LEPIMAPSession *) _session

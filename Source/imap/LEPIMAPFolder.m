@@ -29,6 +29,7 @@
 @synthesize account = _account;
 @synthesize uidValidity = _uidValidity;
 @synthesize path = _path;
+@synthesize uidNext = _uidNext;
 
 - (id) init
 {
@@ -39,7 +40,6 @@
 
 - (void) dealloc
 {
-    [_uidValidity release];
     [_path release];
 	[super dealloc];
 }
@@ -176,13 +176,18 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid
 {
+	return [self fetchMessagesRequestFromUID:uid toUID:0];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
+{
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
     [request setFetchKind:LEPIMAPMessagesRequestKindFlags];
     [request setPath:[self path]];
-    [request setFromUID:uid];
-    [request setToUID:0];
+    [request setFromUID:fromUID];
+    [request setToUID:toUID];
     
     [self _setupRequest:request];
     
@@ -191,18 +196,23 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest
 {
-    return [self fetchMessagesUIDFlagsRequestToUID:0];
+    return [self fetchMessagesUIDFlagsRequestFromUID:1];
 }
 
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestToUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)uid
+{
+	return [self fetchMessagesUIDFlagsRequestFromUID:uid toUID:0];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID
 {
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
     [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders];
     [request setPath:[self path]];
-    [request setFromUID:1];
-    [request setToUID:uid];
+    [request setFromUID:fromUID];
+    [request setToUID:toUID];
     
     [self _setupRequest:request];
     

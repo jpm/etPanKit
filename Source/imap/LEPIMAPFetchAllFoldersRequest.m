@@ -15,6 +15,7 @@
 @implementation LEPIMAPFetchAllFoldersRequest
 
 @synthesize account = _account;
+@synthesize folders = _folders;
 
 - (id) init
 {
@@ -33,11 +34,6 @@
 - (void) mainRequest
 {
 	_folders = [_session _fetchAllFolders];
-}
-
-- (void) mainFinished
-{
-	[_account _setAllFolders:_folders];
 }
 
 @end

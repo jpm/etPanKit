@@ -9,22 +9,27 @@
 
 @interface LEPIMAPFolder : NSObject {
     LEPIMAPAccount * _account;
-	NSString * _uidValidity;
 	char _delimiter;
     int _flags;
     NSString * _path;
+	uint32_t _uidValidity;
+	uint32_t _uidNext;
 }
 
 @property (nonatomic, assign) LEPIMAPAccount * account;
-@property (nonatomic, readonly) NSString * uidValidity;
 @property (nonatomic, readonly) NSString * path;
+@property (nonatomic, readonly) uint32_t uidValidity;
+@property (nonatomic, readonly) uint32_t uidNext;
 
 - (NSArray *) pathComponents;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid toUID:(uint32_t)uid;
+
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest;
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestToUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;

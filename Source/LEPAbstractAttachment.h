@@ -1,12 +1,13 @@
 #import <Foundation/Foundation.h>
 
 @interface LEPAbstractAttachment : NSObject {
+    NSString * _filename;
+    NSString * _mimeType;
+	BOOL _inlineAttachment;
 }
 
-@property (nonatomic, copy, readonly) NSString * filename;
-@property (nonatomic, copy, readonly) NSString * mimeType;
-
-- (id) init;
-- (void) dealloc;
+@property (nonatomic, copy) NSString * filename;
+@property (nonatomic, copy) NSString * mimeType;
+@property (nonatomic, assign, getter=isInlineAttachment) BOOL inlineAttachment;
 
 @end

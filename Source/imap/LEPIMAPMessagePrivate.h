@@ -15,15 +15,4 @@
 - (void) _setFlags:(LEPIMAPMessageFlag)flags;
 - (void) _setFolder:(LEPIMAPFolder *)folder;
 
-- (void) _setDate:(NSDate *)date;
-- (void) _setMessageID:(NSString *)messageID;
-- (void) _setReferences:(NSArray * /* NSString */)references;
-- (void) _setInReplyTo:(NSArray * /* NSString */)inReplyTo;
-- (void) _setFrom:(LEPAddress *)from;
-- (void) _setTo:(NSArray * /* LEPAddress */)to;
-- (void) _setCc:(NSArray * /* LEPAddress */)cc;
-- (void) _setBcc:(NSArray * /* LEPAddress */)bcc;
-- (void) _setReplyTo:(NSArray * /* LEPAddress */)replyTo;
-- (void) _setSubject:(NSString *)subject;
-
 @end
