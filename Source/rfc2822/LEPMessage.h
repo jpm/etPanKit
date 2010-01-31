@@ -8,6 +8,8 @@
 	NSArray * _attachments;
 }
 
+- (id) initWithData:(NSData *)data;
+
 // body will be placed as first attachment
 @property (nonatomic, copy) NSString * body;
 // can be LEPAttachment or LEPMessageAttachment

@@ -180,6 +180,14 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	[super dealloc];
 }
 
+- (id) initWithData:(NSData *)data
+{
+	self = [super init];
+	[self parseData:data];
+	
+	return self;
+}
+
 - (void) parseData:(NSData *)data
 {
 	mailmessage * msg;

@@ -10,8 +10,6 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		C62200C910F1559A00A207C0 /* LEPAbstractAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200C810F1559A00A207C0 /* LEPAbstractAttachment.m */; };
 		C62200CB10F155A300A207C0 /* LEPAbstractMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */; };
-		C62200CD10F155AE00A207C0 /* LEPAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200CC10F155AE00A207C0 /* LEPAttachment.m */; };
-		C62200FA10F1588B00A207C0 /* LEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200F910F1588B00A207C0 /* LEPMessage.m */; };
 		C622010810F15B8F00A207C0 /* LEPUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C622010710F15B8F00A207C0 /* LEPUtils.h */; };
 		C622010A10F1600500A207C0 /* LEPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C622010910F1600500A207C0 /* LEPUtils.m */; };
 		C622012D10F1650600A207C0 /* LEPConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C622012C10F1650600A207C0 /* LEPConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,8 +21,6 @@
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C655A78410F11344009E6B45 /* LEPAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77210F11344009E6B45 /* LEPAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C655A78A10F11344009E6B45 /* LEPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77810F11344009E6B45 /* LEPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C673583111067D07004D4928 /* LEPIMAPCreateFolderRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673582F11067D07004D4928 /* LEPIMAPCreateFolderRequest.h */; };
 		C673583211067D07004D4928 /* LEPIMAPCreateFolderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673583011067D07004D4928 /* LEPIMAPCreateFolderRequest.m */; };
 		C673586C11067E32004D4928 /* LEPIMAPDeleteFolderRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673586A11067E32004D4928 /* LEPIMAPDeleteFolderRequest.h */; };
@@ -70,13 +66,8 @@
 		C6910C641114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910C621114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.m */; };
 		C6910CCD111502DC00623B9F /* LEPIMAPMessageAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910CCB111502DC00623B9F /* LEPIMAPMessageAttachment.h */; };
 		C6910CCE111502DC00623B9F /* LEPIMAPMessageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910CCC111502DC00623B9F /* LEPIMAPMessageAttachment.m */; };
-		C6910CDF1115054B00623B9F /* LEPMessageHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910CDD1115054B00623B9F /* LEPMessageHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6910CE01115054B00623B9F /* LEPMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910CDE1115054B00623B9F /* LEPMessageHeader.m */; };
 		C6910D2D1115096800623B9F /* LEPAbstractMessageAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910D2B1115096800623B9F /* LEPAbstractMessageAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6910D2E1115096800623B9F /* LEPAbstractMessageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910D2C1115096800623B9F /* LEPAbstractMessageAttachment.m */; };
-		C6910D4B1115107400623B9F /* LEPMessageAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910D491115107400623B9F /* LEPMessageAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6910D4C1115107400623B9F /* LEPMessageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910D4A1115107400623B9F /* LEPMessageAttachment.m */; };
-		C6910E3C1115B33F00623B9F /* LEPMessageHeaderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910E3B1115B33F00623B9F /* LEPMessageHeaderPrivate.h */; };
 		C6910ED61115CB4000623B9F /* NSString+LEPUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910ED41115CB4000623B9F /* NSString+LEPUUID.h */; };
 		C6910ED71115CB4000623B9F /* NSString+LEPUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */; };
 		C6910EE71115CD7B00623B9F /* LEPAddressPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910EE61115CD7B00623B9F /* LEPAddressPrivate.h */; };
@@ -84,12 +75,21 @@
 		C6910EEF1115CE1200623B9F /* NSString+LEP.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910EED1115CE1200623B9F /* NSString+LEP.m */; };
 		C691100811160DC400623B9F /* LEPIMAPAlernativeAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C691100611160DC400623B9F /* LEPIMAPAlernativeAttachment.h */; };
 		C691100911160DC400623B9F /* LEPIMAPAlernativeAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C691100711160DC400623B9F /* LEPIMAPAlernativeAttachment.m */; };
-		C691100C11160E2C00623B9F /* LEPAlternativeAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C691100A11160E2C00623B9F /* LEPAlternativeAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C691100D11160E2C00623B9F /* LEPAlternativeAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C691100B11160E2C00623B9F /* LEPAlternativeAttachment.m */; };
 		C69110101116102500623B9F /* LEPAbstractAlternativeAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C691100E1116102500623B9F /* LEPAbstractAlternativeAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C69110111116102500623B9F /* LEPAbstractAlternativeAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C691100F1116102500623B9F /* LEPAbstractAlternativeAttachment.m */; };
 		C69110B411162CE900623B9F /* EtPanKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C69110B311162CE900623B9F /* EtPanKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C69111101116332D00623B9F /* LEPAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C691110F1116332D00623B9F /* LEPAttachmentPrivate.h */; };
+		C69112AF11164F1B00623B9F /* LEPAlternativeAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112A311164F1B00623B9F /* LEPAlternativeAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C69112B011164F1B00623B9F /* LEPAlternativeAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C69112A411164F1B00623B9F /* LEPAlternativeAttachment.m */; };
+		C69112B111164F1B00623B9F /* LEPAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112A511164F1B00623B9F /* LEPAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C69112B211164F1B00623B9F /* LEPAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C69112A611164F1B00623B9F /* LEPAttachment.m */; };
+		C69112B311164F1B00623B9F /* LEPAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112A711164F1B00623B9F /* LEPAttachmentPrivate.h */; };
+		C69112B411164F1B00623B9F /* LEPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112A811164F1B00623B9F /* LEPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C69112B511164F1B00623B9F /* LEPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C69112A911164F1B00623B9F /* LEPMessage.m */; };
+		C69112B611164F1B00623B9F /* LEPMessageAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112AA11164F1B00623B9F /* LEPMessageAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C69112B711164F1B00623B9F /* LEPMessageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C69112AB11164F1B00623B9F /* LEPMessageAttachment.m */; };
+		C69112B811164F1B00623B9F /* LEPMessageHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112AC11164F1B00623B9F /* LEPMessageHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C69112B911164F1B00623B9F /* LEPMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C69112AD11164F1B00623B9F /* LEPMessageHeader.m */; };
+		C69112BA11164F1B00623B9F /* LEPMessageHeaderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C69112AE11164F1B00623B9F /* LEPMessageHeaderPrivate.h */; };
 		C6E572451103998300897274 /* LEPError.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572441103998300897274 /* LEPError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E572541103E2D200897274 /* LEPIMAPAccountPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */; };
 		C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */; };
@@ -139,8 +139,6 @@
 		8DC2EF5B0486A6940098B216 /* EtPanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtPanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C62200C810F1559A00A207C0 /* LEPAbstractAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractAttachment.m; sourceTree = "<group>"; };
 		C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractMessage.m; sourceTree = "<group>"; };
-		C62200CC10F155AE00A207C0 /* LEPAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAttachment.m; sourceTree = "<group>"; };
-		C62200F910F1588B00A207C0 /* LEPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessage.m; sourceTree = "<group>"; };
 		C622010710F15B8F00A207C0 /* LEPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPUtils.h; sourceTree = "<group>"; };
 		C622010910F1600500A207C0 /* LEPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPUtils.m; sourceTree = "<group>"; };
 		C622012C10F1650600A207C0 /* LEPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPConstants.h; sourceTree = "<group>"; };
@@ -152,8 +150,6 @@
 		C63C92AE110372F7006B5066 /* libetpan.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libetpan.xcodeproj; path = "Externals/libetpan/build-mac/libetpan.xcodeproj"; sourceTree = "<group>"; };
 		C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAttachment.h; sourceTree = "<group>"; };
 		C655A77110F11344009E6B45 /* LEPAbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessage.h; sourceTree = "<group>"; };
-		C655A77210F11344009E6B45 /* LEPAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAttachment.h; sourceTree = "<group>"; };
-		C655A77810F11344009E6B45 /* LEPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessage.h; sourceTree = "<group>"; };
 		C673582F11067D07004D4928 /* LEPIMAPCreateFolderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPCreateFolderRequest.h; sourceTree = "<group>"; };
 		C673583011067D07004D4928 /* LEPIMAPCreateFolderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPCreateFolderRequest.m; sourceTree = "<group>"; };
 		C673586A11067E32004D4928 /* LEPIMAPDeleteFolderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPDeleteFolderRequest.h; sourceTree = "<group>"; };
@@ -199,13 +195,8 @@
 		C6910C621114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchMessageStructureRequest.m; sourceTree = "<group>"; };
 		C6910CCB111502DC00623B9F /* LEPIMAPMessageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPMessageAttachment.h; sourceTree = "<group>"; };
 		C6910CCC111502DC00623B9F /* LEPIMAPMessageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPMessageAttachment.m; sourceTree = "<group>"; };
-		C6910CDD1115054B00623B9F /* LEPMessageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageHeader.h; sourceTree = "<group>"; };
-		C6910CDE1115054B00623B9F /* LEPMessageHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessageHeader.m; sourceTree = "<group>"; };
 		C6910D2B1115096800623B9F /* LEPAbstractMessageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessageAttachment.h; sourceTree = "<group>"; };
 		C6910D2C1115096800623B9F /* LEPAbstractMessageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractMessageAttachment.m; sourceTree = "<group>"; };
-		C6910D491115107400623B9F /* LEPMessageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageAttachment.h; sourceTree = "<group>"; };
-		C6910D4A1115107400623B9F /* LEPMessageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessageAttachment.m; sourceTree = "<group>"; };
-		C6910E3B1115B33F00623B9F /* LEPMessageHeaderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageHeaderPrivate.h; sourceTree = "<group>"; };
 		C6910ED41115CB4000623B9F /* NSString+LEPUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LEPUUID.h"; sourceTree = "<group>"; };
 		C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LEPUUID.m"; sourceTree = "<group>"; };
 		C6910EE61115CD7B00623B9F /* LEPAddressPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAddressPrivate.h; sourceTree = "<group>"; };
@@ -213,12 +204,21 @@
 		C6910EED1115CE1200623B9F /* NSString+LEP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LEP.m"; sourceTree = "<group>"; };
 		C691100611160DC400623B9F /* LEPIMAPAlernativeAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAlernativeAttachment.h; sourceTree = "<group>"; };
 		C691100711160DC400623B9F /* LEPIMAPAlernativeAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPAlernativeAttachment.m; sourceTree = "<group>"; };
-		C691100A11160E2C00623B9F /* LEPAlternativeAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAlternativeAttachment.h; sourceTree = "<group>"; };
-		C691100B11160E2C00623B9F /* LEPAlternativeAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAlternativeAttachment.m; sourceTree = "<group>"; };
 		C691100E1116102500623B9F /* LEPAbstractAlternativeAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAlternativeAttachment.h; sourceTree = "<group>"; };
 		C691100F1116102500623B9F /* LEPAbstractAlternativeAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractAlternativeAttachment.m; sourceTree = "<group>"; };
 		C69110B311162CE900623B9F /* EtPanKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EtPanKit.h; sourceTree = "<group>"; };
-		C691110F1116332D00623B9F /* LEPAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAttachmentPrivate.h; sourceTree = "<group>"; };
+		C69112A311164F1B00623B9F /* LEPAlternativeAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAlternativeAttachment.h; sourceTree = "<group>"; };
+		C69112A411164F1B00623B9F /* LEPAlternativeAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAlternativeAttachment.m; sourceTree = "<group>"; };
+		C69112A511164F1B00623B9F /* LEPAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAttachment.h; sourceTree = "<group>"; };
+		C69112A611164F1B00623B9F /* LEPAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAttachment.m; sourceTree = "<group>"; };
+		C69112A711164F1B00623B9F /* LEPAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAttachmentPrivate.h; sourceTree = "<group>"; };
+		C69112A811164F1B00623B9F /* LEPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessage.h; sourceTree = "<group>"; };
+		C69112A911164F1B00623B9F /* LEPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessage.m; sourceTree = "<group>"; };
+		C69112AA11164F1B00623B9F /* LEPMessageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageAttachment.h; sourceTree = "<group>"; };
+		C69112AB11164F1B00623B9F /* LEPMessageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessageAttachment.m; sourceTree = "<group>"; };
+		C69112AC11164F1B00623B9F /* LEPMessageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageHeader.h; sourceTree = "<group>"; };
+		C69112AD11164F1B00623B9F /* LEPMessageHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMessageHeader.m; sourceTree = "<group>"; };
+		C69112AE11164F1B00623B9F /* LEPMessageHeaderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMessageHeaderPrivate.h; sourceTree = "<group>"; };
 		C6E572441103998300897274 /* LEPError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPError.h; sourceTree = "<group>"; };
 		C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAccountPrivate.h; sourceTree = "<group>"; };
 		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
@@ -326,6 +326,7 @@
 		C655A76610F11344009E6B45 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C69112A211164F1B00623B9F /* rfc2822 */,
 				C681662B10F5142D00B07764 /* imap */,
 				C681663A10F5142D00B07764 /* smtp */,
 				C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */,
@@ -336,14 +337,7 @@
 				C6910D2C1115096800623B9F /* LEPAbstractMessageAttachment.m */,
 				C655A77110F11344009E6B45 /* LEPAbstractMessage.h */,
 				C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */,
-				C655A77210F11344009E6B45 /* LEPAttachment.h */,
-				C62200CC10F155AE00A207C0 /* LEPAttachment.m */,
-				C691110F1116332D00623B9F /* LEPAttachmentPrivate.h */,
-				C691100A11160E2C00623B9F /* LEPAlternativeAttachment.h */,
-				C691100B11160E2C00623B9F /* LEPAlternativeAttachment.m */,
 				C622012C10F1650600A207C0 /* LEPConstants.h */,
-				C655A77810F11344009E6B45 /* LEPMessage.h */,
-				C62200F910F1588B00A207C0 /* LEPMessage.m */,
 				C622010710F15B8F00A207C0 /* LEPUtils.h */,
 				C622010910F1600500A207C0 /* LEPUtils.m */,
 				C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */,
@@ -352,11 +346,6 @@
 				C63050F61114819C00FDD7CA /* LEPAddress.h */,
 				C63050F71114819C00FDD7CA /* LEPAddress.m */,
 				C6910EE61115CD7B00623B9F /* LEPAddressPrivate.h */,
-				C6910CDD1115054B00623B9F /* LEPMessageHeader.h */,
-				C6910CDE1115054B00623B9F /* LEPMessageHeader.m */,
-				C6910E3B1115B33F00623B9F /* LEPMessageHeaderPrivate.h */,
-				C6910D491115107400623B9F /* LEPMessageAttachment.h */,
-				C6910D4A1115107400623B9F /* LEPMessageAttachment.m */,
 				C6910ED41115CB4000623B9F /* NSString+LEPUUID.h */,
 				C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */,
 				C6910EEC1115CE1200623B9F /* NSString+LEP.h */,
@@ -432,6 +421,25 @@
 			path = smtp;
 			sourceTree = "<group>";
 		};
+		C69112A211164F1B00623B9F /* rfc2822 */ = {
+			isa = PBXGroup;
+			children = (
+				C69112A311164F1B00623B9F /* LEPAlternativeAttachment.h */,
+				C69112A411164F1B00623B9F /* LEPAlternativeAttachment.m */,
+				C69112A511164F1B00623B9F /* LEPAttachment.h */,
+				C69112A611164F1B00623B9F /* LEPAttachment.m */,
+				C69112A711164F1B00623B9F /* LEPAttachmentPrivate.h */,
+				C69112A811164F1B00623B9F /* LEPMessage.h */,
+				C69112A911164F1B00623B9F /* LEPMessage.m */,
+				C69112AA11164F1B00623B9F /* LEPMessageAttachment.h */,
+				C69112AB11164F1B00623B9F /* LEPMessageAttachment.m */,
+				C69112AC11164F1B00623B9F /* LEPMessageHeader.h */,
+				C69112AD11164F1B00623B9F /* LEPMessageHeader.m */,
+				C69112AE11164F1B00623B9F /* LEPMessageHeaderPrivate.h */,
+			);
+			path = rfc2822;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -441,8 +449,6 @@
 			files = (
 				C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */,
 				C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */,
-				C655A78410F11344009E6B45 /* LEPAttachment.h in Headers */,
-				C655A78A10F11344009E6B45 /* LEPMessage.h in Headers */,
 				C622010810F15B8F00A207C0 /* LEPUtils.h in Headers */,
 				C622012D10F1650600A207C0 /* LEPConstants.h in Headers */,
 				C681643F10F3EB6100B07764 /* NSData+LEPUTF8.h in Headers */,
@@ -475,18 +481,20 @@
 				C6910C5F1114F1C500623B9F /* LEPIMAPFetchMessageRequest.h in Headers */,
 				C6910C631114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.h in Headers */,
 				C6910CCD111502DC00623B9F /* LEPIMAPMessageAttachment.h in Headers */,
-				C6910CDF1115054B00623B9F /* LEPMessageHeader.h in Headers */,
 				C6910D2D1115096800623B9F /* LEPAbstractMessageAttachment.h in Headers */,
-				C6910D4B1115107400623B9F /* LEPMessageAttachment.h in Headers */,
-				C6910E3C1115B33F00623B9F /* LEPMessageHeaderPrivate.h in Headers */,
 				C6910ED61115CB4000623B9F /* NSString+LEPUUID.h in Headers */,
 				C6910EE71115CD7B00623B9F /* LEPAddressPrivate.h in Headers */,
 				C6910EEE1115CE1200623B9F /* NSString+LEP.h in Headers */,
 				C691100811160DC400623B9F /* LEPIMAPAlernativeAttachment.h in Headers */,
-				C691100C11160E2C00623B9F /* LEPAlternativeAttachment.h in Headers */,
 				C69110101116102500623B9F /* LEPAbstractAlternativeAttachment.h in Headers */,
 				C69110B411162CE900623B9F /* EtPanKit.h in Headers */,
-				C69111101116332D00623B9F /* LEPAttachmentPrivate.h in Headers */,
+				C69112AF11164F1B00623B9F /* LEPAlternativeAttachment.h in Headers */,
+				C69112B111164F1B00623B9F /* LEPAttachment.h in Headers */,
+				C69112B311164F1B00623B9F /* LEPAttachmentPrivate.h in Headers */,
+				C69112B411164F1B00623B9F /* LEPMessage.h in Headers */,
+				C69112B611164F1B00623B9F /* LEPMessageAttachment.h in Headers */,
+				C69112B811164F1B00623B9F /* LEPMessageHeader.h in Headers */,
+				C69112BA11164F1B00623B9F /* LEPMessageHeaderPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,8 +587,6 @@
 			files = (
 				C62200C910F1559A00A207C0 /* LEPAbstractAttachment.m in Sources */,
 				C62200CB10F155A300A207C0 /* LEPAbstractMessage.m in Sources */,
-				C62200CD10F155AE00A207C0 /* LEPAttachment.m in Sources */,
-				C62200FA10F1588B00A207C0 /* LEPMessage.m in Sources */,
 				C622010A10F1600500A207C0 /* LEPUtils.m in Sources */,
 				C681644010F3EB6100B07764 /* NSData+LEPUTF8.m in Sources */,
 				C681664210F5142D00B07764 /* LEPIMAPAccount.m in Sources */,
@@ -607,14 +613,16 @@
 				C6910C601114F1C500623B9F /* LEPIMAPFetchMessageRequest.m in Sources */,
 				C6910C641114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.m in Sources */,
 				C6910CCE111502DC00623B9F /* LEPIMAPMessageAttachment.m in Sources */,
-				C6910CE01115054B00623B9F /* LEPMessageHeader.m in Sources */,
 				C6910D2E1115096800623B9F /* LEPAbstractMessageAttachment.m in Sources */,
-				C6910D4C1115107400623B9F /* LEPMessageAttachment.m in Sources */,
 				C6910ED71115CB4000623B9F /* NSString+LEPUUID.m in Sources */,
 				C6910EEF1115CE1200623B9F /* NSString+LEP.m in Sources */,
 				C691100911160DC400623B9F /* LEPIMAPAlernativeAttachment.m in Sources */,
-				C691100D11160E2C00623B9F /* LEPAlternativeAttachment.m in Sources */,
 				C69110111116102500623B9F /* LEPAbstractAlternativeAttachment.m in Sources */,
+				C69112B011164F1B00623B9F /* LEPAlternativeAttachment.m in Sources */,
+				C69112B211164F1B00623B9F /* LEPAttachment.m in Sources */,
+				C69112B511164F1B00623B9F /* LEPMessage.m in Sources */,
+				C69112B711164F1B00623B9F /* LEPMessageAttachment.m in Sources */,
+				C69112B911164F1B00623B9F /* LEPMessageHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
