@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class LEPSMTPRequest;
 
 @interface LEPSMTPSession : NSObject {
-
+	NSOperationQueue * _queue;
+	NSError * _error;
 }
+
+- (void) queueOperation:(LEPSMTPRequest *)request;
 
 @end

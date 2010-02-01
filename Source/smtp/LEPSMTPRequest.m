@@ -8,10 +8,17 @@
 
 #import "LEPSMTPRequest.h"
 
+@interface LEPSMTPRequest ()
+
+@property (nonatomic, copy) NSError * error;
+
+@end
+
 @implementation LEPSMTPRequest
 
 @synthesize delegate = _delegate;
 @synthesize error = _error;
+@synthesize session = _session;
 
 - (id) init
 {
@@ -22,17 +29,51 @@
 
 - (void) dealloc
 {
+	[_error release];
+	[_session release];
 	[super dealloc];
 }
 
 - (void) startRequest
 {
-#warning should be implemented
+	[_session queueOperation:self];
 }
 
 - (void) cancel
 {
-#warning should be implemented
+	[super cancel];
+}
+
+- (void) main
+{
+	if ([self isCancelled]) {
+		return;
+	}
+	
+	[self mainRequest];
+	
+	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:YES];
+}
+
+- (void) mainRequest
+{
+}
+
+- (void) mainFinished
+{
+    if ([_session error] != nil) {
+        [self setError:[_session error]];
+    }
+}
+
+- (void) _finished
+{
+	if ([self isCancelled]) {
+		return;
+	}
+	
+	[self mainFinished];
+	[[self delegate] LEPSMTPRequest_finished:self];
 }
 
 @end

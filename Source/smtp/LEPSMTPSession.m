@@ -11,4 +11,27 @@
 
 @implementation LEPSMTPSession
 
+- (id) init
+{
+	self = [super init];
+	
+	_queue = [[NSOperationQueue alloc] init];
+	[_queue setMaxConcurrentOperationCount:1];
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[_queue release];
+	[_error release];
+	
+	[super dealloc];
+}
+
+- (void) queueOperation:(LEPSMTPRequest *)request
+{
+#warning needs to be implemented
+}
+
 @end

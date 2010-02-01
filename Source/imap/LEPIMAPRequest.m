@@ -12,6 +12,7 @@
 @interface LEPIMAPRequest ()
 
 @property (nonatomic, copy) NSError * error;
+@property (nonatomic, retain) NSArray * resultUidSet;
 
 - (void) _finished;
 
@@ -69,6 +70,9 @@
     if ([_session error] != nil) {
         [self setError:[_session error]];
     }
+	if ([_session resultUidSet] != nil) {
+		[self setResultUidSet:[_session resultUidSet]];
+	}
 }
 
 - (void) _finished
