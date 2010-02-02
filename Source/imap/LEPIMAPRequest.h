@@ -8,6 +8,7 @@
 	LEPIMAPSession * _session;
 	NSError * _error;
     NSMutableArray * _resultUidSet;
+	BOOL _started;
 }
 
 @property (assign) id <LEPIMAPRequestDelegate> delegate;

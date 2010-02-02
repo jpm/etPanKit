@@ -39,6 +39,8 @@
 
 - (void) startRequest
 {
+	[self retain];
+	_started = YES;
 	LEPLog(@"start request %@", _session);
 	[_session queueOperation:self];
 	LEPLog(@"start request ok");
@@ -53,6 +55,10 @@
 {
 	LEPLog(@"smtp request");
 	if ([self isCancelled]) {
+		if (_started) {
+			_started = NO;
+			[self release];
+		}
 		return;
 	}
 	
@@ -67,18 +73,26 @@
 
 - (void) mainFinished
 {
-    if ([_session error] != nil) {
-        [self setError:[_session error]];
-    }
 }
 
 - (void) _finished
 {
 	if ([self isCancelled]) {
+		if (_started) {
+			_started = NO;
+			[self release];
+		}
 		return;
 	}
 	
+    if ([_session error] != nil) {
+        [self setError:[_session error]];
+    }
 	[self mainFinished];
+	if (_started) {
+		_started = NO;
+		[self release];
+	}
 	[[self delegate] LEPSMTPRequest_finished:self];
 }
 

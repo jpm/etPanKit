@@ -42,6 +42,8 @@
 
 - (void) startRequest
 {
+	[self retain];
+	_started = YES;
 	[_session queueOperation:self];
 }
 
@@ -53,6 +55,10 @@
 - (void) main
 {
 	if ([self isCancelled]) {
+		if (_started) {
+			_started = NO;
+			[self release];
+		}
 		return;
 	}
 	
@@ -67,21 +73,29 @@
 
 - (void) mainFinished
 {
+}
+
+- (void) _finished
+{
+	if ([self isCancelled]) {
+		if (_started) {
+			_started = NO;
+			[self release];
+		}
+		return;
+	}
+	
     if ([_session error] != nil) {
         [self setError:[_session error]];
     }
 	if ([_session resultUidSet] != nil) {
 		[self setResultUidSet:[_session resultUidSet]];
 	}
-}
-
-- (void) _finished
-{
-	if ([self isCancelled]) {
-		return;
-	}
-	
 	[self mainFinished];
+	if (_started) {
+		_started = NO;
+		[self release];
+	}
 	[[self delegate] LEPIMAPRequest_finished:self];
 }
 

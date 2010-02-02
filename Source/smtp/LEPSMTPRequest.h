@@ -7,6 +7,7 @@
 	id <LEPSMTPRequestDelegate> _delegate;
 	NSError * _error;
 	LEPSMTPSession * _session;
+	BOOL _started;
 }
 
 @property (assign) id <LEPSMTPRequestDelegate> delegate;

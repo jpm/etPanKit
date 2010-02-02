@@ -377,7 +377,7 @@ struct lepData {
         goto disconnect;
     }
 	
-#warning should disconnect only when no more requests
+#warning should disconnect only when there are no more requests
 	
 disconnect:
 	LEPLog(@"disconnect");
