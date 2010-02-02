@@ -231,9 +231,11 @@ static char * get_content_type_str(struct mailmime_content * content)
 		[result setFilename:[NSString stringWithUTF8String:name]];
 	}
 	
-	if (single_fields.fld_disposition->dsp_type != NULL) {
-		if (single_fields.fld_disposition->dsp_type->dsp_type == MAILMIME_DISPOSITION_TYPE_INLINE) {
-			[result setInlineAttachment:YES];
+	if (single_fields.fld_disposition != NULL) {
+		if (single_fields.fld_disposition->dsp_type != NULL) {
+			if (single_fields.fld_disposition->dsp_type->dsp_type == MAILMIME_DISPOSITION_TYPE_INLINE) {
+				[result setInlineAttachment:YES];
+			}
 		}
 	}
 	
