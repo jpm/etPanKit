@@ -11,6 +11,7 @@
 
 @class LEPSMTPRequest;
 @class LEPMessage;
+@class LEPSMTPSession;
 
 @interface LEPSMTPAccount : NSObject {
     NSString * _host;
@@ -18,6 +19,8 @@
     NSString * _login;
     NSString * _password;
     LEPAuthType _authType;
+	NSString * _realm;
+	LEPSMTPSession * _session;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -25,6 +28,7 @@
 @property (nonatomic, copy) NSString * login;
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
+@property (nonatomic, copy) NSString * realm; // for NTLM
 
 - (LEPSMTPRequest *) sendRequest:(LEPMessage *)message;
 

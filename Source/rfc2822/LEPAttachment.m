@@ -326,7 +326,6 @@ static char * get_content_type_str(struct mailmime_content * content)
 		[attachment setMimeType:@"text/html"];
 		data = [html dataUsingEncoding:NSUTF8StringEncoding];
 		[attachment setData:data];
-		[data release];
 		
 		return [attachment autorelease];
 	}
@@ -358,7 +357,6 @@ static char * get_content_type_str(struct mailmime_content * content)
 	[attachment setMimeType:@"text/plain"];
 	data = [stringValue dataUsingEncoding:NSUTF8StringEncoding];
 	[attachment setData:data];
-	[data release];
 	
 	return [attachment autorelease];
 }

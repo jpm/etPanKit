@@ -17,7 +17,7 @@
 @synthesize flags = _flags;
 @synthesize uid = _uid;
 @synthesize folder = _folder;
-@synthesize attachments = _attachements;
+@synthesize attachments = _attachments;
 
 - (id) init
 {
@@ -28,7 +28,7 @@
 
 - (void) dealloc
 {
-	[_attachements release];
+	[_attachments release];
     [_folder release];
 	[super dealloc];
 }

@@ -164,6 +164,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 @synthesize attachments = _attachments;
 @synthesize body = _body;
+@synthesize HTMLBody = _HTMLBody;
 
 - (id) init
 {
@@ -174,6 +175,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 - (void) dealloc
 {
+	[_HTMLBody release];
 	[_body release];
 	[_attachments release];
     
@@ -212,22 +214,52 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	NSData * data;
 	MMAPString * str;
 	int col;
+#warning should generate undisclosed recipient when recipient except Bcc is empty
 	
 	attachments = [self attachments];
-	if ([self body] != nil) {
+	
+	if (([self HTMLBody] != nil) && ([self body] == nil)) {
 		NSMutableArray * newArray;
 		LEPAttachment * attachment;
 		
-		attachment = [[LEPAttachment alloc] init];
-		[attachment setMimeType:@"text/plain"];
-		[attachment setData:[[self body] dataUsingEncoding:NSUTF8StringEncoding]];
-		[attachment setInlineAttachment:YES];
+		attachment = [LEPAttachment attachmentWithHTMLString:[self body]];
 		
 		newArray = [NSMutableArray array];
 		[newArray addObject:attachment];
 		[newArray addObjectsFromArray:attachments];
 		
-		[attachment release];
+		attachments = newArray;
+	}
+	else if (([self HTMLBody] != nil) && ([self body] != nil)) {
+		NSMutableArray * newArray;
+		LEPAlternativeAttachment * alternative;
+		NSMutableArray * altAttachments;
+		LEPAttachment * altAttachment;
+		
+		alternative = [[LEPAlternativeAttachment alloc] init];
+		altAttachments = [[NSMutableArray alloc] init];
+		altAttachment = [LEPAttachment attachmentWithHTMLString:[self HTMLBody] withTextAlternative:NO];
+		[altAttachments addObject:altAttachment];
+		altAttachment = [LEPAttachment attachmentWithString:[self body]];
+		[altAttachments addObject:altAttachment];
+		[alternative setAttachments:altAttachments];
+		[altAttachments release];
+		
+		newArray = [NSMutableArray array];
+		[newArray addObject:alternative];
+		[newArray addObjectsFromArray:attachments];
+		
+		attachments = newArray;
+	}
+	else if ([self body] != nil) {
+		NSMutableArray * newArray;
+		LEPAttachment * attachment;
+		
+		attachment = [LEPAttachment attachmentWithString:[self body]];
+		
+		newArray = [NSMutableArray array];
+		[newArray addObject:attachment];
+		[newArray addObjectsFromArray:attachments];
 		
 		attachments = newArray;
 	}

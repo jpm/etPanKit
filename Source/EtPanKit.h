@@ -19,3 +19,5 @@
 #import <EtPanKit/LEPAbstractAlternativeAttachment.h>
 #import <EtPanKit/LEPAbstractMessageAttachment.h>
 
+#import <EtPanKit/LEPSMTPAccount.h>
+#import <EtPanKit/LEPSMTPRequest.h>

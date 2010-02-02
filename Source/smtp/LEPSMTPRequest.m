@@ -8,6 +8,9 @@
 
 #import "LEPSMTPRequest.h"
 
+#import "LEPSMTPSession.h"
+#import "LEPUtils.h"
+
 @interface LEPSMTPRequest ()
 
 @property (nonatomic, copy) NSError * error;
@@ -36,7 +39,9 @@
 
 - (void) startRequest
 {
+	LEPLog(@"start request %@", _session);
 	[_session queueOperation:self];
+	LEPLog(@"start request ok");
 }
 
 - (void) cancel
@@ -46,6 +51,7 @@
 
 - (void) main
 {
+	LEPLog(@"smtp request");
 	if ([self isCancelled]) {
 		return;
 	}

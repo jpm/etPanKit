@@ -10,7 +10,7 @@
 
 @implementation LEPAbstractAlternativeAttachment
 
-@synthesize attachments = _attachements;
+@synthesize attachments = _attachments;
 
 - (id) init
 {

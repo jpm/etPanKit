@@ -296,6 +296,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 {
 	self = [super init];
 	
+	_lepData = calloc(1, sizeof(struct lepData));
 	_queue = [[NSOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
 	
@@ -317,6 +318,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	
 	[_currentMailbox release];
 	[_error release];
+	free(_lepData);
 	
 	[super dealloc];
 }
@@ -342,9 +344,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		[self _setup];
 	}
 	
-	[request setSession:self];
-	
-	[self setError:nil];
+	//[request setSession:self];
+	[_queue addOperation:request];
 }
 
 - (void) _connectIfNeeded
