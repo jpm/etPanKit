@@ -18,6 +18,7 @@
 @synthesize toUID = _toUID;
 @synthesize messages = _messages;
 @synthesize fetchKind = _fetchKind;
+@synthesize folder = _folder;
 
 - (id) init
 {
@@ -30,12 +31,13 @@
 {
     [_messages release];
     [_path release];
+	[_folder release];
 	[super dealloc];
 }
 
 - (void) mainRequest
 {
-	_messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind] retain];
+	_messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind folder:_folder] retain];
 }
 
 @end

@@ -10,18 +10,22 @@
 #import "LEPIMAPRequest.h"
 #import "LEPConstants.h"
 
+@class LEPIMAPFolder;
+
 @interface LEPIMAPFetchFolderMessagesRequest : LEPIMAPRequest {
 	NSArray * _messages;
     uint32_t _fromUID;
     uint32_t _toUID;
     NSString * _path;
     LEPIMAPMessagesRequestKind _fetchKind;
+	LEPIMAPFolder * _folder;
 }
 
 @property (nonatomic, copy) NSString * path;
 @property (nonatomic) uint32_t fromUID;
 @property (nonatomic) uint32_t toUID;
 @property (nonatomic) LEPIMAPMessagesRequestKind fetchKind;
+@property (nonatomic, retain) LEPIMAPFolder * folder;
 
 @property (nonatomic, readonly) NSArray * /* LEPIMAPMessage */ messages;
 

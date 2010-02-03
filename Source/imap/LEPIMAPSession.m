@@ -972,7 +972,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	}
 }
 
-- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind
+- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
 {
     struct mailimap_set * imap_set;
     struct mailimap_fetch_type * fetch_type;
@@ -1057,7 +1057,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
         LEPIMAPMessage * msg;
         
         msg = [[LEPIMAPMessage alloc] init];
-        
+        [msg _setFolder:folder];
+		
         msg_att = clist_content(iter);
         uid = 0;
         for(item_iter = clist_begin(msg_att->att_list) ; item_iter != NULL ; item_iter = clist_next(item_iter)) {

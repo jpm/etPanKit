@@ -35,10 +35,12 @@
 
 - (void) _setUid:(uint32_t)uid
 {
+	_uid = uid;
 }
 
 - (void) _setFlags:(LEPIMAPMessageFlag)flags
 {
+	_flags = flags;
 }
 
 - (void) _setFolder:(LEPIMAPFolder *)folder

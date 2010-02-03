@@ -10,6 +10,8 @@
 #import "LEPIMAPSession.h"
 #import "LEPIMAPMessage.h"
 
+@class LEPIMAPFolder;
+
 @interface LEPIMAPSession (LEPIMAPSessionPrivate)
 
 - (NSArray *) _fetchSubscribedFolders;
@@ -27,6 +29,6 @@
 
 - (void) _expunge:(NSString *)path;
 
-- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind;
+- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder;
 
 @end

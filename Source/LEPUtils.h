@@ -12,7 +12,7 @@
 // In your user defaults, you can set an array of filenames which LEPLog messages you want to disable.
 // Do not include path extension (e.g. "LEPIMAPRequest" to disabled LEPIMAPRequest's LEPLog messages)
 
-#ifdef LEPLOG_DISABLE
+#if defined(LEPLOG_DISABLE) || defined (LEPLOG_DISABLED)
 
 #define LEPLogStack(...)
 #define LEPLog(...)
