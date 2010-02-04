@@ -1,20 +1,14 @@
 #import "LEPAbstractAttachment.h"
-#import "LEPIMAPRequest.h"
 
 @class LEPIMAPFetchAttachmentRequest;
 
 @interface LEPIMAPAttachment : LEPAbstractAttachment {
 	NSString * _partID;
+	int _encoding;
+	size_t _size;
 }
 
+#warning should implement size, encoding and partID
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest;
-
-@end
-
-@interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
-	NSData * _data;
-}
-
-@property (nonatomic, readonly) NSData * data;
 
 @end

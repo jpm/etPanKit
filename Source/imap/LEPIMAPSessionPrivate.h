@@ -31,4 +31,7 @@
 
 - (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder;
 
+- (NSData *) _fetchMessageWithUID:(uint32_t)uid path:(NSString *)path;
+- (NSArray *) _fetchMessageStructureWithUID:(uint32_t)uid path:(NSString *)path;
+
 @end

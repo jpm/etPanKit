@@ -1,5 +1,5 @@
 //
-//  LEPIMAPAlernativeAttachment.h
+//  LEPIMAPAlternativeAttachment.h
 //  etPanKit
 //
 //  Created by DINH Viêt Hoà on 31/01/10.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LEPAbstractAlternativeAttachment.h"
 
-@interface LEPIMAPAlernativeAttachment : LEPAbstractAlternativeAttachment {
+@interface LEPIMAPAlternativeAttachment : LEPAbstractAlternativeAttachment {
 
 }
 

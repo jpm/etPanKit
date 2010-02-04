@@ -7,6 +7,8 @@
  *
  */
 
+#import "LEPIMAPAccount.h"
+
 @interface LEPIMAPAccount (LEPIMAPAccountPrivate)
 
 - (void) _setSubscribedFolders:(NSArray * )folders;

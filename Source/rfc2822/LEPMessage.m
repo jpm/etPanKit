@@ -18,7 +18,8 @@
 #import "NSString+LEP.h"
 #import <libetpan/libetpan.h>
 
-struct mailmime * get_text_part(const char * mime_type, const char * text, size_t length)
+struct mailmime * get_text_part(const char * mime_type, const char * charset,
+								const char * text, size_t length)
 {
 	struct mailmime_fields * mime_fields;
 	struct mailmime * mime;
@@ -36,7 +37,12 @@ struct mailmime * get_text_part(const char * mime_type, const char * text, size_
 												NULL, NULL, disposition, NULL);
 	
 	content = mailmime_content_new_with_str(mime_type);
-	param = mailmime_param_new_with_data("charset", "utf-8");
+	if (charset == NULL) {
+		param = mailmime_param_new_with_data("charset", "utf-8");
+	}
+	else {
+		param = mailmime_param_new_with_data("charset", (char *) charset);
+	}
 	clist_append(content->ct_parameters, param);
 	mime = mailmime_new_empty(content, mime_fields);
 	mailmime_set_body_text(mime, (char *) text, length);
@@ -99,7 +105,7 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		att = (LEPAttachment *) attachment;
 		data = [att data];
 		if ([att isInlineAttachment] && [[[att mimeType] lowercaseString] hasPrefix:@"text/"]) {
-			mime = get_text_part([[att mimeType] UTF8String], [data bytes], [data length]);
+			mime = get_text_part([[att mimeType] UTF8String], [[att charset] UTF8String], [data bytes], [data length]);
 		}
 		else {
 			mime = get_file_part([[[att filename] lepEncodedMIMEHeaderValue] bytes], [[att mimeType] UTF8String], [att isInlineAttachment], [data bytes], [data length]);

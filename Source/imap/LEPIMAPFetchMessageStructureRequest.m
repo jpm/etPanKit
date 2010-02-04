@@ -8,7 +8,32 @@
 
 #import "LEPIMAPFetchMessageStructureRequest.h"
 
+#import "LEPIMAPSession.h"
+#import "LEPIMAPSessionPrivate.h"
 
 @implementation LEPIMAPFetchMessageStructureRequest
+
+@synthesize uid = _uid;
+@synthesize path = _path;
+@synthesize attachments = _attachments;
+
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[_attachments release];
+	[_path release];
+	[super dealloc];
+}
+
+- (void) mainRequest
+{
+	_attachments = [[_session _fetchMessageStructureWithUID:_uid path:_path] retain];
+}
 
 @end

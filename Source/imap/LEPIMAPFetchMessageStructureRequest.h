@@ -10,7 +10,15 @@
 #import "LEPIMAPRequest.h"
 
 @interface LEPIMAPFetchMessageStructureRequest : LEPIMAPRequest {
-
+	NSString * _path;
+	uint32_t _uid;
+	NSArray * _attachments;
 }
+
+@property (nonatomic, copy) NSString * path;
+@property (nonatomic) uint32_t uid;
+
+// result
+@property (nonatomic, readonly, retain) NSArray * attachments;
 
 @end

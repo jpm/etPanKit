@@ -8,7 +8,15 @@
 
 #import "LEPIMAPMessage.h"
 
+#import "LEPIMAPFetchMessageRequest.h"
+#import "LEPIMAPFetchMessageStructureRequest.h"
+#import "LEPIMAPAccountPrivate.h"
+#import "LEPIMAPFolder.h"
+#import "LEPError.h"
+
 @interface LEPIMAPMessage ()
+
+- (void) _setupRequest:(LEPIMAPRequest *)request;
 
 @end
 
@@ -49,16 +57,49 @@
     _folder = [folder retain];
 }
 
+- (void) _setAttachments:(NSArray *)attachments
+{
+	[_attachments release];
+	_attachments = [attachments retain];
+}
+
+- (void) _setupRequest:(LEPIMAPRequest *)request
+{
+    if ([[_folder account] _session] == nil) {
+        [[_folder account] _setupSession];
+    }
+    
+    [request setSession:[[_folder account] _session]];
+    
+    if (([[[[_folder account] _session] error] code] == LEPErrorConnection) || ([[[[_folder account] _session] error] code] == LEPErrorParse)) {
+        [[_folder account] _unsetupSession];
+    }
+}
+
 - (LEPIMAPFetchMessageStructureRequest *) fetchMessageStructureRequest;
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchMessageStructureRequest * request;
+	
+	request = [[LEPIMAPFetchMessageStructureRequest alloc] init];
+	[request setPath:[_folder path]];
+	[request setUid:[self uid]];
+	
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 - (LEPIMAPFetchMessageRequest *) fetchMessageRequest;
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchMessageRequest * request;
+	
+	request = [[LEPIMAPFetchMessageRequest alloc] init];
+	[request setPath:[_folder path]];
+	[request setUid:[self uid]];
+	
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 @end

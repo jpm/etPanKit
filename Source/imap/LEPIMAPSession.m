@@ -18,6 +18,8 @@
 #import "LEPAddress.h"
 #import "LEPMessageHeader.h"
 #import "LEPMessageHeaderPrivate.h"
+#import "LEPIMAPAttachment.h"
+#import "LEPIMAPAttachmentPrivate.h"
 #import <libetpan/libetpan.h>
 
 struct lepData {
@@ -32,6 +34,69 @@ enum {
 	STATE_LOGGEDIN,
 	STATE_SELECTED,
 };
+
+#pragma mark fetch helper
+
+static int fetch_bodystructure(mailimap * session,
+							   uint32_t msgid, struct mailimap_body ** result)
+{
+	int r;
+	clist * fetch_list;
+	struct mailimap_fetch_att * fetch_att;
+	struct mailimap_fetch_type * fetch_type;
+	struct mailimap_set * set;
+	struct mailimap_msg_att * msg_att;
+	struct mailimap_msg_att_item * item;
+	int res;
+	
+	fetch_att = mailimap_fetch_att_new_bodystructure();
+	fetch_type = mailimap_fetch_type_new_fetch_att(fetch_att);
+	set = mailimap_set_new_single(msgid);
+	
+	r = mailimap_fetch(session, set, fetch_type, &fetch_list);
+	
+	mailimap_set_free(set);
+	mailimap_fetch_type_free(fetch_type);
+	
+	if (r != MAILIMAP_NO_ERROR) {
+		res = r;
+		goto err;
+	}
+	
+	if (clist_isempty(fetch_list)) {
+		res = MAILIMAP_ERROR_FETCH;
+		goto free;
+	}
+	
+	msg_att = (struct mailimap_msg_att *) clist_begin(fetch_list)->data;
+	
+	if (clist_isempty(msg_att->att_list)) {
+		res = MAILIMAP_ERROR_FETCH;
+		goto free;
+	}
+	
+	item = (struct mailimap_msg_att_item *) clist_begin(msg_att->att_list)->data;
+	
+	if (item->att_type != MAILIMAP_MSG_ATT_ITEM_STATIC) {
+		res = MAILIMAP_ERROR_FETCH;
+		goto free;
+	}
+	if (item->att_data.att_static->att_type != MAILIMAP_MSG_ATT_BODYSTRUCTURE) {
+		res = MAILIMAP_ERROR_FETCH;
+		goto free;
+	}
+	
+	* result = item->att_data.att_static->att_data.att_bodystructure;
+	item->att_data.att_static->att_data.att_bodystructure = NULL;
+	mailimap_fetch_list_free(fetch_list);
+	
+	return MAILIMAP_NO_ERROR;
+	
+free:
+	mailimap_fetch_list_free(fetch_list);
+err:
+	return res;
+}
 
 #pragma mark mailbox flags conversion
 
@@ -1096,8 +1161,11 @@ static struct mailimap_set * setFromArray(NSArray * array)
 					
 				}
 				else if (att_static->att_type == MAILIMAP_MSG_ATT_BODYSTRUCTURE) {
+					NSArray * attachments;
+					
 					// bodystructure
-#warning needs to be implemented
+					attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:att_static->att_data.att_body];
+					[msg _setAttachments:attachments];
 				}
             }
         }
@@ -1112,6 +1180,92 @@ static struct mailimap_set * setFromArray(NSArray * array)
     mailimap_fetch_list_free(fetch_result);
     
     return result;
+}
+
+- (NSData *) _fetchMessageWithUID:(uint32_t)uid path:(NSString *)path
+{
+	char * rfc822;
+	int r;
+	NSData * data;
+	
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return nil;
+	
+	r = mailimap_fetch_rfc822(_imap, uid, &rfc822);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+	
+	data = [NSData dataWithBytes:rfc822 length:strlen(rfc822)];
+	
+	mailimap_nstring_free(rfc822);
+	
+	return data;
+}
+
+- (NSArray *) _fetchMessageStructureWithUID:(uint32_t)uid path:(NSString *)path
+{
+	struct mailimap_body * body;
+	int r;
+	NSArray * attachments;
+	
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return nil;
+	
+	r =  fetch_bodystructure(_imap, uid, &body);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+	
+	attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:body];
+	
+	mailimap_body_free(body);
+	
+	return attachments;
 }
 
 @end

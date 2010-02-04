@@ -13,6 +13,7 @@
 
 @synthesize filename = _filename;
 @synthesize mimeType = _mimeType;
+@synthesize charset = _charset;
 @synthesize inlineAttachment = _inlineAttachment;
 
 - (id) init
@@ -24,6 +25,7 @@
 
 - (void) dealloc
 {
+	[_charset release];
 	[_filename release];
 	[_mimeType release];
 	[super dealloc];

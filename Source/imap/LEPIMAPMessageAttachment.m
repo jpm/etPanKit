@@ -10,4 +10,19 @@
 
 @implementation LEPIMAPMessageAttachment
 
+@synthesize attachments = _attachments;
+
+- (id) init
+{
+	self = [super init];
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[_attachments release];
+	[super dealloc];
+}
+
 @end

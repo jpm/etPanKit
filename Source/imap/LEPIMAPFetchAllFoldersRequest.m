@@ -33,7 +33,7 @@
 
 - (void) mainRequest
 {
-	_folders = [_session _fetchAllFolders];
+	_folders = [[_session _fetchAllFolders] retain];
 }
 
 @end

@@ -33,7 +33,7 @@
 
 - (void) mainRequest
 {
-	_folders = [_session _fetchSubscribedFolders];
+	_folders = [[_session _fetchSubscribedFolders] retain];
 }
 
 @end

@@ -138,10 +138,10 @@ static char * get_content_type_str(struct mailmime_content * content)
 					
 					submime = clist_content(cur);
 					subResult = [self attachmentsWithMIME:submime];
-					[subAttachments addObjectsFromArray:subResult];
+					[subAttachments addObject:subResult];
 				}
 				
-				attachment = [[LEPAlternativeAttachment alloc] init];
+				attachment = [[[LEPAlternativeAttachment alloc] init] autorelease];
 				[attachment setAttachments:subAttachments];
 				return [NSArray arrayWithObject:attachment];
 			}
@@ -229,6 +229,9 @@ static char * get_content_type_str(struct mailmime_content * content)
 	}
 	else if (name != NULL) {
 		[result setFilename:[NSString stringWithUTF8String:name]];
+	}
+	if (single_fields.fld_content_charset != NULL) {
+		[result setCharset:[NSString stringWithUTF8String:single_fields.fld_content_charset]];
 	}
 	
 	if (single_fields.fld_disposition != NULL) {

@@ -13,6 +13,7 @@
 	NSArray * _attachments;
 }
 
+// array of array of attachments
 @property (nonatomic, retain) NSArray * attachments;
 
 @end
