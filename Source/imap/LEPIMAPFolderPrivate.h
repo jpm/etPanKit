@@ -12,5 +12,6 @@
 - (void) _setDelimiter:(char)delimiter;
 - (void) _setPath:(NSString *)path;
 - (void) _setFlags:(int)flags;
+- (void) _setAccount:(LEPIMAPAccount *)account;
 
 @end

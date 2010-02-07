@@ -14,9 +14,6 @@
 
 @implementation LEPIMAPFetchAllFoldersRequest
 
-@synthesize account = _account;
-@synthesize folders = _folders;
-
 - (id) init
 {
 	self = [super init];
@@ -26,14 +23,12 @@
 
 - (void) dealloc
 {
-	[_account release];
-	[_folders release];
 	[super dealloc];
 }
 
 - (void) mainRequest
 {
-	_folders = [[_session _fetchAllFolders] retain];
+	_folders = [[_session _fetchAllFoldersWithAccount:_account] retain];
 }
 
 @end

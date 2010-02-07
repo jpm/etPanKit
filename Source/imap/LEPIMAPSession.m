@@ -510,16 +510,24 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	}
 }
 
+- (BOOL) _hasError:(int)errorCode
+{
+	return ((errorCode != MAILIMAP_NO_ERROR) && (errorCode != MAILIMAP_NO_ERROR_AUTHENTICATED) &&
+			(errorCode != MAILIMAP_NO_ERROR_NON_AUTHENTICATED));
+}
+
 - (void) _connect
 {
 	int r;
+	
+	LEPLog(@"connect %@", self);
 	
 	LEPAssert(_state == STATE_DISCONNECTED);
 	
     switch (_authType) {
 		case LEPAuthTypeStartTLS:
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
-			if (r != MAILIMAP_NO_ERROR) {
+			if ([self _hasError:r]) {
 				NSError * error;
 				
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
@@ -530,7 +538,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			}
 			
 			r = mailimap_socket_starttls(_imap);
-			if (r != MAILIMAP_NO_ERROR) {
+			if ([self _hasError:r]) {
 				NSError * error;
 				
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorStartTLSNotAvailable userInfo:nil];
@@ -544,7 +552,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			
 		case LEPAuthTypeTLS:
 			r = mailimap_ssl_connect(_imap, [[self host] UTF8String], [self port]);
-			if (r != MAILIMAP_NO_ERROR) {
+			LEPLog(@"ssl connect %@ %u %u", [self host], [self port], r);
+			if ([self _hasError:r]) {
 				NSError * error;
 				
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
@@ -557,7 +566,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			
 		default:
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
-			if (r != MAILIMAP_NO_ERROR) {
+			if ([self _hasError:r]) {
 				NSError * error;
 				
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
@@ -570,11 +579,14 @@ static struct mailimap_set * setFromArray(NSArray * array)
     }
 	
 	_state = STATE_CONNECTED;
+	LEPLog(@"connect ok");
 }
 
 - (void) _login
 {
 	int r;
+	
+	LEPLog(@"login");
 	
 	LEPAssert(_state == STATE_CONNECTED);
 	
@@ -621,7 +633,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
+			if ([self _hasError:r]) {
 				NSError * error;
 				
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
@@ -683,7 +695,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-    else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
         NSError * error;
         
         error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
@@ -693,12 +705,14 @@ static struct mailimap_set * setFromArray(NSArray * array)
     }
     
 	_state = STATE_LOGGEDIN;
+	LEPLog(@"login ok");
 }
 
 - (void) _select:(NSString *)mailbox
 {
 	int r;
 	
+	LEPLog(@"select");
 	LEPAssert(_state == STATE_LOGGEDIN);
 	
 	r = mailimap_select(_imap, [mailbox UTF8String]);
@@ -718,7 +732,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNonExistantMailbox userInfo:nil];
@@ -731,6 +745,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	_currentMailbox = [mailbox copy];
 	
 	_state = STATE_SELECTED;
+	LEPLog(@"select ok");
 }
 
 - (void) _disconnect
@@ -739,10 +754,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	_state = STATE_DISCONNECTED;
 }
 
-- (NSArray *) _getResultsFromError:(int)r list:(clist *)list
+- (NSArray *) _getResultsFromError:(int)r list:(clist *)list account:(LEPIMAPAccount *)account
 {
     clistiter * cur;
-	clist * imap_folders;
     NSMutableArray * result;
 	
     result = [NSMutableArray array];
@@ -762,7 +776,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return nil;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNonExistantMailbox userInfo:nil];
@@ -786,31 +800,34 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [folder _setPath:[NSString stringWithUTF8String:mb_list->mb_name]];
         [folder _setDelimiter:mb_list->mb_delimiter];
         [folder _setFlags:flags];
-        
+        [folder _setAccount:account];
+		
         [result addObject:folder];
         
         [folder release];
     }
     
-	mailimap_list_result_free(imap_folders);
+	mailimap_list_result_free(list);
 	
 	return result;
 }
 
-- (NSArray *) _fetchSubscribedFolders
+- (NSArray *) _fetchSubscribedFoldersWithAccount:(LEPIMAPAccount *)account
 {
     int r;
     clist * imap_folders;
     
+	LEPLog(@"fetch subscribed");
 	[self _loginIfNeeded];
 	if ([self error] != nil)
         return nil;
     
 	r = mailimap_lsub(_imap, "", "*", &imap_folders);
-    return [self _getResultsFromError:r list:imap_folders];
+	LEPLog(@"fetch subscribed %u", r);
+    return [self _getResultsFromError:r list:imap_folders account:account];
 }
 
-- (NSArray *) _fetchAllFolders
+- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account
 {
     int r;
     clist * imap_folders;
@@ -820,7 +837,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         return nil;
 	
 	r = mailimap_list(_imap, "", "*", &imap_folders);
-    return [self _getResultsFromError:r list:imap_folders];
+    return [self _getResultsFromError:r list:imap_folders account:account];
 }
 
 - (void) _renameFolder:(NSString *)path withNewPath:(NSString *)newPath
@@ -848,7 +865,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorRename userInfo:nil];
@@ -883,7 +900,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorDelete userInfo:nil];
@@ -918,7 +935,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCreate userInfo:nil];
@@ -951,7 +968,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorSubscribe userInfo:nil];
@@ -982,7 +999,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorUnsubscribe userInfo:nil];
@@ -1017,7 +1034,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAppend userInfo:nil];
@@ -1055,7 +1072,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCopy userInfo:nil];
@@ -1090,7 +1107,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorExpunge userInfo:nil];
@@ -1121,6 +1138,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
     fetch_att = mailimap_fetch_att_new_uid();
     mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
     if ((kind & LEPIMAPMessagesRequestKindFlags) != 0) {
+		LEPLog(@"request flags");
         fetch_att = mailimap_fetch_att_new_flags();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
     }
@@ -1130,6 +1148,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         struct mailimap_header_list * imap_hdrlist;
         struct mailimap_section * section;
         
+		LEPLog(@"request envelope");
         // envelope
         fetch_att = mailimap_fetch_att_new_envelope();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
@@ -1143,8 +1162,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
         fetch_att = mailimap_fetch_att_new_body_peek_section(section);
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
     }
-	if ((kind * LEPIMAPMessagesRequestKindStructure) != 0) {
+	if ((kind & LEPIMAPMessagesRequestKindStructure) != 0) {
 		// message structure
+		LEPLog(@"request bodystructure");
 		fetch_att = mailimap_fetch_att_new_bodystructure();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
 	}
@@ -1169,7 +1189,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return nil;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
@@ -1209,6 +1229,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
                 else if (att_static->att_type == MAILIMAP_MSG_ATT_ENVELOPE) {
                     struct mailimap_envelope * env;
                     
+					LEPLog(@"parse envelope %lu", (unsigned long) uid);
                     env = att_static->att_data.att_env;
 					[[msg header] setFromIMAPEnvelope:env];
                 }
@@ -1272,7 +1293,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return nil;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
@@ -1315,7 +1336,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return nil;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
@@ -1346,6 +1367,10 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	char * text;
 	size_t text_length;
 	NSData * data;
+	
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return nil;
 	
 	partIDArray = [partID componentsSeparatedByString:@"."];
 	sec_list = clist_new();
@@ -1380,7 +1405,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         [error release];
         return nil;
     }
-	else if (r != MAILIMAP_NO_ERROR) {
+    else if ([self _hasError:r]) {
 		NSError * error;
 		
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];

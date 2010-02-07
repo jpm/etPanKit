@@ -14,26 +14,9 @@
 
 @implementation LEPIMAPFetchSubscribedFoldersRequest
 
-@synthesize account = _account;
-@synthesize folders = _folders;
-
-- (id) init
-{
-	self = [super init];
-	
-	return self;
-}
-
-- (void) dealloc
-{
-	[_account release];
-	[_folders release];
-	[super dealloc];
-}
-
 - (void) mainRequest
 {
-	_folders = [[_session _fetchSubscribedFolders] retain];
+	_folders = [[_session _fetchSubscribedFoldersWithAccount:_account] retain];
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "LEPIMAPAccountPrivate.h"
 #import "LEPIMAPFolder.h"
 #import "LEPError.h"
+#import "LEPMessageHeader.h"
 
 @interface LEPIMAPMessage ()
 
@@ -65,15 +66,7 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
-    if ([[_folder account] _session] == nil) {
-        [[_folder account] _setupSession];
-    }
-    
-    [request setSession:[[_folder account] _session]];
-    
-    if (([[[[_folder account] _session] error] code] == LEPErrorConnection) || ([[[[_folder account] _session] error] code] == LEPErrorParse)) {
-        [[_folder account] _unsetupSession];
-    }
+	[[_folder account] _setupRequest: request];
 }
 
 - (LEPIMAPFetchMessageStructureRequest *) fetchMessageStructureRequest;
@@ -101,6 +94,11 @@
     [self _setupRequest:request];
     
     return [request autorelease];
+}
+
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"<%@: 0x%p %lu %@ %@>", [self class], self, (unsigned long) [self uid], [[self header] from], [[self header] subject]];
 }
 
 @end

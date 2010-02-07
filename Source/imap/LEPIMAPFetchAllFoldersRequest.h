@@ -7,18 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPIMAPRequest.h"
+#import "LEPIMAPFetchFoldersRequest.h"
 
-@class LEPIMAPAccount;
-
-@interface LEPIMAPFetchAllFoldersRequest : LEPIMAPRequest {
-	LEPIMAPAccount * _account;
-	NSArray * _folders;
+@interface LEPIMAPFetchAllFoldersRequest : LEPIMAPFetchFoldersRequest {
 }
-
-@property (nonatomic, retain) LEPIMAPAccount * account;
-
-// result
-@property (nonatomic, retain, readonly) NSArray * folders;
 
 @end

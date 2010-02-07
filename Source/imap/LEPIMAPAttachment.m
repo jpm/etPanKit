@@ -64,16 +64,7 @@
 	LEPIMAPAccount * account;
 	
 	account = [[(LEPIMAPMessage *) [self message] folder] account];
-	
-    if ([account _session] == nil) {
-        [account _setupSession];
-    }
-    
-    [request setSession:[account _session]];
-    
-    if (([[[account _session] error] code] == LEPErrorConnection) || ([[[account _session] error] code] == LEPErrorParse)) {
-        [account _unsetupSession];
-    }
+	[account _setupRequest: request];
 }
 
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest

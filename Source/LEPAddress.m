@@ -139,4 +139,9 @@
 	return result;
 }
 
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"[%@: 0x%p %@ <%@>]", [self class], self, [self displayName], [self mailbox]];
+}
+
 @end

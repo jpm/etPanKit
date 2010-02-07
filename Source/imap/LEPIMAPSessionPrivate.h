@@ -11,11 +11,12 @@
 #import "LEPIMAPMessage.h"
 
 @class LEPIMAPFolder;
+@class LEPIMAPAccount;
 
 @interface LEPIMAPSession (LEPIMAPSessionPrivate)
 
-- (NSArray *) _fetchSubscribedFolders;
-- (NSArray *) _fetchAllFolders;
+- (NSArray *) _fetchSubscribedFoldersWithAccount:(LEPIMAPAccount *)account;
+- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account;
 
 - (void) _renameFolder:(NSString *)path withNewPath:(NSString *)newPath;
 - (void) _deleteFolder:(NSString *)path;

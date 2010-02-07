@@ -48,7 +48,7 @@
 	[super dealloc];
 }
 
-- (LEPIMAPRequest *) fetchSubscribedFoldersRequest
+- (LEPIMAPFetchFoldersRequest *) fetchSubscribedFoldersRequest
 {
 	LEPIMAPFetchSubscribedFoldersRequest * request;
 	
@@ -60,7 +60,7 @@
     return [request autorelease];
 }
 
-- (LEPIMAPRequest *) fetchAllFoldersRequest
+- (LEPIMAPFetchFoldersRequest *) fetchAllFoldersRequest
 {
 	LEPIMAPFetchAllFoldersRequest * request;
 	
@@ -86,6 +86,7 @@
 
 - (void) _setupSession
 {
+	LEPLog(@"setup session");
 	LEPAssert(_session == nil);
 	
 	_session = [[LEPIMAPSession alloc] init];
@@ -99,6 +100,7 @@
 
 - (void) _unsetupSession
 {
+	LEPLog(@"unsetup session");
 	[_session release];
 	_session = nil;
 }
@@ -111,9 +113,11 @@
     
     [request setSession:_session];
     
-    if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
-        [self _unsetupSession];
-    }
+	if ([_session error] != nil) {
+		if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
+			[self _unsetupSession];
+		}
+	}
 }
 
 - (LEPIMAPSession *) _session

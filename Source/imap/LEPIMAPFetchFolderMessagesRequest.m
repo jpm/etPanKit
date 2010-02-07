@@ -10,6 +10,7 @@
 
 #import "LEPIMAPSession.h"
 #import "LEPIMAPSessionPrivate.h"
+#import "LEPUtils.h"
 
 @implementation LEPIMAPFetchFolderMessagesRequest
 
@@ -37,6 +38,7 @@
 
 - (void) mainRequest
 {
+	LEPLog(@"request messages");
 	_messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind folder:_folder] retain];
 }
 

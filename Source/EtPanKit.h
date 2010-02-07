@@ -21,3 +21,13 @@
 
 #import <EtPanKit/LEPSMTPAccount.h>
 #import <EtPanKit/LEPSMTPRequest.h>
+
+#import <EtPanKit/LEPIMAPAccount.h>
+#import <EtPanKit/LEPIMAPFolder.h>
+#import <EtPanKit/LEPIMAPMessage.h>
+#import <EtPanKit/LEPIMAPAttachment.h>
+#import <EtPanKit/LEPIMAPRequest.h>
+#import <EtPanKit/LEPIMAPFetchFoldersRequest.h>
+#import <EtPanKit/LEPIMAPFetchFolderMessagesRequest.h>
+#import <EtPanKit/LEPIMAPFetchMessageStructureRequest.h>
+#import <EtPanKit/LEPIMAPFetchMessageRequest.h>

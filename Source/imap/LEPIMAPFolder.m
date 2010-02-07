@@ -67,15 +67,7 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
-    if ([_account _session] == nil) {
-        [_account _setupSession];
-    }
-    
-    [request setSession:[_account _session]];
-    
-    if (([[[_account _session] error] code] == LEPErrorConnection) || ([[[_account _session] error] code] == LEPErrorParse)) {
-        [_account _unsetupSession];
-    }
+	[_account _setupRequest: request];
 }
 
 - (LEPIMAPRequest *) deleteRequest
@@ -171,6 +163,7 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest
 {
+	LEPLog(@"fetch message request");
     return [self fetchMessagesRequestFromUID:1];
 }
 
@@ -184,7 +177,7 @@
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
-    [request setFetchKind:LEPIMAPMessagesRequestKindFlags];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders];
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];
@@ -209,7 +202,7 @@
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
-    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags];
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];
@@ -229,6 +222,17 @@
     [self _setupRequest:request];
     
     return [request autorelease];
+}
+
+- (void) _setAccount:(LEPIMAPAccount *)account
+{
+	[_account release];
+	_account = [account retain];
+}
+
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"<%@: 0x%p %@>", [self class], self, [self path]];
 }
 
 @end

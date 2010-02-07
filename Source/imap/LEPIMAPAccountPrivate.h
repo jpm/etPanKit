@@ -18,4 +18,6 @@
 - (void) _setupSession;
 - (void) _unsetupSession;
 
+- (void) _setupRequest:(LEPIMAPRequest *)request;
+
 @end

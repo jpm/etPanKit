@@ -3,6 +3,7 @@
 
 @class LEPIMAPRequest;
 @class LEPIMAPSession;
+@class LEPIMAPFetchFoldersRequest;
 
 @interface LEPIMAPAccount : NSObject {
     NSString * _host;
@@ -25,10 +26,10 @@
 @property (nonatomic, getter=isIdleEnabled) BOOL idleEnabled;
 
 // after the operation is created, it should be started
-- (LEPIMAPRequest *) fetchSubscribedFoldersRequest;
+- (LEPIMAPFetchFoldersRequest *) fetchSubscribedFoldersRequest;
 
 // after the operation is created, it should be started
-- (LEPIMAPRequest *) fetchAllFoldersRequest;
+- (LEPIMAPFetchFoldersRequest *) fetchAllFoldersRequest;
 
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)path;
 
