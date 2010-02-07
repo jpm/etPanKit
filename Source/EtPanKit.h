@@ -31,3 +31,4 @@
 #import <EtPanKit/LEPIMAPFetchFolderMessagesRequest.h>
 #import <EtPanKit/LEPIMAPFetchMessageStructureRequest.h>
 #import <EtPanKit/LEPIMAPFetchMessageRequest.h>
+#import <EtPanKit/LEPIMAPFetchAttachmentRequest.h>

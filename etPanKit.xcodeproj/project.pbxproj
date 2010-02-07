@@ -10,6 +10,8 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6179F57111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6179F58111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m */; };
+		C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C617A228111F4847000FCE35 /* LEPIMAPSelectRequest.h */; };
+		C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C617A229111F4847000FCE35 /* LEPIMAPSelectRequest.m */; };
 		C62200C910F1559A00A207C0 /* LEPAbstractAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200C810F1559A00A207C0 /* LEPAbstractAttachment.m */; };
 		C62200CB10F155A300A207C0 /* LEPAbstractMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */; };
 		C622010810F15B8F00A207C0 /* LEPUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C622010710F15B8F00A207C0 /* LEPUtils.h */; };
@@ -23,7 +25,7 @@
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6560A64111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */; };
+		C6560A64111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6560A65111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6560A63111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.m */; };
 		C6560A7B111A2C9300BF7565 /* LEPIMAPAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560A7A111A2C9300BF7565 /* LEPIMAPAttachmentPrivate.h */; };
 		C6560B61111A4B6400BF7565 /* LEPMessageHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560B5E111A4B6400BF7565 /* LEPMessageHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,6 +149,8 @@
 		8DC2EF5B0486A6940098B216 /* EtPanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtPanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6179F57111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchFoldersRequest.h; sourceTree = "<group>"; };
 		C6179F58111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchFoldersRequest.m; sourceTree = "<group>"; };
+		C617A228111F4847000FCE35 /* LEPIMAPSelectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPSelectRequest.h; sourceTree = "<group>"; };
+		C617A229111F4847000FCE35 /* LEPIMAPSelectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPSelectRequest.m; sourceTree = "<group>"; };
 		C62200C810F1559A00A207C0 /* LEPAbstractAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractAttachment.m; sourceTree = "<group>"; };
 		C62200CA10F155A300A207C0 /* LEPAbstractMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAbstractMessage.m; sourceTree = "<group>"; };
 		C622010710F15B8F00A207C0 /* LEPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPUtils.h; sourceTree = "<group>"; };
@@ -421,6 +425,8 @@
 				C673586F11067E8C004D4928 /* LEPIMAPRenameFolderRequest.m */,
 				C681663610F5142D00B07764 /* LEPIMAPRequest.h */,
 				C681663710F5142D00B07764 /* LEPIMAPRequest.m */,
+				C617A228111F4847000FCE35 /* LEPIMAPSelectRequest.h */,
+				C617A229111F4847000FCE35 /* LEPIMAPSelectRequest.m */,
 				C681663810F5142D00B07764 /* LEPIMAPSession.h */,
 				C681663910F5142D00B07764 /* LEPIMAPSession.m */,
 				C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */,
@@ -524,6 +530,7 @@
 				C6560B61111A4B6400BF7565 /* LEPMessageHeader.h in Headers */,
 				C6560B63111A4B6400BF7565 /* LEPMessageHeaderPrivate.h in Headers */,
 				C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */,
+				C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +662,7 @@
 				C6560A65111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.m in Sources */,
 				C6560B62111A4B6400BF7565 /* LEPMessageHeader.m in Sources */,
 				C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */,
+				C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

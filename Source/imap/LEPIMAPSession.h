@@ -27,6 +27,8 @@
 	NSError * _error;
     NSArray * _resultUidSet;
 	NSString * _currentMailbox;
+	uint32_t _uidValidity;
+	uint32_t _uidNext;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -39,6 +41,8 @@
 // result
 @property (nonatomic, readonly, copy) NSError * error;
 @property (nonatomic, readonly, retain) NSArray * resultUidSet;
+@property (nonatomic, readonly, assign) uint32_t uidValidity;
+@property (nonatomic, readonly, assign) uint32_t uidNext;
 
 - (void) queueOperation:(LEPIMAPRequest *)request;
 

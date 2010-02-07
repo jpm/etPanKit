@@ -23,6 +23,7 @@
 #import "LEPIMAPAccountPrivate.h"
 #import "LEPConstants.h"
 #import "LEPError.h"
+#import "LEPUtils.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAttachment ()
@@ -71,7 +72,7 @@
 {
 	LEPIMAPFetchAttachmentRequest * request;
 	
-	request = [[LEPIMAPFetchMessageRequest alloc] init];
+	request = [[LEPIMAPFetchAttachmentRequest alloc] init];
 	[request setEncoding:_encoding];
 	[request setPath:[[(LEPIMAPMessage *) [self message] folder] path]];
 	[request setUid:[(LEPIMAPMessage *) [self message] uid]];
@@ -108,6 +109,10 @@
 			
 			attachment = [self _attachmentWithIMAPBody1PartBasic:body_1part->bd_data.bd_type_basic
 													   extension:body_1part->bd_ext_1part];
+			LEPLog(@"attachment %@", partID);
+			if (partID == nil) {
+				partID = @"1";
+			}
 			[attachment _setPartID:partID];
 			return [NSArray arrayWithObject:attachment];
 		}
@@ -123,7 +128,11 @@
 			
 			attachment = [self _attachmentWithIMAPBody1PartText:body_1part->bd_data.bd_type_text
 													  extension:body_1part->bd_ext_1part];
+			if (partID == nil) {
+				partID = @"1";
+			}
 			[attachment _setPartID:partID];
+			LEPLog(@"attachment %@", partID);
 			return [NSArray arrayWithObject:attachment];
 		}
 	}
@@ -179,11 +188,11 @@
 			
 			imap_param = clist_content(cur);
 			
-			if (strcasecmp(imap_param->pa_name, "name") != 0) {
+			if (strcasecmp(imap_param->pa_name, "name") == 0) {
 				[self setFilename:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
 			}
-			else if (strcasecmp(imap_param->pa_name, "charset") != 0) {
-				[self setFilename:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
+			else if (strcasecmp(imap_param->pa_name, "charset") == 0) {
+				[self setCharset:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
 			}
 		}
 	}
@@ -318,7 +327,7 @@
 				nextPartID = [[NSString alloc] initWithFormat:@"%@.%u", partID, count];
 			}
 			body = clist_content(cur);
-			subResult = [self attachmentsWithIMAPBody:body];
+			subResult = [self _attachmentsWithIMAPBody:body withPartID:nextPartID];
 			[result addObjectsFromArray:subResult];
 			[nextPartID release];
 			
@@ -342,6 +351,11 @@
 - (void) _setEncoding:(int)encoding
 {
 	_encoding = encoding;
+}
+
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@ %@>", [self class], self, _partID, [self mimeType], [self filename]];
 }
 
 @end

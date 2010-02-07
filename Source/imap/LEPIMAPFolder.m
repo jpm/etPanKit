@@ -23,6 +23,7 @@
 #import "LEPMessage.h"
 #import "LEPError.h"
 #import "LEPUtils.h"
+#import "LEPIMAPSelectRequest.h"
 
 @implementation LEPIMAPFolder
 
@@ -181,6 +182,7 @@
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];
+	[request setFolder:self];
     
     [self _setupRequest:request];
     
@@ -206,6 +208,7 @@
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];
+	[request setFolder:self];
     
     [self _setupRequest:request];
     
@@ -224,6 +227,19 @@
     return [request autorelease];
 }
 
+- (LEPIMAPRequest *) selectRequest
+{
+	LEPIMAPSelectRequest * request;
+	
+	request = [[LEPIMAPSelectRequest alloc] init];
+    [request setPath:[self path]];
+	[request setFolder:self];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
 - (void) _setAccount:(LEPIMAPAccount *)account
 {
 	[_account release];
@@ -233,6 +249,16 @@
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"<%@: 0x%p %@>", [self class], self, [self path]];
+}
+
+- (void) _setUidValidity:(uint32_t)uidValidity
+{
+	_uidValidity = uidValidity;
+}
+
+- (void) _setUidNext:(uint32_t)uidNext
+{
+	_uidNext = uidNext;
 }
 
 @end

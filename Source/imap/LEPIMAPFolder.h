@@ -18,7 +18,6 @@
 
 @property (nonatomic, readonly, retain) LEPIMAPAccount * account;
 @property (nonatomic, readonly) NSString * path;
-#warning this should be filled in
 @property (nonatomic, readonly) uint32_t uidValidity;
 @property (nonatomic, readonly) uint32_t uidNext;
 
@@ -42,5 +41,8 @@
 - (LEPIMAPRequest *) renameRequestWithNewPath:(NSString *)newPath;
 
 - (LEPIMAPRequest *) expungeRequest;
+
+// update uidValidity and uidNext
+- (LEPIMAPRequest *) selectRequest;
 
 @end

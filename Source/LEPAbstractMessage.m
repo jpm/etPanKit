@@ -29,4 +29,9 @@
 	[super dealloc];
 }
 
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@>", [self class], self, [[self header] from], [[self header] subject]];
+}
+
 @end

@@ -10,6 +10,7 @@
 
 #import "LEPIMAPSession.h"
 #import "LEPIMAPSessionPrivate.h"
+#import "LEPUTils.h"
 
 @implementation LEPIMAPFetchMessageStructureRequest
 
@@ -35,6 +36,7 @@
 
 - (void) mainRequest
 {
+	LEPLog(@"request attachments");
 	_attachments = [[_session _fetchMessageStructureWithUID:_uid path:_path message:_message] retain];
 }
 

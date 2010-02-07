@@ -37,4 +37,6 @@
 
 - (NSData *) _fetchAttachmentWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path encoding:(int)encoding;
 
+- (void) _select:(NSString *)mailbox;
+
 @end
