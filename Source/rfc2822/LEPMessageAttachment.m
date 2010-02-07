@@ -11,8 +11,6 @@
 
 @implementation LEPMessageAttachment
 
-@synthesize attachments = _attachments;
-
 - (id) init
 {
 	self = [super init];
@@ -22,7 +20,6 @@
 
 - (void) dealloc
 {
-	[_attachments release];
 	[super dealloc];
 }
 

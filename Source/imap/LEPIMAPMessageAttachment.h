@@ -10,9 +10,6 @@
 #import "LEPAbstractMessageAttachment.h"
 
 @interface LEPIMAPMessageAttachment : LEPAbstractMessageAttachment {
-	NSArray * _attachments;
 }
-
-@property (nonatomic, retain) NSArray * /* LEPAttachment */ attachments;
 
 @end

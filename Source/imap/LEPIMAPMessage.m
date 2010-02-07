@@ -83,6 +83,7 @@
 	request = [[LEPIMAPFetchMessageStructureRequest alloc] init];
 	[request setPath:[_folder path]];
 	[request setUid:[self uid]];
+	[request setMessage:self];
 	
     [self _setupRequest:request];
     

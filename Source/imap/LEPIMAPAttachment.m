@@ -7,25 +7,38 @@
 //
 
 #import "LEPIMAPAttachment.h"
+#import "LEPIMAPAttachmentPrivate.h"
 
 #import "LEPIMAPAlternativeAttachment.h"
 #import "LEPIMAPMessageAttachment.h"
 #import "NSString+LEP.h"
 #import "LEPMessageHeader.h"
 #import "LEPMessageHeaderPrivate.h"
+#import "LEPIMAPFetchAttachmentRequest.h"
+#import "LEPIMAPFetchMessageRequest.h"
+#import "LEPIMAPMessage.h"
+#import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
+#import "LEPIMAPAccount.h"
+#import "LEPIMAPAccountPrivate.h"
+#import "LEPConstants.h"
+#import "LEPError.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAttachment ()
 
-+ (NSArray *) _attachmentWithIMAPBody1Part:(struct mailimap_body_type_1part *)body_1part;
++ (NSArray *) _attachmentsWithIMAPBody:(struct mailimap_body *)body withPartID:(NSString *)partID;
++ (NSArray *) _attachmentWithIMAPBody1Part:(struct mailimap_body_type_1part *)body_1part
+								withPartID:(NSString *)partID;
 + (NSArray *) _attachmentWithIMAPBody1PartMessage:(struct mailimap_body_type_msg *)message
-										extension:(struct mailimap_body_ext_1part *)extension;
-+ (LEPAbstractAttachment *) _attachmentWithIMAPBody1PartText:(struct mailimap_body_type_text *)text
-												   extension:(struct mailimap_body_ext_1part *)extension;
-+ (LEPAbstractAttachment *) _attachmentWithIMAPBody1PartBasic:(struct mailimap_body_type_basic *)basic
-													extension:(struct mailimap_body_ext_1part *)extension;
-+ (NSArray *) _attachmentWithIMAPBodyMultipart:(struct mailimap_body_type_mpart *)body_mpart;
-
+										extension:(struct mailimap_body_ext_1part *)extension
+									   withPartID:(NSString *)partID;
++ (LEPIMAPAttachment *) _attachmentWithIMAPBody1PartText:(struct mailimap_body_type_text *)text
+											   extension:(struct mailimap_body_ext_1part *)extension;
++ (LEPIMAPAttachment *) _attachmentWithIMAPBody1PartBasic:(struct mailimap_body_type_basic *)basic
+												extension:(struct mailimap_body_ext_1part *)extension;
++ (NSArray *) _attachmentWithIMAPBodyMultipart:(struct mailimap_body_type_mpart *)body_mpart
+									withPartID:(NSString *)partID;
 - (void) _setFieldsFromFields:(struct mailimap_body_fields *)fields
 					extension:(struct mailimap_body_ext_1part *)extension;
 
@@ -42,49 +55,84 @@
 
 - (void) dealloc
 {
+	[_partID release];
 	[super dealloc];
+}
+
+- (void) _setupRequest:(LEPIMAPRequest *)request
+{
+	LEPIMAPAccount * account;
+	
+	account = [[(LEPIMAPMessage *) [self message] folder] account];
+	
+    if ([account _session] == nil) {
+        [account _setupSession];
+    }
+    
+    [request setSession:[account _session]];
+    
+    if (([[[account _session] error] code] == LEPErrorConnection) || ([[[account _session] error] code] == LEPErrorParse)) {
+        [account _unsetupSession];
+    }
 }
 
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest
 {
-#warning should be implemented
-    return nil;
+	LEPIMAPFetchAttachmentRequest * request;
+	
+	request = [[LEPIMAPFetchMessageRequest alloc] init];
+	[request setEncoding:_encoding];
+	[request setPath:[[(LEPIMAPMessage *) [self message] folder] path]];
+	[request setUid:[(LEPIMAPMessage *) [self message] uid]];
+	[request setPartID:_partID];
+	
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 + (NSArray *) attachmentsWithIMAPBody:(struct mailimap_body *)body
 {
+	return [self _attachmentsWithIMAPBody:body withPartID:nil];
+}
+
++ (NSArray *) _attachmentsWithIMAPBody:(struct mailimap_body *)body withPartID:(NSString *)partID
+{
 	switch (body->bd_type) {
 		case MAILIMAP_BODY_1PART:
-			return [self _attachmentWithIMAPBody1Part:body->bd_data.bd_body_1part];
+			return [self _attachmentWithIMAPBody1Part:body->bd_data.bd_body_1part withPartID:partID];
 		case MAILIMAP_BODY_MPART:
-			return [self _attachmentWithIMAPBodyMultipart:body->bd_data.bd_body_mpart];
+			return [self _attachmentWithIMAPBodyMultipart:body->bd_data.bd_body_mpart withPartID:partID];
 	}
 	
     return nil;
 }
 
-+ (NSArray *) _attachmentWithIMAPBody1Part:(struct mailimap_body_type_1part *)body_1part
++ (NSArray *) _attachmentWithIMAPBody1Part:(struct mailimap_body_type_1part *)body_1part withPartID:(NSString *)partID
 {
 	switch (body_1part->bd_type) {
 		case MAILIMAP_BODY_TYPE_1PART_BASIC:
 		{
-			LEPAbstractAttachment * attachment;
+			LEPIMAPAttachment * attachment;
 			
 			attachment = [self _attachmentWithIMAPBody1PartBasic:body_1part->bd_data.bd_type_basic
 													   extension:body_1part->bd_ext_1part];
+			[attachment _setPartID:partID];
 			return [NSArray arrayWithObject:attachment];
 		}
 		case MAILIMAP_BODY_TYPE_1PART_MSG:
 		{
 			return [self _attachmentWithIMAPBody1PartMessage:body_1part->bd_data.bd_type_msg
-												   extension:body_1part->bd_ext_1part];
+												   extension:body_1part->bd_ext_1part
+												  withPartID:partID];
 		}
 		case MAILIMAP_BODY_TYPE_1PART_TEXT:
 		{
-			LEPAbstractAttachment * attachment;
+			LEPIMAPAttachment * attachment;
 			
 			attachment = [self _attachmentWithIMAPBody1PartText:body_1part->bd_data.bd_type_text
 													  extension:body_1part->bd_ext_1part];
+			[attachment _setPartID:partID];
 			return [NSArray arrayWithObject:attachment];
 		}
 	}
@@ -94,16 +142,30 @@
 
 + (NSArray *) _attachmentWithIMAPBody1PartMessage:(struct mailimap_body_type_msg *)message
 										extension:(struct mailimap_body_ext_1part *)extension
+									   withPartID:(NSString *)partID
 {
 	LEPIMAPMessageAttachment * attachment;
 	NSArray * result;
 	NSArray * subAttachments;
+	NSString * nextPartID;
 	
 	attachment = [[LEPIMAPMessageAttachment alloc] init];
 	[[attachment header] setFromIMAPEnvelope:message->bd_envelope];
 	
-	subAttachments = [self attachmentsWithIMAPBody:message->bd_body];
+	if (message->bd_body->bd_type == MAILIMAP_BODY_1PART) {
+		if (partID == nil) {
+			nextPartID = [@"1" retain];
+		}
+		else {
+			nextPartID = [[NSString alloc] initWithFormat:@"%@.1", partID];
+		}
+	}
+	else {
+		nextPartID = [partID retain];
+	}
+	subAttachments = [self _attachmentsWithIMAPBody:message->bd_body withPartID:nextPartID];
 	[attachment setAttachments:subAttachments];
+	[nextPartID release];
 	
     result = [NSArray arrayWithObject:attachment];
 	[attachment release];
@@ -114,6 +176,9 @@
 - (void) _setFieldsFromFields:(struct mailimap_body_fields *)fields
 					extension:(struct mailimap_body_ext_1part *)extension
 {
+	[self _setSize:fields->bd_size];
+	[self _setEncoding:fields->bd_encoding->enc_type];
+	
 	if (fields->bd_parameter != NULL) {
 		clistiter * cur;
 		
@@ -202,6 +267,7 @@
 }
 
 + (NSArray *) _attachmentWithIMAPBodyMultipart:(struct mailimap_body_type_mpart *)body_mpart
+									withPartID:(NSString *)partID
 {
 	NSMutableArray * result;
 	
@@ -212,16 +278,28 @@
 		clistiter * cur;
 		LEPIMAPAlternativeAttachment * attachment;
 		NSMutableArray * attachments;
+		unsigned int count;
 		
 		attachments = [[NSMutableArray alloc] init];
 		
+		count = 1;
 		for(cur = clist_begin(body_mpart->bd_list) ; cur != NULL ; cur = clist_next(cur)) {
 			struct mailimap_body * body;
 			NSArray * subResult;
+			NSString * nextPartID;
 			
+			if (partID == nil) {
+				nextPartID = [[NSString alloc] initWithFormat:@"%u", count];
+			}
+			else {
+				nextPartID = [[NSString alloc] initWithFormat:@"%@.%u", partID, count];
+			}
 			body = clist_content(cur);
-			subResult = [self attachmentsWithIMAPBody:body];
+			subResult = [self _attachmentsWithIMAPBody:body withPartID:nextPartID];
+			[nextPartID release];
 			[attachments addObject:subResult];
+			
+			count ++;
 		}
 		
 		attachment = [[LEPIMAPAlternativeAttachment alloc] init];
@@ -234,17 +312,45 @@
 	else {
 		// multipart/*
 		clistiter * cur;
+		unsigned int count;
 		
+		count = 1;
 		for(cur = clist_begin(body_mpart->bd_list) ; cur != NULL ; cur = clist_next(cur)) {
 			struct mailimap_body * body;
 			NSArray * subResult;
+			NSString * nextPartID;
 			
+			if (partID == nil) {
+				nextPartID = [[NSString alloc] initWithFormat:@"%u", count];
+			}
+			else {
+				nextPartID = [[NSString alloc] initWithFormat:@"%@.%u", partID, count];
+			}
 			body = clist_content(cur);
 			subResult = [self attachmentsWithIMAPBody:body];
 			[result addObjectsFromArray:subResult];
+			[nextPartID release];
+			
+			count ++;
 		}
 	}
 	return result;
+}
+
+- (void) _setPartID:(NSString *)partID
+{
+	[_partID release];
+	_partID = [partID copy];
+}
+
+- (void) _setSize:(size_t)size
+{
+	_size = size;
+}
+
+- (void) _setEncoding:(int)encoding
+{
+	_encoding = encoding;
 }
 
 @end

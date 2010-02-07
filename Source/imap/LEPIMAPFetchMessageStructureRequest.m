@@ -16,6 +16,7 @@
 @synthesize uid = _uid;
 @synthesize path = _path;
 @synthesize attachments = _attachments;
+@synthesize message = _message;
 
 - (id) init
 {
@@ -26,6 +27,7 @@
 
 - (void) dealloc
 {
+	[_message release];
 	[_attachments release];
 	[_path release];
 	[super dealloc];
@@ -33,7 +35,7 @@
 
 - (void) mainRequest
 {
-	_attachments = [[_session _fetchMessageStructureWithUID:_uid path:_path] retain];
+	_attachments = [[_session _fetchMessageStructureWithUID:_uid path:_path message:_message] retain];
 }
 
 @end

@@ -9,14 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "LEPIMAPRequest.h"
 
+@class LEPIMAPMessage;
+
 @interface LEPIMAPFetchMessageStructureRequest : LEPIMAPRequest {
 	NSString * _path;
 	uint32_t _uid;
 	NSArray * _attachments;
+	LEPIMAPMessage * _message;
 }
 
 @property (nonatomic, copy) NSString * path;
-@property (nonatomic) uint32_t uid;
+@property (nonatomic, assign) uint32_t uid;
+@property (nonatomic, retain) LEPIMAPMessage * message;
 
 // result
 @property (nonatomic, readonly, retain) NSArray * attachments;

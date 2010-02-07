@@ -15,6 +15,7 @@
 @synthesize mimeType = _mimeType;
 @synthesize charset = _charset;
 @synthesize inlineAttachment = _inlineAttachment;
+@synthesize message = _message;
 
 - (id) init
 {
@@ -30,5 +31,6 @@
 	[_mimeType release];
 	[super dealloc];
 }
+
 
 @end

@@ -209,6 +209,9 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	_attachments = [LEPAttachment attachmentsWithMIME:msg->msg_mime];
 	[[self header] setFromIMFFields:msg->msg_fields];
 	[_attachments retain];
+	for(LEPAbstractAttachment * attachment in _attachments) {
+		[attachment setMessage:self];
+	}
 	
 	mailmessage_free(msg);
 }

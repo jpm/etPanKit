@@ -7,8 +7,14 @@
  *
  */
 
+#import "LEPIMAPAttachment.h"
+
 @interface LEPIMAPAttachment (LEPAttachmentPrivate)
 
 + (NSArray *) attachmentsWithIMAPBody:(struct mailimap_body *)body;
+
+- (void) _setPartID:(NSString *)partID;
+- (void) _setSize:(size_t)size;
+- (void) _setEncoding:(int)encoding;
 
 @end

@@ -12,8 +12,16 @@
 
 @interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
 	NSData * _data;
+	NSString * _path;
+	NSString * _partID;
+	uint32_t _uid;
+	int _encoding;
 }
 
 @property (nonatomic, readonly) NSData * data;
+@property (nonatomic, copy) NSString * path;
+@property (nonatomic, copy) NSString * partID;
+@property (nonatomic, assign) uint32_t uid;
+@property (nonatomic, assign) int encoding;
 
 @end

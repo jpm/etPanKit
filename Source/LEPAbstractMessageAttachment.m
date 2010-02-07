@@ -13,6 +13,7 @@
 @implementation LEPAbstractMessageAttachment
 
 @synthesize header = _header;
+@synthesize attachments = _attachments;
 
 - (id) init
 {
@@ -25,8 +26,17 @@
 
 - (void) dealloc
 {
+	[_attachments release];
 	[_header release];
 	[super dealloc];
+}
+
+- (void) setMessage:(LEPAbstractMessage *)message
+{
+	_message = message;
+	for(LEPAbstractAttachment * attachment in _attachments) {
+		[attachment setMessage:message];
+	}
 }
 
 @end

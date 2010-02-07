@@ -98,6 +98,69 @@ err:
 	return res;
 }
 
+static int
+fetch_imap(mailimap * imap, uint32_t uid,
+		   struct mailimap_fetch_type * fetch_type,
+		   char ** result, size_t * result_len)
+{
+	int r;
+	struct mailimap_msg_att * msg_att;
+	struct mailimap_msg_att_item * msg_att_item;
+	clist * fetch_result;
+	struct mailimap_set * set;
+	char * text;
+	size_t text_length;
+	clistiter * cur;
+	
+	set = mailimap_set_new_single(uid);
+	r = mailimap_uid_fetch(imap, set, fetch_type, &fetch_result);
+	
+	mailimap_set_free(set);
+	
+	switch (r) {
+		case MAILIMAP_NO_ERROR:
+			break;
+		default:
+			return r;
+	}
+	
+	if (clist_begin(fetch_result) == NULL) {
+		mailimap_fetch_list_free(fetch_result);
+		return MAILIMAP_ERROR_FETCH;
+	}
+	
+	msg_att = clist_begin(fetch_result)->data;
+	
+	text = NULL;
+	text_length = 0;
+	
+	for(cur = clist_begin(msg_att->att_list) ; cur != NULL ;
+		cur = clist_next(cur)) {
+		msg_att_item = clist_content(cur);
+		
+		if (msg_att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
+			
+			if (msg_att_item->att_data.att_static->att_type ==
+				MAILIMAP_MSG_ATT_BODY_SECTION) {
+				text = msg_att_item->att_data.att_static->att_data.att_body_section->sec_body_part;
+				msg_att_item->att_data.att_static->att_data.att_body_section->sec_body_part = NULL;
+				text_length =
+				msg_att_item->att_data.att_static->att_data.att_body_section->sec_length;
+			}
+		}
+	}
+	
+	mailimap_fetch_list_free(fetch_result);
+	
+	if (text == NULL)
+		return MAILIMAP_ERROR_FETCH;
+	
+	* result = text;
+	* result_len = text_length;
+	
+	return MAILIMAP_NO_ERROR;
+}
+
 #pragma mark mailbox flags conversion
 
 static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
@@ -1225,7 +1288,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	return data;
 }
 
-- (NSArray *) _fetchMessageStructureWithUID:(uint32_t)uid path:(NSString *)path
+- (NSArray *) _fetchMessageStructureWithUID:(uint32_t)uid path:(NSString *)path message:(LEPIMAPMessage *)message
 {
 	struct mailimap_body * body;
 	int r;
@@ -1262,10 +1325,108 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	}
 	
 	attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:body];
+	for(LEPAbstractAttachment * attachment in attachments) {
+		[attachment setMessage:message];
+	}
 	
 	mailimap_body_free(body);
 	
 	return attachments;
+}
+
+- (NSData *) _fetchAttachmentWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path encoding:(int)encoding
+{
+	struct mailimap_fetch_type * fetch_type;
+    struct mailimap_fetch_att * fetch_att;
+    struct mailimap_section * section;
+	struct mailimap_section_part * section_part;
+	clist * sec_list;
+	NSArray * partIDArray;
+	int r;
+	char * text;
+	size_t text_length;
+	NSData * data;
+	
+	partIDArray = [partID componentsSeparatedByString:@"."];
+	sec_list = clist_new();
+	for(NSString * element in partIDArray) {
+		uint32_t * value;
+		
+		value = malloc(sizeof(* value));
+		* value = [element integerValue];
+		clist_append(sec_list, value);
+	}
+	section_part = mailimap_section_part_new(sec_list);
+	section = mailimap_section_new_part(section_part);
+	fetch_att = mailimap_fetch_att_new_body_peek_section(section);
+	fetch_type = mailimap_fetch_type_new_fetch_att(fetch_att);
+	
+	r = fetch_imap(_imap, uid, fetch_type, &text, &text_length);
+	mailimap_fetch_type_free(fetch_type);
+	
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+	else if (r != MAILIMAP_NO_ERROR) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+	
+	switch (encoding) {
+		case MAILIMAP_BODY_FLD_ENC_7BIT:
+		case MAILIMAP_BODY_FLD_ENC_8BIT:
+		case MAILIMAP_BODY_FLD_ENC_BINARY:
+		case MAILIMAP_BODY_FLD_ENC_OTHER:
+		{
+			data = [NSData dataWithBytes:text length:text_length];
+			break;
+		}
+		case MAILIMAP_BODY_FLD_ENC_BASE64:
+		case MAILIMAP_BODY_FLD_ENC_QUOTED_PRINTABLE:
+		{
+			char * decoded;
+			size_t decoded_length;
+			size_t cur_token;
+			int mime_encoding;
+			
+			switch (encoding) {
+				case MAILIMAP_BODY_FLD_ENC_BASE64:
+					mime_encoding = MAILMIME_MECHANISM_BASE64;
+					break;
+				case MAILIMAP_BODY_FLD_ENC_QUOTED_PRINTABLE:
+					mime_encoding = MAILMIME_MECHANISM_QUOTED_PRINTABLE;
+					break;
+			}
+			
+			cur_token = 0;
+			mailmime_part_parse(text, text_length, &cur_token,
+								mime_encoding, &decoded, &decoded_length);
+			data = [NSData dataWithBytes:decoded length:decoded_length];
+			mailmime_decoded_part_free(decoded);
+			break;
+		}
+	}
+	
+	mailimap_nstring_free(text);
+	
+	return data;
 }
 
 @end

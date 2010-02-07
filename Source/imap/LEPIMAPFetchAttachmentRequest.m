@@ -8,10 +8,16 @@
 
 #import "LEPIMAPFetchAttachmentRequest.h"
 
+#import "LEPIMAPSession.h"
+#import "LEPIMAPSessionPrivate.h"
 
 @implementation LEPIMAPFetchAttachmentRequest
 
 @synthesize data = _data;
+@synthesize path = _path;
+@synthesize partID = _partID;
+@synthesize uid = _uid;
+@synthesize encoding = _encoding;
 
 - (id) init
 {
@@ -22,7 +28,15 @@
 
 - (void) dealloc
 {
+	[_data release];
+	[_path release];
+	[_partID release];
 	[super dealloc];
+}
+
+- (void) mainRequest
+{
+	_data = [[_session _fetchAttachmentWithPartID:_partID UID:_uid path:_path encoding:_encoding] retain];
 }
 
 @end

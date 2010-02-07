@@ -12,9 +12,6 @@
 @class LEPMessageHeader;
 
 @interface LEPMessageAttachment : LEPAbstractMessageAttachment {
-	NSArray * _attachments;
 }
-
-@property (nonatomic, retain) NSArray * /* LEPAttachment */ attachments;
 
 @end

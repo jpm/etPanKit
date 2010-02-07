@@ -25,4 +25,12 @@
 	[super dealloc];
 }
 
+- (void) setMessage:(LEPAbstractMessage *)message
+{
+	_message = message;
+	for(LEPAbstractAttachment * attachment in _attachments) {
+		[attachment setMessage:message];
+	}
+}
+
 @end

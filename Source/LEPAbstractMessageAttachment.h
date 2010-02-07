@@ -13,8 +13,10 @@
 
 @interface LEPAbstractMessageAttachment : LEPAbstractAttachment {
 	LEPMessageHeader * _header;
+	NSArray * /* LEPAttachment */ _attachments;
 }
 
 @property (nonatomic, retain, readonly) LEPMessageHeader * header;
+@property (nonatomic, retain) NSArray * /* LEPAbstractAttachment */ attachments;
 
 @end

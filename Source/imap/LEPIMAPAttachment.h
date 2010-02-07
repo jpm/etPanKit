@@ -8,7 +8,6 @@
 	size_t _size;
 }
 
-#warning should implement size, encoding and partID
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest;
 
 @end
