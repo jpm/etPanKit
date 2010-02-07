@@ -16,4 +16,7 @@
 
 - (NSString*) lepFlattenHTML;
 
+- (NSString *) lepDecodeFromModifiedUTF7;
+- (NSString *) lepEncodeToModifiedUTF7;
+
 @end

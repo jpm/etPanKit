@@ -21,6 +21,7 @@
 @property (nonatomic, readonly) uint32_t uidValidity;
 @property (nonatomic, readonly) uint32_t uidNext;
 
+- (NSString *) displayName;
 - (NSArray *) pathComponents;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;

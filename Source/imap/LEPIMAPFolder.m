@@ -24,6 +24,8 @@
 #import "LEPError.h"
 #import "LEPUtils.h"
 #import "LEPIMAPSelectRequest.h"
+#import "NSString+LEP.h"
+#import <libetpan/libetpan.h>
 
 @implementation LEPIMAPFolder
 
@@ -248,7 +250,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"<%@: 0x%p %@>", [self class], self, [self path]];
+	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@>", [self class], self, [self path], [self displayName]];
 }
 
 - (void) _setUidValidity:(uint32_t)uidValidity
@@ -259,6 +261,17 @@
 - (void) _setUidNext:(uint32_t)uidNext
 {
 	_uidNext = uidNext;
+}
+
+- (NSString *) displayName
+{
+	NSArray * components;
+	NSString * name;
+	
+	components = [self pathComponents];
+	name = [[components lastObject] lepDecodeFromModifiedUTF7];
+	
+	return name;
 }
 
 @end
