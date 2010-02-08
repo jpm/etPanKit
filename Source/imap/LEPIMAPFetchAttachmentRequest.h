@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "LEPIMAPRequest.h"
 
 @interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
@@ -18,10 +17,12 @@
 	int _encoding;
 }
 
-@property (nonatomic, readonly) NSData * data;
 @property (nonatomic, copy) NSString * path;
 @property (nonatomic, copy) NSString * partID;
 @property (nonatomic, assign) uint32_t uid;
 @property (nonatomic, assign) int encoding;
+
+// result
+@property (nonatomic, readonly, retain) NSData * data;
 
 @end
