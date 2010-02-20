@@ -193,6 +193,33 @@
     return [request autorelease];
 }
 
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequest
+{
+	LEPLog(@"fetch message and structure request");
+    return [self fetchMessagesWithStructureRequestFromUID:1];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)uid
+{
+	return [self fetchMessagesWithStructureRequestFromUID:uid toUID:0];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
+{
+	LEPIMAPFetchFolderMessagesRequest * request;
+	
+	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders | LEPIMAPMessagesRequestKindStructure];
+    [request setPath:[self path]];
+    [request setFromUID:fromUID];
+    [request setToUID:toUID];
+	[request setFolder:self];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest
 {
     return [self fetchMessagesUIDFlagsRequestFromUID:1];

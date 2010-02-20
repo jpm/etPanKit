@@ -26,11 +26,15 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid toUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)uid;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID;
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequest;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)uid;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;
