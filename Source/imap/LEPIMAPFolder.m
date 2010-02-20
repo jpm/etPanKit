@@ -312,5 +312,23 @@
 	return [request autorelease];
 }
 
+- (LEPIMAPRequest *) setFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+{
+	LEPIMAPStoreFlagsRequest * request;
+	NSMutableArray * uids;
+	
+	request = [[LEPIMAPStoreFlagsRequest alloc] init];
+	[request setKind:LEPIMAPStoreFlagsRequestKindSet];
+	[request setPath:[self path]];
+	uids = [[NSMutableArray alloc] init];
+	for(LEPIMAPMessage * msg in messages) {
+		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
+	}
+	[request setUids:uids];
+	[uids release];
+	
+	return [request autorelease];
+}
+
 @end
 
