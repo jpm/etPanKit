@@ -14,6 +14,8 @@
 #import "LEPIMAPFetchAllFoldersRequest.h"
 #import "LEPIMAPCreateFolderRequest.h"
 #import "LEPError.h"
+#import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
 
 @interface LEPIMAPAccount ()
 
@@ -123,6 +125,17 @@
 - (LEPIMAPSession *) _session
 {
     return _session;
+}
+
+- (LEPIMAPFolder *) inboxFolder
+{
+	LEPIMAPFolder * folder;
+	
+	folder = [[LEPIMAPFolder alloc] init];
+	[folder _setPath:@"INBOX"];
+	[folder _setAccount:self];
+	
+	return [folder autorelease];
 }
 
 @end
