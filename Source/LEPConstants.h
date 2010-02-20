@@ -45,3 +45,9 @@ typedef enum {
     LEPIMAPMessagesRequestKindHeaders       = 1 << 1,
     LEPIMAPMessagesRequestKindStructure     = 1 << 2,
 } LEPIMAPMessagesRequestKind;
+
+typedef enum {
+	LEPIMAPStoreFlagsRequestKindAdd,
+	LEPIMAPStoreFlagsRequestKindRemove,
+	LEPIMAPStoreFlagsRequestKindSet,
+} LEPIMAPStoreFlagsRequestKind;

@@ -46,4 +46,7 @@
 // update uidValidity and uidNext
 - (LEPIMAPRequest *) selectRequest;
 
+- (LEPIMAPRequest *) addFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages;
+- (LEPIMAPRequest *) removeFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages;
+
 @end

@@ -25,4 +25,5 @@ enum {
     LEPErrorCopy,
     LEPErrorExpunge,
     LEPErrorFetch,
+	LEPErrorStore,
 };

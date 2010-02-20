@@ -39,4 +39,6 @@
 
 - (void) _select:(NSString *)mailbox;
 
+- (void) _storeFlags:(LEPIMAPMessageFlag)flags kind:(LEPIMAPStoreFlagsRequestKind)kind messagesUids:(NSArray *)uids path:(NSString *)path;
+
 @end

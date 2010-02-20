@@ -25,6 +25,8 @@
 #import "LEPUtils.h"
 #import "LEPIMAPSelectRequest.h"
 #import "NSString+LEP.h"
+#import "LEPIMAPStoreFlagsRequest.h"
+#import "LEPConstants.h"
 #import <libetpan/libetpan.h>
 
 @implementation LEPIMAPFolder
@@ -272,6 +274,42 @@
 	name = [[components lastObject] lepDecodeFromModifiedUTF7];
 	
 	return name;
+}
+
+- (LEPIMAPRequest *) addFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+{
+	LEPIMAPStoreFlagsRequest * request;
+	NSMutableArray * uids;
+	
+	request = [[LEPIMAPStoreFlagsRequest alloc] init];
+	[request setKind:LEPIMAPStoreFlagsRequestKindAdd];
+	[request setPath:[self path]];
+	uids = [[NSMutableArray alloc] init];
+	for(LEPIMAPMessage * msg in messages) {
+		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
+	}
+	[request setUids:uids];
+	[uids release];
+	
+	return [request autorelease];
+}
+
+- (LEPIMAPRequest *) removeFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+{
+	LEPIMAPStoreFlagsRequest * request;
+	NSMutableArray * uids;
+	
+	request = [[LEPIMAPStoreFlagsRequest alloc] init];
+	[request setKind:LEPIMAPStoreFlagsRequestKindRemove];
+	[request setPath:[self path]];
+	uids = [[NSMutableArray alloc] init];
+	for(LEPIMAPMessage * msg in messages) {
+		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
+	}
+	[request setUids:uids];
+	[uids release];
+	
+	return [request autorelease];
 }
 
 @end

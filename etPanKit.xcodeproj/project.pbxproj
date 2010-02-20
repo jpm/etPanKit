@@ -100,6 +100,8 @@
 		C69114E11117B25E00623B9F /* LEPSMTPSessionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */; };
 		C69114E71117B30C00623B9F /* LEPSMTPSendMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */; };
 		C69114E81117B30C00623B9F /* LEPSMTPSendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */; };
+		C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */; };
+		C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */; };
 		C6E572451103998300897274 /* LEPError.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572441103998300897274 /* LEPError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E572541103E2D200897274 /* LEPIMAPAccountPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */; };
 		C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */; };
@@ -239,6 +241,8 @@
 		C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSessionPrivate.h; sourceTree = "<group>"; };
 		C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSendMessageRequest.h; sourceTree = "<group>"; };
 		C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPSendMessageRequest.m; sourceTree = "<group>"; };
+		C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPStoreFlagsRequest.h; sourceTree = "<group>"; };
+		C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPStoreFlagsRequest.m; sourceTree = "<group>"; };
 		C6E572441103998300897274 /* LEPError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPError.h; sourceTree = "<group>"; };
 		C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAccountPrivate.h; sourceTree = "<group>"; };
 		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
@@ -430,6 +434,8 @@
 				C681663810F5142D00B07764 /* LEPIMAPSession.h */,
 				C681663910F5142D00B07764 /* LEPIMAPSession.m */,
 				C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */,
+				C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */,
+				C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */,
 				C673590611068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.h */,
 				C673590711068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m */,
 				C673590A11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h */,
@@ -531,6 +537,7 @@
 				C6560B63111A4B6400BF7565 /* LEPMessageHeaderPrivate.h in Headers */,
 				C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */,
 				C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */,
+				C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +670,7 @@
 				C6560B62111A4B6400BF7565 /* LEPMessageHeader.m in Sources */,
 				C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */,
 				C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */,
+				C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

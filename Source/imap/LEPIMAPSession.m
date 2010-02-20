@@ -1543,4 +1543,113 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	return data;
 }
 
+- (void) _storeFlags:(LEPIMAPMessageFlag)flags kind:(LEPIMAPStoreFlagsRequestKind)kind messagesUids:(NSArray *)uids path:(NSString *)path
+{
+	struct mailimap_set * imap_set;
+	struct mailimap_store_att_flags * store_att_flags;
+	struct mailimap_flag_list * flag_list;
+	int r;
+	
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return;
+	
+	imap_set = setFromArray(uids);
+	
+	flag_list = mailimap_flag_list_new_empty();
+	if ((flags & LEPIMAPMessageFlagSeen) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_seen();
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagAnswered) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_answered();
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagFlagged) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_flagged();
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagDeleted) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_deleted();
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagDraft) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_draft();
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagMDNSent) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_flag_keyword(strdup("$MDNSent"));
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagForwarded) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_flag_keyword(strdup("$Forwarded"));
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagSubmitPending) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_flag_keyword(strdup("$SubmitPending"));
+		mailimap_flag_list_add(flag_list, f);
+	}
+	if ((flags & LEPIMAPMessageFlagSubmitted) != 0) {
+		struct mailimap_flag * f;
+		
+		f = mailimap_flag_new_flag_keyword(strdup("$Submitted"));
+		mailimap_flag_list_add(flag_list, f);
+	}
+	
+	switch (kind) {
+		case LEPIMAPStoreFlagsRequestKindRemove:
+			store_att_flags = mailimap_store_att_flags_new_remove_flags_silent(flag_list);
+			break;
+		case LEPIMAPStoreFlagsRequestKindAdd:
+			store_att_flags = mailimap_store_att_flags_new_add_flags_silent(flag_list);
+			break;
+		case LEPIMAPStoreFlagsRequestKindSet:
+			store_att_flags = mailimap_store_att_flags_new_set_flags_silent(flag_list);
+			break;
+	}
+	r = mailimap_store(_imap, imap_set, store_att_flags);
+	mailimap_store_att_flags_free(store_att_flags);
+	
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorStore userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+}
+
 @end
