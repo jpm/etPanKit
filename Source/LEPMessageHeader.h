@@ -37,5 +37,6 @@
 @property (nonatomic, copy) NSArray * /* LEPAddress */ bcc;
 @property (nonatomic, copy) NSArray * /* LEPAddress */ replyTo;
 @property (nonatomic, copy) NSString * subject;
+@property (nonatomic, retain, readonly) NSString * extractedSubject;
 
 @end

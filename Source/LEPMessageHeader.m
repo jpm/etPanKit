@@ -263,6 +263,317 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	return addr_list;
 }
 
+#pragma mark extract subject
+
+static inline int skip_subj_blob(char * subj, size_t * begin,
+								 size_t length)
+{
+	/* subj-blob       = "[" *BLOBCHAR "]" *WSP */
+	size_t cur_token;
+	
+	cur_token = * begin;
+	
+	if (subj[cur_token] != '[')
+		return 0;
+	
+	cur_token ++;
+	
+	while (1) {
+		if (cur_token >= length)
+			return 0;
+		
+		if (subj[cur_token] == '[')
+			return 0;
+		
+		if (subj[cur_token] == ']')
+			break;
+		
+		cur_token ++;
+	}
+	
+	cur_token ++;
+	
+	while (1) {
+		if (cur_token >= length)
+			break;
+		
+		if (subj[cur_token] != ' ')
+			break;
+		
+		cur_token ++;
+	}
+	
+	* begin = cur_token;
+	
+	return 1;
+}
+
+static inline int skip_subj_refwd(char * subj, size_t * begin,
+								  size_t length)
+{
+	/* subj-refwd      = ("re" / ("fw" ["d"])) *WSP [subj-blob] ":" */
+	size_t cur_token;
+	int prefix;
+	
+	cur_token = * begin;
+	
+	prefix = 0;
+	if (length >= 3) {
+		if (strncasecmp(subj + cur_token, "fwd", 3) == 0) {
+			cur_token += 3;
+			prefix = 1;
+		}
+	}
+	if (!prefix) {
+		if (length >= 2) {
+			if (strncasecmp(subj + cur_token, "fw", 2) == 0) {
+				cur_token += 2;
+				prefix = 1;
+			}
+			else if (strncasecmp(subj + cur_token, "re", 2) == 0) {
+				cur_token += 2;
+				prefix = 1;
+			}
+		}
+	}
+	
+	if (!prefix)
+		return 0;
+	
+	while (1) {
+		if (cur_token >= length)
+			break;
+		
+		if (subj[cur_token] != ' ')
+			break;
+		
+		cur_token ++;
+	}
+	
+	skip_subj_blob(subj, &cur_token, length);
+	
+	if (subj[cur_token] != ':')
+		return 0;
+	
+	cur_token ++;
+	
+	* begin = cur_token;
+	
+	return 1;
+}
+
+static inline int skip_subj_leader(char * subj, size_t * begin,
+								   size_t length)
+{
+	size_t cur_token;
+	
+	cur_token = * begin;
+	
+	/* subj-leader     = (*subj-blob subj-refwd) / WSP */
+	
+	if (subj[cur_token] == ' ') {
+		cur_token ++;
+	}
+	else {
+		while (cur_token < length) {
+			if (!skip_subj_blob(subj, &cur_token, length))
+				break;
+		}
+		if (!skip_subj_refwd(subj, &cur_token, length))
+			return 0;
+	}
+	
+	* begin = cur_token;
+	
+	return 1;
+}
+
+static char * extract_subject(char * str)
+{
+	char * subj;
+	char * cur;
+	char * write_pos;
+	size_t len;
+	size_t begin;
+	int do_repeat_5;
+	int do_repeat_6;
+	
+	/*
+	 (1) Convert any RFC 2047 encoded-words in the subject to
+	 UTF-8.
+	 We work on UTF-8 string -- DVH
+	 */
+	
+	subj = strdup(str);
+	if (subj == NULL)
+		return NULL;
+	
+	len = strlen(subj);
+	
+	/*
+	 Convert all tabs and continuations to space.
+	 Convert all multiple spaces to a single space.
+	 */
+	
+	cur = subj;
+	write_pos = subj;
+	while (* cur != '\0') {
+		int cont;
+		
+		switch (* cur) {
+			case '\t':
+			case '\r':
+			case '\n':
+				cont = 1;
+				
+				cur ++;
+				while (* cur && cont) {
+					switch (* cur) {
+						case '\t':
+						case '\r':
+						case '\n':
+							cont = 1;
+							break;
+						default:
+							cont = 0;
+							break;
+					}
+					cur ++;
+				}
+				
+				* write_pos = ' ';
+				write_pos ++;
+				
+				break;
+				
+			default:
+				* write_pos = * cur;
+				write_pos ++;
+				
+				cur ++;
+				
+				break;
+		}
+	}
+	* write_pos = '\0';
+	
+	begin = 0;
+	
+	do {
+		do_repeat_6 = 0;
+		
+		/*
+		 (2) Remove all trailing text of the subject that matches
+		 the subj-trailer ABNF, repeat until no more matches are
+		 possible.
+		 */
+		
+		while (len > 0) {
+			int chg;
+			
+			chg = 0;
+			
+			/* subj-trailer    = "(fwd)" / WSP */
+			if (subj[len - 1] == ' ') {
+				subj[len - 1] = '\0';
+				len --;
+			}
+			else {
+				if (len < 5)
+					break;
+				
+				if (strncasecmp(subj + len - 5, "(fwd)", 5) != 0)
+					break;
+				
+				subj[len - 5] = '\0';
+				len -= 5;
+			}
+		}
+		
+		do {
+			size_t saved_begin;
+			
+			do_repeat_5 = 0;
+			
+			/*
+			 (3) Remove all prefix text of the subject that matches the
+			 subj-leader ABNF.
+			 */
+			
+			if (skip_subj_leader(subj, &begin, len))
+				do_repeat_5 = 1;
+			
+			/*
+			 (4) If there is prefix text of the subject that matches the
+			 subj-blob ABNF, and removing that prefix leaves a non-empty
+			 subj-base, then remove the prefix text.
+			 */
+			
+			saved_begin = begin;
+			if (skip_subj_blob(subj, &begin, len)) {
+				if (begin == len) {
+					/* this will leave a empty subject base */
+					begin = saved_begin;
+				}
+				else
+					do_repeat_5 = 1;
+			}
+			
+			/*
+			 (5) Repeat (3) and (4) until no matches remain.
+			 Note: it is possible to defer step (2) until step (6),
+			 but this requires checking for subj-trailer in step (4).
+			 */
+			
+		}
+		while (do_repeat_5);
+		
+		/*
+		 (6) If the resulting text begins with the subj-fwd-hdr ABNF
+		 and ends with the subj-fwd-trl ABNF, remove the
+		 subj-fwd-hdr and subj-fwd-trl and repeat from step (2).
+		 */
+		
+		if (len >= 5) {
+			size_t saved_begin;
+			
+			saved_begin = begin;
+			if (strncasecmp(subj + begin, "[fwd:", 5) == 0) {
+				begin += 5;
+				
+				if (subj[len - 1] != ']')
+					saved_begin = begin;
+				else {
+					subj[len - 1] = '\0';
+					len --;
+					do_repeat_6 = 1;
+				}
+			}
+		}
+		
+	}
+	while (do_repeat_6);
+	
+	/*
+	 (7) The resulting text is the "base subject" used in
+	 threading.
+	 */
+	
+	/* convert to upper case */
+	
+	cur = subj + begin;
+	write_pos = subj;
+	
+	while (* cur != '\0') {
+		* write_pos = * cur;
+		cur ++;
+		write_pos ++;
+	}
+	* write_pos = '\0';
+	
+	return subj;
+}
+
 @implementation LEPMessageHeader
 
 @synthesize date = _date;
@@ -605,6 +916,22 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 											in_reply_to,
 											references,
 											subject);
+}
+
+- (NSString *) extractedSubject
+{
+	char * result;
+	NSString * str;
+	
+	if ([self subject] == nil)
+		return nil;
+	
+	result = extract_subject((char *) [[self subject] UTF8String]);
+	
+	str = [NSString stringWithUTF8String:result];
+	free(result);
+	
+	return str;
 }
 
 @end

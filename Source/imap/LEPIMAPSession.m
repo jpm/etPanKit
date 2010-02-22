@@ -1338,9 +1338,18 @@ static struct mailimap_set * setFromArray(NSArray * array)
 				}
             }
         }
+		
+		if (uid < fromUID) {
+			uid = 0;
+		}
+		
         if (uid != 0) {
             [msg _setUid:uid];
         }
+		else {
+			[msg release];
+			continue;
+		}
 		
 		[result addObject:msg];
 		[msg release];
