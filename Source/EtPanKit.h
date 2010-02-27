@@ -23,6 +23,7 @@
 #import <EtPanKit/LEPSMTPRequest.h>
 
 #import <EtPanKit/LEPIMAPAccount.h>
+#import <EtPanKit/LEPIMAPAccount+Gmail.h>
 #import <EtPanKit/LEPIMAPFolder.h>
 #import <EtPanKit/LEPIMAPMessage.h>
 #import <EtPanKit/LEPIMAPAttachment.h>
@@ -32,3 +33,5 @@
 #import <EtPanKit/LEPIMAPFetchMessageStructureRequest.h>
 #import <EtPanKit/LEPIMAPFetchMessageRequest.h>
 #import <EtPanKit/LEPIMAPFetchAttachmentRequest.h>
+
+#import <EtPanKit/NSData+LEPUTF8.h>

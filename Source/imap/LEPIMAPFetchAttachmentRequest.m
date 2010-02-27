@@ -10,6 +10,7 @@
 
 #import "LEPIMAPSession.h"
 #import "LEPIMAPSessionPrivate.h"
+#import "LEPUtils.h"
 
 @implementation LEPIMAPFetchAttachmentRequest
 
@@ -36,6 +37,7 @@
 
 - (void) mainRequest
 {
+	LEPLog(@"fetch %@ %u", _partID, _uid);
 	_data = [[_session _fetchAttachmentWithPartID:_partID UID:_uid path:_path encoding:_encoding] retain];
 }
 

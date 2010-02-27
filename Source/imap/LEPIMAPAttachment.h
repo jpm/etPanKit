@@ -8,6 +8,8 @@
 	size_t _size;
 }
 
+@property (nonatomic, retain, readonly) NSString * partID;
+
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest;
 
 @end

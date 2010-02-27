@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C6056E2A11397D6400DEB02F /* LEPIMAPAccount+Gmail.m */; };
 		C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6179F57111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6179F58111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m */; };
 		C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C617A228111F4847000FCE35 /* LEPIMAPSelectRequest.h */; };
@@ -47,7 +49,7 @@
 		C673595E11092026004D4928 /* LEPIMAPAppendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673595C11092026004D4928 /* LEPIMAPAppendMessageRequest.m */; };
 		C673596B11092699004D4928 /* LEPIMAPCopyMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C673596911092699004D4928 /* LEPIMAPCopyMessageRequest.h */; };
 		C673596C11092699004D4928 /* LEPIMAPCopyMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C673596A11092699004D4928 /* LEPIMAPCopyMessageRequest.m */; };
-		C681643F10F3EB6100B07764 /* NSData+LEPUTF8.h in Headers */ = {isa = PBXBuildFile; fileRef = C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */; };
+		C681643F10F3EB6100B07764 /* NSData+LEPUTF8.h in Headers */ = {isa = PBXBuildFile; fileRef = C681643D10F3EB6100B07764 /* NSData+LEPUTF8.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C681644010F3EB6100B07764 /* NSData+LEPUTF8.m in Sources */ = {isa = PBXBuildFile; fileRef = C681643E10F3EB6100B07764 /* NSData+LEPUTF8.m */; };
 		C681664110F5142D00B07764 /* LEPIMAPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = C681662C10F5142D00B07764 /* LEPIMAPAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C681664210F5142D00B07764 /* LEPIMAPAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = C681662D10F5142D00B07764 /* LEPIMAPAccount.m */; };
@@ -149,6 +151,8 @@
 		32DBCF5E0370ADEE00C91783 /* etPanKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etPanKit_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* EtPanKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtPanKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEPIMAPAccount+Gmail.h"; sourceTree = "<group>"; };
+		C6056E2A11397D6400DEB02F /* LEPIMAPAccount+Gmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPAccount+Gmail.m"; sourceTree = "<group>"; };
 		C6179F57111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchFoldersRequest.h; sourceTree = "<group>"; };
 		C6179F58111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchFoldersRequest.m; sourceTree = "<group>"; };
 		C617A228111F4847000FCE35 /* LEPIMAPSelectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPSelectRequest.h; sourceTree = "<group>"; };
@@ -387,6 +391,8 @@
 			children = (
 				C681662C10F5142D00B07764 /* LEPIMAPAccount.h */,
 				C681662D10F5142D00B07764 /* LEPIMAPAccount.m */,
+				C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */,
+				C6056E2A11397D6400DEB02F /* LEPIMAPAccount+Gmail.m */,
 				C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */,
 				C691100611160DC400623B9F /* LEPIMAPAlternativeAttachment.h */,
 				C691100711160DC400623B9F /* LEPIMAPAlternativeAttachment.m */,
@@ -538,13 +544,14 @@
 				C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */,
 				C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */,
 				C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */,
+				C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* etPanKit */ = {
+		8DC2EF4F0486A6940098B216 /* libetpan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "etPanKit" */;
 			buildPhases = (
@@ -583,7 +590,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* etPanKit */,
+				8DC2EF4F0486A6940098B216 /* libetpan */,
 			);
 		};
 /* End PBXProject section */
@@ -671,6 +678,7 @@
 				C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */,
 				C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */,
 				C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */,
+				C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,7 +719,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
 					"-lsasl2",
 					"-lssl",
@@ -736,7 +744,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
 					"-lsasl2",
 					"-lssl",

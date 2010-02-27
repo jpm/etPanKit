@@ -11,5 +11,6 @@
 @interface NSData (LEPUTF8)
 
 - (NSString *) lepUTF8String;
+- (NSString *) lepStringWithCharset:(NSString *)charset;
 
 @end

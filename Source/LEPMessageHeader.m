@@ -12,6 +12,7 @@
 #import "LEPAddressPrivate.h"
 #import "NSString+LEP.h"
 #import "NSString+LEPUUID.h"
+#import "NSData+LEPUTF8.h"
 #import "LEPUtils.h"
 #import <libetpan/libetpan.h>
 
@@ -836,18 +837,22 @@ static char * extract_subject(char * str)
 - (void) setFromIMAPReferences:(NSData *)data
 {
 	size_t cur_token;
-	clist * msg_id_list;
+	//clist * msg_id_list;
 	int r;
+	struct mailimf_references * references;
 	
 	cur_token = 0;
-	r = mailimf_msg_id_list_parse([data bytes], [data length], &cur_token, &msg_id_list);
+	//LEPLog(@"%@", [data lepUTF8String]);
+	//r = mailimf_msg_id_list_parse([data bytes], [data length], &cur_token, &msg_id_list);
+	r = mailimf_references_parse([data bytes], [data length], &cur_token, &references);
 	if (r == MAILIMF_NO_ERROR) {
 		NSArray * msgids;
 		
-		msgids = msg_id_to_string_array(msg_id_list);
+		msgids = msg_id_to_string_array(references->mid_list);
 		[self setReferences:msgids];
-		clist_foreach(msg_id_list, (clist_func) mailimf_msg_id_free, NULL);
-		clist_free(msg_id_list);
+		//clist_foreach(msg_id_list, (clist_func) mailimf_msg_id_free, NULL);
+		//clist_free(msg_id_list);
+		mailimf_references_free(references);
 	}
 }
 

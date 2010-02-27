@@ -15,6 +15,7 @@
 #import "LEPError.h"
 #import "LEPUtils.h"
 #import "LEPMessageHeader.h"
+#import "LEPAbstractAttachment.h"
 
 @interface LEPIMAPMessage ()
 
@@ -63,6 +64,9 @@
 {
 	[_attachments release];
 	_attachments = [attachments retain];
+	for(LEPAbstractAttachment * attachment in _attachments) {
+		[attachment setMessage:self];
+	}
 }
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
