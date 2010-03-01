@@ -68,4 +68,15 @@
 	return [folder autorelease];
 }
 
+- (LEPIMAPFolder *) draftsFolder
+{
+	LEPIMAPFolder * folder;
+	
+	folder = [[LEPIMAPFolder alloc] init];
+	[folder _setPath:@"[Gmail]/Drafts"];
+	[folder _setAccount:self];
+	
+	return [folder autorelease];
+}
+
 @end

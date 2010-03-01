@@ -193,6 +193,33 @@
     return [request autorelease];
 }
 
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequest
+{
+	LEPLog(@"fetch message UID");
+    return [self fetchMessagesUIDRequestFromUID:1];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32_t)uid
+{
+	return [self fetchMessagesUIDRequestFromUID:uid toUID:0];
+}
+
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID
+{
+	LEPIMAPFetchFolderMessagesRequest * request;
+	
+	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
+    [request setFetchKind:0];
+    [request setPath:[self path]];
+    [request setFromUID:fromUID];
+    [request setToUID:toUID];
+	[request setFolder:self];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequest
 {
 	LEPLog(@"fetch message and structure request");

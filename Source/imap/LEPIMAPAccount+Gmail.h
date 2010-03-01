@@ -16,5 +16,6 @@
 - (LEPIMAPFolder *) allMailFolder;
 - (LEPIMAPFolder *) draftFolder;
 - (LEPIMAPFolder *) trashFolder;
+- (LEPIMAPFolder *) draftsFolder;
 
 @end

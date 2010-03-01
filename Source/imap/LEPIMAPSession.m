@@ -794,7 +794,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	int r;
 	
 	LEPLog(@"select");
-	LEPAssert(_state == STATE_LOGGEDIN);
+	LEPAssert(_state == STATE_LOGGEDIN || _state == STATE_SELECTED);
 	
 	r = mailimap_select(_imap, [mailbox UTF8String]);
     if (r == MAILIMAP_ERROR_STREAM) {
