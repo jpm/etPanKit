@@ -34,4 +34,18 @@
 	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@>", [self class], self, [[self header] from], [[self header] subject]];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	self = [super init];
+	
+	_header = [[decoder decodeObjectForKey:@"header"] retain];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeObject:_header forKey:@"header"];
+}
+
 @end

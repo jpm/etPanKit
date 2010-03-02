@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LEPAddress : NSObject <NSCopying> {
+@interface LEPAddress : NSObject <NSCopying, NSCoding> {
 	NSString * _displayName;
     NSString * _mailbox;
 }

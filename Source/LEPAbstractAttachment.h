@@ -2,7 +2,7 @@
 
 @class LEPAbstractMessage;
 
-@interface LEPAbstractAttachment : NSObject {
+@interface LEPAbstractAttachment : NSObject <NSCoding> {
     NSString * _filename;
     NSString * _mimeType;
 	NSString * _charset;

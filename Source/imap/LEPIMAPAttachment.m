@@ -360,4 +360,23 @@
 	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@ %@>", [self class], self, _partID, [self mimeType], [self filename]];
 }
 
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	_partID = [[coder decodeObjectForKey:@"partID"] retain];
+	_encoding = [coder decodeInt32ForKey:@"encoding"];
+	_size = [coder decodeInt32ForKey:@"size"];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[super encodeWithCoder:encoder];
+	[encoder encodeObject:_partID forKey:@"partID"];
+	[encoder encodeInt32:_encoding forKey:@"encoding"];
+	[encoder encodeInt32:_size forKey:@"size"];
+}
+
 @end

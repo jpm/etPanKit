@@ -939,4 +939,38 @@ static char * extract_subject(char * str)
 	return str;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	self = [super init];
+	
+	_messageID = [[decoder decodeObjectForKey:@"messageID"] retain];
+	_references = [[decoder decodeObjectForKey:@"references"] retain];
+	_inReplyTo = [[decoder decodeObjectForKey:@"inReplyTo"] retain];
+	_from = [[decoder decodeObjectForKey:@"from"] retain];
+	_to = [[decoder decodeObjectForKey:@"to"] retain];
+	_cc = [[decoder decodeObjectForKey:@"cc"] retain];
+	_bcc = [[decoder decodeObjectForKey:@"bcc"] retain];
+	_replyTo = [[decoder decodeObjectForKey:@"replyTo"] retain];
+	_subject = [[decoder decodeObjectForKey:@"subject"] retain];
+	_attachments = [[decoder decodeObjectForKey:@"attachments"] retain];
+	_date = [[decoder decodeObjectForKey:@"date"] retain];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeObject:_messageID forKey:@"messageID"];
+	[encoder encodeObject:_references forKey:@"references"];
+	[encoder encodeObject:_inReplyTo forKey:@"inReplyTo"];
+	[encoder encodeObject:_from forKey:@"from"];
+	[encoder encodeObject:_to forKey:@"to"];
+	[encoder encodeObject:_cc forKey:@"cc"];
+	[encoder encodeObject:_bcc forKey:@"bcc"];
+	[encoder encodeObject:_replyTo forKey:@"replyTo"];
+	[encoder encodeObject:_subject forKey:@"subject"];
+	[encoder encodeObject:_attachments forKey:@"attachments"];
+	[encoder encodeObject:_date forKey:@"date"];
+}
+
 @end

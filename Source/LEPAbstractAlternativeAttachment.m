@@ -61,4 +61,18 @@
 	return result;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	self = [super initWithCoder:decoder];
+	
+	_attachments = [[decoder decodeObjectForKey:@"attachments"] retain];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeObject:_attachments forKey:@"attachments"];
+}
+
 @end

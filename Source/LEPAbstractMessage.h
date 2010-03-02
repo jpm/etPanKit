@@ -2,7 +2,7 @@
 
 @class LEPMessageHeader;
 
-@interface LEPAbstractMessage : NSObject {
+@interface LEPAbstractMessage : NSObject <NSCoding> {
 	LEPMessageHeader * _header;
 }
 

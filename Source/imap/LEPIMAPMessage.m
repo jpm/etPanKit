@@ -16,6 +16,7 @@
 #import "LEPUtils.h"
 #import "LEPMessageHeader.h"
 #import "LEPAbstractAttachment.h"
+#import "LEPUtils.h"
 
 @interface LEPIMAPMessage ()
 
@@ -105,6 +106,26 @@
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"<%@: 0x%p %lu %@ %@>", [self class], self, (unsigned long) [self uid], [[self header] from], [[self header] subject]];
+}
+
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	_flags = [coder decodeInt32ForKey:@"flags"];
+	_uid = (uint32_t) [coder decodeInt32ForKey:@"uid"];
+	[self _setAttachments:[coder decodeObjectForKey:@"attachments"]];
+	//LEPLog(@"%@", [self attachments]);
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[super encodeWithCoder:encoder];
+	[encoder encodeInt32:_flags forKey:@"flags"];
+	[encoder encodeInt32:(int32_t)_uid forKey:@"uid"];
+	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
 
 @end

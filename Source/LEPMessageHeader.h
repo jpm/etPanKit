@@ -10,7 +10,7 @@
 
 @class LEPAddress;
 
-@interface LEPMessageHeader : NSObject {
+@interface LEPMessageHeader : NSObject <NSCoding> {
 	NSString * _messageID;
 	NSArray * /* NSString */ _references;
 	NSArray * /* NSString */ _inReplyTo;
@@ -20,7 +20,6 @@
 	NSArray * /* LEPAddress */ _bcc;
 	NSArray * /* LEPAddress */ _replyTo;
 	NSString * _subject;
-	NSString * _body;
 	NSArray * _attachments;
     NSDate * _date;
 }

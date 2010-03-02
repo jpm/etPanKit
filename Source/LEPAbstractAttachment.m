@@ -37,4 +37,24 @@
 	return [NSString stringWithFormat:@"<%@: 0x%p %@ %@>", [self class], self, [self mimeType], [self filename]];
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	self = [super init];
+	
+    _filename = [[decoder decodeObjectForKey:@"filename"] retain];
+    _mimeType = [[decoder decodeObjectForKey:@"mimeType"] retain];
+	_charset = [[decoder decodeObjectForKey:@"charset"] retain];
+	_inlineAttachment = [decoder decodeBoolForKey:@"inlineAttachment"];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeObject:_filename forKey:@"filename"];
+	[encoder encodeObject:_mimeType forKey:@"mimeType"];
+	[encoder encodeObject:_charset forKey:@"charset"];
+	[encoder encodeBool:_inlineAttachment forKey:@"inlineAttachment"];
+}
+
 @end

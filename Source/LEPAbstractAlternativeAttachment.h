@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LEPAbstractAttachment.h"
 
-@interface LEPAbstractAlternativeAttachment : LEPAbstractAttachment {
+@interface LEPAbstractAlternativeAttachment : LEPAbstractAttachment <NSCoding> {
 	NSArray * _attachments;
 }
 

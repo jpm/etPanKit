@@ -144,4 +144,20 @@
 	return [NSString stringWithFormat:@"[%@: 0x%p %@ <%@>]", [self class], self, [self displayName], [self mailbox]];
 }
 
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super init];
+	
+	_displayName = [[coder decodeObjectForKey:@"displayName"] retain];
+	_mailbox = [[coder decodeObjectForKey:@"mailbox"] retain];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeObject:_displayName forKey:@"displayName"];
+	[encoder encodeObject:_mailbox forKey:@"mailbox"];
+}
+
 @end
