@@ -15,6 +15,7 @@
 	NSString * _realm;
     BOOL _idleEnabled;
 	LEPIMAPSession * _session;
+    NSDictionary * _gmailMailboxNames;
 }
 
 @property (nonatomic, copy) NSString * host;

@@ -14,8 +14,8 @@
 - (LEPIMAPFolder *) sentMailFolder;
 - (LEPIMAPFolder *) starredFolder;
 - (LEPIMAPFolder *) allMailFolder;
-- (LEPIMAPFolder *) draftFolder;
 - (LEPIMAPFolder *) trashFolder;
 - (LEPIMAPFolder *) draftsFolder;
+- (LEPIMAPFolder *) spamFolder;
 
 @end

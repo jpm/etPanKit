@@ -20,4 +20,6 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request;
 
+- (void) _setGmailMailboxNames:(NSDictionary *)gmailMailboxNames;
+
 @end

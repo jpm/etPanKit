@@ -10,6 +10,7 @@
 
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
+#import "LEPUtils.h"
 
 @implementation LEPIMAPAccount (Gmail)
 
@@ -17,8 +18,10 @@
 {
 	LEPIMAPFolder * folder;
 	
+    LEPAssert(_gmailMailboxNames != nil);
+    
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/Sent Mail"];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"sentmail"]];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
@@ -29,18 +32,7 @@
 	LEPIMAPFolder * folder;
 	
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/All Mail"];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
-}
-
-- (LEPIMAPFolder *) draftFolder
-{
-	LEPIMAPFolder * folder;
-	
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/Drafts"];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"allmail"]];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
@@ -50,8 +42,10 @@
 {
 	LEPIMAPFolder * folder;
 	
+    LEPAssert(_gmailMailboxNames != nil);
+    
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/Starred"];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"starred"]];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
@@ -61,8 +55,10 @@
 {
 	LEPIMAPFolder * folder;
 	
+    LEPAssert(_gmailMailboxNames != nil);
+    
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/Trash"];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"trash"]];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
@@ -72,8 +68,23 @@
 {
 	LEPIMAPFolder * folder;
 	
+    LEPAssert(_gmailMailboxNames != nil);
+    
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"[Gmail]/Drafts"];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"drafts"]];
+	[folder _setAccount:self];
+	
+	return [folder autorelease];
+}
+
+- (LEPIMAPFolder *) spamFolder
+{
+	LEPIMAPFolder * folder;
+	
+    LEPAssert(_gmailMailboxNames != nil);
+    
+	folder = [[LEPIMAPFolder alloc] init];
+	[folder _setPath:[_gmailMailboxNames objectForKey:@"spam"]];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
