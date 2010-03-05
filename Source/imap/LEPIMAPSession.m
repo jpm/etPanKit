@@ -820,6 +820,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNonExistantMailbox userInfo:nil];
 		[self setError:error];
 		[error release];
+        [_currentMailbox release];
+        _currentMailbox = nil;
 		return;
 	}
 	
