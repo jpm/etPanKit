@@ -13,7 +13,6 @@
 
 - (void) _setUid:(uint32_t)uid;
 - (void) _setFlags:(LEPIMAPMessageFlag)flags;
-- (void) _setFolder:(LEPIMAPFolder *)folder;
 - (void) _setAttachments:(NSArray *)attachments;
 
 @end

@@ -55,12 +55,6 @@
 	_flags = flags;
 }
 
-- (void) _setFolder:(LEPIMAPFolder *)folder
-{
-    [_folder release];
-    _folder = [folder retain];
-}
-
 - (void) _setAttachments:(NSArray *)attachments
 {
 	[_attachments release];

@@ -1290,7 +1290,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         LEPIMAPMessage * msg;
         
         msg = [[LEPIMAPMessage alloc] init];
-        [msg _setFolder:folder];
+        [msg setFolder:folder];
 		
         msg_att = clist_content(iter);
         uid = 0;
