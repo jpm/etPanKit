@@ -462,7 +462,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
         }
         else {
             lastValue = currentValue;
-            currentValue ++;
+            currentIndex ++;
         }
     }
     
@@ -553,6 +553,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		[self _setup];
 	}
 	
+    LEPLog(@"queue operation %@", request);
 	//[request setSession:self];
 	[_queue addOperation:request];
 }
@@ -1261,6 +1262,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
+        LEPLog(@"error stream");
         error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
         [self setError:error];
         [error release];
@@ -1269,6 +1271,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
     else if (r == MAILIMAP_ERROR_PARSE) {
         NSError * error;
         
+        LEPLog(@"error parse");
         error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
         [self setError:error];
         [error release];
@@ -1277,6 +1280,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
     else if ([self _hasError:r]) {
 		NSError * error;
 		
+        LEPLog(@"error fetch");
 		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
 		[self setError:error];
 		[error release];

@@ -345,6 +345,8 @@
 	[request setUids:uids];
 	[uids release];
 	
+    [self _setupRequest:request];
+    
 	return [request autorelease];
 }
 
@@ -363,6 +365,8 @@
 	[request setUids:uids];
 	[uids release];
 	
+    [self _setupRequest:request];
+    
 	return [request autorelease];
 }
 
@@ -381,6 +385,8 @@
 	[request setUids:uids];
 	[uids release];
 	
+    [self _setupRequest:request];
+    
 	return [request autorelease];
 }
 
