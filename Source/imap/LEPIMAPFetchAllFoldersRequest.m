@@ -8,6 +8,7 @@
 
 #import "LEPIMAPFetchAllFoldersRequest.h"
 #import "LEPIMAPAccount.h"
+#import "LEPIMAPAccount+Gmail.h"
 #import "LEPIMAPAccountPrivate.h"
 #import "LEPIMAPSession.h"
 #import "LEPIMAPSessionPrivate.h"
@@ -117,7 +118,7 @@
 				}
 				[gmailMailboxes setObject:name forKey:key];
 			}
-            [_account _setGmailMailboxNames:gmailMailboxes];
+            [_account setGmailMailboxNames:gmailMailboxes];
 			[gmailMailboxes release];
             break;
         }

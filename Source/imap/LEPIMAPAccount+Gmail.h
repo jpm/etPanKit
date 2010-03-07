@@ -11,6 +11,9 @@
 
 @interface LEPIMAPAccount (Gmail)
 
+- (void) setGmailMailboxNames:(NSDictionary *)gmailMailboxNames;
+- (NSDictionary *) gmailMailboxNames;
+
 - (LEPIMAPFolder *) sentMailFolder;
 - (LEPIMAPFolder *) starredFolder;
 - (LEPIMAPFolder *) allMailFolder;

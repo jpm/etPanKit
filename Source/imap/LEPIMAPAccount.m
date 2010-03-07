@@ -7,6 +7,7 @@
 //
 
 #import "LEPIMAPAccount.h"
+#import "LEPIMAPAccount+Gmail.h"
 
 #import "LEPIMAPSession.h"
 #import "LEPUtils.h"
@@ -36,8 +37,20 @@
 
 - (id) init
 {
+    NSMutableDictionary * mailboxes;
+    
 	self = [super init];
 	
+    mailboxes = [[NSMutableDictionary alloc] init];
+    [mailboxes setObject:@"[Google Mail]/All Mail" forKey:@"allmail"];
+    [mailboxes setObject:@"[Google Mail]/Drafts" forKey:@"drafts"];
+    [mailboxes setObject:@"[Google Mail]/Sent Mail" forKey:@"sentmail"];
+    [mailboxes setObject:@"[Google Mail]/Spam" forKey:@"spam"];
+    [mailboxes setObject:@"[Google Mail]/Starred" forKey:@"starred"];
+    [mailboxes setObject:@"[Google Mail]/Trash" forKey:@"trash"];
+    [self setGmailMailboxNames:mailboxes];
+    [mailboxes release];
+    
 	return self;
 } 
 
@@ -136,12 +149,6 @@
 	[folder _setAccount:self];
 	
 	return [folder autorelease];
-}
-
-- (void) _setGmailMailboxNames:(NSDictionary *)gmailMailboxNames
-{
-    [_gmailMailboxNames release];
-    _gmailMailboxNames = [gmailMailboxNames retain];
 }
 
 @end

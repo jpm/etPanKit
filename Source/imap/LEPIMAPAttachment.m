@@ -198,6 +198,9 @@
 			}
 		}
 	}
+    if (fields->bd_id != NULL) {
+        [self setContentID:[NSString stringWithUTF8String:fields->bd_id]];
+    }
 	
 	if (extension->bd_disposition != NULL) {
 		if (strcasecmp(extension->bd_disposition->dsp_type, "inline") == 0) {

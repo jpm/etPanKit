@@ -90,4 +90,15 @@
 	return [folder autorelease];
 }
 
+- (void) setGmailMailboxNames:(NSDictionary *)gmailMailboxNames
+{
+    [_gmailMailboxNames release];
+    _gmailMailboxNames = [gmailMailboxNames retain];
+}
+
+- (NSDictionary *) gmailMailboxNames
+{
+    return _gmailMailboxNames;
+}
+
 @end

@@ -16,6 +16,7 @@
 @synthesize charset = _charset;
 @synthesize inlineAttachment = _inlineAttachment;
 @synthesize message = _message;
+@synthesize contentID = _contentID;
 
 - (id) init
 {

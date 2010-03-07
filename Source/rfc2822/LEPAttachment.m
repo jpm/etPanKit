@@ -181,6 +181,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	char * str;
 	char * name;
 	char * filename;
+    char * content_id;
 	
 	LEPAssert(mime->mm_type == MAILMIME_SINGLE);
 	
@@ -222,6 +223,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	
 	name = single_fields.fld_content_name;
 	filename = single_fields.fld_disposition_filename;
+    content_id = single_fields.fld_id;
 	fprintf(stderr, "%s\n%s\n\n", name, filename);
 	
 	if (filename != NULL) {
@@ -230,10 +232,13 @@ static char * get_content_type_str(struct mailmime_content * content)
 	else if (name != NULL) {
 		[result setFilename:[NSString stringWithUTF8String:name]];
 	}
+	if (content_id != NULL) {
+        [result setContentID:[NSString stringWithUTF8String:content_id]];
+    }
 	if (single_fields.fld_content_charset != NULL) {
 		[result setCharset:[NSString stringWithUTF8String:single_fields.fld_content_charset]];
 	}
-	
+    
 	if (single_fields.fld_disposition != NULL) {
 		if (single_fields.fld_disposition->dsp_type != NULL) {
 			if (single_fields.fld_disposition->dsp_type->dsp_type == MAILMIME_DISPOSITION_TYPE_INLINE) {
