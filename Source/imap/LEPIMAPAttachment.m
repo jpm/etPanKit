@@ -199,7 +199,18 @@
 		}
 	}
     if (fields->bd_id != NULL) {
-        [self setContentID:[NSString stringWithUTF8String:fields->bd_id]];
+		char * contentid;
+		size_t cur_token;
+		int r;
+		
+		cur_token = 0;
+		r = mailimf_msg_id_parse(fields->bd_id, strlen(fields->bd_id),
+								 &cur_token, &contentid);
+		if (r == MAILIMF_NO_ERROR) {
+			// msg id
+            [self setContentID:[NSString stringWithUTF8String:contentid]];
+            free(contentid);
+		}
     }
 	
 	if (extension->bd_disposition != NULL) {

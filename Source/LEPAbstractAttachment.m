@@ -46,6 +46,7 @@
     _mimeType = [[decoder decodeObjectForKey:@"mimeType"] retain];
 	_charset = [[decoder decodeObjectForKey:@"charset"] retain];
 	_inlineAttachment = [decoder decodeBoolForKey:@"inlineAttachment"];
+	_contentID = [[decoder decodeObjectForKey:@"contentID"] retain];
 	
 	return self;
 }
@@ -56,6 +57,7 @@
 	[encoder encodeObject:_mimeType forKey:@"mimeType"];
 	[encoder encodeObject:_charset forKey:@"charset"];
 	[encoder encodeBool:_inlineAttachment forKey:@"inlineAttachment"];
+    [encoder encodeObject:_contentID forKey:@"contentID"];
 }
 
 @end
