@@ -227,7 +227,7 @@
 				
 				imap_param = clist_content(cur);
 				
-				if (strcasecmp(imap_param->pa_name, "filename") != 0) {
+				if (strcasecmp(imap_param->pa_name, "filename") == 0) {
 					[self setFilename:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
 				}
 			}
