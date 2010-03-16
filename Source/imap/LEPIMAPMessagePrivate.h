@@ -12,7 +12,6 @@
 @interface LEPIMAPMessage (LEPIMAPMessagePrivate)
 
 - (void) _setUid:(uint32_t)uid;
-- (void) _setFlags:(LEPIMAPMessageFlag)flags;
 - (void) _setAttachments:(NSArray *)attachments;
 
 @end

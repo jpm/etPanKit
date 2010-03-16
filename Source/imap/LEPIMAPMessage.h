@@ -13,7 +13,7 @@
 	NSArray * _attachments;
 }
 
-@property (nonatomic, readonly) LEPIMAPMessageFlag flags;
+@property (nonatomic, assign) LEPIMAPMessageFlag flags;
 @property (nonatomic, readonly) uint32_t uid;
 @property (nonatomic, retain) LEPIMAPFolder * folder;
 // in case LEPIMAPMessagesRequestKindStructure has been requested

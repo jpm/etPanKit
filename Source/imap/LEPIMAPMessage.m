@@ -50,11 +50,6 @@
 	_uid = uid;
 }
 
-- (void) _setFlags:(LEPIMAPMessageFlag)flags
-{
-	_flags = flags;
-}
-
 - (void) _setAttachments:(NSArray *)attachments
 {
 	[_attachments release];
