@@ -27,6 +27,7 @@
 @implementation LEPIMAPMessage
 
 @synthesize flags = _flags;
+@synthesize originalFlags = _originalFlags;
 @synthesize uid = _uid;
 @synthesize folder = _folder;
 @synthesize attachments = _attachments;
@@ -102,6 +103,7 @@
 	self = [super initWithCoder:coder];
 	
 	_flags = [coder decodeInt32ForKey:@"flags"];
+	_originalFlags = [coder decodeInt32ForKey:@"originalFlags"];
 	_uid = (uint32_t) [coder decodeInt32ForKey:@"uid"];
 	[self _setAttachments:[coder decodeObjectForKey:@"attachments"]];
 	//LEPLog(@"%@", [self attachments]);
@@ -113,6 +115,7 @@
 {
 	[super encodeWithCoder:encoder];
 	[encoder encodeInt32:_flags forKey:@"flags"];
+	[encoder encodeInt32:_originalFlags forKey:@"originalFlags"];
 	[encoder encodeInt32:(int32_t)_uid forKey:@"uid"];
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }

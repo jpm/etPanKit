@@ -1309,6 +1309,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 				
 				flags = flags_from_lep_att_dynamic(att_item->att_data.att_dyn);
 				[msg setFlags:flags];
+				[msg setOriginalFlags:flags];
             }
             else if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
                 struct mailimap_msg_att_static * att_static;
