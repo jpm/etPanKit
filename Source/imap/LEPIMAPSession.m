@@ -446,6 +446,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
     currentValue = 0;
     lastValue = 0;
     
+	array = [array sortedArrayUsingSelector:@selector(compare:)];
     imap_set = mailimap_set_new_empty();
     
 	while (currentIndex < [array count]) {
@@ -458,6 +459,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
             if (currentValue != lastValue + 1) {
                 mailimap_set_add_interval(imap_set, currentFirst, lastValue);
                 currentFirst = 0;
+				lastValue = 0;
             }
         }
         else {
@@ -465,7 +467,10 @@ static struct mailimap_set * setFromArray(NSArray * array)
             currentIndex ++;
         }
     }
-    
+	if (currentFirst != 0) {
+		mailimap_set_add_interval(imap_set, currentFirst, lastValue);
+	}
+	
     return imap_set;
 }
 
@@ -1639,7 +1644,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			store_att_flags = mailimap_store_att_flags_new_set_flags_silent(flag_list);
 			break;
 	}
-	r = mailimap_store(_imap, imap_set, store_att_flags);
+	r = mailimap_uid_store(_imap, imap_set, store_att_flags);
 	mailimap_store_att_flags_free(store_att_flags);
 	
 	if (r == MAILIMAP_ERROR_STREAM) {

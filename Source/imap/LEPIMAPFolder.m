@@ -330,7 +330,7 @@
 	return name;
 }
 
-- (LEPIMAPRequest *) addFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+- (LEPIMAPRequest *) addFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages flags:(LEPIMAPMessageFlag)flags
 {
 	LEPIMAPStoreFlagsRequest * request;
 	NSMutableArray * uids;
@@ -338,6 +338,7 @@
 	request = [[LEPIMAPStoreFlagsRequest alloc] init];
 	[request setKind:LEPIMAPStoreFlagsRequestKindAdd];
 	[request setPath:[self path]];
+	[request setFlags:flags];
 	uids = [[NSMutableArray alloc] init];
 	for(LEPIMAPMessage * msg in messages) {
 		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
@@ -350,7 +351,7 @@
 	return [request autorelease];
 }
 
-- (LEPIMAPRequest *) removeFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+- (LEPIMAPRequest *) removeFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages flags:(LEPIMAPMessageFlag)flags
 {
 	LEPIMAPStoreFlagsRequest * request;
 	NSMutableArray * uids;
@@ -358,6 +359,7 @@
 	request = [[LEPIMAPStoreFlagsRequest alloc] init];
 	[request setKind:LEPIMAPStoreFlagsRequestKindRemove];
 	[request setPath:[self path]];
+	[request setFlags:flags];
 	uids = [[NSMutableArray alloc] init];
 	for(LEPIMAPMessage * msg in messages) {
 		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
@@ -370,7 +372,7 @@
 	return [request autorelease];
 }
 
-- (LEPIMAPRequest *) setFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages
+- (LEPIMAPRequest *) setFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages flags:(LEPIMAPMessageFlag)flags
 {
 	LEPIMAPStoreFlagsRequest * request;
 	NSMutableArray * uids;
@@ -378,6 +380,7 @@
 	request = [[LEPIMAPStoreFlagsRequest alloc] init];
 	[request setKind:LEPIMAPStoreFlagsRequestKindSet];
 	[request setPath:[self path]];
+	[request setFlags:flags];
 	uids = [[NSMutableArray alloc] init];
 	for(LEPIMAPMessage * msg in messages) {
 		[uids addObject:[NSNumber numberWithUnsignedLong:[msg uid]]];
