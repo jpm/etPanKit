@@ -446,7 +446,7 @@ Copyright (C) 2009 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/Users/hoa/LibEtPan/etPanKit/Externals/libetpan'
+ac_pwd='/Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs'
 srcdir='.'
 INSTALL='$(SHELL) $(top_srcdir)/install-sh -c'
 MKDIR_P='./install-sh -c -d'
@@ -560,11 +560,11 @@ enable_static='yes'
 pic_mode='default'
 enable_fast_install='needless'
 host_alias=''
-host='i386-apple-darwin10.0.0'
-host_os='darwin10.0.0'
+host='i386-apple-darwin10.2.0'
+host_os='darwin10.2.0'
 build_alias=''
-build='i386-apple-darwin10.0.0'
-build_os='darwin10.0.0'
+build='i386-apple-darwin10.2.0'
+build_os='darwin10.2.0'
 SED='/usr/bin/sed'
 Xsed='/usr/bin/sed -e 1s/^X//'
 GREP='/usr/bin/grep'
@@ -770,7 +770,7 @@ fi
 
 
     PACKAGE='libetpan'
-    VERSION='0.58-dev-20100208'
+    VERSION='0.58-dev-20100321'
     TIMESTAMP=''
     RM='rm -f'
     ofile='libtool'
@@ -895,27 +895,28 @@ S["am__EXEEXT_FALSE"]=""
 S["am__EXEEXT_TRUE"]="#"
 S["LTLIBOBJS"]=""
 S["LIBOBJS"]=""
-S["cfg_files"]=" /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/libetpan-config /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/Makefile /Users/hoa/LibEtPan/etPanK"\
-"it/Externals/libetpan/build-windows/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/include/Makefile /Users/hoa/LibEtPan/etPanKit/Externals"\
-"/libetpan/src/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/bsd/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/windows/"\
-"Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/data-types/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/Makef"\
-"ile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/feed/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/imap/M"\
-"akefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/imf/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/mai"\
-"ldir/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/mbox/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-le"\
-"vel/mh/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/mime/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-"\
-"level/nntp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/low-level/pop3/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/"\
-"low-level/smtp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driv"\
-"er/implementation/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/data-message/Makefile /Users/hoa/LibEtPan/etPan"\
-"Kit/Externals/libetpan/src/driver/implementation/db/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/feed/Makefile"\
-" /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/hotmail/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driv"\
-"er/implementation/imap/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/maildir/Makefile /Users/hoa/LibEtPan/etPan"\
-"Kit/Externals/libetpan/src/driver/implementation/mbox/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/mh/Makefile"\
-" /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/mime-message/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src"\
-"/driver/implementation/nntp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/implementation/pop3/Makefile /Users/hoa/LibEtPan/etP"\
-"anKit/Externals/libetpan/src/driver/interface/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/driver/tools/Makefile /Users/hoa/LibEtPan"\
-"/etPanKit/Externals/libetpan/src/main/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/main/libetpan_version.h /Users/hoa/LibEtPan/etPan"\
-"Kit/Externals/libetpan/src/engine/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/src/versioninfo.rc /Users/hoa/LibEtPan/etPanKit/Externals"\
-"/libetpan/doc/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/tests/Makefile"
+S["cfg_files"]=" /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/libetpan-config /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/Makefile /Users/hoa/LibEtPa"\
+"n/etPanKit/Externals/libetpan-cvs/build-windows/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/include/Makefile /Users/hoa/LibEtPan/et"\
+"PanKit/Externals/libetpan-cvs/src/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/bsd/Makefile /Users/hoa/LibEtPan/etPanKit/Externa"\
+"ls/libetpan-cvs/src/windows/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/data-types/Makefile /Users/hoa/LibEtPan/etPanKit/Extern"\
+"als/libetpan-cvs/src/low-level/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/feed/Makefile /Users/hoa/LibEtPan/etPanKit"\
+"/Externals/libetpan-cvs/src/low-level/imap/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/imf/Makefile /Users/hoa/LibEtP"\
+"an/etPanKit/Externals/libetpan-cvs/src/low-level/maildir/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/mbox/Makefile /U"\
+"sers/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/mh/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/mime/M"\
+"akefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/nntp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-"\
+"level/pop3/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/low-level/smtp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-"\
+"cvs/src/driver/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/Makefile /Users/hoa/LibEtPan/etPanKit/External"\
+"s/libetpan-cvs/src/driver/implementation/data-message/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/db/Make"\
+"file /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/feed/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs"\
+"/src/driver/implementation/hotmail/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/imap/Makefile /Users/hoa/L"\
+"ibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/maildir/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/im"\
+"plementation/mbox/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/mh/Makefile /Users/hoa/LibEtPan/etPanKit/Ex"\
+"ternals/libetpan-cvs/src/driver/implementation/mime-message/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/n"\
+"ntp/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/implementation/pop3/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libe"\
+"tpan-cvs/src/driver/interface/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/driver/tools/Makefile /Users/hoa/LibEtPan/etPanKit/Ex"\
+"ternals/libetpan-cvs/src/main/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/main/libetpan_version.h /Users/hoa/LibEtPan/etPanKit/"\
+"Externals/libetpan-cvs/src/engine/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/src/versioninfo.rc /Users/hoa/LibEtPan/etPanKit/Exter"\
+"nals/libetpan-cvs/doc/Makefile /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/tests/Makefile"
 S["libcurlconfig"]="/usr/bin/curl-config"
 S["SASLLIBS"]="-lsasl2 "
 S["VERSION_MINOR"]="58"
@@ -976,26 +977,26 @@ S["CC"]="gcc"
 S["HAVE_MINGW32_SYSTEM_FALSE"]=""
 S["HAVE_MINGW32_SYSTEM_TRUE"]="#"
 S["BUILD_FILEVERSION"]="0,58,0,0"
-S["BUILD_TIMESTAMP"]="2010-02-08T23:41+0100"
+S["BUILD_TIMESTAMP"]="2010-03-21T17:12+0100"
 S["BUILD_REVISION"]="0"
 S["API_VERSION"]="14:3:1"
 S["API_REVISION"]="3"
 S["API_COMPATIBILITY"]="13"
 S["API_CURRENT"]="14"
-S["host_os"]="darwin10.0.0"
+S["host_os"]="darwin10.2.0"
 S["host_vendor"]="apple"
 S["host_cpu"]="i386"
-S["host"]="i386-apple-darwin10.0.0"
-S["build_os"]="darwin10.0.0"
+S["host"]="i386-apple-darwin10.2.0"
+S["build_os"]="darwin10.2.0"
 S["build_vendor"]="apple"
 S["build_cpu"]="i386"
-S["build"]="i386-apple-darwin10.0.0"
+S["build"]="i386-apple-darwin10.2.0"
 S["MAINT"]="#"
 S["MAINTAINER_MODE_FALSE"]=""
 S["MAINTAINER_MODE_TRUE"]="#"
 S["am__untar"]="${AMTAR} xf -"
 S["am__tar"]="${AMTAR} chof - \"$$tardir\""
-S["AMTAR"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run tar"
+S["AMTAR"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run tar"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="awk"
@@ -1003,13 +1004,13 @@ S["mkdir_p"]="$(top_builddir)/./install-sh -c -d"
 S["MKDIR_P"]="./install-sh -c -d"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
-S["install_sh"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/install-sh"
-S["MAKEINFO"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run makeinfo"
-S["AUTOHEADER"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run autoheader"
-S["AUTOMAKE"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run automake-1.11"
-S["AUTOCONF"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run autoconf"
-S["ACLOCAL"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan/missing --run aclocal-1.11"
-S["VERSION"]="0.58-dev-20100208"
+S["install_sh"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/install-sh"
+S["MAKEINFO"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run makeinfo"
+S["AUTOHEADER"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run autoheader"
+S["AUTOMAKE"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run automake-1.11"
+S["AUTOCONF"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run autoconf"
+S["ACLOCAL"]="${SHELL} /Users/hoa/LibEtPan/etPanKit/Externals/libetpan-cvs/missing --run aclocal-1.11"
+S["VERSION"]="0.58-dev-20100321"
 S["PACKAGE"]="libetpan"
 S["CYGPATH_W"]="echo"
 S["am__isrc"]=""
@@ -1147,7 +1148,7 @@ D["USE_SASL"]=" 1"
 D["HAVE_IPV6"]=" 1"
 D["HAVE_CURL"]=" 1"
 D["HAVE_EXPAT"]=" 1"
-D["LIBETPAN_VERSION"]=" \"0.58-dev-20100208\""
+D["LIBETPAN_VERSION"]=" \"0.58-dev-20100321\""
   for (key in D) D_is_set[key] = 1
   FS = ""
 }

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream.h,v 1.18 2007/01/28 16:00:18 hoa Exp $
+ * $Id: mailstream.h,v 1.19 2010/03/21 15:54:06 hoa Exp $
  */
 
 #ifndef MAILSTREAM_H
@@ -73,6 +73,9 @@ extern int mailstream_debug;
 LIBETPAN_EXPORT
 extern void (* mailstream_logger)(int direction,
     const char * str, size_t size);
+LIBETPAN_EXPORT
+extern void (* mailstream_logger_id)(mailstream_low * s, int is_stream_data, int direction,
+	const char * str, size_t size);
 #endif
 
 #define LIBETPAN_MAILSTREAM_NETWORK_DELAY

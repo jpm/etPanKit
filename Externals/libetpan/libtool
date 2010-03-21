@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # libtool - Provide generalized library-building support services.
-# Generated automatically by config.status (libetpan) 0.58-dev-20100208
+# Generated automatically by config.status (libetpan) 0.58-dev-20100321
 # Libtool was configured on host garbit:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
@@ -65,13 +65,13 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i386-apple-darwin10.0.0
-host_os=darwin10.0.0
+host=i386-apple-darwin10.2.0
+host_os=darwin10.2.0
 
 # The build system.
 build_alias=
-build=i386-apple-darwin10.0.0
-build_os=darwin10.0.0
+build=i386-apple-darwin10.2.0
+build_os=darwin10.2.0
 
 # A sed program that does not truncate output.
 SED="/usr/bin/sed"

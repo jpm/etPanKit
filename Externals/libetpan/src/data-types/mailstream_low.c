@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_low.c,v 1.19 2007/10/27 10:08:24 hoa Exp $
+ * $Id: mailstream_low.c,v 1.20 2010/03/21 15:54:06 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -64,10 +64,16 @@ int mailstream_debug = 0;
 LIBETPAN_EXPORT
 void (* mailstream_logger)(int direction,
     const char * str, size_t size) = NULL;
+LIBETPAN_EXPORT
+void (* mailstream_logger_id)(mailstream_low * s, int is_stream_data, int direction,
+    const char * str, size_t size) = NULL;
 
-#define STREAM_LOG_BUF(direction, buf, size) \
+#define STREAM_LOG_BUF(low, direction, buf, size) \
   if (mailstream_debug) { \
-    if (mailstream_logger != NULL) { \
+	if (mailstream_logger_id != NULL) { \
+	  mailstream_logger_id(low, 1, direction, buf, size); \
+	} \
+    else if (mailstream_logger != NULL) { \
       mailstream_logger(direction, buf, size); \
     } \
     else { \
@@ -86,10 +92,13 @@ void (* mailstream_logger)(int direction,
     } \
   }
 
-#define STREAM_LOG(direction, str) \
+#define STREAM_LOG(low, direction, str) \
   if (mailstream_debug) { \
-    if (mailstream_logger != NULL) { \
-      mailstream_logger(direction, str, strlen(str) + 1); \
+	if (mailstream_logger_id != NULL) { \
+	  mailstream_logger_id(low, 0, direction, str, strlen(str)); \
+	} \
+    else if (mailstream_logger != NULL) { \
+      mailstream_logger(direction, str, strlen(str)); \
     } \
     else { \
       FILE * f; \
@@ -109,8 +118,8 @@ void (* mailstream_logger)(int direction,
 
 #else
 
-#define STREAM_LOG_BUF(direction, buf, size) do { } while (0)
-#define STREAM_LOG(direction, buf) do { } while (0)
+#define STREAM_LOG_BUF(low, direction, buf, size) do { } while (0)
+#define STREAM_LOG(low, direction, buf) do { } while (0)
 
 #endif
 
@@ -163,10 +172,10 @@ ssize_t mailstream_low_read(mailstream_low * s, void * buf, size_t count)
   
 #ifdef STREAM_DEBUG
   if (r > 0) {
-    STREAM_LOG(0, "<<<<<<< read <<<<<<\n");
-    STREAM_LOG_BUF(0, buf, r);
-    STREAM_LOG(0, "\n");
-    STREAM_LOG(0, "<<<<<<< end read <<<<<<\n");
+    STREAM_LOG(s, 0, "<<<<<<< read <<<<<<\n");
+    STREAM_LOG_BUF(s, 0, buf, r);
+    STREAM_LOG(s, 0, "\n");
+    STREAM_LOG(s, 0, "<<<<<<< end read <<<<<<\n");
   }
 #endif
   
@@ -180,10 +189,10 @@ ssize_t mailstream_low_write(mailstream_low * s,
     return -1;
 
 #ifdef STREAM_DEBUG
-  STREAM_LOG(1, ">>>>>>> send >>>>>>\n");
-  STREAM_LOG_BUF(1, buf, count);
-  STREAM_LOG(1, "\n");
-  STREAM_LOG(1, ">>>>>>> end send >>>>>>\n");
+  STREAM_LOG(s, 1, ">>>>>>> send >>>>>>\n");
+  STREAM_LOG_BUF(s, 1, buf, count);
+  STREAM_LOG(s, 1, "\n");
+  STREAM_LOG(s, 1, ">>>>>>> end send >>>>>>\n");
 #endif
 
   return s->driver->mailstream_write(s, buf, count);

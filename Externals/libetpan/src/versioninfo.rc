@@ -44,8 +44,8 @@ BEGIN
             VALUE "OriginalFilename", "libetpan.dll\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "LIBETPAN\0"
-            VALUE "ProductVersion", "0.58-dev-20100208\0"
-            VALUE "SpecialBuild", "2010-02-08T23:41+0100\0"
+            VALUE "ProductVersion", "0.58-dev-20100321\0"
+            VALUE "SpecialBuild", "2010-03-21T17:12+0100\0"
         END
     END
 END
