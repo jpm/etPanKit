@@ -445,22 +445,21 @@ static struct mailimap_set * setFromArray(NSArray * array)
     currentFirst = 0;
     currentValue = 0;
     lastValue = 0;
+	currentIndex = 0;
     
 	array = [array sortedArrayUsingSelector:@selector(compare:)];
     imap_set = mailimap_set_new_empty();
-    
+	
 	while (currentIndex < [array count]) {
         currentValue = [[array objectAtIndex:currentIndex] unsignedLongValue];
         if (currentFirst == 0) {
             currentFirst = currentValue;
         }
         
-        if (lastValue != 0) {
-            if (currentValue != lastValue + 1) {
-                mailimap_set_add_interval(imap_set, currentFirst, lastValue);
-                currentFirst = 0;
-				lastValue = 0;
-            }
+        if ((lastValue != 0) && (currentValue != lastValue + 1)) {
+			mailimap_set_add_interval(imap_set, currentFirst, lastValue);
+			currentFirst = 0;
+			lastValue = 0;
         }
         else {
             lastValue = currentValue;
