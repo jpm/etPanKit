@@ -148,7 +148,7 @@
     
     uidSet = [[NSMutableArray alloc] init];
     sourceFolder = [[messages objectAtIndex:0] folder];
-    LEPAssert([sourceFolder account] == account);
+    LEPAssert([sourceFolder account] == [toFolder account]);
     for(LEPIMAPMessage * message in messages) {
         LEPAssert([message folder] == sourceFolder);
         [uidSet addObject:[NSNumber numberWithUnsignedLong:[message uid]]];
