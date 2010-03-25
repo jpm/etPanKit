@@ -20,7 +20,6 @@
 	NSArray * /* LEPAddress */ _bcc;
 	NSArray * /* LEPAddress */ _replyTo;
 	NSString * _subject;
-	NSArray * _attachments;
     NSDate * _date;
 }
 

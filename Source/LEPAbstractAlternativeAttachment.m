@@ -75,4 +75,29 @@
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPAbstractAlternativeAttachment * attachment;
+    
+    attachment = [super copyWithZone:zone];
+    
+    NSMutableArray * alternatives;
+    
+    alternatives = [[NSMutableArray alloc] init];
+    for(NSArray * oneAlternative in [self attachments]) {
+        NSMutableArray * attachments;
+        
+        attachments = [[NSMutableArray alloc] init];
+        for(LEPAbstractAttachment * attachment in oneAlternative) {
+            [attachments addObject:attachment];
+        }
+        [alternatives addObject:attachments];
+        [attachments release];
+    }
+    
+    [alternatives release];
+    
+    return attachment;
+}
+
 @end

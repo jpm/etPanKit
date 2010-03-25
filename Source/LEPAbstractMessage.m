@@ -9,6 +9,7 @@
 #import "LEPAbstractMessage.h"
 #import "LEPMessageHeader.h"
 #import "LEPUtils.h"
+#import "LEPAbstractAttachment.h"
 
 @implementation LEPAbstractMessage
 
@@ -46,6 +47,18 @@
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
 	[encoder encodeObject:_header forKey:@"header"];
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPAbstractMessage * message;
+    
+    message = [[[self class] alloc] init];
+    
+    [message->_header release];
+    message->_header = [[self header] retain];
+    
+    return message;
 }
 
 @end

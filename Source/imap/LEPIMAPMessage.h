@@ -6,7 +6,7 @@
 @class LEPIMAPFetchMessageStructureRequest;
 @class LEPIMAPFolder;
 
-@interface LEPIMAPMessage : LEPAbstractMessage <NSCoding> {
+@interface LEPIMAPMessage : LEPAbstractMessage <NSCoding, NSCopying> {
     LEPIMAPMessageFlag _flags;
     LEPIMAPMessageFlag _originalFlags;
     uint32_t _uid;

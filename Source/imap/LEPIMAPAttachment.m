@@ -393,4 +393,18 @@
 	[encoder encodeInt32:_size forKey:@"size"];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPIMAPAttachment * attachment;
+    
+    attachment = [super copyWithZone:zone];
+    
+    attachment->_encoding = self->_encoding;
+    [attachment->_partID release];
+    attachment->_partID = [self->_partID copy];
+    attachment->_encoding = self->_encoding;
+    
+    return attachment;
+}
+
 @end

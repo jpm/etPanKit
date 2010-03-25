@@ -120,4 +120,28 @@
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPIMAPMessage * message;
+    
+    message = [super copyWithZone:zone];
+    
+    [message setOriginalFlags:[self originalFlags]];
+    [message setFlags:[self flags]];
+    [message _setUid:[self uid]];
+    [message setFolder:[self folder]];
+	
+    NSMutableArray * attachments;
+    
+    attachments = [[NSMutableArray alloc] init];
+    for(LEPAbstractAttachment * attachment in [self attachments]) {
+        [attachments addObject:attachment];
+    }
+    [message->_attachments release];
+    message->_attachments = [attachments retain];
+    [attachments release];
+    
+    return message;
+}
+
 @end

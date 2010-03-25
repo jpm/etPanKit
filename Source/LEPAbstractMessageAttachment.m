@@ -52,7 +52,18 @@
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
 	[encoder encodeObject:_attachments forKey:@"attachments"];
-	[encoder encodeObject:_attachments forKey:@"header"];
+	[encoder encodeObject:_header forKey:@"header"];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPAbstractMessageAttachment * attachment;
+    
+    attachment = [super copyWithZone:zone];
+    [attachment->_header release];
+    attachment->_header = [self->_header retain];
+    
+    
+}
+    
 @end
