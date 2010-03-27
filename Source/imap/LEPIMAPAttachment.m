@@ -393,6 +393,7 @@
 	[encoder encodeInt32:_size forKey:@"size"];
 }
 
+#if 0
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPIMAPAttachment * attachment;
@@ -406,5 +407,6 @@
     
     return attachment;
 }
+#endif
 
 @end

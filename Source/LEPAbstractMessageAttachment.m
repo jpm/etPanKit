@@ -55,6 +55,7 @@
 	[encoder encodeObject:_header forKey:@"header"];
 }
 
+#if 0
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPAbstractMessageAttachment * attachment;
@@ -65,5 +66,6 @@
     
     
 }
+#endif
     
 @end
