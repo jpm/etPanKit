@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_low.c,v 1.20 2010/03/21 15:54:06 hoa Exp $
+ * $Id: mailstream_low.c,v 1.21 2010/04/05 14:21:35 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -84,8 +84,9 @@ void (* mailstream_logger_id)(mailstream_low * s, int is_stream_data, int direct
       f = fopen(LOG_FILE, "a"); \
       umask(old_mask); \
       if (f != NULL) { \
+        int nmemb; \
         maillock_write_lock(LOG_FILE, fileno(f)); \
-        fwrite((buf), 1, (size), f); \
+        nmemb = fwrite((buf), 1, (size), f); \
         maillock_write_unlock(LOG_FILE, fileno(f)); \
         fclose(f); \
       } \
@@ -108,8 +109,9 @@ void (* mailstream_logger_id)(mailstream_low * s, int is_stream_data, int direct
       f = fopen(LOG_FILE, "a"); \
       umask(old_mask); \
       if (f != NULL) { \
+        int nmemb; \
         maillock_write_lock(LOG_FILE, fileno(f)); \
-        fputs((str), f); \
+        nmemb = fputs((str), f); \
         maillock_write_unlock(LOG_FILE, fileno(f)); \
         fclose(f); \
       } \

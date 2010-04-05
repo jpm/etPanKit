@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_tools.c,v 1.14 2009/09/06 22:20:26 hoa Exp $
+ * $Id: mailprivacy_tools.c,v 1.17 2010/04/05 17:46:53 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -1560,11 +1560,19 @@ int mailprivacy_spawn_and_wait(char * command, char * passphrase,
       close(passphrase_input[0]);
       
       if ((passphrase != NULL) && (strlen(passphrase) > 0)) {
-        write(passphrase_input[1], passphrase, strlen(passphrase));
+        r = write(passphrase_input[1], passphrase, strlen(passphrase));
+        if (r != (int) strlen(passphrase)) {
+          close(passphrase_input[1]);
+          return ERROR_PASSPHRASE_FILE;
+        }
       }
       else {
         /* dummy password */
-        write(passphrase_input[1], "*dummy*", 7);
+        r = write(passphrase_input[1], "*dummy*", 7);
+        if (r != 7) {
+          close(passphrase_input[1]);
+          return ERROR_PASSPHRASE_FILE;
+        }
       }
       close(passphrase_input[1]);
       

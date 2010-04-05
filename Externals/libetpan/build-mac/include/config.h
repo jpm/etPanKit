@@ -76,6 +76,9 @@
 /* Define to 1 if you have the <pthread.h> header file. */
 #define HAVE_PTHREAD_H 1
 
+/* Define to use setenv */
+#define HAVE_SETENV 1
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
 
@@ -116,7 +119,7 @@
 #define LIBETPAN_REENTRANT 1
 
 /* Define this to the version of libEtPan */
-#define LIBETPAN_VERSION "0.58-dev-20100321"
+#define LIBETPAN_VERSION "0.58-dev-20100405"
 
 /* Define this to the major version of libEtPan */
 #define LIBETPAN_VERSION_MAJOR 0
@@ -142,9 +145,6 @@
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libetpan"
-
-/* Define to the home page for this package. */
-#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "0.58"

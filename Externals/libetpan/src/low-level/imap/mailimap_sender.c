@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_sender.c,v 1.29 2006/10/20 00:13:30 hoa Exp $
+ * $Id: mailimap_sender.c,v 1.30 2010/04/05 15:17:15 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2132,7 +2132,7 @@ static int mailimap_search_key_send(mailstream * fd,
     r = mailimap_search_key_send(fd, key->sk_data.sk_or.sk_or2);
 	if (r != MAILIMAP_NO_ERROR)
       return r;
-    return TRUE;
+    return MAILIMAP_NO_ERROR;
 
   case MAILIMAP_SEARCH_KEY_SENTBEFORE:
     r = mailimap_token_send(fd, "SENTBEFORE");

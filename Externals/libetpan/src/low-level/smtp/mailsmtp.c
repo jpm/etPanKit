@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.33 2009/12/19 01:19:05 hoa Exp $
+ * $Id: mailsmtp.c,v 1.34 2010/04/05 14:21:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -697,7 +697,6 @@ int mailsmtp_auth_type(mailsmtp * session,
     const char * user, const char * pass, int type)
 {
   int err;
-  char command[SMTP_STRING_SIZE];
   char hostname[SMTP_STRING_SIZE];
   
   err = gethostname(hostname, sizeof(hostname));
@@ -712,19 +711,6 @@ int mailsmtp_auth_type(mailsmtp * session,
   
   switch (type) {
   case MAILSMTP_AUTH_LOGIN:
-#if 0
-    {
-      snprintf(command, SMTP_STRING_SIZE, "AUTH LOGIN\r\n");
-      err = send_command(session, command);
-      if (err == -1) return MAILSMTP_ERROR_STREAM;
-      
-      err = read_response(session);
-      err = auth_map_errors(err);
-      if (err != MAILSMTP_NO_ERROR) return err;
-      
-      return mailsmtp_auth_login(session, user, pass);
-    }
-#endif
     return mailesmtp_auth_sasl(session, "LOGIN",
         hostname, NULL, NULL, user, user, pass, NULL);
     

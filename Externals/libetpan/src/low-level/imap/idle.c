@@ -98,7 +98,7 @@ int mailimap_idle(mailimap * session)
       return r;
     mailimap_response_free(response);
     
-    return MAILIMAP_ERROR_EXTENSION;
+    return MAILIMAP_ERROR_PARSE;
   }
   
   return MAILIMAP_NO_ERROR;

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.c,v 1.43 2008/02/20 22:35:48 hoa Exp $
+ * $Id: mailimap.c,v 1.44 2010/04/05 14:43:49 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -1565,7 +1565,6 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
   int r;
   int error_code;
   size_t indx;
-  struct mailimap_cont_req_or_resp_data * cont_or_resp_data;
   sasl_callback_t sasl_callback[5];
   const char * sasl_out;
   unsigned sasl_out_len;

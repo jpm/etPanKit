@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: newsnntp.c,v 1.28 2008/02/20 22:15:53 hoa Exp $
+ * $Id: newsnntp.c,v 1.29 2010/04/05 14:21:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2384,6 +2384,10 @@ static clist * read_xover_resp_list(newsnntp * f)
 
     /* set the known data */
     current = clist_begin(values_list);
+    if (current == NULL) {
+      clist_free(values_list);
+      continue;
+    }
     article = atoi((char *) clist_content(current));
 
     current = clist_next(current);

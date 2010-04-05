@@ -176,6 +176,8 @@ case "x$LIBS" in
 esac
 fi
 
+AC_CHECK_FUNC(setenv, AC_DEFINE(HAVE_SETENV, 1, [Define to use setenv]),)
+
 # Check for getopt_long; if not found, use included source.
 AC_CHECK_FUNCS([getopt_long], has_getopt_long=no, has_getopt_long=yes)
 if test "x$has_getoptlong" = "xyes"; then

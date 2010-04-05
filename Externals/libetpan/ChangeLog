@@ -1,3 +1,85 @@
+2010-04-05 - libetpan-0.58cvs26 - hoa
+
+	* build-mac/update.sh
+	    fixed script.
+
+2010-04-05 - libetpan-0.58cvs25 - hoa
+
+	* src/engine/mailprivacy_tools.c
+	    fixed integration of patch (libetpan-0.58cvs22).
+	* src/low-level/imap/idle.c
+	    fixed error code.
+
+2010-04-05 - libetpan-0.58cvs24 - hoa
+
+	* src/low-level/imap/mailimap_sender.c
+	    fixed OR condition in IMAP SEARCH command.
+
+2010-04-05 - libetpan-0.58cvs23 - hoa
+
+	* src/driver/implementation/mbox/mboxdriver_cached.c
+	* src/driver/implementation/mh/mhdriver_cached.c
+	* src/driver/implementation/pop3/pop3driver.c
+	* src/driver/implementation/pop3/pop3driver_cached.c
+	* src/driver/implementation/pop3/pop3driver_tools.c
+	* src/engine/mailprivacy_tools.c
+	* src/low-level/imap/mailimap.c
+	* src/low-level/pop3/mailpop3.c
+	* tests/readmsg-simple.c
+	* tests/readmsg-uid.c
+	    fixed some other warnings.
+
+2010-04-05 - libetpan-0.58cvs22 - hoa
+
+	* src/data-types/maillock.c
+	* src/data-types/mailstream_cancel.c
+	* src/data-types/mailstream_low.c
+	* src/driver/implementation/db/dbdriver.c
+	* src/driver/implementation/imap/imapdriver.c
+	* src/driver/implementation/mbox/mboxdriver_cached.c
+	* src/driver/implementation/mh/mhdriver_cached.c
+	* src/driver/implementation/nntp/nntpdriver_cached.c
+	* src/driver/implementation/pop3/pop3driver.c
+	* src/engine/mailprivacy.c
+	* src/engine/mailprivacy_tools.c
+	* src/low-level/feed/newsfeed.c
+	* src/low-level/mbox/mailmbox.c
+	* src/low-level/nntp/newsnntp.c
+	* src/low-level/pop3/mailpop3.c
+	* src/low-level/smtp/mailsmtp.c
+	* tests/decrypt.c
+	* tests/readmsg-simple.c
+	* tests/readmsg-uid.c
+	* tests/smime.c
+	    fixed some warnings. Thanks to Didier Barvaux.
+
+2010-04-05 - libetpan-0.58cvs21 - hoa
+
+	* src/driver/implementation/imap/imapdriver.c
+	    fixed memory leak (2941557). Thanks to Juha Paananen.
+	
+	* src/low-level/imap/mailimap_types_helper.c
+	    fixed IMAP search (2941559). Thanks to Juha Paananen.
+
+2010-04-05 - libetpan-0.58cvs20 - hoa
+
+	* configure.ac
+	* src/driver/interface/mailstorage_tools.c
+	* tests/smtpsend.c
+	    improved support of Solaris 2.8 (2786623). Thanks to Thomas Wiegner.
+
+2010-04-05 - libetpan-0.58cvs19 - hoa
+
+	* build-mac/update.sh
+	    import of OpenSSL (prepare build for iPhone including OpenSSL)
+
+	* src/driver/implementation/pop3/pop3driver.c
+	* src/driver/implementation/pop3/pop3driver_cached.c
+	* src/driver/implementation/pop3/pop3driver_tools.c
+	* src/low-level/pop3/mailpop3.[ch]
+	    better error checking (2888850). Thanks to Alexander Shlemin.
+		API change.
+
 2010-03-21 - libetpan-0.58cvs18 - hoa
 
 	* src/data-types/mailstream.h

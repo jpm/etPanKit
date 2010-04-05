@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailpop3.c,v 1.32 2008/02/20 22:15:53 hoa Exp $
+ * $Id: mailpop3.c,v 1.35 2010/04/05 14:43:49 hoa Exp $
  */
 
 /*
@@ -145,8 +145,11 @@ int mailpop3_get_msg_info(mailpop3 * f, unsigned int indx,
 {
   carray * tab;
   struct mailpop3_msg_info * info;
+  int r;
 
-  mailpop3_list(f, &tab);
+  r = mailpop3_list(f, &tab);
+  if (r != MAILPOP3_NO_ERROR)
+	return r;
   
   if (tab == NULL)
     return MAILPOP3_ERROR_BAD_STATE;
@@ -625,20 +628,24 @@ static int mailpop3_do_list(mailpop3 * f)
 
 
 
-static void mailpop3_list_if_needed(mailpop3 * f)
+static int mailpop3_list_if_needed(mailpop3 * f)
 {
   if (f->pop3_msg_tab == NULL)
-    mailpop3_do_list(f);
+    return mailpop3_do_list(f);
+  return MAILPOP3_NO_ERROR;
 }
 
 /*
   mailpop3_list
 */
 
-void mailpop3_list(mailpop3 * f, carray ** result)
+int mailpop3_list(mailpop3 * f, carray ** result)
 {
-  mailpop3_list_if_needed(f);
-  * result = f->pop3_msg_tab;
+  int r;
+  r = mailpop3_list_if_needed(f);
+  if (r == MAILPOP3_NO_ERROR)
+    * result = f->pop3_msg_tab;
+  return r;
 }
 
 static inline struct mailpop3_msg_info *
@@ -1034,6 +1041,7 @@ static int parse_response(mailpop3 * f, char * response)
 
 
 
+#ifdef USE_SASL
 static int parse_auth(mailpop3 * f, char * response)
 {
   char * msg;
@@ -1062,6 +1070,7 @@ static int parse_auth(mailpop3 * f, char * response)
     return parse_response(f, response);
   }
 }
+#endif
 
 
 static int read_list(mailpop3 * f, carray ** result)
