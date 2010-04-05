@@ -231,7 +231,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		NSMutableArray * newArray;
 		LEPAttachment * attachment;
 		
-		attachment = [LEPAttachment attachmentWithHTMLString:[self body]];
+		attachment = [LEPAttachment attachmentWithHTMLString:[self HTMLBody]];
 		
 		newArray = [NSMutableArray array];
 		[newArray addObject:attachment];

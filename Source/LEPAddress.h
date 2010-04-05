@@ -15,8 +15,12 @@
 
 + (LEPAddress *) addressWithDisplayName:(NSString *)displayName mailbox:(NSString *)mailbox;
 + (LEPAddress *) addressWithMailbox:(NSString *)mailbox;
++ (LEPAddress *) addressWithRFC822String:(NSString *)string;
 
 @property (nonatomic, copy) NSString * displayName;
 @property (nonatomic, copy) NSString * mailbox;
+
+- (NSString *) nonEncodedRFC822String;
+- (NSString *) RFC822String;
 
 @end

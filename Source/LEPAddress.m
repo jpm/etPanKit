@@ -57,6 +57,26 @@
 	return [self addressWithDisplayName:nil mailbox:mailbox];
 }
 
++ (LEPAddress *) addressWithRFC822String:(NSString *)string
+{
+    const char * utf8String;
+    size_t currentIndex;
+    struct mailimf_mailbox * mb;
+    int r;
+    LEPAddress * result;
+    
+    utf8String = [string UTF8String];
+    currentIndex = 0;
+    r = mailimf_mailbox_parse(utf8String, strlen(utf8String), &currentIndex, &mb);
+    if (r != MAILIMF_NO_ERROR)
+        return nil;
+    
+    result = [LEPAddress addressWithIMFMailbox:mb];
+    mailimf_mailbox_free(mb);
+    
+    return result;
+}
+
 + (LEPAddress *) addressWithIMAPAddress:(struct mailimap_address *)imap_addr
 {
     char * dsp_name;
@@ -158,6 +178,67 @@
 {
 	[encoder encodeObject:_displayName forKey:@"displayName"];
 	[encoder encodeObject:_mailbox forKey:@"mailbox"];
+}
+
+- (NSString *) nonEncodedRFC822String
+{
+    struct mailimf_mailbox * mb;
+    MMAPString * str;
+    int col;
+    struct mailimf_mailbox_list * mb_list;
+    clist * list;
+    NSString * result;
+	char * display_name;
+	char * addr_spec;
+	
+	display_name = NULL;
+	if ([self displayName] != nil) {
+		display_name = strdup([[self displayName] UTF8String]);
+	}
+	addr_spec = strdup([[self mailbox] UTF8String]);
+	mb = mailimf_mailbox_new(display_name, addr_spec);
+    
+    list = clist_new();
+    clist_append(list, mb);
+    mb_list = mailimf_mailbox_list_new(list);
+    
+    str = mmap_string_new("");
+    col = 0;
+    mailimf_mailbox_list_write_mem(str, &col, mb_list);
+    
+    result = [NSString stringWithUTF8String:str->str];
+    
+    mailimf_mailbox_list_free(mb_list);
+    mmap_string_free(str);
+    
+    return result;
+}
+
+- (NSString *) RFC822String
+{
+    struct mailimf_mailbox * mb;
+    MMAPString * str;
+    int col;
+    struct mailimf_mailbox_list * mb_list;
+    clist * list;
+    NSString * result;
+    
+    mb = [self createIMFMailbox];
+
+    list = clist_new();
+    clist_append(list, mb);
+    mb_list = mailimf_mailbox_list_new(list);
+    
+    str = mmap_string_new("");
+    col = 0;
+    mailimf_mailbox_list_write_mem(str, &col, mb_list);
+    
+    result = [NSString stringWithUTF8String:str->str];
+    
+    mailimf_mailbox_list_free(mb_list);
+    mmap_string_free(str);
+    
+    return result;
 }
 
 @end
