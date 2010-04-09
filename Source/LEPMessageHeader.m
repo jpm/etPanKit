@@ -911,7 +911,7 @@ static char * extract_subject(char * str)
 		references = msg_id_from_string_array([self references]);
 	}
 	subject = NULL;
-	if ([self subject] != NULL) {
+	if ([[self subject] length] > 0) {
         NSData * data;
         
         data = [[self subject] lepEncodedMIMEHeaderValue];

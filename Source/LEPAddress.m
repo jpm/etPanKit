@@ -139,8 +139,13 @@
 	char * addr_spec;
 	
 	display_name = NULL;
-	if ([self displayName] != nil) {
-		display_name = strdup([[[self displayName] lepEncodedMIMEHeaderValue] bytes]);
+	if ([[self displayName] length] > 0) {
+        NSData * data;
+        
+        data = [[self displayName] lepEncodedMIMEHeaderValue];
+        if ([data bytes] != NULL) {
+            display_name = strdup([data bytes]);
+        }
 	}
 	addr_spec = strdup([[self mailbox] UTF8String]);
 	result = mailimf_mailbox_new(display_name, addr_spec);
@@ -192,7 +197,7 @@
 	char * addr_spec;
 	
 	display_name = NULL;
-	if ([self displayName] != nil) {
+	if ([[self displayName] length] > 0) {
 		display_name = strdup([[self displayName] UTF8String]);
 	}
 	addr_spec = strdup([[self mailbox] UTF8String]);
