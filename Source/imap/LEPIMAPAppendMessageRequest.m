@@ -20,6 +20,8 @@
 {
 	self = [super init];
 	
+    _flags = LEPIMAPMessageFlagSeen;
+    
 	return self;
 }
 

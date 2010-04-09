@@ -912,7 +912,12 @@ static char * extract_subject(char * str)
 	}
 	subject = NULL;
 	if ([self subject] != NULL) {
-		subject = strdup([[[self subject] lepEncodedMIMEHeaderValue] bytes]);
+        NSData * data;
+        
+        data = [[self subject] lepEncodedMIMEHeaderValue];
+        if ([data bytes] != nil) {
+            subject = strdup([data bytes]);
+        }
 	}
 	return mailimf_fields_new_with_data_all(date,
 											from,
