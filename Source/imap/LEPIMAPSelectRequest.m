@@ -33,7 +33,7 @@
 
 - (void) mainRequest
 {
-	[_session _select:_path];
+	[_session _selectIfNeeded:_path];
 }
 
 - (void) mainFinished

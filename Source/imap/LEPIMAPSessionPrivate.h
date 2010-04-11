@@ -15,6 +15,8 @@
 
 @interface LEPIMAPSession (LEPIMAPSessionPrivate)
 
+- (void) _selectIfNeeded:(NSString *)mailbox;
+
 - (NSArray *) _fetchSubscribedFoldersWithAccount:(LEPIMAPAccount *)account;
 - (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account;
 

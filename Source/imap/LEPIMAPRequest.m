@@ -94,11 +94,12 @@
 		[self setResultUidSet:[_session resultUidSet]];
 	}
 	[self mainFinished];
+	[[self delegate] LEPIMAPRequest_finished:self];
+    
 	if (_started) {
 		_started = NO;
 		[self release];
 	}
-	[[self delegate] LEPIMAPRequest_finished:self];
 }
 
 @end
