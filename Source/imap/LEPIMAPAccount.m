@@ -32,6 +32,7 @@
 @synthesize password = _password;
 @synthesize authType = _authType;
 @synthesize realm = _realm;
+@synthesize sessionsCount = _sessionsCount;
 
 @synthesize idleEnabled = _idleEnabled;
 
@@ -50,6 +51,8 @@
     [mailboxes setObject:@"[Google Mail]/Trash" forKey:@"trash"];
     [self setGmailMailboxNames:mailboxes];
     [mailboxes release];
+    
+    _sessionsCount = 1;
     
 	return self;
 } 
@@ -101,6 +104,7 @@
 
 - (void) _setupSession
 {
+#if 0
 	LEPLog(@"setup session");
 	LEPAssert(_session == nil);
 	
@@ -111,33 +115,74 @@
 	[_session setPassword:[self password]];
 	[_session setAuthType:[self authType]];
 	[_session setRealm:[self realm]];
+#else
+	LEPLog(@"setup session");
+	LEPAssert(_sessions == nil);
+    
+    _sessions = [[NSMutableArray alloc] init];
+    for(unsigned int i = 0 ; i < _sessionsCount ; i ++) {
+        LEPIMAPSession * session;
+        
+        session = [[LEPIMAPSession alloc] init];
+        [session setHost:[self host]];
+        [session setPort:[self port]];
+        [session setLogin:[self login]];
+        [session setPassword:[self password]];
+        [session setAuthType:[self authType]];
+        [session setRealm:[self realm]];
+        [_sessions addObject:session];
+        [session release];
+    }
+#endif
 }
 
 - (void) _unsetupSession
 {
+#if 0
 	LEPLog(@"unsetup session");
 	[_session release];
 	_session = nil;
+#else
+    [_sessions release];
+    _sessions = nil;
+#endif
 }
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
+#if 0
     if (_session == nil) {
         [self _setupSession];
     }
+#else
+    if (_sessions == nil) {
+        [self _setupSession];
+    }
+#endif
     
-    [request setSession:_session];
+    LEPIMAPSession * session;
+    unsigned int lowestPending;
     
-	if ([_session error] != nil) {
-		if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
+    session = nil;
+    lowestPending = 0;
+    for(LEPIMAPSession * currentSession in _sessions) {
+        if (session == nil) {
+            session = currentSession;
+            lowestPending = [session pendingRequestsCount];
+        }
+        else if ([currentSession pendingRequestsCount] < lowestPending) {
+            session = currentSession;
+            lowestPending = [session pendingRequestsCount];
+        }
+    }
+    
+    [request setSession:session];
+    
+	if ([session error] != nil) {
+		if (([[session error] code] == LEPErrorConnection) || ([[session error] code] == LEPErrorParse)) {
 			[self _unsetupSession];
 		}
 	}
-}
-
-- (LEPIMAPSession *) _session
-{
-    return _session;
 }
 
 - (LEPIMAPFolder *) inboxFolder

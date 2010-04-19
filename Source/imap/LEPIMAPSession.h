@@ -45,5 +45,6 @@
 @property (nonatomic, readonly, assign) uint32_t uidNext;
 
 - (void) queueOperation:(LEPIMAPRequest *)request;
+- (unsigned int) pendingRequestsCount;
 
 @end

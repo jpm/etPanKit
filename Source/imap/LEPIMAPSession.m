@@ -1672,4 +1672,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	}
 }
 
+- (unsigned int) pendingRequestsCount
+{
+    return [[_queue operations] count];
+}
+
 @end

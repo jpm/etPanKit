@@ -21,8 +21,14 @@
 	char * utf8str;
 	NSString * result;
 	
+    utf8str = NULL;
 	charconv("utf-8", (char *) [charset UTF8String], (char *) [self bytes], [self length], &utf8str);
-	result = [NSString stringWithUTF8String:utf8str];
+    if (utf8str == NULL) {
+        result = nil;
+    }
+    else {
+        result = [NSString stringWithUTF8String:utf8str];
+    }
 	free(utf8str);
 	
 	return result;

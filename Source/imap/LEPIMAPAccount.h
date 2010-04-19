@@ -14,8 +14,10 @@
     LEPAuthType _authType;
 	NSString * _realm;
     BOOL _idleEnabled;
-	LEPIMAPSession * _session;
+	//LEPIMAPSession * _session;
+    NSMutableArray * _sessions;
     NSDictionary * _gmailMailboxNames;
+    unsigned int _sessionsCount;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -24,6 +26,7 @@
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
 @property (nonatomic, copy) NSString * realm; // for NTLM
+@property (nonatomic) unsigned int sessionsCount;
 
 @property (nonatomic, getter=isIdleEnabled) BOOL idleEnabled;
 

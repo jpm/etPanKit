@@ -7,6 +7,8 @@
  *
  */
 
+#import <EtPanKit/LEPError.h>
+
 #import <EtPanKit/LEPMessage.h>
 #import <EtPanKit/LEPAttachment.h>
 #import <EtPanKit/LEPAlternativeAttachment.h>
