@@ -20,6 +20,7 @@
 #import "LEPMessageHeaderPrivate.h"
 #import "LEPIMAPAttachment.h"
 #import "LEPIMAPAttachmentPrivate.h"
+#import "LEPIMAPLogoutRequest.h"
 #import <libetpan/libetpan.h>
 
 struct lepData {
@@ -488,6 +489,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 - (void) _selectIfNeeded:(NSString *)mailbox;
 - (void) _select:(NSString *)mailbox;
 - (void) _disconnect;
+- (void) _logout;
+- (void) _logoutDone;
 
 @end
 
@@ -560,6 +563,25 @@ static struct mailimap_set * setFromArray(NSArray * array)
     LEPLog(@"queue operation %@", request);
 	//[request setSession:self];
 	[_queue addOperation:request];
+}
+
+- (void) logout
+{
+    LEPIMAPLogoutRequest * request;
+    
+	if (_imap == NULL) {
+        return;
+    }
+    
+    [self retain];
+    request = [[LEPIMAPLogoutRequest alloc] init];
+    [self queueOperation:request];
+    [request release];
+}
+
+- (void) _logoutDone
+{
+    [self release];
 }
 
 - (void) _connectIfNeeded
@@ -1670,6 +1692,16 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		[error release];
         return;
 	}
+}
+
+- (void) _logout
+{
+    if (_imap == NULL)
+        return;
+    
+    // fast logout
+    mailstream_close(_imap->imap_stream);
+    _imap->imap_stream = nil;
 }
 
 - (unsigned int) pendingRequestsCount

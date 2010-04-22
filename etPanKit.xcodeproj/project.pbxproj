@@ -26,6 +26,8 @@
 		C63050F91114819C00FDD7CA /* LEPAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C63050F71114819C00FDD7CA /* LEPAddress.m */; };
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
 		C64A6DFC1141C3E900966BB1 /* localized-mailbox.plist in Resources */ = {isa = PBXBuildFile; fileRef = C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */; };
+		C650C0541180D01600AEE657 /* LEPIMAPLogoutRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C650C0521180D01600AEE657 /* LEPIMAPLogoutRequest.h */; };
+		C650C0551180D01600AEE657 /* LEPIMAPLogoutRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C0531180D01600AEE657 /* LEPIMAPLogoutRequest.m */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6560A64111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -170,6 +172,8 @@
 		C63050F71114819C00FDD7CA /* LEPAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPAddress.m; sourceTree = "<group>"; };
 		C63C92AE110372F7006B5066 /* libetpan.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libetpan.xcodeproj; path = "Externals/libetpan/build-mac/libetpan.xcodeproj"; sourceTree = "<group>"; };
 		C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "localized-mailbox.plist"; path = "Resources/localized-mailbox.plist"; sourceTree = "<group>"; };
+		C650C0521180D01600AEE657 /* LEPIMAPLogoutRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPLogoutRequest.h; sourceTree = "<group>"; };
+		C650C0531180D01600AEE657 /* LEPIMAPLogoutRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPLogoutRequest.m; sourceTree = "<group>"; };
 		C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAttachment.h; sourceTree = "<group>"; };
 		C655A77110F11344009E6B45 /* LEPAbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessage.h; sourceTree = "<group>"; };
 		C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAttachmentRequest.h; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 				C673590711068CA5004D4928 /* LEPIMAPSubscribeFolderRequest.m */,
 				C673590A11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.h */,
 				C673590B11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m */,
+				C650C0521180D01600AEE657 /* LEPIMAPLogoutRequest.h */,
+				C650C0531180D01600AEE657 /* LEPIMAPLogoutRequest.m */,
 			);
 			path = imap;
 			sourceTree = "<group>";
@@ -548,6 +554,7 @@
 				C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */,
 				C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */,
 				C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */,
+				C650C0541180D01600AEE657 /* LEPIMAPLogoutRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +690,7 @@
 				C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */,
 				C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */,
 				C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */,
+				C650C0551180D01600AEE657 /* LEPIMAPLogoutRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

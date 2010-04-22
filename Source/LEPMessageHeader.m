@@ -604,7 +604,16 @@ static char * extract_subject(char * str)
 	free(msgid);
 	
 	return self;
-} 
+}
+
+- (id) _initForCopy
+{
+	char * msgid;
+	
+	self = [super init];
+    
+    return self;
+}
 
 - (void) dealloc
 {

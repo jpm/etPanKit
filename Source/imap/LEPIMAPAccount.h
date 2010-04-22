@@ -30,6 +30,9 @@
 
 @property (nonatomic, getter=isIdleEnabled) BOOL idleEnabled;
 
++ (void) setTimeoutDelay:(NSTimeInterval)timeout;
++ (NSTimeInterval) timeoutDelay;
+
 // after the operation is created, it should be started
 - (LEPIMAPFetchFoldersRequest *) fetchSubscribedFoldersRequest;
 

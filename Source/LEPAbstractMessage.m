@@ -8,8 +8,15 @@
 
 #import "LEPAbstractMessage.h"
 #import "LEPMessageHeader.h"
+#import "LEPMessageHeaderPrivate.h"
 #import "LEPUtils.h"
 #import "LEPAbstractAttachment.h"
+
+@interface LEPAbstractMessage ()
+
+- (id) _initForCopy;
+
+@end
 
 @implementation LEPAbstractMessage
 
@@ -23,6 +30,15 @@
 	
 	return self;
 } 
+
+- (id) _initForCopy
+{
+	self = [super init];
+	
+	_header = [[LEPMessageHeader alloc] _initForCopy];
+	
+	return self;
+}
 
 - (void) dealloc
 {
@@ -53,7 +69,7 @@
 {
     LEPAbstractMessage * message;
     
-    message = [[[self class] alloc] init];
+    message = [[[self class] alloc] _initForCopy];
     
     [message->_header release];
     message->_header = [[self header] retain];

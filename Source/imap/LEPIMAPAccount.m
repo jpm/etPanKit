@@ -17,10 +17,13 @@
 #import "LEPError.h"
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
+#import <libetpan/libetpan.h>
 
 @interface LEPIMAPAccount ()
 
 - (void) _setupRequest:(LEPIMAPRequest *)request;
+- (void) _setupSession;
+- (void) _unsetupSession;
 
 @end
 
@@ -35,6 +38,17 @@
 @synthesize sessionsCount = _sessionsCount;
 
 @synthesize idleEnabled = _idleEnabled;
+
++ (void) setTimeoutDelay:(NSTimeInterval)timeout
+{
+    mailstream_network_delay.tv_sec = (time_t) timeout;
+    mailstream_network_delay.tv_usec = (suseconds_t) (timeout - mailstream_network_delay.tv_sec) * 1000000;
+}
+
++ (NSTimeInterval) timeoutDelay
+{
+    return (NSTimeInterval) mailstream_network_delay.tv_sec + ((NSTimeInterval) mailstream_network_delay.tv_usec) / 1000000.;
+}
 
 - (id) init
 {
@@ -59,6 +73,10 @@
 
 - (void) dealloc
 {
+    for(LEPIMAPSession * session in _sessions) {
+        [session logout];
+    }
+    [self _unsetupSession];
 	[_realm release];
     [_host release];
     [_login release];
@@ -148,6 +166,12 @@
 #endif
 }
 
+- (void) _removeSession:(LEPIMAPSession *)session
+{
+    [session logout];
+    [_sessions removeObject:session];
+}
+
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
 #if 0
@@ -180,7 +204,7 @@
     
 	if ([session error] != nil) {
 		if (([[session error] code] == LEPErrorConnection) || ([[session error] code] == LEPErrorParse)) {
-			[self _unsetupSession];
+			[self _removeSession:session];
 		}
 	}
 }
