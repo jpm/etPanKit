@@ -62,8 +62,6 @@
 		return;
 	}
 	
-	[_session performSelectorOnMainThread:@selector(setError:) withObject:nil waitUntilDone:YES];
-	 
 	[self mainRequest];
 	
 	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:YES];

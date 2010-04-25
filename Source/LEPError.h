@@ -10,6 +10,7 @@
 #define LEPErrorDomain @"LEPErrorDomain"
 
 enum {
+    LEPNoError,
 	LEPErrorConnection,
     LEPErrorParse,
 	LEPErrorNotImplemented,

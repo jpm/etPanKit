@@ -43,7 +43,4 @@
 
 - (void) _storeFlags:(LEPIMAPMessageFlag)flags kind:(LEPIMAPStoreFlagsRequestKind)kind messagesUids:(NSArray *)uids path:(NSString *)path;
 
-- (void) _logout;
-- (void) _logoutDone;
-
 @end

@@ -20,7 +20,6 @@
 #import "LEPMessageHeaderPrivate.h"
 #import "LEPIMAPAttachment.h"
 #import "LEPIMAPAttachmentPrivate.h"
-#import "LEPIMAPLogoutRequest.h"
 #import <libetpan/libetpan.h>
 
 struct lepData {
@@ -488,9 +487,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 - (void) _login;
 - (void) _selectIfNeeded:(NSString *)mailbox;
 - (void) _select:(NSString *)mailbox;
-- (void) _disconnect;
 - (void) _logout;
-- (void) _logoutDone;
 
 @end
 
@@ -565,27 +562,20 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	[_queue addOperation:request];
 }
 
-- (void) logout
-{
-    LEPIMAPLogoutRequest * request;
-    
-	if (_imap == NULL) {
-        return;
-    }
-    
-    [self retain];
-    request = [[LEPIMAPLogoutRequest alloc] init];
-    [self queueOperation:request];
-    [request release];
-}
-
-- (void) _logoutDone
-{
-    [self release];
-}
-
 - (void) _connectIfNeeded
 {
+    LEPLog(@"request had error ? %@ %@", self, [self error]);
+    if ([self error] != nil) {
+        LEPLog(@"*** request had error %@", [self error]);
+        if (([[self error] code] == LEPErrorConnection) || ([[self error] code] == LEPErrorParse)) {
+            [self _logout];
+            _state = STATE_DISCONNECTED;
+            LEPLog(@"disconnect because of error");
+        }
+    }
+    
+    [self setError:nil];
+    
 	if (_state == STATE_DISCONNECTED) {	
 		[self _connect];
 	}
@@ -634,6 +624,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	
     switch (_authType) {
 		case LEPAuthTypeStartTLS:
+            LEPLog(@"STARTTLS connect");
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
 			if ([self _hasError:r]) {
 				NSError * error;
@@ -673,10 +664,13 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			break;
 			
 		default:
+            LEPLog(@"socket connect");
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
+            LEPLog(@"socket connect %i", r);
 			if ([self _hasError:r]) {
 				NSError * error;
 				
+                LEPLog(@"connect error %i", r);
 				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
 				[self setError:error];
 				[error release];
@@ -824,11 +818,13 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	LEPAssert(_state == STATE_LOGGEDIN || _state == STATE_SELECTED);
 	
 	r = mailimap_select(_imap, [mailbox UTF8String]);
+    LEPLog(@"select error : %i", r);
     if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
         error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
         [self setError:error];
+        LEPLog(@"select error : %@ %@", self, error);
         [error release];
         return;
     }
@@ -860,12 +856,6 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	
 	_state = STATE_SELECTED;
 	LEPLog(@"select ok");
-}
-
-- (void) _disconnect
-{
-	mailimap_logout(_imap);
-	_state = STATE_DISCONNECTED;
 }
 
 - (NSArray *) _getResultsFromError:(int)r list:(clist *)list account:(LEPIMAPAccount *)account
@@ -1520,6 +1510,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	r = fetch_imap(_imap, uid, fetch_type, &text, &text_length);
 	mailimap_fetch_type_free(fetch_type);
 	
+    LEPLog(@"had error : %i", r);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
@@ -1699,9 +1690,12 @@ static struct mailimap_set * setFromArray(NSArray * array)
     if (_imap == NULL)
         return;
     
-    // fast logout
-    mailstream_close(_imap->imap_stream);
-    _imap->imap_stream = nil;
+    if (_imap->imap_stream != NULL) {
+        // fast logout
+        mailstream_close(_imap->imap_stream);
+        _imap->imap_stream = NULL;
+        _imap->imap_state = MAILIMAP_STATE_DISCONNECTED;
+    }
 }
 
 - (unsigned int) pendingRequestsCount

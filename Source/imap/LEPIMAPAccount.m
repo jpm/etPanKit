@@ -73,9 +73,6 @@
 
 - (void) dealloc
 {
-    for(LEPIMAPSession * session in _sessions) {
-        [session logout];
-    }
     [self _unsetupSession];
 	[_realm release];
     [_host release];
@@ -122,23 +119,12 @@
 
 - (void) _setupSession
 {
-#if 0
-	LEPLog(@"setup session");
-	LEPAssert(_session == nil);
-	
-	_session = [[LEPIMAPSession alloc] init];
-	[_session setHost:[self host]];
-	[_session setPort:[self port]];
-	[_session setLogin:[self login]];
-	[_session setPassword:[self password]];
-	[_session setAuthType:[self authType]];
-	[_session setRealm:[self realm]];
-#else
-	LEPLog(@"setup session");
 	LEPAssert(_sessions == nil);
     
-    _sessions = [[NSMutableArray alloc] init];
-    for(unsigned int i = 0 ; i < _sessionsCount ; i ++) {
+	LEPLog(@"setup session");
+	_sessions = [[NSMutableArray alloc] init];
+    
+	for(unsigned int i = 0 ; i < _sessionsCount ; i ++) {
         LEPIMAPSession * session;
         
         session = [[LEPIMAPSession alloc] init];
@@ -151,41 +137,22 @@
         [_sessions addObject:session];
         [session release];
     }
-#endif
 }
 
 - (void) _unsetupSession
 {
-#if 0
-	LEPLog(@"unsetup session");
-	[_session release];
-	_session = nil;
-#else
     [_sessions release];
     _sessions = nil;
-#endif
-}
-
-- (void) _removeSession:(LEPIMAPSession *)session
-{
-    [session logout];
-    [_sessions removeObject:session];
 }
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
-#if 0
-    if (_session == nil) {
-        [self _setupSession];
-    }
-#else
-    if (_sessions == nil) {
-        [self _setupSession];
-    }
-#endif
-    
     LEPIMAPSession * session;
     unsigned int lowestPending;
+    
+    if (_sessions == nil) {
+		[self _setupSession];
+	}
     
     session = nil;
     lowestPending = 0;
@@ -201,12 +168,6 @@
     }
     
     [request setSession:session];
-    
-	if ([session error] != nil) {
-		if (([[session error] code] == LEPErrorConnection) || ([[session error] code] == LEPErrorParse)) {
-			[self _removeSession:session];
-		}
-	}
 }
 
 - (LEPIMAPFolder *) inboxFolder
