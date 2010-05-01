@@ -586,6 +586,7 @@ static char * extract_subject(char * str)
 @synthesize references = _references;
 @synthesize inReplyTo = _inReplyTo;
 @synthesize from = _from;
+@synthesize sender = _sender;
 @synthesize to = _to;
 @synthesize cc = _cc;
 @synthesize bcc = _bcc;
@@ -608,8 +609,6 @@ static char * extract_subject(char * str)
 
 - (id) _initForCopy
 {
-	char * msgid;
-	
 	self = [super init];
     
     return self;
@@ -655,6 +654,18 @@ static char * extract_subject(char * str)
 		[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:subject]];
 	}
 	
+	/* sender */
+	if (single_fields.fld_sender != NULL) {
+		struct mailimf_mailbox * mb;
+		LEPAddress * address;
+        
+		mb = single_fields.fld_sender->snd_mb;
+       if (mb != NULL) {
+           address = [LEPAddress addressWithIMFMailbox:mb];
+           [self setSender:address];
+       }
+	}
+    
 	/* from */
 	if (single_fields.fld_from != NULL) {
 		struct mailimf_mailbox_list * mb_list;
@@ -764,6 +775,17 @@ static char * extract_subject(char * str)
 		[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:subject]];
 	}
 	
+	if (env->env_sender != NULL) {
+		if (env->env_sender->snd_list != NULL) {
+			NSArray * addresses;
+			
+			addresses = imap_mailbox_list_to_address_array(env->env_sender->snd_list);
+			if ([addresses count] > 0) {
+				[self setSender:[addresses objectAtIndex:0]];
+			}
+		}
+    }
+    
 	if (env->env_from != NULL) {
 		if (env->env_from->frm_list != NULL) {
 			NSArray * addresses;
@@ -964,6 +986,7 @@ static char * extract_subject(char * str)
 	_messageID = [[decoder decodeObjectForKey:@"messageID"] retain];
 	_references = [[decoder decodeObjectForKey:@"references"] retain];
 	_inReplyTo = [[decoder decodeObjectForKey:@"inReplyTo"] retain];
+	_sender = [[decoder decodeObjectForKey:@"sender"] retain];
 	_from = [[decoder decodeObjectForKey:@"from"] retain];
 	_to = [[decoder decodeObjectForKey:@"to"] retain];
 	_cc = [[decoder decodeObjectForKey:@"cc"] retain];
@@ -980,6 +1003,7 @@ static char * extract_subject(char * str)
 	[encoder encodeObject:_messageID forKey:@"messageID"];
 	[encoder encodeObject:_references forKey:@"references"];
 	[encoder encodeObject:_inReplyTo forKey:@"inReplyTo"];
+	[encoder encodeObject:_sender forKey:@"sender"];
 	[encoder encodeObject:_from forKey:@"from"];
 	[encoder encodeObject:_to forKey:@"to"];
 	[encoder encodeObject:_cc forKey:@"cc"];

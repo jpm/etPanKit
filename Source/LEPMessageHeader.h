@@ -14,6 +14,7 @@
 	NSString * _messageID;
 	NSArray * /* NSString */ _references;
 	NSArray * /* NSString */ _inReplyTo;
+    LEPAddress * _sender;
 	LEPAddress * _from;
 	NSArray * /* LEPAddress */ _to;
 	NSArray * /* LEPAddress */ _cc;
@@ -29,6 +30,7 @@
 
 @property (nonatomic, retain) NSDate * date;
 
+@property (nonatomic, retain) LEPAddress * sender;
 @property (nonatomic, retain) LEPAddress * from;
 @property (nonatomic, copy) NSArray * /* LEPAddress */ to;
 @property (nonatomic, copy) NSArray * /* LEPAddress */ cc;
