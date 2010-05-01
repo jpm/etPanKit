@@ -567,10 +567,12 @@ static struct mailimap_set * setFromArray(NSArray * array)
     LEPLog(@"request had error ? %@ %@", self, [self error]);
     if ([self error] != nil) {
         LEPLog(@"*** request had error %@", [self error]);
-        if (([[self error] code] == LEPErrorConnection) || ([[self error] code] == LEPErrorParse)) {
-            [self _logout];
-            _state = STATE_DISCONNECTED;
-            LEPLog(@"disconnect because of error");
+        if ([[[self error] domain] isEqualToString:LEPErrorDomain]) {
+            if (([[self error] code] == LEPErrorConnection) || ([[self error] code] == LEPErrorParse)) {
+                [self _logout];
+                _state = STATE_DISCONNECTED;
+                LEPLog(@"disconnect because of error");
+            }
         }
     }
     

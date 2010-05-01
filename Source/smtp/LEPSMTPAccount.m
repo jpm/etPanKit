@@ -71,11 +71,13 @@
 	LEPLog(@"setup request 2");
     [request setSession:_session];
     
-    if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
-		LEPLog(@"setup request 3");
-        [self _unsetupSession];
+    if ([[[_session error] domain] isEqualToString:LEPErrorDomain]) {
+        if (([[_session error] code] == LEPErrorConnection) || ([[_session error] code] == LEPErrorParse)) {
+            LEPLog(@"setup request 3");
+            [self _unsetupSession];
+        }
     }
-	LEPLog(@"setup request 4");
+    LEPLog(@"setup request 4");
 }
 
 - (LEPSMTPRequest *) sendRequest:(LEPMessage *)message
