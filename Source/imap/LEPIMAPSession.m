@@ -184,12 +184,9 @@ static int fetch_rfc822(mailimap * session,
 	struct mailimap_msg_att * msg_att;
 	struct mailimap_msg_att_item * item;
 	int res;
+    clistiter * cur;
 	
-#if 0
-	fetch_att = mailimap_fetch_att_new_rfc822();
-	fetch_type = mailimap_fetch_type_new_fetch_att(fetch_att);
-#endif
-	section = mailimap_section_new_text();
+	section = mailimap_section_new(NULL);
 	fetch_att = mailimap_fetch_att_new_body_peek_section(section);
 	fetch_type = mailimap_fetch_type_new_fetch_att(fetch_att);
 	
@@ -212,27 +209,24 @@ static int fetch_rfc822(mailimap * session,
 	
 	msg_att = (struct mailimap_msg_att *) clist_begin(fetch_list)->data;
 	
-	if (clist_isempty(msg_att->att_list)) {
-		res = MAILIMAP_ERROR_FETCH;
-		goto free;
-	}
+    for(cur = clist_begin(msg_att->att_list) ; cur != NULL ; cur = clist_next(cur)) {
+        item = (struct mailimap_msg_att_item *) clist_content(cur);
+        
+        if (item->att_type != MAILIMAP_MSG_ATT_ITEM_STATIC) {
+            continue;
+        }
+        if (item->att_data.att_static->att_type != MAILIMAP_MSG_ATT_BODY_SECTION) {
+            continue;
+        }
+        
+        * result = item->att_data.att_static->att_data.att_body_section->sec_body_part;
+        item->att_data.att_static->att_data.att_body_section->sec_body_part = NULL;
+        mailimap_fetch_list_free(fetch_list);
+        
+        return MAILIMAP_NO_ERROR;
+    }
 	
-	item = (struct mailimap_msg_att_item *) clist_begin(msg_att->att_list)->data;
-	
-	if (item->att_type != MAILIMAP_MSG_ATT_ITEM_STATIC) {
-		res = MAILIMAP_ERROR_FETCH;
-		goto free;
-	}
-	if (item->att_data.att_static->att_type != MAILIMAP_MSG_ATT_RFC822) {
-		res = MAILIMAP_ERROR_FETCH;
-		goto free;
-	}
-	
-	* result = item->att_data.att_static->att_data.att_rfc822.att_content;
-	item->att_data.att_static->att_data.att_rfc822.att_content = NULL;
-	mailimap_fetch_list_free(fetch_list);
-	
-	return MAILIMAP_NO_ERROR;
+    res = MAILIMAP_ERROR_FETCH;
 	
 free:
 	mailimap_fetch_list_free(fetch_list);
@@ -1395,6 +1389,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	if ([self error] != nil)
         return nil;
 	
+    rfc822 = NULL;
 	r = fetch_rfc822(_imap, uid, &rfc822);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1422,7 +1417,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	}
 	
 	data = [NSData dataWithBytes:rfc822 length:strlen(rfc822)];
-	
+    
 	mailimap_nstring_free(rfc822);
 	
 	return data;
