@@ -77,6 +77,26 @@
     return result;
 }
 
++ (LEPAddress *) addressWithNonEncodedRFC822String:(NSString *)string
+{
+    const char * utf8String;
+    size_t currentIndex;
+    struct mailimf_mailbox * mb;
+    int r;
+    LEPAddress * result;
+    
+    utf8String = [string UTF8String];
+    currentIndex = 0;
+    r = mailimf_mailbox_parse(utf8String, strlen(utf8String), &currentIndex, &mb);
+    if (r != MAILIMF_NO_ERROR)
+        return nil;
+    
+    result = [LEPAddress addressWithNonEncodedIMFMailbox:mb];
+    mailimf_mailbox_free(mb);
+    
+    return result;
+}
+
 + (LEPAddress *) addressWithIMAPAddress:(struct mailimap_address *)imap_addr
 {
     char * dsp_name;
@@ -124,6 +144,21 @@
     address = [[LEPAddress alloc] init];
 	if (mailbox->mb_display_name != NULL) {
 		[address setDisplayName:[NSString lepStringByDecodingMIMEHeaderValue:mailbox->mb_display_name]];
+	}
+	if (mailbox->mb_addr_spec != NULL) {
+		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
+	}
+	
+    return [address autorelease];
+}
+
++ (LEPAddress *) addressWithNonEncodedIMFMailbox:(struct mailimf_mailbox *)mailbox
+{
+    LEPAddress * address;
+	
+    address = [[LEPAddress alloc] init];
+	if (mailbox->mb_display_name != NULL) {
+		[address setDisplayName:[NSString stringWithUTF8String:mailbox->mb_display_name]];
 	}
 	if (mailbox->mb_addr_spec != NULL) {
 		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
