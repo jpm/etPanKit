@@ -616,6 +616,7 @@ static char * extract_subject(char * str)
 
 - (void) dealloc
 {
+    [_sender release];
 	[_messageID release];
 	[_references release];
 	[_inReplyTo release];
