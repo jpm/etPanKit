@@ -27,6 +27,7 @@
 
 - (void) dealloc
 {
+    [_contentID release];
 	[_charset release];
 	[_filename release];
 	[_mimeType release];

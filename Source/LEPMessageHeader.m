@@ -866,6 +866,7 @@ static char * extract_subject(char * str)
 		if (r == MAILIMF_NO_ERROR) {
 			// msg id
 			[self setMessageID:[NSString stringWithUTF8String:msgid]];
+            mailimf_msg_id_free(msgid);
 		}
 	}
 }
