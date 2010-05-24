@@ -344,9 +344,9 @@ static char * get_content_type_str(struct mailmime_content * content)
 		
 		alternativeAttachment = [[LEPAlternativeAttachment alloc] init];
 		attachments = [[NSMutableArray alloc] init];
-		attachment = [LEPAttachment attachmentWithHTMLString:html withTextAlternative:NO];
-		[attachments addObject:attachment];
 		attachment = [LEPAttachment attachmentWithString:[html lepFlattenHTML]];
+		[attachments addObject:attachment];
+		attachment = [LEPAttachment attachmentWithHTMLString:html withTextAlternative:NO];
 		[attachments addObject:attachment];
 		[alternativeAttachment setAttachments:attachments];
 		[attachments release];

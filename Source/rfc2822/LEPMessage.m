@@ -247,9 +247,9 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		
 		alternative = [[LEPAlternativeAttachment alloc] init];
 		altAttachments = [[NSMutableArray alloc] init];
-		altAttachment = [LEPAttachment attachmentWithHTMLString:[self HTMLBody] withTextAlternative:NO];
-		[altAttachments addObject:altAttachment];
 		altAttachment = [LEPAttachment attachmentWithString:[self body]];
+		[altAttachments addObject:altAttachment];
+		altAttachment = [LEPAttachment attachmentWithHTMLString:[self HTMLBody] withTextAlternative:NO];
 		[altAttachments addObject:altAttachment];
 		[alternative setAttachments:altAttachments];
 		[altAttachments release];
