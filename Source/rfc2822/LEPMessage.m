@@ -93,6 +93,100 @@ static struct mailmime * get_multipart_alternative(void)
 	return mime;
 }
 
+static int add_attachment(struct mailmime * mime,
+                          struct mailmime * mime_sub)
+{
+    struct mailmime * saved_sub;
+    struct mailmime * mp;
+    int res;
+    int r;
+    
+    switch (mime->mm_type) {
+        case MAILMIME_SINGLE:
+            res = MAILIMF_ERROR_INVAL;
+            goto err;
+            
+        case MAILMIME_MULTIPLE:
+            r = mailmime_add_part(mime, mime_sub);
+            if (r != MAILIMF_NO_ERROR) {
+                res = MAILIMF_ERROR_MEMORY;
+                goto err;
+            }
+            
+            return MAILIMF_NO_ERROR;
+    }
+    
+    /* MAILMIME_MESSAGE */
+    
+    if (mime->mm_data.mm_message.mm_msg_mime == NULL) {
+        /* there is no subpart, we can simply attach it */
+        
+        r = mailmime_add_part(mime, mime_sub);
+        if (r != MAILIMF_NO_ERROR) {
+            res = MAILIMF_ERROR_MEMORY;
+            goto err;
+        }
+        
+        return MAILIMF_NO_ERROR;
+    }
+    
+    if (mime->mm_data.mm_message.mm_msg_mime->mm_type == MAILMIME_MULTIPLE &&
+        strcasecmp(mime->mm_data.mm_message.mm_msg_mime->mm_content_type->ct_subtype, "alternative") != 0) {
+        /* in case the subpart is multipart, simply attach it to the subpart */
+        
+        return mailmime_add_part(mime->mm_data.mm_message.mm_msg_mime, mime_sub);
+    }
+    
+    /* we save the current subpart, ... */
+    
+    saved_sub = mime->mm_data.mm_message.mm_msg_mime;
+    
+    /* create a multipart */
+    
+    mp = mailmime_multiple_new("multipart/mixed");
+    if (mp == NULL) {
+        res = MAILIMF_ERROR_MEMORY;
+        goto err;
+    }
+    
+    /* detach the saved subpart from the parent */
+    
+    mailmime_remove_part(saved_sub);
+    
+    /* the created multipart is the new child of the parent */
+    
+    r = mailmime_add_part(mime, mp);
+    if (r != MAILIMF_NO_ERROR) {
+        res = MAILIMF_ERROR_MEMORY;
+        goto free_mp;
+    }
+    
+    /* then, attach the saved subpart and ... */
+    
+    r = mailmime_add_part(mp, saved_sub);
+    if (r != MAILIMF_NO_ERROR) {
+        res = MAILIMF_ERROR_MEMORY;
+        goto free_saved_sub;
+    }
+    
+    /* the given part to the parent */
+    
+    r = mailmime_add_part(mp, mime_sub);
+    if (r != MAILIMF_NO_ERROR) {
+        res = MAILIMF_ERROR_MEMORY;
+        goto free_saved_sub;
+    }
+    
+    return MAILIMF_NO_ERROR;
+    
+free_mp:
+    mailmime_free(mp);
+free_saved_sub:
+    mailmime_free(saved_sub);
+err:
+    return res;
+}
+
 static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments);
 
 static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment)
@@ -160,7 +254,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		
 		attachment = [attachments objectAtIndex:i];
 		submime = mime_from_attachment(attachment);
-		mailmime_smart_add_part(mime, submime);
+		add_attachment(mime, submime);
 	}
 	
 	return mime;
