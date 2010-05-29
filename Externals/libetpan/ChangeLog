@@ -1,3 +1,19 @@
+2010-05-30 - libetpan-1.0cvs1 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	    IMAP parser issue in case quoted string contains a CRLF.
+
+2010-04-09 - libetpan-1.0 - hoa
+
+	* release 1.0
+
+2010-04-08 - libetpan-0.58cvs27 - hoa
+
+	* configure.ac
+	    Fixed --enable-debug flag in configure script.
+	    Support of Berkeley DB 4.8.
+	    Thanks to Tim Harder.
+
 2010-04-05 - libetpan-0.58cvs26 - hoa
 
 	* build-mac/update.sh
