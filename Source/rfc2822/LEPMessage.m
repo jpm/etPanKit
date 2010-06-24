@@ -18,7 +18,7 @@
 #import "NSString+LEP.h"
 #import <libetpan/libetpan.h>
 
-struct mailmime * get_text_part(const char * mime_type, const char * charset,
+struct mailmime * get_text_part(const char * mime_type, const char * charset, const char * content_id,
 								const char * text, size_t length)
 {
 	struct mailmime_fields * mime_fields;
@@ -28,13 +28,17 @@ struct mailmime * get_text_part(const char * mime_type, const char * charset,
 	int encoding_type;
 	struct mailmime_disposition * disposition;
 	struct mailmime_mechanism * encoding;
-	
+	char * dup_content_id;
+    
 	encoding_type = MAILMIME_MECHANISM_8BIT;
 	encoding = mailmime_mechanism_new(encoding_type, NULL);
 	disposition = mailmime_disposition_new_with_data(MAILMIME_DISPOSITION_TYPE_INLINE,
 													 NULL, NULL, NULL, NULL, (size_t) -1);
+    dup_content_id = NULL;
+    if (content_id != NULL)
+        dup_content_id = strdup(content_id);
 	mime_fields = mailmime_fields_new_with_data(encoding,
-												NULL, NULL, disposition, NULL);
+                                                dup_content_id, NULL, disposition, NULL);
 	
 	content = mailmime_content_new_with_str(mime_type);
 	if (charset == NULL) {
@@ -50,7 +54,9 @@ struct mailmime * get_text_part(const char * mime_type, const char * charset,
 	return mime;
 }
 
-static struct mailmime * get_file_part(const char * filename, const char * mime_type, int is_inline, const char * text, size_t length)
+static struct mailmime * get_file_part(const char * filename, const char * mime_type, int is_inline,
+                                       const char * content_id,
+                                       const char * text, size_t length)
 {
 	char * disposition_name;
 	int encoding_type;
@@ -59,6 +65,7 @@ static struct mailmime * get_file_part(const char * filename, const char * mime_
 	struct mailmime_content * content;
 	struct mailmime * mime;
 	struct mailmime_fields * mime_fields;
+	char * dup_content_id;
 	
 	disposition_name = NULL;
 	if (filename != NULL) {
@@ -76,8 +83,11 @@ static struct mailmime * get_file_part(const char * filename, const char * mime_
 	
 	encoding_type = MAILMIME_MECHANISM_BASE64;
 	encoding = mailmime_mechanism_new(encoding_type, NULL);
+    dup_content_id = NULL;
+    if (content_id != NULL)
+        dup_content_id = strdup(content_id);
 	mime_fields = mailmime_fields_new_with_data(encoding,
-												NULL, NULL, disposition, NULL);
+												dup_content_id, NULL, disposition, NULL);
 	mime = mailmime_new_empty(content, mime_fields);
 	mailmime_set_body_text(mime, (char *) text, length);
 	
@@ -199,10 +209,14 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		att = (LEPAttachment *) attachment;
 		data = [att data];
 		if ([att isInlineAttachment] && [[[att mimeType] lowercaseString] hasPrefix:@"text/"]) {
-			mime = get_text_part([[att mimeType] UTF8String], [[att charset] UTF8String], [data bytes], [data length]);
+			mime = get_text_part([[att mimeType] UTF8String], [[att charset] UTF8String],
+                                 [[attachment contentID] UTF8String],
+                                 [data bytes], [data length]);
 		}
 		else {
-			mime = get_file_part([[[att filename] lepEncodedMIMEHeaderValue] bytes], [[att mimeType] UTF8String], [att isInlineAttachment], [data bytes], [data length]);
+			mime = get_file_part([[[att filename] lepEncodedMIMEHeaderValue] bytes], [[att mimeType] UTF8String], [att isInlineAttachment],
+                                 [[attachment contentID] UTF8String],
+                                 [data bytes], [data length]);
 		}
 		return mime;
 	}
