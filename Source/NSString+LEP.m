@@ -484,7 +484,9 @@ static void charactersParsed(void* context,
 	parsedString = [[NSString alloc] initWithBytesNoCopy:
 					(xmlChar*) ch length: len encoding:
 					NSUTF8StringEncoding freeWhenDone: NO];
-	[result appendString: parsedString];
+	if (parsedString != nil) {
+		[result appendString: parsedString];
+	}
 	[parsedString release];
 }
 

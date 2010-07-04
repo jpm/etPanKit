@@ -132,9 +132,12 @@
     if (dsp_name != NULL) {
         [address setDisplayName:[NSString lepStringByDecodingMIMEHeaderValue:dsp_name]];
     }
+#if 0
 	if (mailbox != NULL) {
 		[address setMailbox:[NSString lepStringByDecodingMIMEHeaderValue:[mailbox UTF8String]]];
 	}
+#endif
+	[address setMailbox:mailbox];
     
     return [address autorelease];
 }
@@ -148,8 +151,10 @@
 		[address setDisplayName:[NSString lepStringByDecodingMIMEHeaderValue:mailbox->mb_display_name]];
 	}
 	if (mailbox->mb_addr_spec != NULL) {
-		//[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
+		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
+#if 0
 		[address setMailbox:[NSString lepStringByDecodingMIMEHeaderValue:mailbox->mb_addr_spec]];
+#endif
 	}
 	
     return [address autorelease];
@@ -185,7 +190,8 @@
             display_name = strdup([data bytes]);
         }
 	}
-	//addr_spec = strdup([[self mailbox] UTF8String]);
+	addr_spec = strdup([[self mailbox] UTF8String]);
+#if 0
 	addr_spec = NULL;
 	if ([[self mailbox] length] > 0) {
         NSData * data;
@@ -195,6 +201,7 @@
             addr_spec = strdup([data bytes]);
         }
 	}
+#endif
 	result = mailimf_mailbox_new(display_name, addr_spec);
 	
 	return result;
