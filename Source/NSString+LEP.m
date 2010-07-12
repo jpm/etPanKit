@@ -285,6 +285,7 @@ static inline void quote_word(char * display_charset,
 	for(i = 0 ; i < size ; i ++) {
 		int do_quote_char;
 		
+#if 0
 		if (col + 2 /* size of "?=" */
 			+ 3 /* max size of newly added character */
 			+ 1 /* minimum column of string in a
@@ -303,6 +304,7 @@ static inline void quote_word(char * display_charset,
 					 
 					 col = mmapstr->len - old_pos;
 				 }
+#endif
 		
 		do_quote_char = 0;
 		switch (* cur) {
