@@ -300,4 +300,14 @@
     return result;
 }
 
+- (NSUInteger)hash
+{
+	return [[self displayName] hash] + [[self mailbox] hash];
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+	return ([[self displayName] isEqual:[anObject displayName]] && [[self mailbox] isEqual:[anObject mailbox]]);
+}
+
 @end
