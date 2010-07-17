@@ -307,6 +307,10 @@
 
 - (BOOL)isEqual:(id)anObject
 {
+	if (([self displayName] == NULL) && ([anObject displayName] == NULL)) {
+		return [[self mailbox] isEqual:[anObject mailbox]];
+	}
+	
 	return ([[self displayName] isEqual:[anObject displayName]] && [[self mailbox] isEqual:[anObject mailbox]]);
 }
 
