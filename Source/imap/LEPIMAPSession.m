@@ -1148,13 +1148,18 @@ static struct mailimap_set * setFromArray(NSArray * array)
 {
     int r;
     struct mailimap_set * set;
-    
+	struct mailimap_set * src_uid;
+	struct mailimap_set * dest_uid;
+    uint32_t uidvalidity;
+	
     [self _selectIfNeeded:fromPath];
 	if ([self error] != nil)
         return;
     
     set = setFromArray(uidSet);
-    r = mailimap_uid_copy(_imap, set, [toPath UTF8String]);
+    //r = mailimap_uid_copy(_imap, set, [toPath UTF8String]);
+    r = mailimap_uidplus_uid_copy(_imap, set, [toPath UTF8String],
+								  &uidvalidity, &src_uid, &dest_uid);
     mailimap_set_free(set);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1179,6 +1184,15 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		[self setError:error];
 		[error release];
         return;
+	}
+	
+	if (src_uid != NULL) {
+		mailimap_set_free(src_uid);
+	}
+	if (dest_uid != NULL) {
+		[_resultUidSet release];
+		_resultUidSet = [arrayFromSet(dest_uid) retain];
+		mailimap_set_free(dest_uid);
 	}
 }
 
