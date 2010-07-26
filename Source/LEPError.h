@@ -27,4 +27,5 @@ enum {
     LEPErrorExpunge,
     LEPErrorFetch,
 	LEPErrorStore,
+	LEPErrorStorageLimit,
 };

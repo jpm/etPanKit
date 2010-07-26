@@ -368,6 +368,14 @@ struct lepData {
         [error release];
         goto disconnect;
     }
+	else if (r == MAILSMTP_ERROR_EXCEED_STORAGE_ALLOCATION) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorStorageLimit userInfo:nil];
+        [self setError:error];
+        [error release];
+        goto disconnect;
+	}
     else if (r != MAILSMTP_NO_ERROR) {
         NSError * error;
         
