@@ -2,6 +2,7 @@
 cd ..
 mkdir -p Externals
 cd Externals
+echo press [ENTER] when the password is asked.
 cvs -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan login
 cvs -z3 -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan co -P -d libetpan-cvs libetpan
 cd libetpan-cvs

@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.34 2010/04/05 14:21:36 hoa Exp $
+ * $Id: mailsmtp.c,v 1.35 2010/07/27 00:47:09 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -120,6 +120,8 @@ mailsmtp * mailsmtp_new(size_t progr_rate,
   session->smtp_sasl.sasl_conn = NULL;
 #endif
   
+  session->max_msg_size = 0;
+
   return session;
 
  free_line_buffer:
@@ -404,6 +406,7 @@ int mailesmtp_parse_ehlo(mailsmtp * session)
       session->esmtp |= MAILSMTP_ESMTP_STARTTLS;
     else if (!strncasecmp(response, "SIZE", 4) && isdelim(response[4])) {
       session->esmtp |= MAILSMTP_ESMTP_SIZE;
+      session->max_msg_size = strtoul(response + 4, NULL, 10);
       /* TODO: grab optionnal max size */
     } else if (!strncasecmp(response, "AUTH ", 5)) {
       response += 5;       /* remove "AUTH " */
@@ -476,32 +479,39 @@ int mailesmtp_ehlo(mailsmtp * session)
   envid can be NULL
 */
 
-
 int mailesmtp_mail(mailsmtp * session,
 		    const char * from,
 		    int return_full,
 		    const char * envid)
 {
+	return mailesmtp_mail_size(session, from, return_full, envid, 0);
+}
+
+int mailesmtp_mail_size(mailsmtp * session,
+		    const char * from,
+		    int return_full,
+		    const char * envid, size_t size)
+{
   int r;
   char command[SMTP_STRING_SIZE];
-  char *body = "";
+  char ret_param[SMTP_STRING_SIZE];
+  char envid_param[SMTP_STRING_SIZE];
+  char size_param[SMTP_STRING_SIZE];
 
-#ifdef notyet
-  /* TODO: figure out a way for the user to explicity enable this or not */
-  if (session->esmtp & MAILSMTP_ESMTP_8BITMIME)
-    body = " BODY=8BITMIME";
-#endif
-  
+  ret_param[0] = 0;
+  envid_param[0] = 0;
+  size_param[0] = 0;
   if (session->esmtp & MAILSMTP_ESMTP_DSN) {
-    if (envid)
-      snprintf(command, SMTP_STRING_SIZE, "MAIL FROM:<%s> RET=%s ENVID=%s%s\r\n",
-	       from, return_full ? "FULL" : "HDRS", envid, body);
-    else
-      snprintf(command, SMTP_STRING_SIZE, "MAIL FROM:<%s> RET=%s%s\r\n",
-	       from, return_full ? "FULL" : "HDRS", body);
-  } else
-    snprintf(command, SMTP_STRING_SIZE, "MAIL FROM:<%s>%s\r\n",
-	     from, body);
+    snprintf(ret_param, SMTP_STRING_SIZE, " RET=%s", return_full ? "FULL" : "HDRS");
+    if (envid != NULL) {
+      snprintf(envid_param, SMTP_STRING_SIZE, " ENVID=%s", envid);
+    }
+  }
+  if (((session->esmtp & MAILSMTP_ESMTP_SIZE) != 0) && (size != 0)) {
+	snprintf(size_param, SMTP_STRING_SIZE, " SIZE=%lu", (unsigned long) size);
+  }
+  snprintf(command, SMTP_STRING_SIZE, "MAIL FROM:<%s>%s%s%s\r\n",
+    from, ret_param, envid_param, size_param);
 
   r = send_command(session, command);
   if (r == -1)

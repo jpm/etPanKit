@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_types.c,v 1.28 2009/09/06 22:20:26 hoa Exp $
+ * $Id: mailimap_types.c,v 1.29 2010/07/22 07:05:01 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -836,7 +836,7 @@ mailimap_date_time_new(int dt_day, int dt_month, int dt_year, int dt_hour,
   date_time->dt_year = dt_year;
   date_time->dt_hour = dt_hour;
   date_time->dt_min = dt_min;
-  date_time->dt_day = dt_sec;
+  date_time->dt_sec = dt_sec;
   date_time->dt_zone = dt_zone;
 
   return date_time;

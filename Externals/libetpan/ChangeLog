@@ -1,3 +1,16 @@
+2010-07-27 - libetpan-1.0cvs3 - hoa
+
+	* src/low-level/smtp/mailsmtp.[ch]
+	* src/low-level/smtp/mailsmtp_helper.c
+	* src/low-level/smtp/mailsmtp_types.h
+	    implements RFC 1870 (SMTP SIZE).
+
+2010-07-22 - libetpan-1.0cvs2 - hoa
+
+	* src/low-level/imap/mailimap_sender.c
+	* src/low-level/imap/mailimap_types.c
+	    fixed date when appending.
+
 2010-05-30 - libetpan-1.0cvs1 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

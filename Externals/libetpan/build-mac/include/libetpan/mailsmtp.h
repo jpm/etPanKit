@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailsmtp.h,v 1.21 2007/07/26 23:14:02 hoa Exp $
+ * $Id: mailsmtp.h,v 1.22 2010/07/27 00:47:14 hoa Exp $
  */
 
 #ifndef MAILSMTP_H
@@ -103,6 +103,12 @@ int mailesmtp_mail(mailsmtp * session,
 		    const char * from,
 		    int return_full,
 		    const char * envid);
+
+LIBETPAN_EXPORT
+int mailesmtp_mail_size(mailsmtp * session,
+		    const char * from,
+		    int return_full,
+			const char * envid, size_t size);
 
 LIBETPAN_EXPORT
 int mailesmtp_rcpt(mailsmtp * session,

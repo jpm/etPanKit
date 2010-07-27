@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_sender.c,v 1.30 2010/04/05 15:17:15 hoa Exp $
+ * $Id: mailimap_sender.c,v 1.31 2010/07/22 07:05:01 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -907,7 +907,7 @@ mailimap_date_time_send(mailstream * fd,
   if (r != MAILIMAP_NO_ERROR)
     return r;
 
-  r = mailimap_date_year_send(fd, date_time->dt_month);
+  r = mailimap_date_year_send(fd, date_time->dt_year);
   if (r != MAILIMAP_NO_ERROR)
     return r;
 
@@ -932,6 +932,18 @@ mailimap_date_time_send(mailstream * fd,
     return r;
 
   r = mailimap_fixed_digit_send(fd, date_time->dt_sec, 2);
+  if (r != MAILIMAP_NO_ERROR)
+    return r;
+
+  r = mailimap_space_send(fd);
+  if (r != MAILIMAP_NO_ERROR)
+    return r;
+
+  r = mailimap_char_send(fd, '+');
+  if (r != MAILIMAP_NO_ERROR)
+    return r;
+
+  r = mailimap_fixed_digit_send(fd, date_time->dt_zone, 3);
   if (r != MAILIMAP_NO_ERROR)
     return r;
 

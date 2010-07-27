@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailsmtp_types.h,v 1.17 2006/12/13 18:31:33 hoa Exp $
+ * $Id: mailsmtp_types.h,v 1.18 2010/07/27 00:47:14 hoa Exp $
  */
 
 #ifndef MAILSMTP_TYPES_H
@@ -117,6 +117,8 @@ struct mailsmtp {
     const char * sasl_realm;
     void * sasl_secret;
   } smtp_sasl;
+
+  size_t max_msg_size;
 };
 
 typedef struct mailsmtp mailsmtp;
