@@ -144,7 +144,6 @@ static time_t timestamp_from_date(struct mailimf_date_time * date_time)
 	tmval.tm_sec  = date_time->dt_sec;
 	tmval.tm_min  = date_time->dt_min;
 	tmval.tm_hour = date_time->dt_hour;
-	tmval.tm_sec  = date_time->dt_sec;
 	tmval.tm_mday = date_time->dt_day;
 	tmval.tm_mon  = date_time->dt_month - 1;
 	tmval.tm_year = date_time->dt_year - 1900;
