@@ -3,7 +3,7 @@
 @class LEPMessageHeader;
 @class LEPAttachment;
 
-@interface LEPMessage : LEPAbstractMessage {
+@interface LEPMessage : LEPAbstractMessage <NSCoding, NSCopying> {
 	NSString * _body;
 	NSString * _HTMLBody;
 	NSArray * _attachments;

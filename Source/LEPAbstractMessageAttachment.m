@@ -51,6 +51,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
+	[super encodeWithCoder:encoder];
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 	[encoder encodeObject:_header forKey:@"header"];
 }

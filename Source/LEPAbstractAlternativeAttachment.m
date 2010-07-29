@@ -72,6 +72,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
+	[super encodeWithCoder:encoder];
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
 
@@ -90,12 +91,14 @@
         
         attachments = [[NSMutableArray alloc] init];
         for(LEPAbstractAttachment * attachment in oneAlternative) {
-            [attachments addObject:attachment];
+            [attachments addObject:[[attachment copy] autorelease]];
         }
         [alternatives addObject:attachments];
         [attachments release];
     }
     
+	[attachment setAttachments:alternatives];
+	
     [alternatives release];
     
     return attachment;

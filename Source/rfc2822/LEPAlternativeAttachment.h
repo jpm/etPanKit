@@ -8,7 +8,7 @@
 
 #import "LEPAbstractAlternativeAttachment.h"
 
-@interface LEPAlternativeAttachment : LEPAbstractAlternativeAttachment {
+@interface LEPAlternativeAttachment : LEPAbstractAlternativeAttachment <NSCoding> {
 
 }
 

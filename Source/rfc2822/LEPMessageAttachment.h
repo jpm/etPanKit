@@ -11,7 +11,7 @@
 
 @class LEPMessageHeader;
 
-@interface LEPMessageAttachment : LEPAbstractMessageAttachment {
+@interface LEPMessageAttachment : LEPAbstractMessageAttachment <NSCoding> {
 }
 
 @end

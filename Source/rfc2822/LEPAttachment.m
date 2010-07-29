@@ -369,4 +369,16 @@ static char * get_content_type_str(struct mailmime_content * content)
 	return [attachment autorelease];
 }
 
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[super encodeWithCoder:encoder];
+}
+
 @end

@@ -304,6 +304,38 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	return self;
 }
 
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	[self setBody:[coder decodeObjectForKey:@"body"]];
+	[self setHTMLBody:[coder decodeObjectForKey:@"HTMLBody"]];
+	[self setAttachments:[coder decodeObjectForKey:@"attachments"]];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[super encodeWithCoder:encoder];
+	[encoder encodeObject:_body forKey:@"body"];
+	[encoder encodeObject:_HTMLBody forKey:@"HTMLBody"];
+	[encoder encodeObject:_attachments forKey:@"attachments"];
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+    LEPMessage * message;
+    
+    message = [super copyWithZone:zone];
+    
+    [message setBody:[self body]];
+    [message setHTMLBody:[self HTMLBody]];
+    [message setAttachments:[self attachments]];
+    
+    return message;
+}
+
 - (void) parseData:(NSData *)data
 {
 	mailmessage * msg;

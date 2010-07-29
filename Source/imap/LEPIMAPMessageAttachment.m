@@ -10,4 +10,16 @@
 
 @implementation LEPIMAPMessageAttachment
 
+- (id) initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)encoder
+{
+	[super encodeWithCoder:encoder];
+}
+
 @end
