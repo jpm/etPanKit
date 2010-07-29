@@ -138,6 +138,8 @@ static time_t timestamp_from_date(struct mailimf_date_time * date_time)
 {
 	struct tm tmval;
 	time_t timeval;
+	unsigned int zone_min;
+	unsigned int zone_hour;
 	
 	tmval.tm_sec  = date_time->dt_sec;
 	tmval.tm_min  = date_time->dt_min;
@@ -149,7 +151,9 @@ static time_t timestamp_from_date(struct mailimf_date_time * date_time)
 	
 	timeval = mkgmtime(&tmval);
 	
-	timeval -= date_time->dt_zone * 36;
+	zone_hour = date_time->dt_zone / 100;
+	zone_min = date_time->dt_zone % 100;
+	timeval -= zone_hour * 3600 + zone_min * 60;
 	
 	return timeval;
 }
