@@ -146,7 +146,13 @@ static time_t timestamp_from_date(struct mailimf_date_time * date_time)
 	tmval.tm_hour = date_time->dt_hour;
 	tmval.tm_mday = date_time->dt_day;
 	tmval.tm_mon  = date_time->dt_month - 1;
-	tmval.tm_year = date_time->dt_year - 1900;
+	if (date_time->dt_year < 1000) {
+		// workaround when century is not given in year
+		tmval.tm_year = date_time->dt_year + 2000 - 1900;
+	}
+	else {
+		tmval.tm_year = date_time->dt_year - 1900;
+	}
 	
 	timeval = mkgmtime(&tmval);
 	
