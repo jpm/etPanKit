@@ -8,6 +8,7 @@ rootdir="$tempbuilddir/src"
 srcdir="$rootdir/etPanKit"
 logdir="$tempbuilddir/log"
 resultdir="$builddir/builds"
+tmpdir="$tempbuilddir/tmp"
 
 mkdir -p "$resultdir"
 mkdir -p "$logdir"
