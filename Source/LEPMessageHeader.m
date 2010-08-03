@@ -951,11 +951,11 @@ static char * extract_subject(char * str)
 		msgid = strdup([[self messageID] UTF8String]);
 	}
 	in_reply_to = NULL;
-	if ([self inReplyTo] > 0) {
+	if ([[self inReplyTo] count] > 0) {
 		in_reply_to = msg_id_from_string_array([self inReplyTo]);
 	}
 	references = NULL;
-	if ([self references] > 0) {
+	if ([[self references] count] > 0) {
 		references = msg_id_from_string_array([self references]);
 	}
 	subject = NULL;

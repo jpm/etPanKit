@@ -469,7 +469,7 @@ static char * etpan_make_quoted_printable(char * display_charset,
 	NSData * result;
 	
 	str = etpan_make_quoted_printable(DEFAULT_DISPLAY_CHARSET, (char *) [self UTF8String]);
-	result = [NSData dataWithBytes:str length:strlen(str)];
+	result = [NSData dataWithBytes:str length:strlen(str) + 1];
 	free(str);
 	
 	return result;
