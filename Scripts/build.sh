@@ -42,5 +42,8 @@ cd "$tmpdir/sym/Release"
 mkdir -p "EtPanKit-$buildversion"
 mv "EtPanKit.framework" "EtPanKit-$buildversion"
 zip -qry "$resultdir/EtPanKit-$buildversion.zip" "EtPanKit-$buildversion"
+rm -f "$resultdir/EtPanKit-latest.zip"
+cd "$resultdir"
+ln -s "$resultdir/EtPanKit-$buildversion.zip" "$resultdir/EtPanKit-latest.zip"
 
 echo build of etPanKit-$buildversion done
