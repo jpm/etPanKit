@@ -276,7 +276,6 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 @implementation LEPMessage
 
-@synthesize attachments = _attachments;
 @synthesize body = _body;
 @synthesize HTMLBody = _HTMLBody;
 
@@ -435,6 +434,20 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	[array addObject:attachment];
 	[self setAttachments:array];
 	[array release];
+}
+
+- (NSArray *) attachments
+{
+	return _attachments;
+}
+
+- (void) setAttachments:(NSArray *)attachments
+{
+	[_attachments release];
+	for(LEPAbstractAttachment * attachment in attachments) {
+		[attachment setMessage:self];
+	}
+	_attachments = [attachments retain];
 }
 
 @end
