@@ -6,6 +6,8 @@
 
 @property (nonatomic, retain) NSData * data;
 
+- (id) initWithContentsOfFile:(NSString *)filename;
+
 + (LEPAttachment *) attachmentWithContentsOfFile:(NSString *)filename;
 
 + (LEPAttachment *) attachmentWithHTMLString:(NSString *)html; // with alternative by default

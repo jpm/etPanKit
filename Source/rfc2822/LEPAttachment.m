@@ -301,21 +301,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 
 + (LEPAttachment *) attachmentWithContentsOfFile:(NSString *)filename
 {
-	NSString * mimeType;
-	NSData * data;
-	LEPAttachment * attachment;
-	
-	attachment = [[self alloc] init];
-	data = [[NSData alloc] initWithContentsOfFile:filename];
-	mimeType = [self _mimeTypeFromFilename:filename];
-	if (mimeType != nil) {
-		[attachment setMimeType:mimeType];
-	}
-	[attachment setFilename:[filename lastPathComponent]];
-	[attachment setData:data];
-	[data release];
-	
-	return [attachment autorelease];
+	return [[[self alloc] initWithContentsOfFile:filename] autorelease];
 }
 
 + (LEPAttachment *) attachmentWithHTMLString:(NSString *)html
@@ -367,6 +353,24 @@ static char * get_content_type_str(struct mailmime_content * content)
 	[attachment setData:data];
 	
 	return [attachment autorelease];
+}
+
+- (id) initWithContentsOfFile:(NSString *)filename
+{
+	NSString * mimeType;
+	NSData * data;
+	
+	self = [super init];
+	data = [[NSData alloc] initWithContentsOfFile:filename];
+	mimeType = [LEPAttachment _mimeTypeFromFilename:filename];
+	if (mimeType != nil) {
+		[self setMimeType:mimeType];
+	}
+	[self setFilename:[filename lastPathComponent]];
+	[self setData:data];
+	[data release];
+	
+	return self;
 }
 
 - (id) initWithCoder:(NSCoder *)coder
