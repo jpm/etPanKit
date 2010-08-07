@@ -360,7 +360,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	NSString * mimeType;
 	NSData * data;
 	
-	self = [super init];
+	self = [self init];
 	data = [[NSData alloc] initWithContentsOfFile:filename];
 	mimeType = [LEPAttachment _mimeTypeFromFilename:filename];
 	if (mimeType != nil) {
