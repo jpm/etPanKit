@@ -554,7 +554,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* libetpan */ = {
+		8DC2EF4F0486A6940098B216 /* etPanKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "etPanKit" */;
 			buildPhases = (
@@ -593,7 +593,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* libetpan */,
+				8DC2EF4F0486A6940098B216 /* etPanKit */,
 			);
 		};
 /* End PBXProject section */
@@ -769,7 +769,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Externals/libetpan/include",
+					/usr/include/libxml2,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
@@ -783,7 +786,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Externals/libetpan/include",
+					/usr/include/libxml2,
+				);
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
 			};

@@ -305,7 +305,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	NSData * data;
 	LEPAttachment * attachment;
 	
-	attachment = [[LEPAttachment alloc] init];
+	attachment = [[self alloc] init];
 	data = [[NSData alloc] initWithContentsOfFile:filename];
 	mimeType = [self _mimeTypeFromFilename:filename];
 	if (mimeType != nil) {
@@ -329,7 +329,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 		NSData * data;
 		LEPAttachment * attachment;
 		
-		attachment = [[LEPAttachment alloc] init];
+		attachment = [[self alloc] init];
 		[attachment setInlineAttachment:YES];
 		[attachment setMimeType:@"text/html"];
 		data = [html dataUsingEncoding:NSUTF8StringEncoding];
@@ -344,9 +344,9 @@ static char * get_content_type_str(struct mailmime_content * content)
 		
 		alternativeAttachment = [[LEPAlternativeAttachment alloc] init];
 		attachments = [[NSMutableArray alloc] init];
-		attachment = [LEPAttachment attachmentWithString:[html lepFlattenHTML]];
+		attachment = [self attachmentWithString:[html lepFlattenHTML]];
 		[attachments addObject:attachment];
-		attachment = [LEPAttachment attachmentWithHTMLString:html withTextAlternative:NO];
+		attachment = [self attachmentWithHTMLString:html withTextAlternative:NO];
 		[attachments addObject:attachment];
 		[alternativeAttachment setAttachments:attachments];
 		[attachments release];
@@ -360,7 +360,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	NSData * data;
 	LEPAttachment * attachment;
 	
-	attachment = [[LEPAttachment alloc] init];
+	attachment = [[self alloc] init];
 	[attachment setInlineAttachment:YES];
 	[attachment setMimeType:@"text/plain"];
 	data = [stringValue dataUsingEncoding:NSUTF8StringEncoding];
