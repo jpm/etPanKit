@@ -23,4 +23,13 @@
 	[super encodeWithCoder:encoder];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+	LEPAlternativeAttachment * aCopy;
+	
+	aCopy = [super copyWithZone:zone];
+	
+	return aCopy;
+}
+
 @end

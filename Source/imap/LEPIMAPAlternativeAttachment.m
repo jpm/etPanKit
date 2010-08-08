@@ -23,4 +23,13 @@
 	[super encodeWithCoder:encoder];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+	LEPIMAPAlternativeAttachment * aCopy;
+	
+	aCopy = [super copyWithZone:zone];
+	
+	return aCopy;
+}
+
 @end

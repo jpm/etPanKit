@@ -14,7 +14,7 @@
 
 @interface LEPAbstractMessage ()
 
-- (id) _initForCopy;
+//- (id) _initForCopy;
 
 @end
 
@@ -31,6 +31,7 @@
 	return self;
 } 
 
+#if 0
 - (id) _initForCopy
 {
 	self = [super init];
@@ -39,6 +40,7 @@
 	
 	return self;
 }
+#endif
 
 - (void) dealloc
 {
@@ -69,7 +71,7 @@
 {
     LEPAbstractMessage * message;
     
-    message = [[[self class] alloc] _initForCopy];
+    message = [[[self class] alloc] init];
     
     [message->_header release];
     message->_header = [[self header] retain];

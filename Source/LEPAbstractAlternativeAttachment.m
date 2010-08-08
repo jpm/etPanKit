@@ -76,7 +76,6 @@
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
 
-#if 0
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPAbstractAlternativeAttachment * attachment;
@@ -103,6 +102,5 @@
     
     return attachment;
 }
-#endif
 
 @end

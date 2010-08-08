@@ -1,6 +1,6 @@
 #import "LEPAbstractAttachment.h"
 
-@interface LEPAttachment : LEPAbstractAttachment <NSCoding> {
+@interface LEPAttachment : LEPAbstractAttachment <NSCoding, NSCopying> {
     NSData * _data;
 }
 

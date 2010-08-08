@@ -61,22 +61,20 @@
     [encoder encodeObject:_contentID forKey:@"contentID"];
 }
 
-#if 0
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPAbstractAttachment * attachment;
     
-    attachment = [[[self class] alloc] _initForCopy];
+    attachment = [[[self class] alloc] init];
     
 	[attachment setFilename:[self filename]];
 	[attachment setMimeType:[self mimeType]];
 	[attachment setCharset:[self charset]];
 	[attachment setContentID:[self contentID]];
-	[attachment setInlineAttachment:[self inlineAttachment]];
+	[attachment setInlineAttachment:[self isInlineAttachment]];
 	[attachment setMessage:_message];
 	
     return attachment;
 }
-#endif
 
 @end

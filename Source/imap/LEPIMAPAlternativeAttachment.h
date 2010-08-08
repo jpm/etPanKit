@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LEPAbstractAlternativeAttachment.h"
 
-@interface LEPIMAPAlternativeAttachment : LEPAbstractAlternativeAttachment <NSCoding> {
+@interface LEPIMAPAlternativeAttachment : LEPAbstractAlternativeAttachment <NSCoding, NSCopying> {
 
 }
 

@@ -330,7 +330,13 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
     
     [message setBody:[self body]];
     [message setHTMLBody:[self HTMLBody]];
-    [message setAttachments:[self attachments]];
+	NSMutableArray * attachments;
+	attachments = [[NSMutableArray alloc] init];
+	for(LEPAbstractAttachment * attachment in [self attachments]) {
+		[attachments addObject:[[attachment copy] autorelease]];
+	}
+    [message setAttachments:attachments];
+	[attachments release];
     
     return message;
 }

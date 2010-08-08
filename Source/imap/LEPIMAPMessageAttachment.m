@@ -22,4 +22,13 @@
 	[super encodeWithCoder:encoder];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+	LEPIMAPMessageAttachment * aCopy;
+	
+	aCopy = [super copyWithZone:zone];
+	
+	return aCopy;
+}
+
 @end

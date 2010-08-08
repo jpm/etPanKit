@@ -377,12 +377,26 @@ static char * get_content_type_str(struct mailmime_content * content)
 {
 	self = [super initWithCoder:coder];
 	
+	_data = [[coder decodeObjectForKey:@"data"] retain];
+	
 	return self;
 }
 
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
 	[super encodeWithCoder:encoder];
+	[encoder encodeObject:_data forKey:@"data"];
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+	LEPAttachment * aCopy;
+	
+	aCopy = [super copyWithZone:zone];
+	
+	[aCopy setData:[self data]];
+	
+	return aCopy;
 }
 
 @end

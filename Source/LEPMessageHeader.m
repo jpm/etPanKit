@@ -622,12 +622,14 @@ static char * extract_subject(char * str)
 	return self;
 }
 
+#if 0
 - (id) _initForCopy
 {
 	self = [super init];
     
     return self;
 }
+#endif
 
 - (void) dealloc
 {

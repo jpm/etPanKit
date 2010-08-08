@@ -11,18 +11,6 @@
 
 @implementation LEPMessageAttachment
 
-- (id) init
-{
-	self = [super init];
-	
-	return self;
-}
-
-- (void) dealloc
-{
-	[super dealloc];
-}
-
 - (id) initWithCoder:(NSCoder *)coder
 {
 	self = [super initWithCoder:coder];
@@ -33,6 +21,15 @@
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
 	[super encodeWithCoder:encoder];
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+	LEPMessageAttachment * aCopy;
+	
+	aCopy = [super copyWithZone:zone];
+	
+	return aCopy;
 }
 
 @end

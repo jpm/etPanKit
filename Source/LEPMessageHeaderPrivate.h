@@ -11,7 +11,7 @@
 
 @interface LEPMessageHeader (LEPMessageHeaderPrivate)
 
-- (id) _initForCopy;
+//- (id) _initForCopy;
 
 - (void) setFromIMFFields:(struct mailimf_fields *)fields;
 - (struct mailimf_fields *) createIMFFields;

@@ -131,15 +131,16 @@
     [message _setUid:[self uid]];
     [message setFolder:[self folder]];
 	
-    NSMutableArray * attachments;
-    
-    attachments = [[NSMutableArray alloc] init];
-    for(LEPAbstractAttachment * attachment in [self attachments]) {
-        [attachments addObject:attachment];
-    }
-    [message->_attachments release];
-    message->_attachments = [attachments retain];
-    [attachments release];
+	if ([self attachments] != nil) {
+		NSMutableArray * attachments;
+		
+		attachments = [[NSMutableArray alloc] init];
+		for(LEPAbstractAttachment * attachment in [self attachments]) {
+			[attachments addObject:[[attachment copy] autorelease]];
+		}
+		[message _setAttachments:attachments];
+		[attachments release];
+	}
     
     return message;
 }

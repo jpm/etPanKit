@@ -56,7 +56,6 @@
 	[encoder encodeObject:_header forKey:@"header"];
 }
 
-#if 0
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPAbstractMessageAttachment * attachment;
@@ -65,8 +64,15 @@
     [attachment->_header release];
     attachment->_header = [self->_header retain];
     
-    
+	NSMutableArray * attachments;
+	attachments = [[NSMutableArray alloc] init];
+	for(LEPAbstractAttachment * subAttachment in [self attachments]) {
+		[attachments addObject:[[subAttachment copy] autorelease]];
+	}
+	[attachment setAttachments:attachments];
+	[attachments release];
+	
+	return attachment;
 }
-#endif
     
 @end

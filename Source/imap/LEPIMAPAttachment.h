@@ -2,7 +2,7 @@
 
 @class LEPIMAPFetchAttachmentRequest;
 
-@interface LEPIMAPAttachment : LEPAbstractAttachment <NSCoding> {
+@interface LEPIMAPAttachment : LEPAbstractAttachment <NSCoding, NSCopying> {
 	NSString * _partID;
 	int _encoding;
 	size_t _size;

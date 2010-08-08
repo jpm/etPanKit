@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LEPAbstractMessageAttachment.h"
 
-@interface LEPIMAPMessageAttachment : LEPAbstractMessageAttachment <NSCoding> {
+@interface LEPIMAPMessageAttachment : LEPAbstractMessageAttachment <NSCoding, NSCopying> {
 }
 
 @end

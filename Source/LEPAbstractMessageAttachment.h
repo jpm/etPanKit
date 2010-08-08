@@ -11,7 +11,7 @@
 
 @class LEPMessageHeader;
 
-@interface LEPAbstractMessageAttachment : LEPAbstractAttachment <NSCoding> {
+@interface LEPAbstractMessageAttachment : LEPAbstractAttachment <NSCoding, NSCopying> {
 	LEPMessageHeader * _header;
 	NSArray * /* LEPAttachment */ _attachments;
 }
