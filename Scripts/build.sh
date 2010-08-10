@@ -29,6 +29,8 @@ version=`defaults read "$srcdir/Info" CFBundleShortVersionString`
 defaults write "$srcdir/version" CFBundleVersion $buildversion
 defaults write "$srcdir/version" CFBundleShortVersionString $version
 defaults write "$srcdir/Info" CFBundleVersion "$buildversion"
+plutil -convert xml1 "$srcdir/version.plist"
+plutil -convert xml1 "$srcdir/Info.plist"
 
 /Developer/usr/bin/xcodebuild -target etPanKit -configuration Release OBJROOT="$tmpdir/obj" SYMROOT="$tmpdir/sym" RUN_CLANG_STATIC_ANALYZER="NO" >> "$logdir/etpankit-build.log"
 if test x$? != x0 ; then
