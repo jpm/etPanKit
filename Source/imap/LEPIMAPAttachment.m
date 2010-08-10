@@ -403,6 +403,7 @@
     attachment->_encoding = self->_encoding;
     [attachment->_partID release];
     attachment->_partID = [self->_partID copy];
+    attachment->_size = self->_size;
     
     return attachment;
 }
