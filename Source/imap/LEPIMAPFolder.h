@@ -41,6 +41,7 @@
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
+- (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message flags:(LEPIMAPMessageFlag)flags;
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;
 
 - (LEPIMAPRequest *) subscribeRequest;

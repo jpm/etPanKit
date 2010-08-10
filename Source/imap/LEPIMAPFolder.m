@@ -126,12 +126,18 @@
 
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
 {
+	return [self appendMessageRequest:message flags:LEPIMAPMessageFlagSeen];
+}
+
+- (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message flags:(LEPIMAPMessageFlag)flags
+{
 	LEPIMAPAppendMessageRequest * request;
 	
 	request = [[LEPIMAPAppendMessageRequest alloc] init];
     [request setData:[message data]];
     [request setPath:[self path]];
-    
+    [request setFlags:flags];
+	
     [self _setupRequest:request];
     
     return [request autorelease];
