@@ -794,49 +794,49 @@ static char * extract_subject(char * str)
 				
 				formatters = [[NSMutableArray alloc] init];
 				
-				// parse DATE: 14/11/07 14:36:17 -> jj/mm/aa hh/mm/ss
+				// parse DATE: 14/11/07 14:36:17 -> jj/mm/aa hh:mm:ss
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"d/M/yy H:m:s"];
 				[formatters addObject:formatter];
 				[formatter release];
 
-				// parse DATE: 14/11/2007 14:36:17 -> jj/mm/aaaa hh/mm/ss
+				// parse DATE: 14/11/2007 14:36:17 -> jj/mm/aaaa hh:mm:ss
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"d/M/yyyy H:m:s"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 11/14/07 14:36:17 -> mm/jj/aaaa hh/mm/ss
+				// parse DATE: 11/14/07 14:36:17 -> mm/jj/aaaa hh:mm:ss
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"M/d/yy H:m:s"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 11/14/2007 14:36:17 -> mm/jj/aaaa hh/mm/ss
+				// parse DATE: 11/14/2007 14:36:17 -> mm/jj/aaaa hh:mm:ss
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"M/d/yyyy H:m:s"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 14/11/07 14:36 -> jj/mm/aa hh/mm/ss
+				// parse DATE: 14/11/07 14:36 -> jj/mm/aa hh:mm
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"d/M/yy H:m"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 14/11/2007 14:36 -> jj/mm/aaaa hh/mm/ss
+				// parse DATE: 14/11/2007 14:36 -> jj/mm/aaaa hh:mm
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"d/M/yyyy H:m"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 11/14/07 14:36 -> mm/jj/aaaa hh/mm/ss
+				// parse DATE: 11/14/07 14:36 -> mm/jj/aaaa hh:mm
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"M/d/yy H:m"];
 				[formatters addObject:formatter];
 				[formatter release];
 				
-				// parse DATE: 11/14/2007 14:36 -> mm/jj/aaaa hh/mm/ss
+				// parse DATE: 11/14/2007 14:36 -> mm/jj/aaaa hh:mm
 				formatter = [[NSDateFormatter alloc] init];
 				[formatter setDateFormat:@"M/d/yyyy H:m"];
 				[formatters addObject:formatter];
