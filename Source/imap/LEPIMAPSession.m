@@ -1113,10 +1113,13 @@ static struct mailimap_set * setFromArray(NSArray * array)
 {
     int r;
     struct mailimap_flag_list * flag_list;
+    uint32_t uidvalidity;
+	uint32_t uidresult;
     
     flag_list = NULL;
     flag_list = flags_to_lep(flags);
-    r = mailimap_append(_imap, [path UTF8String], flag_list, NULL, [messageData bytes], [messageData length]);
+    r = mailimap_uidplus_append(_imap, [path UTF8String], flag_list, NULL, [messageData bytes], [messageData length],
+								&uidvalidity, &uidresult);
     mailimap_flag_list_free(flag_list);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1141,6 +1144,11 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		[self setError:error];
 		[error release];
         return;
+	}
+	[_resultUidSet release];
+	_resultUidSet = nil;
+	if (uidresult != 0) {
+		_resultUidSet = [[NSArray arrayWithObject:[NSNumber numberWithLong:uidresult]] retain];
 	}
 }
 
@@ -1189,8 +1197,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	if (src_uid != NULL) {
 		mailimap_set_free(src_uid);
 	}
+	[_resultUidSet release];
+	_resultUidSet = nil;
 	if (dest_uid != NULL) {
-		[_resultUidSet release];
 		_resultUidSet = [arrayFromSet(dest_uid) retain];
 		mailimap_set_free(dest_uid);
 	}
