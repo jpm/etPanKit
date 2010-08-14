@@ -365,6 +365,9 @@ static inline void get_word(char * begin, char ** pend, int * pto_be_quoted)
 	while ((* cur != ' ') && (* cur != '\t') && (* cur != '\0')) {
 		cur ++;
 	}
+	while (((* cur == ' ') || (* cur == '\t')) && (* cur != '\0')) {
+		cur ++;
+	}
 	
 	if (cur - begin +
 		1  /* minimum column of string in a
