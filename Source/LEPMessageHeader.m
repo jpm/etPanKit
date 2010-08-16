@@ -335,10 +335,33 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 	cur_token = * begin;
 	
 	prefix = 0;
-	if (length >= 3) {
-		if (strncasecmp(subj + cur_token, "fwd", 3) == 0) {
-			cur_token += 3;
-			prefix = 1;
+	if (!prefix) {
+		if (length >= 5) {
+			// é is 2 chars in utf-8
+			if (strncasecmp(subj + cur_token, "réf.", 5) == 0) {
+				cur_token += 5;
+				prefix = 1;
+			}
+			else if (strncasecmp(subj + cur_token, "rép.", 5) == 0) {
+				cur_token += 5;
+				prefix = 1;
+			}
+		}
+	}
+	if (!prefix) {
+		if (length >= 4) {
+			if (strncasecmp(subj + cur_token, "antw", 4) == 0) {
+				cur_token += 4;
+				prefix = 1;
+			}
+		}
+	}
+	if (!prefix) {
+		if (length >= 3) {
+			if (strncasecmp(subj + cur_token, "fwd", 3) == 0) {
+				cur_token += 3;
+				prefix = 1;
+			}
 		}
 	}
 	if (!prefix) {
@@ -352,6 +375,10 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 				prefix = 1;
 			}
 			else if (strncasecmp(subj + cur_token, "tr", 2) == 0) {
+				cur_token += 2;
+				prefix = 1;
+			}
+			else if (strncasecmp(subj + cur_token, "aw", 2) == 0) {
 				cur_token += 2;
 				prefix = 1;
 			}
