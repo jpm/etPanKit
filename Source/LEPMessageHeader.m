@@ -642,26 +642,17 @@ static char * extract_subject(char * str)
 
 - (id) init
 {
-	char * msgid;
+	//char * msgid;
 	
 	self = [super init];
 	
 	[self setDate:[NSDate date]];
-	msgid = mailimf_get_message_id();
-	[self setMessageID:[NSString stringWithUTF8String:msgid]];
-	free(msgid);
+	//msgid = mailimf_get_message_id();
+	//[self setMessageID:[NSString stringWithUTF8String:msgid]];
+	//free(msgid);
 	
 	return self;
 }
-
-#if 0
-- (id) _initForCopy
-{
-	self = [super init];
-    
-    return self;
-}
-#endif
 
 - (void) dealloc
 {
