@@ -642,14 +642,21 @@ static char * extract_subject(char * str)
 
 - (id) init
 {
-	//char * msgid;
+	static NSString * hostname = nil;
+	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+	NSString * messageID;
 	
 	self = [super init];
 	
 	[self setDate:[NSDate date]];
-	//msgid = mailimf_get_message_id();
-	//[self setMessageID:[NSString stringWithUTF8String:msgid]];
-	//free(msgid);
+	pthread_mutex_lock(&lock);
+	if (hostname == nil) {
+		hostname = [[[NSProcessInfo processInfo] hostName] copy];
+	}
+	pthread_mutex_unlock(&lock);
+	messageID = [[NSString alloc] initWithFormat:@"%@@%@", [NSString lepUUIDString], hostname];
+	[self setMessageID:messageID];
+	[messageID release];
 	
 	return self;
 }
