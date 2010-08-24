@@ -50,3 +50,7 @@ cd "$resultdir"
 ln -s "$resultdir/EtPanKit-$buildversion.zip" "$resultdir/EtPanKit-latest.zip"
 
 echo build of etPanKit-$buildversion done
+
+echo sync
+rsync -azv $HOME/EtPanKit-Builds/builds/ download.etpan.org:/opt/EtPanKit/builds/
+
