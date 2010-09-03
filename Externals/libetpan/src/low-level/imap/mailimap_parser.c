@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.51 2010/05/29 22:33:57 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.52 2010/09/03 22:05:13 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -7866,6 +7866,7 @@ mailimap_response_data_parse(mailstream * fd, MMAPString * buffer,
   }
 
   if (r != MAILIMAP_NO_ERROR) {
+	mailstream_log_error(fd, buffer->str + cur_token, buffer->len - cur_token);
     res = r;
     goto err;
   }

@@ -14,6 +14,7 @@ mkdir -p include/libetpan
 cp -r ../include/libetpan/ include/libetpan/
 cp ../config.h include
 cp ../libetpan-config.h include
+rm -rf OpenSSL
 mkdir -p OpenSSL
 cd OpenSSL
 curl -O http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz

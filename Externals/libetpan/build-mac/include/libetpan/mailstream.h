@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream.h,v 1.19 2010/03/21 15:54:06 hoa Exp $
+ * $Id: mailstream.h,v 1.20 2010/09/03 22:05:13 hoa Exp $
  */
 
 #ifndef MAILSTREAM_H
@@ -57,6 +57,8 @@ ssize_t mailstream_read(mailstream * s, void * buf, size_t count);
 int mailstream_close(mailstream * s);
 int mailstream_flush(mailstream * s);
 ssize_t mailstream_feed_read_buffer(mailstream * s);
+
+void mailstream_log_error(mailstream * s, char * buf, size_t count);
 
 LIBETPAN_EXPORT
 mailstream_low * mailstream_get_low(mailstream * s);

@@ -1,3 +1,16 @@
+2010-09-03 - libetpan-1.0cvs5 - hoa
+
+	* build-windows/libetpan_version.h
+		update version.
+	* src/data-types/mailstream.[ch]
+	* src/data-types/mailstream_low.[ch]
+	* src/low-level/imap/mailimap_parser.c
+		report parse error.
+	* build-mac/update.sh
+		fixed mac update.
+	* src/data-types/connect.c
+		fixed memory leak.
+
 2010-07-27 - libetpan-1.0cvs4 - hoa
 
 	* src/low-level/smtp/mailsmtp_helper.c
