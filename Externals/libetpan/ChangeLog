@@ -1,3 +1,8 @@
+2010-09-05 - libetpan-1.0cvs7 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   create an empty list in case of empty multipart.
+
 2010-09-04 - libetpan-1.0cvs6 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

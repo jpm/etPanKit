@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.53 2010/09/04 16:59:05 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.54 2010/09/04 22:35:50 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2964,7 +2964,11 @@ mailimap_body_type_mpart_parse(mailstream * fd,
 				     mailimap_body_free,
 				     progr_rate, progr_fun);
   if (r == MAILIMAP_ERROR_PARSE) {
-	// do nothing
+	body_list =  clist_new();
+	if (body_list == NULL) {
+		res = MAILIMAP_ERROR_MEMORY;
+		goto err;
+	}
   }
   else if (r != MAILIMAP_NO_ERROR) {
     res = r;
