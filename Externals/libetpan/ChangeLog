@@ -1,3 +1,8 @@
+2010-09-04 - libetpan-1.0cvs6 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   workaround Gmail IMAP bug: zero bodies in multipart.
+
 2010-09-03 - libetpan-1.0cvs5 - hoa
 
 	* build-windows/libetpan_version.h
