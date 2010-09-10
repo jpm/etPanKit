@@ -63,7 +63,7 @@
         
 		currentSet = [[NSMutableSet alloc] init];
 		
-        match = YES;
+        //match = YES;
         for(NSString * name in mailboxNames) {
             NSString * str;
             
@@ -75,27 +75,27 @@
                 str = [name substringFromIndex:14];
             }
             
-#if 0
-            if (str != nil) {
-                if (![folderNameSet containsObject:str]) {
-                    match = NO;
-                    continue;
-                }
-            }
-#endif
 			if (str != nil) {
 				[currentSet addObject:str];
 			}
         }
 		
+		unsigned int matchCount;
+		matchCount = 0;
+		match = NO;
 		for(NSString * folderName in folderNameArray) {
-			if (![currentSet containsObject:folderName]) {
-				match = NO;
+			if ([currentSet containsObject:folderName]) {
+				[currentSet removeObject:folderName];
+				matchCount ++;
 			}
+		}
+		if (matchCount == [item count]) {
+			match = YES;
 		}
 		
 		[currentSet release];
 		
+		//NSLog(@"is google mail %u", isGoogleMail);
         //LEPLog(@"%@ %@ %u", mailboxNames, folderNameSet, match);
         if (match) {
 			LEPLog(@"match %@ %@", mailboxNames, folderNameArray);
@@ -106,6 +106,7 @@
 				NSString * name;
 				
 				name = [item objectForKey:key];
+				//NSLog(@"%@ -> %@", key, name);
 				if ([name hasPrefix:@"[Gmail]/"]) {
 					if (isGoogleMail) {
 						name = [@"[Google Mail]/" stringByAppendingString:[name substringFromIndex:8]];
@@ -116,6 +117,7 @@
 						name = [@"[Gmail]/" stringByAppendingString:[name substringFromIndex:14]];
 					}
 				}
+				//NSLog(@"%@ -> %@", key, name);
 				[gmailMailboxes setObject:name forKey:key];
 			}
             [_account setGmailMailboxNames:gmailMailboxes];
