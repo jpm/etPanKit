@@ -7,6 +7,7 @@
 //
 
 #import "LEPMessageHeader.h"
+#import "LEPMessageHeaderPrivate.h"
 
 #import "LEPAddress.h"
 #import "LEPAddressPrivate.h"
@@ -642,6 +643,7 @@ static char * extract_subject(char * str)
 
 - (id) init
 {
+#if 0
 	static NSString * hostname = nil;
 	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 	NSString * messageID;
@@ -657,6 +659,33 @@ static char * extract_subject(char * str)
 	messageID = [[NSString alloc] initWithFormat:@"%@@%@", [NSString lepUUIDString], hostname];
 	[self setMessageID:messageID];
 	[messageID release];
+	
+	return self;
+#endif
+	return [self _initWithDate:YES messageID:YES];
+}
+
+- (id) _initWithDate:(BOOL)generateDate messageID:(BOOL)generateMessageID
+{
+	static NSString * hostname = nil;
+	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+	NSString * messageID;
+	
+	self = [super init];
+	
+	if (generateDate) {
+		[self setDate:[NSDate date]];
+	}
+	if (generateMessageID) {
+		pthread_mutex_lock(&lock);
+		if (hostname == nil) {
+			hostname = [[[NSProcessInfo processInfo] hostName] copy];
+		}
+		pthread_mutex_unlock(&lock);
+		messageID = [[NSString alloc] initWithFormat:@"%@@%@", [NSString lepUUIDString], hostname];
+		[self setMessageID:messageID];
+		[messageID release];
+	}
 	
 	return self;
 }

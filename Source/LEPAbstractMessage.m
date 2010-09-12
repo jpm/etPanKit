@@ -12,6 +12,8 @@
 #import "LEPUtils.h"
 #import "LEPAbstractAttachment.h"
 
+#import "LEPIMAPMessage.h"
+
 @interface LEPAbstractMessage ()
 
 //- (id) _initForCopy;
@@ -31,16 +33,14 @@
 	return self;
 } 
 
-#if 0
-- (id) _initForCopy
+- (id) _initWithDate:(BOOL)generateDate messageID:(BOOL)generateMessageID
 {
 	self = [super init];
 	
-	_header = [[LEPMessageHeader alloc] _initForCopy];
+	_header = [[LEPMessageHeader alloc] _initWithDate:generateDate messageID:generateMessageID];
 	
 	return self;
 }
-#endif
 
 - (void) dealloc
 {
@@ -70,8 +70,18 @@
 - (id) copyWithZone:(NSZone *)zone
 {
     LEPAbstractMessage * message;
-    
-    message = [[[self class] alloc] init];
+	
+	if ([self class] == [LEPIMAPMessage class]) {
+		BOOL generateDate;
+		BOOL generateMessageID;
+		
+		generateDate = ([[self header] date] == nil);
+		generateMessageID = ([[self header] messageID] == nil);
+		message = [[[self class] alloc] _initWithDate:generateDate messageID:generateMessageID];
+	}
+	else {
+		message = [[[self class] alloc] init];
+	}
     
     [message->_header release];
     message->_header = [[self header] retain];
