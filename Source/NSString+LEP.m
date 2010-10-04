@@ -442,7 +442,7 @@ static char * etpan_make_quoted_printable(char * display_charset,
 
 @implementation NSString (LEP)
 
-+ (NSString *) lepStringByDecodingMIMEHeaderValue:(const char *)phrase;
++ (NSString *) lepStringByDecodingMIMEHeaderValue:(const char *)phrase
 {
     size_t cur_token;
     char * decoded;
@@ -454,6 +454,7 @@ static char * etpan_make_quoted_printable(char * display_charset,
     }
     
     cur_token = 0;
+	decoded = NULL;
     mailmime_encoded_phrase_parse(DEFAULT_INCOMING_CHARSET,
                                   phrase, strlen(phrase),
                                   &cur_token, DEFAULT_DISPLAY_CHARSET,
