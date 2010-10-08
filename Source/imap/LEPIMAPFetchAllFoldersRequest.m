@@ -28,6 +28,8 @@
     //NSMutableSet * folderNameSet;
 	NSMutableArray * folderNameArray;
     BOOL isGoogleMail;
+	unsigned int bestScore;
+	NSDictionary * bestItem;
 	
 	isGoogleMail = NO;
     LEPLog(@"finished ! %@", _folders);
@@ -52,6 +54,8 @@
         }
     }
     
+	bestItem = nil;
+	bestScore = 0;
     localizedMailbox = [[NSArray alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"localized-mailbox" ofType:@"plist"]];
     //LEPLog(@"%@", localizedMailbox);
     for(NSDictionary * item in localizedMailbox) {
@@ -89,6 +93,13 @@
 				matchCount ++;
 			}
 		}
+		if (matchCount > bestScore) {
+			bestScore = matchCount;
+			bestItem = item;
+		}
+		
+		[currentSet release];
+#if 0
 		if (matchCount == [item count]) {
 			match = YES;
 		}
@@ -124,7 +135,37 @@
 			[gmailMailboxes release];
             break;
         }
+#endif
     }
+	
+	if (bestItem != nil) {
+		//LEPLog(@"match %@ %@", mailboxNames, folderNameArray);
+		NSMutableDictionary * gmailMailboxes;
+		
+		gmailMailboxes = [[NSMutableDictionary alloc] init];
+		for(NSString * key in bestItem) {
+			NSString * name;
+			
+			name = [bestItem objectForKey:key];
+			//NSLog(@"%@ -> %@", key, name);
+			if ([name hasPrefix:@"[Gmail]/"]) {
+				if (isGoogleMail) {
+					name = [@"[Google Mail]/" stringByAppendingString:[name substringFromIndex:8]];
+				}
+			}
+			else if ([name hasPrefix:@"[Google Mail]/"]) {
+				if (!isGoogleMail) {
+					name = [@"[Gmail]/" stringByAppendingString:[name substringFromIndex:14]];
+				}
+			}
+			//NSLog(@"%@ -> %@", key, name);
+			[gmailMailboxes setObject:name forKey:key];
+		}
+		//NSLog(@"%@", gmailMailboxes);
+		[_account setGmailMailboxNames:gmailMailboxes];
+		[gmailMailboxes release];
+	}
+	
     [localizedMailbox release];
     
     //[folderNameSet release];
