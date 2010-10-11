@@ -1074,9 +1074,11 @@ static char * extract_subject(char * str)
 		cc = lep_address_list_from_array([self cc]);
 	}
 	bcc = NULL;
+#if 0
 	if ([[self bcc] count] > 0) {
 		bcc = lep_address_list_from_array([self bcc]);
 	}
+#endif
 	msgid = NULL;
 	if ([self messageID] != nil) {
 		msgid = strdup([[self messageID] UTF8String]);
