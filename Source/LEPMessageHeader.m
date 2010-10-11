@@ -640,6 +640,7 @@ static char * extract_subject(char * str)
 @synthesize bcc = _bcc;
 @synthesize replyTo = _replyTo;
 @synthesize subject = _subject;
+@synthesize userAgent = _userAgent;
 
 - (id) init
 {
@@ -692,6 +693,7 @@ static char * extract_subject(char * str)
 
 - (void) dealloc
 {
+	[_userAgent release];
     [_sender release];
 	[_messageID release];
 	[_references release];
@@ -1051,6 +1053,7 @@ static char * extract_subject(char * str)
 	struct mailimf_address_list * bcc;
 	clist * in_reply_to;
 	clist * references;
+	struct mailimf_fields * fields;
 	
 	date = NULL;
 	if ([self date] != nil) {
@@ -1100,7 +1103,8 @@ static char * extract_subject(char * str)
             subject = strdup([data bytes]);
         }
 	}
-	return mailimf_fields_new_with_data_all(date,
+	
+	fields = mailimf_fields_new_with_data_all(date,
 											from,
 											NULL /* sender */,
 											reply_to,
@@ -1111,6 +1115,15 @@ static char * extract_subject(char * str)
 											in_reply_to,
 											references,
 											subject);
+	
+	if (_userAgent != nil) {
+		struct mailimf_field * field;
+		
+		field = mailimf_field_new_custom(strdup("X-Mailer"), strdup([_userAgent UTF8String]));
+		mailimf_fields_add(fields, field);
+	}
+	
+	return fields;
 }
 
 - (NSString *) extractedSubject

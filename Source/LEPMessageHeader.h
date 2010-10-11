@@ -22,6 +22,7 @@
 	NSArray * /* LEPAddress */ _replyTo;
 	NSString * _subject;
     NSDate * _date;
+	NSString * _userAgent;
 }
 
 @property (nonatomic, retain) NSString * messageID;
@@ -38,5 +39,8 @@
 @property (nonatomic, copy) NSArray * /* LEPAddress */ replyTo;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain, readonly) NSString * extractedSubject;
+
+// X-Mailer, currently only used when generating message
+@property (nonatomic, copy) NSString * userAgent;
 
 @end
