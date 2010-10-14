@@ -379,9 +379,12 @@ struct lepData {
     else if (r != MAILSMTP_NO_ERROR) {
         NSError * error;
         
-        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+		userInfo = [[NSMutableDictionary alloc] init];
+		[userInfo setObject:[NSNumber numberWithInt:r] forKey:@"LibetpanError"];
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:userInfo];
         [self setError:error];
         [error release];
+		[userInfo release];
         goto disconnect;
     }
 	
