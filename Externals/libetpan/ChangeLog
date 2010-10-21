@@ -1,3 +1,13 @@
+2010-10-21 - libetpan-1.0cvs9 - hoa
+
+	* src/low-level/imap/idle.c
+	   fixed function name. Thanks Michael Rasmussen.
+
+2010-09-15 - libetpan-1.0cvs8 - hoa
+
+	* src/low-level/imap/mailimap_types_helper.c
+	   fixed search.
+
 2010-09-05 - libetpan-1.0cvs7 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

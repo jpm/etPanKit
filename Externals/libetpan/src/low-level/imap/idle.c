@@ -158,7 +158,7 @@ void mailimap_idle_set_delay(mailimap * session, long delay)
 }
 
 LIBETPAN_EXPORT
-long mailimap_idle_get_done_date(mailimap * session)
+long mailimap_idle_get_done_delay(mailimap * session)
 {
   time_t current_time;
   time_t next_date;

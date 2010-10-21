@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_types_helper.c,v 1.14 2010/04/05 13:33:07 hoa Exp $
+ * $Id: mailimap_types_helper.c,v 1.15 2010/09/15 16:26:12 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -800,7 +800,7 @@ mailimap_search_key_new_since(struct mailimap_date * sk_since)
 struct mailimap_search_key *
 mailimap_search_key_new_subject(char * sk_subject)
 {
-  return mailimap_search_key_new(MAILIMAP_SEARCH_KEY_SINCE, NULL, NULL,
+  return mailimap_search_key_new(MAILIMAP_SEARCH_KEY_SUBJECT, NULL, NULL,
 				 NULL, NULL, NULL, NULL, NULL, NULL,
 				 sk_subject, NULL, NULL, NULL, NULL,
 				 NULL, 0, NULL,
