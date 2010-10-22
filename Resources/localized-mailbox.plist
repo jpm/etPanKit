@@ -400,7 +400,7 @@
 		<key>drafts</key>
 		<string>[Google Mail]/Utkast</string>
 		<key>sentmail</key>
-		<string>[Google Mail]/Skickat mail</string>
+		<string>[Google Mail]/Skickade mail</string>
 		<key>spam</key>
 		<string>[Google Mail]/Skr&amp;AOQ-ppost</string>
 		<key>starred</key>
