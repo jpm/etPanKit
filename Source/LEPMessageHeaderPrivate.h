@@ -20,4 +20,6 @@
 - (void) setFromIMAPReferences:(NSData *)data;
 - (void) setFromIMAPEnvelope:(struct mailimap_envelope *)env;
 
+- (void) _setFromInternalDate:(struct mailimap_date_time *)date;
+
 @end

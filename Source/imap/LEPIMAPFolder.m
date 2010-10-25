@@ -188,7 +188,7 @@
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
-    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders | LEPIMAPMessagesRequestKindInternalDate];
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];
@@ -242,7 +242,7 @@
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
 	request = [[LEPIMAPFetchFolderMessagesRequest alloc] init];
-    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders | LEPIMAPMessagesRequestKindStructure];
+    [request setFetchKind:LEPIMAPMessagesRequestKindFlags | LEPIMAPMessagesRequestKindHeaders | LEPIMAPMessagesRequestKindStructure | LEPIMAPMessagesRequestKindInternalDate];
     [request setPath:[self path]];
     [request setFromUID:fromUID];
     [request setToUID:toUID];

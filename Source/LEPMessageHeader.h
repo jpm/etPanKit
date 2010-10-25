@@ -22,6 +22,7 @@
 	NSArray * /* LEPAddress */ _replyTo;
 	NSString * _subject;
     NSDate * _date;
+	NSDate * _internalDate;
 	NSString * _userAgent;
 }
 
@@ -30,6 +31,7 @@
 @property (nonatomic, copy) NSArray * /* NSString */ inReplyTo;
 
 @property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSDate * internalDate;
 
 @property (nonatomic, retain) LEPAddress * sender;
 @property (nonatomic, retain) LEPAddress * from;

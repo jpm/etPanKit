@@ -191,6 +191,41 @@ static struct mailimf_date_time * get_date_from_timestamp(time_t timeval)
 	return date_time;
 }
 
+static time_t timestamp_from_imap_date(struct mailimap_date_time * date_time)
+{
+	struct tm tmval;
+	time_t timeval;
+	int zone_min;
+	int zone_hour;
+	
+	tmval.tm_sec  = date_time->dt_sec;
+	tmval.tm_min  = date_time->dt_min;
+	tmval.tm_hour = date_time->dt_hour;
+	tmval.tm_mday = date_time->dt_day;
+	tmval.tm_mon  = date_time->dt_month - 1;
+	if (date_time->dt_year < 1000) {
+		// workaround when century is not given in year
+		tmval.tm_year = date_time->dt_year + 2000 - 1900;
+	}
+	else {
+		tmval.tm_year = date_time->dt_year - 1900;
+	}
+	
+	timeval = mkgmtime(&tmval);
+	
+	if (date_time->dt_zone >= 0) {
+		zone_hour = date_time->dt_zone / 100;
+		zone_min = date_time->dt_zone % 100;
+	}
+	else {
+		zone_hour = -((- date_time->dt_zone) / 100);
+		zone_min = -((- date_time->dt_zone) % 100);
+	}
+	timeval -= zone_hour * 3600 + zone_min * 60;
+	
+	return timeval;
+}
+
 #pragma mark RFC 2822 mailbox conversion
 
 static NSArray * lep_address_list_from_lep_mailbox(struct mailimf_mailbox_list * mb_list)
@@ -630,6 +665,7 @@ static char * extract_subject(char * str)
 @implementation LEPMessageHeader
 
 @synthesize date = _date;
+@synthesize internalDate = _internalDate;
 @synthesize messageID = _messageID;
 @synthesize references = _references;
 @synthesize inReplyTo = _inReplyTo;
@@ -704,6 +740,7 @@ static char * extract_subject(char * str)
 	[_bcc release];
     [_replyTo release];
 	[_subject release];
+	[_internalDate release];
     [_date release];
     
 	[super dealloc];
@@ -915,7 +952,8 @@ static char * extract_subject(char * str)
 			}
 		}
 	}
-	
+
+#if 0
 	if (env->env_subject != NULL) {
 		char * subject;
 		
@@ -923,6 +961,7 @@ static char * extract_subject(char * str)
 		subject = env->env_subject;
 		[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:subject]];
 	}
+#endif
 	
 	if (env->env_sender != NULL) {
 		if (env->env_sender->snd_list != NULL) {
@@ -1021,6 +1060,7 @@ static char * extract_subject(char * str)
 
 - (void) setFromIMAPReferences:(NSData *)data
 {
+#if 0
 	size_t cur_token;
 	//clist * msg_id_list;
 	int r;
@@ -1039,6 +1079,36 @@ static char * extract_subject(char * str)
 		//clist_free(msg_id_list);
 		mailimf_references_free(references);
 	}
+#else
+	size_t cur_token;
+	struct mailimf_fields * fields;
+	int r;
+	struct mailimf_single_fields single_fields;
+	
+	cur_token = 0;
+	r = mailimf_fields_parse([data bytes], [data length], &cur_token, &fields);
+	if (r != MAILIMF_NO_ERROR) {
+		return;
+	}
+	
+	mailimf_single_fields_init(&single_fields, fields);
+	if (single_fields.fld_references != NULL) {
+		NSArray * msgids;
+		
+		msgids = msg_id_to_string_array(single_fields.fld_references->mid_list);
+		[self setReferences:msgids];
+	}
+	if (single_fields.fld_subject != NULL) {
+		if (single_fields.fld_subject->sbj_value != NULL) {
+			[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:single_fields.fld_subject->sbj_value]];
+		}
+	}
+#endif
+}
+
+- (void) _setFromInternalDate:(struct mailimap_date_time *)date
+{
+	[self setInternalDate:[NSDate dateWithTimeIntervalSince1970:timestamp_from_imap_date(date)]];
 }
 
 - (struct mailimf_fields *) createIMFFields
@@ -1157,6 +1227,10 @@ static char * extract_subject(char * str)
 	_replyTo = [[decoder decodeObjectForKey:@"replyTo"] retain];
 	_subject = [[decoder decodeObjectForKey:@"subject"] retain];
 	_date = [[decoder decodeObjectForKey:@"date"] retain];
+	_internalDate = [[decoder decodeObjectForKey:@"internalDate"] retain];
+	if (_internalDate == nil) {
+		_internalDate = [_date retain];
+	}
 	
 	return self;
 }
@@ -1174,6 +1248,7 @@ static char * extract_subject(char * str)
 	[encoder encodeObject:_replyTo forKey:@"replyTo"];
 	[encoder encodeObject:_subject forKey:@"subject"];
 	[encoder encodeObject:_date forKey:@"date"];
+	[encoder encodeObject:_internalDate forKey:@"internalDate"];
 }
 
 @end

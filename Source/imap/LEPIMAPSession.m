@@ -1277,8 +1277,10 @@ static struct mailimap_set * setFromArray(NSArray * array)
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
         
         // references header
-        header = strdup("References");
         hdrlist = clist_new();
+        header = strdup("References");
+        clist_append(hdrlist, header);
+        header = strdup("Subject");
         clist_append(hdrlist, header);
         imap_hdrlist = mailimap_header_list_new(hdrlist);
         section = mailimap_section_new_header_fields(imap_hdrlist);
@@ -1289,6 +1291,11 @@ static struct mailimap_set * setFromArray(NSArray * array)
 		// message structure
 		LEPLog(@"request bodystructure");
 		fetch_att = mailimap_fetch_att_new_bodystructure();
+        mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+	}
+	if ((kind & LEPIMAPMessagesRequestKindInternalDate) != 0) {
+		// internal date
+		fetch_att = mailimap_fetch_att_new_internaldate();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
 	}
     
@@ -1377,6 +1384,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
 					// bodystructure
 					attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:att_static->att_data.att_body];
 					[msg _setAttachments:attachments];
+				}
+				else if (att_static->att_type == MAILIMAP_MSG_ATT_INTERNALDATE) {
+					[[msg header] _setFromInternalDate:att_static->att_data.att_internal_date];
 				}
             }
         }

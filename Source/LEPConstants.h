@@ -44,6 +44,7 @@ typedef enum {
     LEPIMAPMessagesRequestKindFlags         = 1 << 0,
     LEPIMAPMessagesRequestKindHeaders       = 1 << 1,
     LEPIMAPMessagesRequestKindStructure     = 1 << 2,
+	LEPIMAPMessagesRequestKindInternalDate   = 1 << 3,
 } LEPIMAPMessagesRequestKind;
 
 typedef enum {
