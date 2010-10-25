@@ -30,6 +30,8 @@
     BOOL isGoogleMail;
 	unsigned int bestScore;
 	NSDictionary * bestItem;
+	unsigned int countGmail;
+	unsigned int countGoogleMail;
 	
 	isGoogleMail = NO;
     LEPLog(@"finished ! %@", _folders);
@@ -37,22 +39,28 @@
     //folderNameSet = [[NSMutableSet alloc] init];
     folderNameArray = [[NSMutableArray alloc] init];
 	
+	countGmail = 0;
+	countGoogleMail = 0;
     for(LEPIMAPFolder * folder in _folders) {
         NSString * str;
         
         str = nil;
         if ([[folder path] hasPrefix:@"[Gmail]/"]) {
             str = [[folder path] substringFromIndex:8];
+			countGmail ++;
         }
         else if ([[folder path] hasPrefix:@"[Google Mail]/"]) {
             str = [[folder path] substringFromIndex:14];
-			isGoogleMail = YES;
+			countGoogleMail ++;
         }
         if (str != nil) {
             //[folderNameSet addObject:str];
 			[folderNameArray addObject:str];
         }
     }
+	if (countGoogleMail > countGmail) {
+		isGoogleMail = YES;
+	}
     
 	bestItem = nil;
 	bestScore = 0;
@@ -99,43 +107,6 @@
 		}
 		
 		[currentSet release];
-#if 0
-		if (matchCount == [item count]) {
-			match = YES;
-		}
-		
-		[currentSet release];
-		
-		//NSLog(@"is google mail %u", isGoogleMail);
-        //LEPLog(@"%@ %@ %u", mailboxNames, folderNameSet, match);
-        if (match) {
-			LEPLog(@"match %@ %@", mailboxNames, folderNameArray);
-			NSMutableDictionary * gmailMailboxes;
-			
-			gmailMailboxes = [[NSMutableDictionary alloc] init];
-			for(NSString * key in item) {
-				NSString * name;
-				
-				name = [item objectForKey:key];
-				//NSLog(@"%@ -> %@", key, name);
-				if ([name hasPrefix:@"[Gmail]/"]) {
-					if (isGoogleMail) {
-						name = [@"[Google Mail]/" stringByAppendingString:[name substringFromIndex:8]];
-					}
-				}
-				else if ([name hasPrefix:@"[Google Mail]/"]) {
-					if (!isGoogleMail) {
-						name = [@"[Gmail]/" stringByAppendingString:[name substringFromIndex:14]];
-					}
-				}
-				//NSLog(@"%@ -> %@", key, name);
-				[gmailMailboxes setObject:name forKey:key];
-			}
-            [_account setGmailMailboxNames:gmailMailboxes];
-			[gmailMailboxes release];
-            break;
-        }
-#endif
     }
 	
 	if (bestItem != nil) {
