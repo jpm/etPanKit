@@ -329,12 +329,29 @@
 - (NSString *) displayName
 {
 	NSArray * components;
-	NSString * name;
 	
 	components = [self pathComponents];
-	name = [[components lastObject] lepDecodeFromModifiedUTF7];
 	
-	return name;
+	NSMutableString * result;
+	result = [NSMutableString string];
+	for(NSString * name in components) {
+		NSString * decoded;
+		
+		decoded = [name lepDecodeFromModifiedUTF7];
+		
+		if ([result length] > 0) {
+			[result appendString:@"/"];
+		}
+		
+		if (decoded == nil) {
+			[result appendString:name];
+		}
+		else {
+			[result appendString:decoded];
+		}
+	}
+	
+	return result;
 }
 
 - (LEPIMAPRequest *) addFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages flags:(LEPIMAPMessageFlag)flags
