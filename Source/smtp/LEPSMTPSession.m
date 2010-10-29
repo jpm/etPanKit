@@ -111,7 +111,7 @@ struct lepData {
 			if (r == MAILSMTP_ERROR_STREAM) {
 				NSError * error;
 				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
 				[self setError:error];
 				[error release];
 				return;
@@ -156,7 +156,7 @@ struct lepData {
 			if (r == MAILSMTP_ERROR_STREAM) {
 				NSError * error;
 				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
 				[self setError:error];
 				[error release];
 				return;
@@ -188,7 +188,7 @@ struct lepData {
 			if (r == MAILSMTP_ERROR_STREAM) {
 				NSError * error;
 				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
 				[self setError:error];
 				[error release];
 				return;
@@ -311,7 +311,7 @@ struct lepData {
     if (r == MAILSMTP_ERROR_STREAM) {
         NSError * error;
         
-        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
         [self setError:error];
         [error release];
         return;
@@ -363,7 +363,7 @@ struct lepData {
     if (r == MAILSMTP_ERROR_STREAM) {
         NSError * error;
         
-        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
         [self setError:error];
         [error release];
         goto disconnect;

@@ -20,6 +20,7 @@
 @property (nonatomic, readonly) NSString * path;
 @property (nonatomic, readonly) uint32_t uidValidity;
 @property (nonatomic, readonly) uint32_t uidNext;
+@property (nonatomic, assign, readonly) int flags;
 
 - (NSString *) displayName;
 - (NSArray *) pathComponents;
