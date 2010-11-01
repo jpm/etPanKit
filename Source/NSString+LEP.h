@@ -13,6 +13,7 @@
 
 + (NSString *) lepStringByDecodingMIMEHeaderValue:(const char *)phrase;
 - (NSData *) lepEncodedMIMEHeaderValue;
+- (NSData *) lepEncodedMIMEHeaderValueForSubject;
 
 - (NSString*) lepFlattenHTML;
 

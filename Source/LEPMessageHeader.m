@@ -1168,7 +1168,7 @@ static char * extract_subject(char * str)
 	if ([[self subject] length] > 0) {
         NSData * data;
         
-        data = [[self subject] lepEncodedMIMEHeaderValue];
+        data = [[self subject] lepEncodedMIMEHeaderValueForSubject];
         if ([data bytes] != nil) {
             subject = strdup([data bytes]);
         }

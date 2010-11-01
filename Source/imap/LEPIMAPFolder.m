@@ -417,5 +417,10 @@
 	return [request autorelease];
 }
 
++ (NSString *) encodePathName:(NSString *)path
+{
+	return [path lepEncodeToModifiedUTF7];
+}
+
 @end
 

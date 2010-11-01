@@ -223,7 +223,7 @@ bail:
 
 #pragma mark quote headers string
 
-static inline int to_be_quoted(char * word, size_t size)
+static inline int to_be_quoted(char * word, size_t size, int subject)
 {
 	int do_quote;
 	char * cur;
@@ -232,33 +232,37 @@ static inline int to_be_quoted(char * word, size_t size)
 	do_quote = 0;
 	cur = word;
 	for(i = 0 ; i < size ; i ++) {
-		switch (* cur) {
-			case ',':
-			case ':':
-			case '!':
-			case '"':
-			case '#':
-			case '$':
-			case '@':
-			case '[':
-			case '\\':
-			case ']':
-			case '^':
-			case '`':
-			case '{':
-			case '|':
-			case '}':
-			case '~':
-			case '=':
-			case '?':
-			case '_':
-				do_quote = 1;
-				break;
-			default:
-				if (((unsigned char) * cur) >= 128)
+		if (* cur == '=')
+			do_quote = 1;
+		
+		if (!subject) {
+			switch (* cur) {
+				case ',':
+				case ':':
+				case '!':
+				case '"':
+				case '#':
+				case '$':
+				case '@':
+				case '[':
+				case '\\':
+				case ']':
+				case '^':
+				case '`':
+				case '{':
+				case '|':
+				case '}':
+				case '~':
+				case '=':
+				case '?':
+				case '_':
 					do_quote = 1;
-				break;
+					break;
+			}
 		}
+		if (((unsigned char) * cur) >= 128)
+			do_quote = 1;
+		
 		cur ++;
 	}
 	
@@ -356,7 +360,7 @@ static inline void quote_word(char * display_charset,
 	mmap_string_append(mmapstr, "?=");
 }
 
-static inline void get_word(char * begin, char ** pend, int * pto_be_quoted)
+static inline void get_word(char * begin, char ** pend, int subject, int * pto_be_quoted)
 {
 	char * cur;
 	
@@ -374,13 +378,13 @@ static inline void get_word(char * begin, char ** pend, int * pto_be_quoted)
             folded header */ > MAX_IMF_LINE)
 		* pto_be_quoted = 1;
 	else
-		* pto_be_quoted = to_be_quoted(begin, cur - begin);
+		* pto_be_quoted = to_be_quoted(begin, cur - begin, subject);
 	
 	* pend = cur;
 }
 
 static char * etpan_make_quoted_printable(char * display_charset,
-										  char * phrase)
+										  char * phrase, int subject)
 {
 	char * str;
 	char * cur;
@@ -401,7 +405,7 @@ static char * etpan_make_quoted_printable(char * display_charset,
 		do_quote = 1;
 		
 		while (* cur != '\0') {
-			get_word(cur, &cur, &do_quote);
+			get_word(cur, &cur, subject, &do_quote);
 			if (do_quote) {
 				quote_words = 1;
 				end = cur;
@@ -472,7 +476,19 @@ static char * etpan_make_quoted_printable(char * display_charset,
 	char * str;
 	NSData * result;
 	
-	str = etpan_make_quoted_printable(DEFAULT_DISPLAY_CHARSET, (char *) [self UTF8String]);
+	str = etpan_make_quoted_printable(DEFAULT_DISPLAY_CHARSET, (char *) [self UTF8String], 0);
+	result = [NSData dataWithBytes:str length:strlen(str) + 1];
+	free(str);
+	
+	return result;
+}
+
+- (NSData *) lepEncodedMIMEHeaderValueForSubject
+{
+	char * str;
+	NSData * result;
+	
+	str = etpan_make_quoted_printable(DEFAULT_DISPLAY_CHARSET, (char *) [self UTF8String], 1);
 	result = [NSData dataWithBytes:str length:strlen(str) + 1];
 	free(str);
 	
