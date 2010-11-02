@@ -315,3 +315,115 @@
 }
 
 @end
+
+@implementation LEPAddress (LEPNSArray)
+
+static NSArray * lep_address_list_from_lep_mailbox(struct mailimf_mailbox_list * mb_list, int encoded)
+{
+	NSMutableArray * result;
+	clistiter * cur;
+	
+	result = [NSMutableArray array];
+	for(cur = clist_begin(mb_list->mb_list) ; cur != NULL ; cur = clist_next(cur)) {
+		struct mailimf_mailbox * mb;
+		LEPAddress * address;
+		
+		mb = clist_content(cur);
+		if (encoded) {
+			address = [LEPAddress addressWithIMFMailbox:mb];
+		}
+		else {
+			address = [LEPAddress addressWithNonEncodedIMFMailbox:mb];
+		}
+		[result addObject:address];
+	}
+	
+	return result;
+}
+
+static NSArray * lep_address_list_from_lep_addr(struct mailimf_address_list * addr_list, int encoded)
+{
+	NSMutableArray * result;
+	clistiter * cur;
+	
+	result = [NSMutableArray array];
+	
+	for(cur = clist_begin(addr_list->ad_list) ; cur != NULL ;
+		cur = clist_next(cur)) {
+		struct mailimf_address * addr;
+		
+		addr = clist_content(cur);
+		switch (addr->ad_type) {
+			case MAILIMF_ADDRESS_MAILBOX:
+			{
+				LEPAddress * address;
+				
+				if (encoded) {
+					address = [LEPAddress addressWithIMFMailbox:addr->ad_data.ad_mailbox];
+				}
+				else {
+					address = [LEPAddress addressWithNonEncodedIMFMailbox:addr->ad_data.ad_mailbox];
+				}
+				[result addObject:address];
+				break;
+			}
+				
+			case MAILIMF_ADDRESS_GROUP:
+			{
+				if (addr->ad_data.ad_group->grp_mb_list != NULL) {
+					NSArray * subArray;
+					
+					subArray = lep_address_list_from_lep_mailbox(addr->ad_data.ad_group->grp_mb_list, encoded);
+					[result addObjectsFromArray:subArray];
+				}
+				break;
+			}
+		}
+	}
+	
+	return result;
+}
+
++ (NSArray *) addressesWithRFC822String:(NSString *)string
+{
+	const char * utf8String;
+	size_t currentIndex;
+	struct mailimf_address_list * addr_list;
+	NSArray * result;
+	int r;
+	
+    utf8String = [string UTF8String];
+    currentIndex = 0;
+	
+	r = mailimf_address_list_parse(utf8String, strlen(utf8String), &currentIndex, &addr_list);
+    if (r != MAILIMF_NO_ERROR)
+        return nil;
+	
+	result = lep_address_list_from_lep_addr(addr_list, 1);
+	mailimf_address_list_free(addr_list);
+	
+	return result;
+}
+
++ (NSArray *) addressesWithNonEncodedRFC822String:(NSString *)string
+{
+	const char * utf8String;
+	size_t currentIndex;
+	struct mailimf_address_list * addr_list;
+	NSArray * result;
+	int r;
+	
+    utf8String = [string UTF8String];
+    currentIndex = 0;
+	
+	r = mailimf_address_list_parse(utf8String, strlen(utf8String), &currentIndex, &addr_list);
+    if (r != MAILIMF_NO_ERROR)
+        return nil;
+	
+	result = lep_address_list_from_lep_addr(addr_list, 0);
+	mailimf_address_list_free(addr_list);
+	
+	return result;
+}
+
+@end

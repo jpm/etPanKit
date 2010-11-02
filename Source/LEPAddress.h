@@ -25,3 +25,10 @@
 - (NSString *) RFC822String;
 
 @end
+
+@interface LEPAddress (LEPNSArray)
+
++ (NSArray *) addressesWithRFC822String:(NSString *)string;
++ (NSArray *) addressesWithNonEncodedRFC822String:(NSString *)string;
+
+@end
