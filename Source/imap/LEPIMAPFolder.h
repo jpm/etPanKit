@@ -26,6 +26,7 @@
 - (NSArray *) pathComponents;
 
 + (NSString *) encodePathName:(NSString *)path;
++ (NSString *) decodePathName:(NSString *)path;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesRequestFromUID:(uint32_t)uid;

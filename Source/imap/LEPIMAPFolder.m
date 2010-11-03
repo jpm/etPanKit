@@ -422,5 +422,10 @@
 	return [path lepEncodeToModifiedUTF7];
 }
 
++ (NSString *) decodePathName:(NSString *)path
+{
+	return [path lepDecodeFromModifiedUTF7];
+}
+
 @end
 
