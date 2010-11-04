@@ -42,5 +42,6 @@
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)path;
 
 - (LEPIMAPFolder *) inboxFolder;
+- (LEPIMAPFolder *) folderWithPath:(NSString *)path;
 
 @end

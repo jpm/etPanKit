@@ -172,10 +172,15 @@
 
 - (LEPIMAPFolder *) inboxFolder
 {
+	return [self folderWithPath:@"INBOX"];
+}
+
+- (LEPIMAPFolder *) folderWithPath:(NSString *)path
+{
 	LEPIMAPFolder * folder;
 	
 	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:@"INBOX"];
+	[folder _setPath:path];
 	[folder _setAccount:self];
 	
 	return [folder autorelease];

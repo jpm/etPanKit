@@ -16,78 +16,32 @@
 
 - (LEPIMAPFolder *) sentMailFolder
 {
-	LEPIMAPFolder * folder;
-	
-    LEPAssert(_gmailMailboxNames != nil);
-    
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"sentmail"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"sentmail"]];
 }
 
 - (LEPIMAPFolder *) allMailFolder
 {
-	LEPIMAPFolder * folder;
-	
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"allmail"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"allmail"]];
 }
 
 - (LEPIMAPFolder *) starredFolder
 {
-	LEPIMAPFolder * folder;
-	
-    LEPAssert(_gmailMailboxNames != nil);
-    
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"starred"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"starred"]];
 }
 
 - (LEPIMAPFolder *) trashFolder
 {
-	LEPIMAPFolder * folder;
-	
-    LEPAssert(_gmailMailboxNames != nil);
-    
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"trash"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"trash"]];
 }
 
 - (LEPIMAPFolder *) draftsFolder
 {
-	LEPIMAPFolder * folder;
-	
-    LEPAssert(_gmailMailboxNames != nil);
-    
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"drafts"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"drafts"]];
 }
 
 - (LEPIMAPFolder *) spamFolder
 {
-	LEPIMAPFolder * folder;
-	
-    LEPAssert(_gmailMailboxNames != nil);
-    
-	folder = [[LEPIMAPFolder alloc] init];
-	[folder _setPath:[_gmailMailboxNames objectForKey:@"spam"]];
-	[folder _setAccount:self];
-	
-	return [folder autorelease];
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"spam"]];
 }
 
 - (void) setGmailMailboxNames:(NSDictionary *)gmailMailboxNames
