@@ -1103,6 +1103,8 @@ static char * extract_subject(char * str)
 			[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:single_fields.fld_subject->sbj_value]];
 		}
 	}
+	
+	mailimf_fields_free(fields);
 #endif
 }
 
