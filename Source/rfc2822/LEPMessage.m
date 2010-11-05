@@ -18,6 +18,12 @@
 #import "NSString+LEP.h"
 #import <libetpan/libetpan.h>
 
+@interface LEPAbstractAttachment (LEPAttachment)
+
+- (NSData *) data;
+
+@end
+
 struct mailmime * get_text_part(const char * mime_type, const char * charset, const char * content_id,
 								const char * text, size_t length)
 {
@@ -201,7 +207,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment)
 {
-	if ([attachment isKindOfClass:[LEPAttachment class]]) {
+	if (([attachment respondsToSelector:@selector(data)]) || ([attachment isKindOfClass:[LEPAttachment class]])) {
 		struct mailmime * mime;
 		LEPAttachment * att;
 		NSData * data;

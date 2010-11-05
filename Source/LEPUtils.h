@@ -7,8 +7,8 @@
  *
  */
 
-#define LEPLogOutputFilenameKey @"LEPLogOutputFilenameKey"
-#define LEPLogDisabledFilenamesKey @"LEPLogDisabledFilenames"
+#define LEPLogOutputFilename @"LEPLogOutputFilename"
+#define LEPLogEnabledFilenames @"LEPLogEnabledFilenames"
 // In your user defaults, you can set an array of filenames which LEPLog messages you want to disable.
 // Do not include path extension (e.g. "LEPIMAPRequest" to disabled LEPIMAPRequest's LEPLog messages)
 

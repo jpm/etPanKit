@@ -13,6 +13,10 @@
 #import <time.h>
 #import <sys/time.h>
 #include <execinfo.h>
+#include <pthread.h>
+
+static NSSet * enabledFilesSet = nil;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 void LEPLogInternal(const char * filename, unsigned int line, int dumpStack, NSString * format, ...)
 {
@@ -23,40 +27,28 @@ void LEPLogInternal(const char * filename, unsigned int line, int dumpStack, NSS
 	char * lastPathComponent;
 	struct timeval tv;
 	struct tm tm_value;
-	NSDictionary * disabledFilenames;
+	//NSDictionary * enabledFilenames;
     
 	pool = [[NSAutoreleasePool alloc] init];
 	
-	disabledFilenames = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LEPLogDisabledFilenamesKey];
-	if ( disabledFilenames )
-	{
-		char * filenameOrigin, * filenameEnd;
-		int length;
-		NSString * filenameString;
-		BOOL ignore = NO;
-		
-		filenameOrigin = strrchr(filename, '/');
-		filenameEnd = strrchr(filename, '.');
-		
-		if ( filenameOrigin != NULL && filenameEnd > filenameOrigin ) {
-			filenameOrigin ++; // we do not want the '/'
-			length = filenameEnd - filenameOrigin;
-			filenameString = [[NSString alloc] initWithBytesNoCopy:filenameOrigin length:length encoding:NSUTF8StringEncoding freeWhenDone:NO];
-			ignore = [[disabledFilenames valueForKey:filenameString] boolValue];
-			[filenameString release];
-		}
-		
-		if ( ignore ) {
-			[pool release];
-			return;
-		}
-	}
+    pthread_mutex_lock(&lock);
+    if (enabledFilesSet == nil) {
+        enabledFilesSet = [[NSSet alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:LEPLogEnabledFilenames]];
+    }
+    pthread_mutex_unlock(&lock);
+    
+    NSString * fn;
+    fn = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:filename length:strlen(filename)];
+    if (![enabledFilesSet containsObject:fn]) {
+        [pool release];
+        return;
+    }
     
 	va_start(argp, format);
 	str = [[NSString alloc] initWithFormat:format arguments:argp];
 	va_end(argp);
 	
-	NSString * outputFileName = [[NSUserDefaults standardUserDefaults] stringForKey:LEPLogOutputFilenameKey];
+	NSString * outputFileName = [[NSUserDefaults standardUserDefaults] stringForKey:LEPLogOutputFilename];
 	static FILE * outputfileStream = NULL;
 	if ( ( NULL == outputfileStream ) && outputFileName )
 	{
