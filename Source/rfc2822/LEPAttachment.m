@@ -279,7 +279,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	return nil;
 }
 
-+ (NSString *) _mimeTypeFromFilename:(NSString *)filename
++ (NSString *) mimeTypeFromFilename:(NSString *)filename
 {
 	if ([[[filename pathExtension] lowercaseString] isEqualToString:@"jpg"]) {
 		return @"image/jpeg";
@@ -362,7 +362,7 @@ static char * get_content_type_str(struct mailmime_content * content)
 	
 	self = [self init];
 	data = [[NSData alloc] initWithContentsOfFile:filename];
-	mimeType = [LEPAttachment _mimeTypeFromFilename:filename];
+	mimeType = [LEPAttachment mimeTypeFromFilename:filename];
 	if (mimeType != nil) {
 		[self setMimeType:mimeType];
 	}

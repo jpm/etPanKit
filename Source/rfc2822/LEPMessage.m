@@ -435,10 +435,12 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 	return data;
 }
 
-- (void) addAttachment:(LEPAttachment *)attachment
+- (void) addAttachment:(LEPAbstractAttachment *)attachment
 {
 	NSMutableArray * array;
 	
+    LEPAssert([attachment respondsToSelector:@selector(data)]);
+    
 	array = [[self attachments] mutableCopy];
 	if (array == nil) {
 		array = [[NSMutableArray alloc] init];
