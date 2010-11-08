@@ -147,7 +147,6 @@
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)toFolder;
 {
 	LEPIMAPCopyMessageRequest * request;
-	LEPIMAPAccount * account;
     LEPIMAPFolder * sourceFolder;
     NSMutableArray * uidSet;
     
@@ -160,6 +159,28 @@
         LEPAssert([message folder] == sourceFolder);
         [uidSet addObject:[NSNumber numberWithUnsignedLong:[message uid]]];
     }
+    
+	request = [[LEPIMAPCopyMessageRequest alloc] init];
+    [request setUidSet:uidSet];
+    [request setFromPath:[self path]];
+    [request setToPath:[toFolder path]];
+    
+    [self _setupRequest:request];
+    
+    [uidSet release];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPRequest *) copyMessagesUIDs:(NSArray * /* NSNumber uint32_t */)messagesUids toFolder:(LEPIMAPFolder *)toFolder
+{
+	LEPIMAPCopyMessageRequest * request;
+    NSMutableArray * uidSet;
+    
+    LEPAssert([messagesUids count] > 0);
+    
+    uidSet = [[NSMutableArray alloc] init];
+    [uidSet addObjectsFromArray:messagesUids];
     
 	request = [[LEPIMAPCopyMessageRequest alloc] init];
     [request setUidSet:uidSet];

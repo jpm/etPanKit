@@ -47,6 +47,7 @@
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message;
 - (LEPIMAPRequest *) appendMessageRequest:(LEPMessage *)message flags:(LEPIMAPMessageFlag)flags;
 - (LEPIMAPRequest *) copyMessages:(NSArray * /* LEPIMAPMessage */)messages toFolder:(LEPIMAPFolder *)folder;
+- (LEPIMAPRequest *) copyMessagesUIDs:(NSArray * /* NSNumber uint32_t */)messagesUids toFolder:(LEPIMAPFolder *)folder;
 
 - (LEPIMAPRequest *) subscribeRequest;
 - (LEPIMAPRequest *) unsubscribeRequest;
