@@ -464,7 +464,13 @@ static char * etpan_make_quoted_printable(char * display_charset,
                                   &cur_token, DEFAULT_DISPLAY_CHARSET,
                                   &decoded);
     
-	result = [NSString stringWithUTF8String:decoded];
+    result = nil;
+    if (decoded != NULL) {
+        result = [NSString stringWithUTF8String:decoded];
+    }
+    else {
+        fprintf(stderr, "could not decode: %s\n", phrase);
+    }
 	
     free(decoded);
 	
