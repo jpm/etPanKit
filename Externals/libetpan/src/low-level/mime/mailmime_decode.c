@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmime_decode.c,v 1.35 2010/11/04 22:07:13 hoa Exp $
+ * $Id: mailmime_decode.c,v 1.36 2010/11/10 00:21:37 hoa Exp $
  */
 
 /*
@@ -448,13 +448,10 @@ static int mailmime_encoded_word_parse(const char * message, size_t length,
     if (end_encoding >= length)
       break;
 
-    switch (message[end_encoding]) {
-      case '?':
-#if 0
-      case ' ':
-#endif
-	end = TRUE;
-	break;
+    if (end_encoding + 1 < length) {
+      if ((message[end_encoding] == '?') && (message[end_encoding + 1] == '=')) {
+        end = TRUE;
+      }
     }
 
     if (end)
