@@ -20,5 +20,6 @@
 - (LEPIMAPFolder *) trashFolder;
 - (LEPIMAPFolder *) draftsFolder;
 - (LEPIMAPFolder *) spamFolder;
+- (LEPIMAPFolder *) importantFolder;
 
 @end

@@ -44,6 +44,11 @@
 	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"spam"]];
 }
 
+- (LEPIMAPFolder *) importantFolder
+{
+	return [self folderWithPath:[_gmailMailboxNames objectForKey:@"important"]];
+}
+
 - (void) setGmailMailboxNames:(NSDictionary *)gmailMailboxNames
 {
     [_gmailMailboxNames release];

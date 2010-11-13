@@ -44,4 +44,6 @@
 - (LEPIMAPFolder *) inboxFolder;
 - (LEPIMAPFolder *) folderWithPath:(NSString *)path;
 
+- (void) setupWithFoldersPaths:(NSArray *)paths;
+
 @end
