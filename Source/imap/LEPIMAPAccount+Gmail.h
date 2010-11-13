@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPIMAPAccount.h"
+#import <EtPanKit/LEPIMAPAccount.h>
 
 @interface LEPIMAPAccount (Gmail)
 

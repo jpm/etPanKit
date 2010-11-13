@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPAbstractAttachment.h"
+#import <EtPanKit/LEPAbstractAttachment.h>
 
 @interface LEPAbstractAlternativeAttachment : LEPAbstractAttachment <NSCoding, NSCopying> {
 	NSArray * _attachments;

@@ -19,4 +19,6 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request;
 
+- (BOOL) _isGmailFolder:(LEPIMAPFolder *)folder;
+
 @end

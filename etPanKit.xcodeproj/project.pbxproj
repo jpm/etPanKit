@@ -103,6 +103,8 @@
 		C69114E11117B25E00623B9F /* LEPSMTPSessionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */; };
 		C69114E71117B30C00623B9F /* LEPSMTPSendMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */; };
 		C69114E81117B30C00623B9F /* LEPSMTPSendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */; };
+		C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */; };
 		C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */; };
 		C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */; };
 		C6E572451103998300897274 /* LEPError.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572441103998300897274 /* LEPError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -110,7 +112,7 @@
 		C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */; };
 		C6E572581103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */; };
 		C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
-		C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */; };
+		C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -247,6 +249,8 @@
 		C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSessionPrivate.h; sourceTree = "<group>"; };
 		C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSendMessageRequest.h; sourceTree = "<group>"; };
 		C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPSendMessageRequest.m; sourceTree = "<group>"; };
+		C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEPIMAPFolder+Gmail.h"; sourceTree = "<group>"; };
+		C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPFolder+Gmail.m"; sourceTree = "<group>"; };
 		C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPStoreFlagsRequest.h; sourceTree = "<group>"; };
 		C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPStoreFlagsRequest.m; sourceTree = "<group>"; };
 		C6E572441103998300897274 /* LEPError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPError.h; sourceTree = "<group>"; };
@@ -428,6 +432,8 @@
 				C681663110F5142D00B07764 /* LEPIMAPFetchSubscribedFoldersRequest.m */,
 				C681663210F5142D00B07764 /* LEPIMAPFolder.h */,
 				C681663310F5142D00B07764 /* LEPIMAPFolder.m */,
+				C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */,
+				C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */,
 				C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */,
 				C681663410F5142D00B07764 /* LEPIMAPMessage.h */,
 				C681663510F5142D00B07764 /* LEPIMAPMessage.m */,
@@ -548,6 +554,7 @@
 				C617A22A111F4847000FCE35 /* LEPIMAPSelectRequest.h in Headers */,
 				C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */,
 				C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */,
+				C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,6 +697,7 @@
 				C617A22B111F4847000FCE35 /* LEPIMAPSelectRequest.m in Sources */,
 				C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */,
 				C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */,
+				C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

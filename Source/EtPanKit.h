@@ -27,6 +27,7 @@
 #import <EtPanKit/LEPIMAPAccount.h>
 #import <EtPanKit/LEPIMAPAccount+Gmail.h>
 #import <EtPanKit/LEPIMAPFolder.h>
+#import <EtPanKit/LEPIMAPFolder+Gmail.h>
 #import <EtPanKit/LEPIMAPMessage.h>
 #import <EtPanKit/LEPIMAPAttachment.h>
 #import <EtPanKit/LEPIMAPRequest.h>

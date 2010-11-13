@@ -1,4 +1,4 @@
-#import "LEPAbstractMessage.h"
+#import <EtPanKit/LEPAbstractMessage.h>
 
 @class LEPMessageHeader;
 @class LEPAbstractAttachment;

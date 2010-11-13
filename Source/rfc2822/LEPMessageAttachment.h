@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPAbstractMessageAttachment.h"
+#import <EtPanKit/LEPAbstractMessageAttachment.h>
 
 @class LEPMessageHeader;
 

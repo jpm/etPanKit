@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "LEPConstants.h"
+#import <EtPanKit/LEPConstants.h>
 
 @class LEPIMAPRequest;
 @class LEPIMAPSession;

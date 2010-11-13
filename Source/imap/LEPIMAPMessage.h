@@ -1,6 +1,6 @@
-#import "LEPAbstractMessage.h"
-#import "LEPIMAPRequest.h"
-#import "LEPConstants.h"
+#import <EtPanKit/LEPAbstractMessage.h>
+#import <EtPanKit/LEPIMAPRequest.h>
+#import <EtPanKit/LEPConstants.h>
 
 @class LEPIMAPFetchMessageRequest;
 @class LEPIMAPFetchMessageStructureRequest;

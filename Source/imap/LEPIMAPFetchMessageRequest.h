@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPIMAPRequest.h"
+#import <EtPanKit/LEPIMAPRequest.h>
 
 @interface LEPIMAPFetchMessageRequest : LEPIMAPRequest {
 	NSString * _path;

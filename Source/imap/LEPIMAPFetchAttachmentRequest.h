@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPIMAPRequest.h"
+#import <EtPanKit/LEPIMAPRequest.h>
 
 @interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
 	NSData * _data;

@@ -1,4 +1,4 @@
-#import "LEPAbstractAttachment.h"
+#import <EtPanKit/LEPAbstractAttachment.h>
 
 @interface LEPAttachment : LEPAbstractAttachment <NSCoding, NSCopying> {
     NSData * _data;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPConstants.h"
+#import <EtPanKit/LEPConstants.h>
 
 @class LEPSMTPRequest;
 @class LEPMessage;

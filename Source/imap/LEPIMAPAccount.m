@@ -308,4 +308,25 @@
 	[folderNameArray release];
 }
 
+- (BOOL) _isGmailFolder:(LEPIMAPFolder *)folder
+{
+    NSMutableSet * pathSet;
+    BOOL isGmailFolder;    
+    
+    pathSet = [[NSMutableSet alloc] init];
+    [pathSet addObject:[[self sentMailFolder] path]];
+    [pathSet addObject:[[self starredFolder] path]];
+    [pathSet addObject:[[self allMailFolder] path]];
+    [pathSet addObject:[[self trashFolder] path]];
+    [pathSet addObject:[[self draftsFolder] path]];
+    [pathSet addObject:[[self spamFolder] path]];
+    [pathSet addObject:[[self importantFolder] path]];
+    
+    isGmailFolder = [pathSet containsObject:[folder path]];
+    
+    [pathSet release];
+    
+    return isGmailFolder;
+}
+
 @end

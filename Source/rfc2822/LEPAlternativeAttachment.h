@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "LEPAbstractAlternativeAttachment.h"
+#import <EtPanKit/LEPAbstractAlternativeAttachment.h>
 
 @interface LEPAlternativeAttachment : LEPAbstractAlternativeAttachment <NSCoding, NSCopying> {
 

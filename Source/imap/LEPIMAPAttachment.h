@@ -1,4 +1,4 @@
-#import "LEPAbstractAttachment.h"
+#import <EtPanKit/LEPAbstractAttachment.h>
 
 @class LEPIMAPFetchAttachmentRequest;
 

@@ -1,5 +1,5 @@
-#import "LEPIMAPRequest.h"
-#import "LEPConstants.h"
+#import <EtPanKit/LEPIMAPRequest.h>
+#import <EtPanKit/LEPConstants.h>
 
 @class LEPIMAPFetchFolderMessagesRequest;
 @class LEPMessage;
