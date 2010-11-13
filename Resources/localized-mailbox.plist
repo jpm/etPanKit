@@ -15,6 +15,8 @@
 		<string>[Google Mail]/Berkilau Bintangnya</string>
 		<key>trash</key>
 		<string>[Google Mail]/Tong Sampah</string>
+		<key>important</key>
+		<string>[Google Mail]/Penting</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -29,6 +31,8 @@
 		<string>[Google Mail]/Dibintangi</string>
 		<key>trash</key>
 		<string>[Google Mail]/Sampah</string>
+		<key>important</key>
+		<string>[Google Mail]/Penting</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -43,6 +47,8 @@
 		<string>[Google Mail]/Missatges destacats</string>
 		<key>trash</key>
 		<string>[Google Mail]/Paperera</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -57,6 +63,8 @@
 		<string>[Google Mail]/S hv&amp;ARs-zdi&amp;AQ0-kou</string>
 		<key>trash</key>
 		<string>[Google Mail]/Ko&amp;AWE-</string>
+		<key>important</key>
+		<string>[Google Mail]/D&amp;AW8-le&amp;AX4-it&amp;AOk-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -71,6 +79,8 @@
 		<string>[Google Mail]/Stjernemarkerede</string>
 		<key>trash</key>
 		<string>[Google Mail]/Papirkurv</string>
+		<key>important</key>
+		<string>[Google Mail]/Vigtigt</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -85,6 +95,8 @@
 		<string>[Google Mail]/Markiert</string>
 		<key>trash</key>
 		<string>[Google Mail]/Papierkorb</string>
+		<key>important</key>
+		<string>[Google Mail]/Wichtig</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -99,6 +111,8 @@
 		<string>[Google Mail]/T&amp;AOQ-rniga</string>
 		<key>trash</key>
 		<string>[Google Mail]/Pr&amp;APw-gikast</string>
+		<key>important</key>
+		<string>[Google Mail]/T&amp;AOQ-htis</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -113,6 +127,8 @@
 		<string>[Google Mail]/Starred</string>
 		<key>trash</key>
 		<string>[Google Mail]/Bin</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -127,6 +143,8 @@
 		<string>[Google Mail]/Starred</string>
 		<key>trash</key>
 		<string>[Google Mail]/Trash</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -141,6 +159,8 @@
 		<string>[Google Mail]/Destacados</string>
 		<key>trash</key>
 		<string>[Google Mail]/Papelera</string>
+		<key>important</key>
+		<string>[Google Mail]/Importante</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -155,6 +175,8 @@
 		<string>[Google Mail]/Izardunak</string>
 		<key>trash</key>
 		<string>[Google Mail]/Zaborrontzia</string>
+		<key>important</key>
+		<string>[Google Mail]/Garrantzitsuak</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -169,6 +191,8 @@
 		<string>[Google Mail]/May-bituin</string>
 		<key>trash</key>
 		<string>[Google Mail]/Basurahan</string>
+		<key>important</key>
+		<string>[Google Mail]/Mahalaga</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -183,6 +207,8 @@
 		<string>[Google Mail]/Suivis</string>
 		<key>trash</key>
 		<string>[Google Mail]/Corbeille</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -197,6 +223,8 @@
 		<string>[Google Mail]/Sa zvjezdicom</string>
 		<key>trash</key>
 		<string>[Google Mail]/Otpad</string>
+		<key>important</key>
+		<string>[Google Mail]/Va&amp;AX4-no</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -211,6 +239,8 @@
 		<string>[Google Mail]/Speciali</string>
 		<key>trash</key>
 		<string>[Google Mail]/Cestino</string>
+		<key>important</key>
+		<string>[Google Mail]/Importante</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -225,6 +255,24 @@
 		<string>[Google Mail]/Stj&amp;APY-rnumerkt</string>
 		<key>trash</key>
 		<string>[Google Mail]/Rusl</string>
+		<key>important</key>
+		<string>[Google Mail]/Mikilv&amp;AOY-gt</string>
+	</dict>
+	<dict>
+		<key>allmail</key>
+		<string>[Gmail]/Barua Zote</string>
+		<key>drafts</key>
+		<string>[Gmail]/Rasimu</string>
+		<key>sentmail</key>
+		<string>[Gmail]/Barua Zilizotumwa</string>
+		<key>spam</key>
+		<string>[Gmail]/Barua taka</string>
+		<key>starred</key>
+		<string>[Gmail]/Zenye nyota</string>
+		<key>trash</key>
+		<string>[Gmail]/Tupio</string>
+		<key>important</key>
+		<string>[Gmail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -239,6 +287,8 @@
 		<string>[Google Mail]/Ar zvaigzn&amp;ASs-ti</string>
 		<key>trash</key>
 		<string>[Google Mail]/Miskaste</string>
+		<key>important</key>
+		<string>[Google Mail]/Svar&amp;ASs-gi</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -253,6 +303,8 @@
 		<string>[Google Mail]/Su &amp;AX4-vaig&amp;AX4-dute</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;AWA-iuk&amp;AWE-liad&amp;ARcBfgEX-</string>
+		<key>important</key>
+		<string>[Google Mail]/Svarbu</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -267,6 +319,8 @@
 		<string>[Google Mail]/Csillagozott levelek</string>
 		<key>trash</key>
 		<string>[Google Mail]/Kuka</string>
+		<key>important</key>
+		<string>[Google Mail]/Fontos</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -281,6 +335,8 @@
 		<string>[Google Mail]/Met ster</string>
 		<key>trash</key>
 		<string>[Google Mail]/Prullenbak</string>
+		<key>important</key>
+		<string>[Google Mail]/Belangrijk</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -295,6 +351,8 @@
 		<string>[Google Mail]/Stjernemerket</string>
 		<key>trash</key>
 		<string>[Google Mail]/Papirkurv</string>
+		<key>important</key>
+		<string>[Google Mail]/Viktig</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -309,6 +367,8 @@
 		<string>[Google Mail]/Oznaczone gwiazdk&amp;AQU-</string>
 		<key>trash</key>
 		<string>[Google Mail]/Kosz</string>
+		<key>important</key>
+		<string>[Google Mail]/Wa&amp;AXw-ne</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -323,6 +383,8 @@
 		<string>[Google Mail]/Com estrela</string>
 		<key>trash</key>
 		<string>[Google Mail]/Lixeira</string>
+		<key>important</key>
+		<string>[Google Mail]/Importante</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -337,6 +399,8 @@
 		<string>[Google Mail]/Com estrela</string>
 		<key>trash</key>
 		<string>[Google Mail]/Caixote do Lixo</string>
+		<key>important</key>
+		<string>[Google Mail]/Importante</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -351,6 +415,8 @@
 		<string>[Google Mail]/Mesaje importante</string>
 		<key>trash</key>
 		<string>[Google Mail]/Co&amp;AV8- de gunoi</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -365,6 +431,8 @@
 		<string>[Google Mail]/S hviezdi&amp;AQ0-kou</string>
 		<key>trash</key>
 		<string>[Google Mail]/K&amp;APQBYQ-</string>
+		<key>important</key>
+		<string>[Google Mail]/D&amp;APQ-le&amp;AX4-it&amp;AOk-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -379,6 +447,8 @@
 		<string>[Google Mail]/Z zvezdico</string>
 		<key>trash</key>
 		<string>[Google Mail]/Smetnjak</string>
+		<key>important</key>
+		<string>[Google Mail]/Pomembno</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -393,6 +463,8 @@
 		<string>[Google Mail]/T&amp;AOQ-hdell&amp;AOQ- merkityt</string>
 		<key>trash</key>
 		<string>[Google Mail]/Roskakori</string>
+		<key>important</key>
+		<string>[Google Mail]/T&amp;AOQ-rke&amp;AOQA5A-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -407,6 +479,8 @@
 		<string>[Google Mail]/Stj&amp;AOQ-rnm&amp;AOQ-rkt</string>
 		<key>trash</key>
 		<string>[Google Mail]/Papperskorgen</string>
+		<key>important</key>
+		<string>[Google Mail]/Viktigt</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -421,6 +495,8 @@
 		<string>[Google Mail]/Th&amp;AbA- g&amp;Hq8-n d&amp;HqU-u sao</string>
 		<key>trash</key>
 		<string>[Google Mail]/Th&amp;APk-ng r&amp;AOE-c</string>
+		<key>important</key>
+		<string>[Google Mail]/Quan tr&amp;Hs0-ng</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -435,6 +511,8 @@
 		<string>[Google Mail]/Y&amp;ATE-ld&amp;ATE-zl&amp;ATE-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;AMcA9g-p kutusu</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;ANY-nemli</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -449,6 +527,8 @@
 		<string>[Google Mail]/&amp;A5wDtQ- &amp;A7EDwwPEA60DwQO5-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;A5oDrAO0A78Dwg- &amp;A7EDwAO,A8EDwQO5A7wDvAOsA8QDyQO9-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;A6MDtwO8A7EDvQPEA7kDugPM-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -463,6 +543,8 @@
 		<string>[Google Mail]/&amp;BB8EPgQ8BDUERwQ1BD0EPQRLBDU-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BBoEPgRABDcEOAQ9BDA-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BBIEMAQ2BD0EPgQ1-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -477,6 +559,8 @@
 		<string>[Google Mail]/&amp;BCEEMA- &amp;BDcEMgQ1BDcENAQ4BEYEPgQ8-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BB4EQgQ,BDAENA-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BBIEMAQ2BD0EPg-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -491,6 +575,8 @@
 		<string>[Google Mail]/&amp;BAYENw- &amp;BDcEVgRABD4ERwQ6BD4ETg-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BBoEPgRIBDgEOg-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BBIEMAQ2BDsEOAQyBD4-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -505,6 +591,8 @@
 		<string>[Google Mail]/&amp;BCEESgRB- &amp;BDcEMgQ1BDcENAQw-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BBoEPgRIBEcENQ-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BBIEMAQ2BD0EPg-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -519,6 +607,8 @@
 		<string>[Google Mail]/&amp;Bd4F4QXVBd4F3w- &amp;BdEF2wXVBdsF0Q-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BdAF6QXkBdQ-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BdcF6QXVBdE-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -533,6 +623,8 @@
 		<string>[Google Mail]/&amp;BicGRAYxBjMGJwYmBkQ- &amp;BicGRAZFBkUGSgYyBik- &amp;BigGRgYsBkUGKQ-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BicGRAZFBkcGQAZFBkQGJwYq-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BkUGRwZF-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -547,6 +639,8 @@
 		<string>[Google Mail]/&amp;BjMGKgYnBjEGwQ- &amp;BqkGJw- &amp;BkYGNAYnBkY- &amp;BkQGrwYn- &amp;Bi8GzAYn- &amp;Bq8GzAYn-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;BqkGSAaRBtI- &amp;BqkGzA- &amp;BnkGSAapBjEGzA-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;BicGwQZF-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -561,6 +655,8 @@
 		<string>[Google Mail]/&amp;CSQJPgkwCT4JAgkVCT8JJA-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;CRUJGgkwCT4-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;CS4JOQkkCU0JJAlNCTUJPgkaCUc-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -575,6 +671,8 @@
 		<string>[Google Mail]/&amp;CSQJPgkwCT4JAgkVCT8JJA-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;CR8JTQkwCUgJNg- &amp;CRUJMAlHCQI-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;CS4JOQkkCU0JNQkqCUIJMAlNCSM-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -589,6 +687,8 @@
 		<string>[Google Mail]/&amp;CaQJvgmwCZUJvgmaCb8JuQnNCagJvwmk-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;CZ8JzQmwCc0Jrwm+CbY-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;CZcJwQmwCcEJpAnNCawJqgnCCbAJzQmj-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -603,6 +703,8 @@
 		<string>[Google Mail]/&amp;CrgKzQqfCr4KsA- &amp;CpUKsArHCrIKvg-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;Cp8KzQqwCscKtg-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;Cq4KuQqkCs0KtQqqCsIKsArNCqM-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -617,6 +719,8 @@
 		<string>[Google Mail]/&amp;CyQLPgswCz4LGQtNCxULPwsk-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;Cx8LTQswCz4LNgtN-</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -631,6 +735,8 @@
 		<string>[Google Mail]/&amp;C6gLnwvNC5oLpAvNC6QLvwuwC64LvwufC80LnwukC8E-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;C5ULwQuqC80LqgvI-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;C64LwQuVC80LlQu,C68LrgvN-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -645,6 +751,8 @@
 		<string>[Google Mail]/&amp;DCgMFQxNDDcMJAxNDDAMAg- &amp;DBcMQQwwDE0MJAxBDCQMSw-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;DB8MTQwwDD4MNwxN-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;DC4MQQwWDE0MLwwuDEgMKA-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -659,6 +767,8 @@
 		<string>[Google Mail]/&amp;DKgMlQzNDLcMpAzNDLA- &amp;DLkMvgyVDL8Mpg-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;DJ8MzQywDL4MtgzN-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;DKoMzQywDK4MwQyW-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -673,6 +783,8 @@
 		<string>[Google Mail]/&amp;DSgNFQ1NDTcNJA1NDTANGg0,DTkNTQ0oDT8NJA0C-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;DR8NTQ0wDT4NNw1N-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;DSoNTQ0wDScNPg0oDSoNTQ0qDUYNHw1NDR8NJA1N-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -687,6 +799,24 @@
 		<string>[Google Mail]/&amp;DhUONA4UDhQOMg4n-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;DhYOMQ4HDgIOIg4w-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;DioOMw4EDjEODQ-</string>
+	</dict>
+	<dict>
+		<key>allmail</key>
+		<string>[Google Mail]/&amp;EgESCRId- &amp;EqISHBLtEg0-</string>
+		<key>drafts</key>
+		<string>[Google Mail]/&amp;EigSQhJGEn0-</string>
+		<key>sentmail</key>
+		<string>[Google Mail]/&amp;EugScBILEqg- &amp;EqISHBLtEg0-</string>
+		<key>spam</key>
+		<string>[Google Mail]/&amp;EqAS7RNIEggTDA- &amp;EhgSDRLVEq0SdQ-</string>
+		<key>starred</key>
+		<string>[Google Mail]/&amp;Eq4SqBJl- &amp;EugScBLwEigTCBJjEngSzQ-</string>
+		<key>trash</key>
+		<string>[Google Mail]/&amp;EyMSDQ-</string>
+		<key>important</key>
+		<string>[Google Mail]/Important</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -701,6 +831,8 @@
 		<string>[Google Mail]/&amp;XfJSoGYfhl8-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;V4NXPmh2-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;kc2JgZD1TvY-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -715,6 +847,8 @@
 		<string>[Google Mail]/&amp;XfJSoGYfaAc-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;XfJSIJZkkK5O9g-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;kc2JgQ-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -729,6 +863,8 @@
 		<string>[Google Mail]/&amp;MLkwvzD8TtgwTQ-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;MLQw33ux-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;kc2JgQ-</string>
 	</dict>
 	<dict>
 		<key>allmail</key>
@@ -740,9 +876,11 @@
 		<key>spam</key>
 		<string>[Google Mail]/&amp;wqTTONVo-</string>
 		<key>starred</key>
-		<string>[Google Mail]/&amp;yRHGlNO4ycDVaA-</string>
+		<string>[Google Mail]/&amp;vMTUXNO4ycDVaA-</string>
 		<key>trash</key>
 		<string>[Google Mail]/&amp;1zTJwNG1-</string>
+		<key>important</key>
+		<string>[Google Mail]/&amp;yRHGlA-</string>
 	</dict>
 </array>
 </plist>
