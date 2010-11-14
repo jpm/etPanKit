@@ -595,7 +595,9 @@ int is_etoken_char(char ch)
   case '[':
   case ']':
   case '?':
+#if 0
   case '.':
+#endif
   case '=':
     return FALSE;
   }
