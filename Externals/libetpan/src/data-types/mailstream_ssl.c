@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_ssl.c,v 1.72 2009/12/19 00:57:31 hoa Exp $
+ * $Id: mailstream_ssl.c,v 1.73 2010/11/16 20:46:35 hoa Exp $
  */
 
 /*
@@ -150,7 +150,7 @@ static int openssl_init_done = 0;
 
 void mailstream_ssl_init_lock(void)
 {
-#if !defined (HAVE_PTHREAD_H) && defined (WIN32)
+#if !defined (HAVE_PTHREAD_H) && defined (WIN32) && defined (USE_SSL)
   InitializeCriticalSection(&ssl_lock);
 #endif
 }

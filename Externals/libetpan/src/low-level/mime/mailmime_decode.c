@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmime_decode.c,v 1.36 2010/11/10 00:21:37 hoa Exp $
+ * $Id: mailmime_decode.c,v 1.37 2010/11/16 20:52:28 hoa Exp $
  */
 
 /*

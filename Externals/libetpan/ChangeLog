@@ -1,3 +1,21 @@
+2010-11-16 - libetpan-1.0cvs13 - hoa
+
+	* src/low-level/mime/mailmime_decode.c
+	   backport a fix from etPanKit.
+
+2010-11-16 - libetpan-1.0cvs12 - hoa
+
+ 	* build-windows/libetpan.sln
+	* build-windows/libetpan/libetpan.vcproj
+	* build-windows/readmsg/readmsg.vcproj
+	* build-windows/smtpsend/smtpsend.vcproj
+	* src/data-types/carray.h
+	* src/data-types/chash.h
+	* src/data-types/mailstream_ssl.c
+	* src/windows/win_etpan.h
+	* tests/option-parser.c
+	   improved port for win32.
+
 2010-11-10 - libetpan-1.0cvs11 - hoa
 
 	* src/low-level/mime/mailmime_decode.c
