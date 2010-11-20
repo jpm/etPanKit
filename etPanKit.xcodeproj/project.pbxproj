@@ -25,7 +25,7 @@
 		C63050F81114819C00FDD7CA /* LEPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = C63050F61114819C00FDD7CA /* LEPAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C63050F91114819C00FDD7CA /* LEPAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C63050F71114819C00FDD7CA /* LEPAddress.m */; };
 		C63C935611037309006B5066 /* libetpan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63C92BA110372F7006B5066 /* libetpan.a */; };
-		C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C64619AF1294911600C8B9DE /* LEPIMAPIdleRequest.h */; settings = {ATTRIBUTES = (); }; };
+		C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C64619AF1294911600C8B9DE /* LEPIMAPIdleRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C64619B21294911600C8B9DE /* LEPIMAPIdleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C64619B01294911600C8B9DE /* LEPIMAPIdleRequest.m */; };
 		C64A6DFC1141C3E900966BB1 /* localized-mailbox.plist in Resources */ = {isa = PBXBuildFile; fileRef = C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
