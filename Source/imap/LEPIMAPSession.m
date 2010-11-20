@@ -22,6 +22,8 @@
 #import "LEPIMAPAttachmentPrivate.h"
 #import <libetpan/libetpan.h>
 
+#define MAX_IDLE_DELAY (28 * 60)
+
 struct lepData {
 	mailimap * imap;
 };
@@ -503,6 +505,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 {
 	self = [super init];
 	
+    _idleDone[0] = -1;
+    _idleDone[1] = -1;
 	_lepData = calloc(1, sizeof(struct lepData));
 	_queue = [[NSOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
@@ -1726,6 +1730,133 @@ static struct mailimap_set * setFromArray(NSArray * array)
         _imap->imap_stream = NULL;
         _imap->imap_state = MAILIMAP_STATE_DISCONNECTED;
     }
+}
+
+- (void) _idlePath:(NSString *)path
+{
+    int r;
+    
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return;
+    
+    r = mailimap_idle(_imap);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorIdle userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+    
+    int fd;
+    int maxfd;
+    fd_set readfds;
+    struct timeval delay;
+    
+    fd = mailimap_idle_get_fd(_imap);
+    LEPLog(@"wait %i %i", fd, _idleDone[0]);
+    
+    FD_ZERO(&readfds);
+    FD_SET(fd, &readfds);
+    FD_SET(_idleDone[0], &readfds);
+    maxfd = fd;
+    if (_idleDone[0] > maxfd) {
+        maxfd = _idleDone[0];
+    }
+    delay.tv_sec = MAX_IDLE_DELAY;
+    delay.tv_usec = 0;
+    
+    r = select(maxfd + 1, &readfds, NULL, NULL, &delay);
+    if (r == 0) {
+        // timeout
+    }
+    else if (r == -1) {
+        // do nothing
+    }
+    else {
+        if (FD_ISSET(fd, &readfds)) {
+            // has something on socket
+            
+            LEPLog(@"something on the socket");
+        }
+        if (FD_ISSET(_idleDone[0], &readfds)) {
+            // idle done by user
+            char ch;
+            
+            LEPLog(@"idle done requested");
+            read(_idleDone[0], &ch, 1);
+        }
+    }
+    
+    r = mailimap_idle_done(_imap);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorIdle userInfo:nil];
+		[self setError:error];
+		[error release];
+        return;
+	}
+}
+
+- (void) _idlePrepare
+{
+    LEPAssert(!_idling);
+    
+    _idling = YES;
+    pipe(_idleDone);
+}
+
+- (void) _idleDone
+{
+    int r;
+    char c;
+    
+    c = 0;
+    r = write(_idleDone[1], &c, 1);
+}
+
+- (void) _idleUnprepare
+{
+    close(_idleDone[1]);
+    close(_idleDone[0]);
+    _idleDone[1] = -1;
+    _idleDone[0] = -1;
+    _idling = NO;
 }
 
 - (unsigned int) pendingRequestsCount

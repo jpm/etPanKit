@@ -27,6 +27,7 @@
 #import "NSString+LEP.h"
 #import "LEPIMAPStoreFlagsRequest.h"
 #import "LEPConstants.h"
+#import "LEPIMAPIdleRequest.h"
 #import <libetpan/libetpan.h>
 
 @implementation LEPIMAPFolder
@@ -432,6 +433,18 @@
 	}
 	[request setUids:uids];
 	[uids release];
+	
+    [self _setupRequest:request];
+    
+	return [request autorelease];
+}
+
+- (LEPIMAPIdleRequest *) idleRequest
+{
+	LEPIMAPIdleRequest * request;
+	
+	request = [[LEPIMAPIdleRequest alloc] init];
+	[request setPath:[self path]];
 	
     [self _setupRequest:request];
     

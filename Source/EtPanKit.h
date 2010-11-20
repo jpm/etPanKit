@@ -36,5 +36,6 @@
 #import <EtPanKit/LEPIMAPFetchMessageStructureRequest.h>
 #import <EtPanKit/LEPIMAPFetchMessageRequest.h>
 #import <EtPanKit/LEPIMAPFetchAttachmentRequest.h>
+#import <EtPanKit/LEPIMAPIdleRequest.h>
 
 #import <EtPanKit/NSData+LEPUTF8.h>

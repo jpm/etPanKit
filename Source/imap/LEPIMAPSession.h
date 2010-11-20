@@ -29,6 +29,9 @@
 	NSString * _currentMailbox;
 	uint32_t _uidValidity;
 	uint32_t _uidNext;
+    
+    int _idleDone[2];
+    BOOL _idling;
 }
 
 @property (nonatomic, copy) NSString * host;
