@@ -421,4 +421,31 @@ unsetup:
 	[self _unsetup];
 }
 
+- (void) _checkConnection
+{
+	int r;
+	
+	LEPLog(@"setup");
+	[self _setup];
+	
+	LEPLog(@"connect");
+	[self _connect];
+	if ([self error] != nil) {
+		goto unsetup;
+	}
+	
+	LEPLog(@"login");
+	[self _login];
+	if ([self error] != nil) {
+        goto disconnect;
+	}
+	
+disconnect:
+	LEPLog(@"disconnect");
+	[self _disconnect];
+unsetup:
+	LEPLog(@"unsetup");
+	[self _unsetup];
+}
+
 @end

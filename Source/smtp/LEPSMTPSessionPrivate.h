@@ -7,9 +7,14 @@
  *
  */
 
+#import "LEPSMTPSession.h"
+
+@class LEPAddress;
+
 @interface LEPSMTPSession (LEPSMTPSessionPrivate)
 
 - (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient;
+- (void) _checkConnection;
 
 @end
 

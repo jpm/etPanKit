@@ -118,6 +118,8 @@
 		C6F94F24129E6776005852A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F94F23129E6776005852A4 /* Security.framework */; };
 		C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */; };
 		C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */; };
+		C6F956D2129ED302005852A4 /* LEPSMTPCheckRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F956D0129ED302005852A4 /* LEPSMTPCheckRequest.h */; };
+		C6F956D3129ED302005852A4 /* LEPSMTPCheckRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F956D1129ED302005852A4 /* LEPSMTPCheckRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +270,8 @@
 		C6F94F23129E6776005852A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPCertificateUtils.h; sourceTree = "<group>"; };
 		C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPCertificateUtils.m; sourceTree = "<group>"; };
+		C6F956D0129ED302005852A4 /* LEPSMTPCheckRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPCheckRequest.h; sourceTree = "<group>"; };
+		C6F956D1129ED302005852A4 /* LEPSMTPCheckRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPCheckRequest.m; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -484,6 +488,8 @@
 				C681663E10F5142D00B07764 /* LEPSMTPRequest.m */,
 				C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */,
 				C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */,
+				C6F956D0129ED302005852A4 /* LEPSMTPCheckRequest.h */,
+				C6F956D1129ED302005852A4 /* LEPSMTPCheckRequest.m */,
 				C681663F10F5142D00B07764 /* LEPSMTPSession.h */,
 				C681664010F5142D00B07764 /* LEPSMTPSession.m */,
 				C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */,
@@ -573,6 +579,7 @@
 				C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */,
 				C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */,
 				C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */,
+				C6F956D2129ED302005852A4 /* LEPSMTPCheckRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +725,7 @@
 				C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */,
 				C64619B21294911600C8B9DE /* LEPIMAPIdleRequest.m in Sources */,
 				C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */,
+				C6F956D3129ED302005852A4 /* LEPSMTPCheckRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

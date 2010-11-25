@@ -31,5 +31,6 @@
 @property (nonatomic, copy) NSString * realm; // for NTLM
 
 - (LEPSMTPRequest *) sendRequest:(LEPMessage *)message;
+- (LEPSMTPRequest *) checkConnectionRequest;
 
 @end

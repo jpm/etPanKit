@@ -15,6 +15,7 @@
 #import "LEPSMTPSendMessageRequest.h"
 #import "LEPMessage.h"
 #import "LEPMessageHeader.h"
+#import "LEPSMTPCheckRequest.h"
 
 @implementation LEPSMTPAccount
 
@@ -96,6 +97,17 @@
 	[recipient addObjectsFromArray:[[message header] bcc]];
 	[request setRecipient:recipient];
 	[recipient release];
+	
+    [self _setupRequest:request];
+	
+	return [request autorelease];
+}
+
+- (LEPSMTPRequest *) checkConnectionRequest
+{
+	LEPSMTPCheckRequest * request;
+	
+	request = [[LEPSMTPCheckRequest alloc] init];
 	
     [self _setupRequest:request];
 	
