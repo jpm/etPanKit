@@ -13,6 +13,7 @@
 #import "LEPError.h"
 #import "LEPAddress.h"
 #import <libetpan/libetpan.h>
+#import "LEPCertificateUtils.h"
 
 struct lepData {
 	mailsmtp * smtp;
@@ -88,6 +89,11 @@ struct lepData {
 	}
 }
 
+- (BOOL) _checkCertificate
+{
+    return lepCheckCertificate(_smtp->stream, [self host]);
+}
+
 - (void) _connect
 {
 	int r;
@@ -137,6 +143,14 @@ struct lepData {
 				return;
 			}
 			LEPLog(@"done");
+			if (![self _checkCertificate]) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCertificate userInfo:nil];
+				[self setError:error];
+				[error release];
+                return;
+            }
 			
 			break;
 			
@@ -150,6 +164,14 @@ struct lepData {
 				[error release];
 				return;
 			}
+			if (![self _checkCertificate]) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCertificate userInfo:nil];
+				[self setError:error];
+				[error release];
+                return;
+            }
 			
 			LEPLog(@"init");
 			r = mailsmtp_init(_smtp);

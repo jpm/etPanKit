@@ -21,6 +21,7 @@
 #import "LEPIMAPAttachment.h"
 #import "LEPIMAPAttachmentPrivate.h"
 #import <libetpan/libetpan.h>
+#import "LEPCertificateUtils.h"
 
 #define MAX_IDLE_DELAY (28 * 60)
 
@@ -29,6 +30,7 @@ struct lepData {
 };
 
 #define _imap ((struct lepData *) _lepData)->imap
+#define get_imap(session) ((struct lepData *) session->_lepData)->imap
 
 enum {
 	STATE_DISCONNECTED,
@@ -510,7 +512,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	_lepData = calloc(1, sizeof(struct lepData));
 	_queue = [[NSOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
-	
+    
 	return self;
 }
 
@@ -614,6 +616,11 @@ static struct mailimap_set * setFromArray(NSArray * array)
 			(errorCode != MAILIMAP_NO_ERROR_NON_AUTHENTICATED));
 }
 
+- (BOOL) _checkCertificate
+{
+    return lepCheckCertificate(_imap->imap_stream, [self host]);
+}
+
 - (void) _connect
 {
 	int r;
@@ -646,6 +653,14 @@ static struct mailimap_set * setFromArray(NSArray * array)
 				
 				return;
 			}
+			if (![self _checkCertificate]) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCertificate userInfo:nil];
+				[self setError:error];
+				[error release];
+                return;
+            }
 			
 			break;
 			
@@ -660,7 +675,15 @@ static struct mailimap_set * setFromArray(NSArray * array)
 				[error release];
 				return;
 			}
-			
+			if (![self _checkCertificate]) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorCertificate userInfo:nil];
+				[self setError:error];
+				[error release];
+                return;
+            }
+            
 			break;
 			
 		default:

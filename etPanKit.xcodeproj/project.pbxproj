@@ -115,6 +115,9 @@
 		C6E572581103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */; };
 		C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
 		C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */; settings = {ATTRIBUTES = (); }; };
+		C6F94F24129E6776005852A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F94F23129E6776005852A4 /* Security.framework */; };
+		C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */; };
+		C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -262,6 +265,9 @@
 		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
 		C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchAllFoldersRequest.m; sourceTree = "<group>"; };
 		C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFolderPrivate.h; sourceTree = "<group>"; };
+		C6F94F23129E6776005852A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPCertificateUtils.h; sourceTree = "<group>"; };
+		C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPCertificateUtils.m; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -272,6 +278,7 @@
 			files = (
 				C63C935611037309006B5066 /* libetpan.a in Frameworks */,
 				C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */,
+				C6F94F24129E6776005852A4 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +328,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6F94F23129E6776005852A4 /* Security.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -393,6 +401,8 @@
 				C6910EED1115CE1200623B9F /* NSString+LEP.m */,
 				C6910ED41115CB4000623B9F /* NSString+LEPUUID.h */,
 				C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */,
+				C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */,
+				C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -562,6 +572,7 @@
 				C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */,
 				C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */,
 				C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */,
+				C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,6 +717,7 @@
 				C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */,
 				C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */,
 				C64619B21294911600C8B9DE /* LEPIMAPIdleRequest.m in Sources */,
+				C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

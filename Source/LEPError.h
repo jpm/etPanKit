@@ -29,4 +29,5 @@ enum {
 	LEPErrorStore,
 	LEPErrorStorageLimit,
     LEPErrorIdle,
+	LEPErrorCertificate,
 };
