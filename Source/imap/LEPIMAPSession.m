@@ -1412,9 +1412,19 @@ static struct mailimap_set * setFromArray(NSArray * array)
 					attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:att_static->att_data.att_body];
 					[msg _setAttachments:attachments];
 				}
-				else if (att_static->att_type == MAILIMAP_MSG_ATT_INTERNALDATE) {
-					[[msg header] _setFromInternalDate:att_static->att_data.att_internal_date];
-				}
+            }
+        }
+        for(item_iter = clist_begin(msg_att->att_list) ; item_iter != NULL ; item_iter = clist_next(item_iter)) {
+            struct mailimap_msg_att_item * att_item;
+            
+            att_item = clist_content(item_iter);
+            if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
+                struct mailimap_msg_att_static * att_static;
+                
+                att_static = att_item->att_data.att_static;
+                if (att_static->att_type == MAILIMAP_MSG_ATT_INTERNALDATE) {
+                    [[msg header] _setFromInternalDate:att_static->att_data.att_internal_date];
+                }
             }
         }
 		

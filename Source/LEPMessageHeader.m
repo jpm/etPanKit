@@ -680,25 +680,6 @@ static char * extract_subject(char * str)
 
 - (id) init
 {
-#if 0
-	static NSString * hostname = nil;
-	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-	NSString * messageID;
-	
-	self = [super init];
-	
-	[self setDate:[NSDate date]];
-	pthread_mutex_lock(&lock);
-	if (hostname == nil) {
-		hostname = [[[NSProcessInfo processInfo] hostName] copy];
-	}
-	pthread_mutex_unlock(&lock);
-	messageID = [[NSString alloc] initWithFormat:@"%@@%@", [NSString lepUUIDString], hostname];
-	[self setMessageID:messageID];
-	[messageID release];
-	
-	return self;
-#endif
 	return [self _initWithDate:YES messageID:YES];
 }
 
@@ -711,7 +692,10 @@ static char * extract_subject(char * str)
 	self = [super init];
 	
 	if (generateDate) {
-		[self setDate:[NSDate date]];
+        NSDate * date;
+        date = [NSDate date];
+        [self setInternalDate:date];
+		[self setDate:date];
 	}
 	if (generateMessageID) {
 		pthread_mutex_lock(&lock);
@@ -756,9 +740,12 @@ static char * extract_subject(char * str)
 	
 	if (single_fields.fld_orig_date != NULL) {
 		time_t timestamp;
-		
+		NSDate * date;
+        
 		timestamp = timestamp_from_date(single_fields.fld_orig_date->dt_date_time);
-		[self setDate:[NSDate dateWithTimeIntervalSince1970:timestamp]];
+        date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+		[self setDate:date];
+        [self setInternalDate:date];
 		LEPLog(@"%lu %@", (unsigned long) timestamp, [self date]);
 	}
 	
@@ -875,10 +862,13 @@ static char * extract_subject(char * str)
 									&cur_token, &date_time);
 		if (r == MAILIMF_NO_ERROR) {
 			time_t timestamp;
-			
+			NSDate * date;
+            
 			// date
 			timestamp = timestamp_from_date(date_time);
-			[self setDate:[NSDate dateWithTimeIntervalSince1970:timestamp]];
+            date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+			[self setDate:date];
+            [self setInternalDate:date];
 			mailimf_date_time_free(date_time);
 		}
 		else {
@@ -947,6 +937,7 @@ static char * extract_subject(char * str)
 				date = [formatter dateFromString:[NSString stringWithUTF8String:env->env_date]];
 				if (date != nil) {
 					[self setDate:date];
+                    [self setInternalDate:date];
 					break;
 				}
 			}
