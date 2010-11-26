@@ -25,18 +25,16 @@
 @end
 
 struct mailmime * get_text_part(const char * mime_type, const char * charset, const char * content_id,
-								const char * text, size_t length)
+								const char * text, size_t length, int encoding_type)
 {
 	struct mailmime_fields * mime_fields;
 	struct mailmime * mime;
 	struct mailmime_content * content;
 	struct mailmime_parameter * param;
-	int encoding_type;
 	struct mailmime_disposition * disposition;
 	struct mailmime_mechanism * encoding;
 	char * dup_content_id;
     
-	encoding_type = MAILMIME_MECHANISM_8BIT;
 	encoding = mailmime_mechanism_new(encoding_type, NULL);
 	disposition = mailmime_disposition_new_with_data(MAILMIME_DISPOSITION_TYPE_INLINE,
 													 NULL, NULL, NULL, NULL, (size_t) -1);
@@ -58,6 +56,18 @@ struct mailmime * get_text_part(const char * mime_type, const char * charset, co
 	mailmime_set_body_text(mime, (char *) text, length);
 	
 	return mime;
+}
+
+struct mailmime * get_plain_text_part(const char * mime_type, const char * charset, const char * content_id,
+                                      const char * text, size_t length)
+{
+    return get_text_part(mime_type, charset, content_id, text, length, MAILMIME_MECHANISM_8BIT);
+}
+
+struct mailmime * get_other_text_part(const char * mime_type, const char * charset, const char * content_id,
+                                      const char * text, size_t length)
+{
+    return get_text_part(mime_type, charset, content_id, text, length, MAILMIME_MECHANISM_QUOTED_PRINTABLE);
 }
 
 static struct mailmime * get_file_part(const char * filename, const char * mime_type, int is_inline,
@@ -214,10 +224,15 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		
 		att = (LEPAttachment *) attachment;
 		data = [att data];
-		if ([att isInlineAttachment] && [[[att mimeType] lowercaseString] hasPrefix:@"text/"]) {
-			mime = get_text_part([[att mimeType] UTF8String], [[att charset] UTF8String],
-                                 [[attachment contentID] UTF8String],
-                                 [data bytes], [data length]);
+		if ([att isInlineAttachment] && [[[att mimeType] lowercaseString] isEqualToString:@"text/plain"]) {
+			mime = get_plain_text_part([[att mimeType] UTF8String], [[att charset] UTF8String],
+                                       [[attachment contentID] UTF8String],
+                                       [data bytes], [data length]);
+        }
+        else if ([att isInlineAttachment] && [[[att mimeType] lowercaseString] hasPrefix:@"text/"]) {
+			mime = get_other_text_part([[att mimeType] UTF8String], [[att charset] UTF8String],
+                                       [[attachment contentID] UTF8String],
+                                       [data bytes], [data length]);
 		}
 		else {
 			mime = get_file_part([[[att filename] lepEncodedMIMEHeaderValue] bytes], [[att mimeType] UTF8String], [att isInlineAttachment],
