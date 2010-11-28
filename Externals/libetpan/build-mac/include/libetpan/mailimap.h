@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.h,v 1.20 2007/05/26 12:16:01 hoa Exp $
+ * $Id: mailimap.h,v 1.21 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifndef MAILIMAP_H
@@ -651,6 +651,12 @@ char * mailimap_read_line(mailimap * session);
 
 int mailimap_parse_response(mailimap * session,
     struct mailimap_response ** result);
+
+LIBETPAN_EXPORT
+void mailimap_set_progress_callback(mailimap * session,
+                                    mailprogress_function * body_progr_fun,
+                                    mailprogress_function * items_progr_fun,
+                                    void * context);
 
 #ifdef __cplusplus
 }

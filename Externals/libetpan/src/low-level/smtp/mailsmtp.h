@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailsmtp.h,v 1.22 2010/07/27 00:47:14 hoa Exp $
+ * $Id: mailsmtp.h,v 1.23 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifndef MAILSMTP_H
@@ -137,6 +137,11 @@ int mailsmtp_noop(mailsmtp * session);
 LIBETPAN_EXPORT
 int mailsmtp_reset(mailsmtp * session);
 
+LIBETPAN_EXPORT
+void mailsmtp_set_progress_callback(mailsmtp * session,
+                                    mailprogress_function * progr_fun,
+                                    void * context);
+   
 #ifdef __cplusplus
 }
 #endif

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_types.h,v 1.32 2007/05/25 01:31:18 hoa Exp $
+ * $Id: mailimap_types.h,v 1.33 2010/11/28 17:01:26 hoa Exp $
  */
 
 /*
@@ -3143,6 +3143,10 @@ struct mailimap {
   
   time_t imap_idle_timestamp;
   time_t imap_idle_maxdelay;
+
+  mailprogress_function * imap_body_progress_fun;
+  mailprogress_function * imap_items_progress_fun;
+  void * imap_progress_context;
 };
 
 typedef struct mailimap mailimap;

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_types.h,v 1.14 2006/12/22 18:45:44 hoa Exp $
+ * $Id: mailstream_types.h,v 1.15 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifndef MAILSTREAM_TYPES_H
@@ -83,6 +83,8 @@ struct _mailstream_low {
 };
 
 typedef void progress_function(size_t current, size_t maximum);
+
+typedef void mailprogress_function(size_t current, size_t maximum, void * context);
 
 #ifdef __cplusplus
 }

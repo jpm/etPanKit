@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.35 2010/07/27 00:47:09 hoa Exp $
+ * $Id: mailsmtp.c,v 1.36 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -120,7 +120,9 @@ mailsmtp * mailsmtp_new(size_t progr_rate,
   session->smtp_sasl.sasl_conn = NULL;
 #endif
   
-  session->max_msg_size = 0;
+  session->smtp_max_msg_size = 0;
+  session->smtp_progress_fun = NULL;
+  session->smtp_progress_context = NULL;
 
   return session;
 
@@ -406,7 +408,7 @@ int mailesmtp_parse_ehlo(mailsmtp * session)
       session->esmtp |= MAILSMTP_ESMTP_STARTTLS;
     else if (!strncasecmp(response, "SIZE", 4) && isdelim(response[4])) {
       session->esmtp |= MAILSMTP_ESMTP_SIZE;
-      session->max_msg_size = strtoul(response + 4, NULL, 10);
+      session->smtp_max_msg_size = strtoul(response + 4, NULL, 10);
       /* TODO: grab optionnal max size */
     } else if (!strncasecmp(response, "AUTH ", 5)) {
       response += 5;       /* remove "AUTH " */
@@ -857,9 +859,16 @@ static int send_command(mailsmtp * f, char * command)
 
 static int send_data(mailsmtp * session, const char * message, size_t size)
 {
-  if (mailstream_send_data(session->stream, message, size,
-			   session->progr_rate, session->progr_fun) == -1)
-    return -1;
+  if (session->smtp_progress_fun != NULL) {
+    if (mailstream_send_data_with_context(session->stream, message, size,
+                             session->smtp_progress_fun, session->smtp_progress_context) == -1)
+      return -1;
+  }
+  else {
+    if (mailstream_send_data(session->stream, message, size,
+                             session->progr_rate, session->progr_fun) == -1)
+      return -1;
+  }
 
   if (mailstream_flush(session->stream) == -1)
     return -1;
@@ -1217,4 +1226,12 @@ int mailsmtp_reset(mailsmtp * session)
     return MAILSMTP_ERROR_STREAM;
   
   return MAILSMTP_NO_ERROR;
+}
+
+void mailsmtp_set_progress_callback(mailsmtp * session,
+                                    mailprogress_function * progr_fun,
+                                    void * context)
+{
+  session->smtp_progress_fun = progr_fun;
+  session->smtp_progress_context = context;
 }

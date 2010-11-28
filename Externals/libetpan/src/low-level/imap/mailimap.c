@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.c,v 1.44 2010/04/05 14:43:49 hoa Exp $
+ * $Id: mailimap.c,v 1.45 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -629,8 +629,15 @@ int mailimap_append(mailimap * session, const char * mailbox,
     return MAILIMAP_ERROR_APPEND;
   }
 
-  r = mailimap_literal_data_send(session->imap_stream, literal, literal_size,
-      session->imap_progr_rate, session->imap_progr_fun);
+  if (session->imap_body_progress_fun != NULL) {
+    r = mailimap_literal_data_send_with_context(session->imap_stream, literal, literal_size,
+                                                session->imap_body_progress_fun,
+                                                session->imap_progress_context);
+  }
+  else {
+    r = mailimap_literal_data_send(session->imap_stream, literal, literal_size,
+                                   session->imap_progr_rate, session->imap_progr_fun);
+  }
   if (r != MAILIMAP_NO_ERROR)
 	return r;
 
@@ -2393,10 +2400,21 @@ int mailimap_parse_response(mailimap * session,
 
   session->imap_response = NULL;
 
-  r = mailimap_response_parse(session->imap_stream,
-      session->imap_stream_buffer,
-      &indx, &response,
-      session->imap_progr_rate, session->imap_progr_fun);
+  if ((session->imap_body_progress_fun != NULL) ||
+      (session->imap_items_progress_fun != NULL)) {
+    r = mailimap_response_parse_with_context(session->imap_stream,
+                                             session->imap_stream_buffer,
+                                             &indx, &response,
+                                             session->imap_body_progress_fun,
+                                             session->imap_items_progress_fun,
+                                             session->imap_progress_context);
+  }
+  else {
+    r = mailimap_response_parse(session->imap_stream,
+                                session->imap_stream_buffer,
+                                &indx, &response,
+                                session->imap_progr_rate, session->imap_progr_fun);
+  }
   if (r != MAILIMAP_NO_ERROR)
     return r;
 
@@ -2521,6 +2539,10 @@ mailimap * mailimap_new(size_t imap_progr_rate,
   f->imap_idle_timestamp = 0;
   f->imap_idle_maxdelay = 29 * 60; /* IMAP IDLE spec */
   
+  f->imap_body_progress_fun = NULL;
+  f->imap_items_progress_fun = NULL;
+  f->imap_progress_context = NULL;
+  
   return f;
   
  free_stream_buffer:
@@ -2555,4 +2577,15 @@ void mailimap_free(mailimap * session)
     mailimap_connection_info_free(session->imap_connection_info);
 
   free(session);
+}
+
+LIBETPAN_EXPORT
+void mailimap_set_progress_callback(mailimap * session,
+                                    mailprogress_function * body_progr_fun,
+                                    mailprogress_function * items_progr_fun,
+                                    void * context)
+{
+  session->imap_body_progress_fun = body_progr_fun;
+  session->imap_items_progress_fun = items_progr_fun;
+  session->imap_progress_context = context;
 }

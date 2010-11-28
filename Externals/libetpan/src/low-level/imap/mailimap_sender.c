@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_sender.c,v 1.31 2010/07/22 07:05:01 hoa Exp $
+ * $Id: mailimap_sender.c,v 1.32 2010/11/28 17:01:26 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -203,13 +203,25 @@ static int mailimap_userid_send(mailstream * fd, const char * user);
 
 
 
+static inline int mailimap_sized_token_send_with_context(mailstream * fd, const char * atom,
+                                                         size_t len,
+                                                         mailprogress_function * progr_fun,
+                                                         void * context);
 
 static inline int mailimap_sized_token_send(mailstream * fd, const char * atom,
 				     size_t len)
 {
-  if (mailstream_send_data_crlf(fd, atom, len, 0, NULL) == -1)
-    return MAILIMAP_ERROR_STREAM;
+  return mailimap_sized_token_send_with_context(fd, atom, len, NULL, NULL);
+}
 
+static inline int mailimap_sized_token_send_with_context(mailstream * fd, const char * atom,
+                                                         size_t len,
+                                                         mailprogress_function * progr_fun,
+                                                         void * context)
+{
+  if (mailstream_send_data_crlf_with_context(fd, atom, len, progr_fun, context) == -1)
+    return MAILIMAP_ERROR_STREAM;
+  
   return MAILIMAP_NO_ERROR;
 }
 
@@ -1511,15 +1523,22 @@ mailimap_literal_data_send(mailstream * fd, const char * literal, uint32_t len,
 			   size_t progr_rate,
 			   progress_function * progr_fun)
 {
-  int r;
-  
-  r = mailimap_sized_token_send(fd, literal, len);
-  if (r != MAILIMAP_NO_ERROR)
-    return r;
-
-  return MAILIMAP_NO_ERROR;
+  return mailimap_literal_data_send_with_context(fd, literal, len, NULL, NULL);
 }
 
+int
+mailimap_literal_data_send_with_context(mailstream * fd, const char * literal, uint32_t len,
+                                        mailprogress_function * progr_fun,
+                                        void * context)
+{
+  int r;
+  
+  r = mailimap_sized_token_send_with_context(fd, literal, len, progr_fun, context);
+  if (r != MAILIMAP_NO_ERROR)
+    return r;
+  
+  return MAILIMAP_NO_ERROR;
+}
 
 /*
 =>   login           = "LOGIN" SP userid SP password

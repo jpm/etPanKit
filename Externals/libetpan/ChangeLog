@@ -1,3 +1,15 @@
+2010-11-28 - libetpan-1.0cvs14 - hoa
+
+	* src/data-types/mailstream_helper.[ch]
+	* src/data-types/mailstream_types.h
+	* src/low-level/imap/mailimap.[ch]
+	* src/low-level/imap/mailimap_parser.[ch]
+	* src/low-level/imap/mailimap_sender.[ch]
+	* src/low-level/imap/mailimap_types.h
+	* src/low-level/smtp/mailsmtp.[ch]
+	* src/low-level/smtp/mailsmtp_helper.[ch]
+	   improved progress report support for SMTP and IMAP.
+
 2010-11-16 - libetpan-1.0cvs13 - hoa
 
 	* src/low-level/mime/mailmime_decode.c
