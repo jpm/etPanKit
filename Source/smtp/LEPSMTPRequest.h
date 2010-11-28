@@ -15,6 +15,10 @@
 @property (nonatomic, readonly, copy) NSError * error;
 @property (nonatomic, retain) LEPSMTPSession * session;
 
+// progress
+@property (nonatomic, assign, readonly) size_t currentProgress;
+@property (nonatomic, assign, readonly) size_t maximumProgress;
+
 - (void) startRequest;
 - (void) cancel;
 

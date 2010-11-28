@@ -13,6 +13,8 @@
 	NSString * _path;
 	uint32_t _uid;
 	NSData * _messageData;
+    size_t _currentProgress;
+    size_t _maximumProgress;
 }
 
 @property (nonatomic, copy) NSString * path;
@@ -20,5 +22,9 @@
 
 // result
 @property (nonatomic, readonly, retain) NSData * messageData;
+
+// progress
+@property (nonatomic, assign, readonly) size_t currentProgress;
+@property (nonatomic, assign, readonly) size_t maximumProgress;
 
 @end

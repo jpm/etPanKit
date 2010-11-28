@@ -100,4 +100,14 @@
 	}
 }
 
+- (size_t) currentProgress
+{
+    return 0;
+}
+
+- (size_t) maximumProgress
+{
+    return 0;
+}
+
 @end

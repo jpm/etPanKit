@@ -19,6 +19,7 @@
     NSString * _path;
     LEPIMAPMessagesRequestKind _fetchKind;
 	LEPIMAPFolder * _folder;
+    unsigned int _progressCount;
 }
 
 @property (nonatomic, copy) NSString * path;
@@ -27,6 +28,9 @@
 @property (nonatomic) LEPIMAPMessagesRequestKind fetchKind;
 @property (nonatomic, retain) LEPIMAPFolder * folder;
 
-@property (nonatomic, readonly) NSArray * /* LEPIMAPMessage */ messages;
+@property (nonatomic, retain, readonly) NSArray * /* LEPIMAPMessage */ messages;
+
+// progress
+@property (nonatomic, assign, readonly) unsigned int progressCount;
 
 @end

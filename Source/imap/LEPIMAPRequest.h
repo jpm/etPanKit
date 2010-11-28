@@ -18,6 +18,10 @@
 @property (nonatomic, retain) LEPIMAPSession * session;
 @property (nonatomic, readonly, retain) NSArray * resultUidSet;
 
+// progress
+@property (nonatomic, assign, readonly) size_t currentProgress;
+@property (nonatomic, assign, readonly) size_t maximumProgress;
+
 - (void) startRequest;
 - (void) cancel;
 

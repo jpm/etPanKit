@@ -13,6 +13,8 @@
 @class LEPIMAPFolder;
 @class LEPIMAPAccount;
 
+@protocol LEPIMAPSessionProgressDelegate;
+
 @interface LEPIMAPSession (LEPIMAPSessionPrivate)
 
 - (void) _selectIfNeeded:(NSString *)mailbox;
@@ -27,17 +29,24 @@
 - (void) _subscribeFolder:(NSString *)path;
 - (void) _unsubscribeFolder:(NSString *)path;
 
-- (void) _appendMessageData:(NSData *)messageData flags:(LEPIMAPMessageFlag)flags toPath:(NSString *)path;
+- (void) _appendMessageData:(NSData *)messageData flags:(LEPIMAPMessageFlag)flags toPath:(NSString *)path
+           progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
+
 - (void) _copyMessages:(NSArray * /* NSNumber */)uidSet fromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 
 - (void) _expunge:(NSString *)path;
 
-- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder;
+- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
+                  progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
 
-- (NSData *) _fetchMessageWithUID:(uint32_t)uid path:(NSString *)path;
+- (NSData *) _fetchMessageWithUID:(uint32_t)uid path:(NSString *)path
+                 progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
+
 - (NSArray *) _fetchMessageStructureWithUID:(uint32_t)uid path:(NSString *)path message:(LEPIMAPMessage *)message;
 
-- (NSData *) _fetchAttachmentWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path encoding:(int)encoding;
+- (NSData *) _fetchAttachmentWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path encoding:(int)encoding
+                           expectedSize:(size_t)expectedSize
+                       progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
 
 - (void) _select:(NSString *)mailbox;
 
@@ -47,5 +56,12 @@
 - (void) _idleUnprepare;
 - (void) _idlePath:(NSString *)path;
 - (void) _idleDone;
+
+@end
+
+@protocol LEPIMAPSessionProgressDelegate
+
+- (void) LEPIMAPSession:(LEPIMAPSession *)session bodyProgressWithCurrent:(size_t)current maximum:(size_t)maximum;
+- (void) LEPIMAPSession:(LEPIMAPSession *)session itemsProgressWithCurrent:(size_t)current maximum:(size_t)maximum;
 
 @end

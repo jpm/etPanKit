@@ -98,4 +98,14 @@
 	[[self delegate] LEPSMTPRequest_finished:self];
 }
 
+- (size_t) currentProgress
+{
+    return 0;
+}
+
+- (size_t) maximumProgress
+{
+    return 0;
+}
+
 @end

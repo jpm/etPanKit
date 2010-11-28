@@ -487,6 +487,10 @@ static struct mailimap_set * setFromArray(NSArray * array)
 - (void) _select:(NSString *)mailbox;
 - (void) _logout;
 
+- (void) _bodyProgressWithCurrent:(size_t)current maximum:(size_t)maximum;
+- (void) _itemsProgressWithCurrent:(size_t)current maximum:(size_t)maximum;
+- (void) _itemsProgress;
+
 @end
 
 @implementation LEPIMAPSession
@@ -536,11 +540,29 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	[super dealloc];
 }
 
+static void body_progress(size_t current, size_t maximum, void * context)
+{
+    LEPIMAPSession * session;
+    
+    session = context;
+    [session _bodyProgressWithCurrent:current maximum:maximum];
+}
+
+static void items_progress(size_t current, size_t maximum, void * context)
+{
+    LEPIMAPSession * session;
+    
+    session = context;
+    [session _itemsProgress];
+}
+
 - (void) _setup
 {
 	LEPAssert(_imap == NULL);
 	
 	_imap = mailimap_new(0, NULL);
+    
+    mailimap_set_progress_callback(_imap, body_progress, items_progress, self);
 }
 
 - (void) _unsetup
@@ -1137,17 +1159,27 @@ static struct mailimap_set * setFromArray(NSArray * array)
 }
 
 - (void) _appendMessageData:(NSData *)messageData flags:(LEPIMAPMessageFlag)flags toPath:(NSString *)path
+           progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
 {
     int r;
     struct mailimap_flag_list * flag_list;
     uint32_t uidvalidity;
 	uint32_t uidresult;
     
+    _currentProgressDelegate = progressDelegate;
+    [_currentProgressDelegate retain];
+    [self _bodyProgressWithCurrent:0 maximum:[messageData length]];
+    
     flag_list = NULL;
     flag_list = flags_to_lep(flags);
     r = mailimap_uidplus_append(_imap, [path UTF8String], flag_list, NULL, [messageData bytes], [messageData length],
 								&uidvalidity, &uidresult);
     mailimap_flag_list_free(flag_list);
+    
+    [self _bodyProgressWithCurrent:[messageData length] maximum:[messageData length]];
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
+    
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
@@ -1268,6 +1300,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 }
 
 - (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
+                  progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
 {
     struct mailimap_set * imap_set;
     struct mailimap_fetch_type * fetch_type;
@@ -1280,6 +1313,12 @@ static struct mailimap_set * setFromArray(NSArray * array)
     [self _selectIfNeeded:path];
 	if ([self error] != nil)
         return nil;
+    
+    if ((kind & LEPIMAPMessagesRequestKindHeaders) != 0) {
+        _progressItemsCount = 0;
+        _currentProgressDelegate = progressDelegate;
+        [_currentProgressDelegate retain];
+    }
     
     result = [NSMutableArray array];    
     
@@ -1329,6 +1368,9 @@ static struct mailimap_set * setFromArray(NSArray * array)
     r = mailimap_uid_fetch(_imap, imap_set, fetch_type, &fetch_result);
     mailimap_fetch_type_free(fetch_type);
     mailimap_set_free(imap_set);
+    
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
     
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1450,6 +1492,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 }
 
 - (NSData *) _fetchMessageWithUID:(uint32_t)uid path:(NSString *)path
+                 progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
 {
 	char * rfc822;
 	int r;
@@ -1459,8 +1502,22 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	if ([self error] != nil)
         return nil;
 	
+    _progressItemsCount = 0;
+    _currentProgressDelegate = progressDelegate;
+    [_currentProgressDelegate retain];
+    
     rfc822 = NULL;
 	r = fetch_rfc822(_imap, uid, &rfc822);
+    
+    if (r == MAILIMAP_NO_ERROR) {
+        size_t len;
+        
+        len = strlen(rfc822);
+        [self _bodyProgressWithCurrent:len maximum:len];
+    }
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
+    
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
@@ -1544,6 +1601,8 @@ static struct mailimap_set * setFromArray(NSArray * array)
 }
 
 - (NSData *) _fetchAttachmentWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path encoding:(int)encoding
+                                   expectedSize:(size_t)expectedSize
+                       progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
 {
 	struct mailimap_fetch_type * fetch_type;
     struct mailimap_fetch_att * fetch_att;
@@ -1560,6 +1619,11 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	if ([self error] != nil)
         return nil;
 	
+    _progressItemsCount = 0;
+    _currentProgressDelegate = progressDelegate;
+    [_currentProgressDelegate retain];
+    [self _bodyProgressWithCurrent:0 maximum:expectedSize];
+    
 	partIDArray = [partID componentsSeparatedByString:@"."];
 	sec_list = clist_new();
 	for(NSString * element in partIDArray) {
@@ -1577,6 +1641,10 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	r = fetch_imap(_imap, uid, fetch_type, &text, &text_length);
 	mailimap_fetch_type_free(fetch_type);
 	
+    [self _bodyProgressWithCurrent:expectedSize maximum:expectedSize];
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
+    
     LEPLog(@"had error : %i", r);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1895,6 +1963,76 @@ static struct mailimap_set * setFromArray(NSArray * array)
 - (unsigned int) pendingRequestsCount
 {
     return [[_queue operations] count];
+}
+
+- (void) _bodyProgressWithCurrent:(size_t)current maximum:(size_t)maximum
+{
+    if (current > maximum) {
+        current = maximum;
+    }
+    
+    if (_currentProgressDelegate != nil) {
+        NSMutableDictionary * info;
+        
+        info = [[NSMutableDictionary alloc] init];
+        [info setObject:_currentProgressDelegate forKey:@"Delegate"];
+        [info setObject:[NSNumber numberWithLongLong:current] forKey:@"Current"];
+        [info setObject:[NSNumber numberWithLongLong:maximum] forKey:@"Maximum"];
+        
+        [self performSelectorOnMainThread:@selector(_bodyProgressOnMainThread:) withObject:info waitUntilDone:NO];
+        
+        [info release];
+    }
+}
+
+- (void) _itemsProgress
+{
+    _progressItemsCount ++;
+    [self _itemsProgressWithCurrent:_progressItemsCount maximum:0];
+}
+
+- (void) _itemsProgressWithCurrent:(size_t)current maximum:(size_t)maximum
+{
+    if (_currentProgressDelegate != nil) {
+        NSMutableDictionary * info;
+        
+        info = [[NSMutableDictionary alloc] init];
+        [info setObject:_currentProgressDelegate forKey:@"Delegate"];
+        [info setObject:[NSNumber numberWithLongLong:_progressItemsCount] forKey:@"Current"];
+        [info setObject:[NSNumber numberWithLongLong:maximum] forKey:@"Maximum"];
+        
+        [self performSelectorOnMainThread:@selector(_itemsProgressOnMainThread:) withObject:info waitUntilDone:NO];
+        
+        [info release];
+    }
+}
+
+- (void) _bodyProgressOnMainThread:(NSDictionary *)info
+{
+    id <LEPIMAPSessionProgressDelegate> delegate;
+    size_t current;
+    size_t maximum;
+    
+    delegate = [info objectForKey:@"Delegate"];
+    current = [[info objectForKey:@"Current"] longLongValue];
+    maximum = [[info objectForKey:@"Maximum"] longLongValue];
+    LEPLog(@"imap body progress %u %u", current, maximum);
+    
+    [delegate LEPIMAPSession:self bodyProgressWithCurrent:current maximum:maximum];
+}
+
+- (void) _itemsProgressOnMainThread:(NSDictionary *)info
+{
+    id <LEPIMAPSessionProgressDelegate> delegate;
+    size_t current;
+    size_t maximum;
+    
+    delegate = [info objectForKey:@"Delegate"];
+    current = [[info objectForKey:@"Current"] longLongValue];
+    maximum = [[info objectForKey:@"Maximum"] longLongValue];
+    LEPLog(@"imap got item %u %u", current, maximum);
+    
+    [delegate LEPIMAPSession:self itemsProgressWithCurrent:current maximum:maximum];
 }
 
 @end

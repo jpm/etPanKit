@@ -80,6 +80,7 @@
 	[request setPath:[[(LEPIMAPMessage *) [self message] folder] path]];
 	[request setUid:[(LEPIMAPMessage *) [self message] uid]];
 	[request setPartID:_partID];
+    [request setSize:_size];
 	
     [self _setupRequest:request];
     

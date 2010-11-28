@@ -21,6 +21,7 @@
     NSString * _password;
     LEPAuthType _authType;
 	NSString * _realm;
+    id _currentProgressDelegate;
 }
 
 @property (nonatomic, copy) NSString * host;

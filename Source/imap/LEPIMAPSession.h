@@ -32,6 +32,9 @@
     
     int _idleDone[2];
     BOOL _idling;
+    
+    id _currentProgressDelegate;
+  unsigned int _progressItemsCount;
 }
 
 @property (nonatomic, copy) NSString * host;

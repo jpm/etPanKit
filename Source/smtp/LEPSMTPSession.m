@@ -14,6 +14,7 @@
 #import "LEPAddress.h"
 #import <libetpan/libetpan.h>
 #import "LEPCertificateUtils.h"
+#import "LEPSMTPSessionPrivate.h"
 
 struct lepData {
 	mailsmtp * smtp;
@@ -31,6 +32,8 @@ struct lepData {
 - (void) _connect;
 - (void) _login;
 - (void) _disconnect;
+
+- (void) _progressWithCurrent:(size_t)current maximum:(size_t)maximum;
 
 @end
 
@@ -74,11 +77,21 @@ struct lepData {
 	[_queue addOperation:request];
 }
 
+static void progress(size_t current, size_t maximum, void * context)
+{
+    LEPSMTPSession * session;
+    
+    session = context;
+    [session _progressWithCurrent:current maximum:maximum];
+}
+
 - (void) _setup
 {
 	LEPAssert(_smtp == NULL);
 	
 	_smtp = mailsmtp_new(0, NULL);
+    
+    mailsmtp_set_progress_callback(_smtp, progress, self);
 }
 
 - (void) _unsetup
@@ -354,10 +367,15 @@ struct lepData {
 }
 
 - (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient
+     progressDelegate:(id <LEPSMTPSessionProgressDelegate>)progressDelegate
 {
 	clist * address_list;
 	int r;
 	
+    _currentProgressDelegate = progressDelegate;
+    [_currentProgressDelegate retain];
+    [self _progressWithCurrent:0 maximum:[messageData length]];
+    
 	LEPLog(@"setup");
 	[self _setup];
 	
@@ -412,7 +430,12 @@ struct lepData {
     }
 	
 #warning should disconnect only when there are no more requests
-	
+    
+    [self _progressWithCurrent:[messageData length] maximum:[messageData length]];
+    
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
+    
 disconnect:
 	LEPLog(@"disconnect");
 	[self _disconnect];
@@ -421,10 +444,42 @@ unsetup:
 	[self _unsetup];
 }
 
+- (void) _progressWithCurrent:(size_t)current maximum:(size_t)maximum
+{
+    if (current > maximum) {
+        current = maximum;
+    }
+    
+    if (_currentProgressDelegate != nil) {
+        NSMutableDictionary * info;
+        
+        info = [[NSMutableDictionary alloc] init];
+        [info setObject:_currentProgressDelegate forKey:@"Delegate"];
+        [info setObject:[NSNumber numberWithLongLong:current] forKey:@"Current"];
+        [info setObject:[NSNumber numberWithLongLong:maximum] forKey:@"Maximum"];
+        
+        [self performSelectorOnMainThread:@selector(_progressOnMainThread:) withObject:info waitUntilDone:NO];
+        
+        [info release];
+    }
+}
+
+- (void) _progressOnMainThread:(NSDictionary *)info
+{
+    id <LEPSMTPSessionProgressDelegate> delegate;
+    size_t current;
+    size_t maximum;
+    
+    delegate = [info objectForKey:@"Delegate"];
+    current = [[info objectForKey:@"Current"] longLongValue];
+    maximum = [[info objectForKey:@"Maximum"] longLongValue];
+    LEPLog(@"smtp body progress %u %u", current, maximum);
+    
+    [delegate LEPSMTPSession:self progressWithCurrent:current maximum:maximum];
+}
+
 - (void) _checkConnection
 {
-	int r;
-	
 	LEPLog(@"setup");
 	[self _setup];
 	

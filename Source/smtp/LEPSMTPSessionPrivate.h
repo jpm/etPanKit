@@ -10,11 +10,19 @@
 #import "LEPSMTPSession.h"
 
 @class LEPAddress;
+@protocol LEPSMTPSessionProgressDelegate;
 
 @interface LEPSMTPSession (LEPSMTPSessionPrivate)
 
-- (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient;
+- (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient
+     progressDelegate:(id <LEPSMTPSessionProgressDelegate>)progressDelegate;
 - (void) _checkConnection;
+
+@end
+
+@protocol LEPSMTPSessionProgressDelegate
+
+- (void) LEPSMTPSession:(LEPSMTPSession *)session progressWithCurrent:(size_t)current maximum:(size_t)maximum;
 
 @end
 

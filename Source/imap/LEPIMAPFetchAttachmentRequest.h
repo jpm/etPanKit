@@ -15,14 +15,22 @@
 	NSString * _partID;
 	uint32_t _uid;
 	int _encoding;
+    size_t _size;
+    size_t _currentProgress;
+    size_t _maximumProgress;
 }
 
 @property (nonatomic, copy) NSString * path;
 @property (nonatomic, copy) NSString * partID;
 @property (nonatomic, assign) uint32_t uid;
 @property (nonatomic, assign) int encoding;
+@property (nonatomic, assign) size_t size;
 
 // result
 @property (nonatomic, readonly, retain) NSData * data;
+
+// progress
+@property (nonatomic, assign, readonly) size_t currentProgress;
+@property (nonatomic, assign, readonly) size_t maximumProgress;
 
 @end
