@@ -9,6 +9,7 @@
 #import "NSString+LEP.h"
 
 #import <libetpan/libetpan.h>
+#import "LEPUtils.h"
 
 //#include <libxml2/libxml/xmlmemory.h>
 //#include <libxml2/libxml/HTMLparser.h>
@@ -503,18 +504,89 @@ static char * etpan_make_quoted_printable(char * display_charset,
 
 #pragma mark strip HTML
 
+struct parserState {
+	int level;
+	int enabled;
+	int disabledLevel;
+	NSMutableString * result;
+	int logEnabled;
+    int quoteLevel;
+    BOOL hasText;
+    BOOL lastCharIsWhitespace;
+};
+
 static void charactersParsed(void* context,
 							 const xmlChar* ch, int len)
 /*" Callback function for stringByStrippingHTML. "*/
 {
-	NSMutableString* result = context;
+	struct parserState * state;
+	
+	state = context;
+	NSMutableString* result = state->result;
+	
+	if (!state->enabled) {
+		return;
+    }
+	
+	if (state->logEnabled) {
+		LEPLog(@"text %s", ch);
+	}
 	NSString* parsedString;
 	parsedString = [[NSString alloc] initWithBytesNoCopy:
 					(xmlChar*) ch length: len encoding:
 					NSUTF8StringEncoding freeWhenDone: NO];
-	if (parsedString != nil) {
-		[result appendString: parsedString];
-	}
+    if (parsedString != nil) {
+        NSMutableString * modifiedString;
+        
+        modifiedString = [parsedString mutableCopy];
+        [modifiedString replaceOccurrencesOfString:@"\r\n" withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        [modifiedString replaceOccurrencesOfString:@"\n" withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        [modifiedString replaceOccurrencesOfString:@"\r" withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        [modifiedString replaceOccurrencesOfString:@"\t" withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        unichar ch;
+        ch = 160;
+        [modifiedString replaceOccurrencesOfString:[NSString stringWithCharacters:&ch length:1] withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        ch = 133;
+        [modifiedString replaceOccurrencesOfString:[NSString stringWithCharacters:&ch length:1] withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
+        
+        while ([modifiedString replaceOccurrencesOfString:@"  " withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])] > 0) {
+        }
+        
+        if ([modifiedString length] > 0) {
+            BOOL lastIsWhiteSpace;
+            BOOL isWhiteSpace;
+            
+            isWhiteSpace = NO;
+            lastIsWhiteSpace = NO;
+            if ([modifiedString length] > 0) {
+                if ([modifiedString characterAtIndex:[modifiedString length] - 1] == ' ') {
+                    lastIsWhiteSpace = YES;
+                }
+            }
+            if (lastIsWhiteSpace && ([modifiedString length] == 1)) {
+                isWhiteSpace = YES;
+            }
+            
+            if (isWhiteSpace) {
+                if (state->lastCharIsWhitespace) {
+                    // do nothing
+                }
+                else if (!state->hasText) {
+                    // do nothing
+                }
+                else {
+                    [result appendString:@" "];
+                    state->lastCharIsWhitespace = YES;
+                    state->hasText = YES;
+                }
+            }
+            else {
+                [result appendString:modifiedString];
+                state->lastCharIsWhitespace = lastIsWhiteSpace;
+                state->hasText = YES;
+            }
+        }
+    }
 	[parsedString release];
 }
 
@@ -527,15 +599,131 @@ static void structuredError(void * userData,
 	(void)error;
 }
 
+static void appendQuote(struct parserState * state)
+{
+    for(unsigned int i = 0 ; i < state->quoteLevel ; i ++) {
+        [state->result appendString:@"> "];
+    }
+    state->lastCharIsWhitespace = YES;
+}
+
+static void returnToLine(struct parserState * state)
+{
+    [state->result appendString:@"\n"];
+    appendQuote(state);
+    state->hasText = NO;
+    state->lastCharIsWhitespace = YES;
+}
+
+static void returnToLineAtBeginningOfBlock(struct parserState * state)
+{
+    if (state->hasText) {
+        returnToLine(state);
+    }
+}
+
+static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** atts)
+{
+	struct parserState * state;
+	
+	state = ctx;
+	
+	if (state->logEnabled) {
+		LEPLog(@"parsed element %s", name);
+	}
+	if (state->enabled) {
+		if (state->level == 1) {
+			if (strcasecmp((const char *) name, "head") == 0) {
+				state->enabled = 0;
+				state->disabledLevel = state->level;
+			}
+		}
+		if (strcasecmp((const char *) name, "style") == 0) {
+			state->enabled = 0;
+			state->disabledLevel = state->level;
+		}
+        if (strcasecmp((const char *) name, "div") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        if (strcasecmp((const char *) name, "td") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        if (strcasecmp((const char *) name, "p") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+		if (strcasecmp((const char *) name, "blockquote") == 0) {
+            state->quoteLevel ++;
+            returnToLine(state);
+		}
+	}
+	if (strcasecmp((const char *) name, "br") == 0) {
+        returnToLine(state);
+	}
+	
+	state->level ++;
+}
+
+static void elementEnded(void * ctx, const xmlChar * name)
+{
+	struct parserState * state;
+	
+	state = ctx;
+	
+	if (state->logEnabled) {
+		LEPLog(@"ended element %s", name);
+	}
+	state->level --;
+	if (!state->enabled) {
+		if (state->level == state->disabledLevel) {
+			state->enabled = 1;
+		}
+	}
+    if (strcasecmp((const char *) name, "div") == 0) {
+        returnToLine(state);
+    }
+    if (strcasecmp((const char *) name, "td") == 0) {
+        returnToLine(state);
+    }
+    if (strcasecmp((const char *) name, "p") == 0) {
+        returnToLine(state);
+    }
+    if (strcasecmp((const char *) name, "blockquote") == 0) {
+        state->quoteLevel --;
+        returnToLine(state);
+    }
+}
+
+static void commentParsed(void * ctx, const xmlChar * value)
+{
+	struct parserState * state;
+	
+	state = ctx;
+	
+	if (state->logEnabled) {
+		LEPLog(@"comments %s", value);
+	}
+}
+
 - (NSString*) lepFlattenHTML
 /*" Interpretes the receiver als HTML, removes all tags
  and returns the plain text. "*/
 {
 	int mem_base = xmlMemBlocks();
 	NSMutableString* result = [NSMutableString string];
-	xmlSAXHandler handler; bzero(&handler,
-								 sizeof(xmlSAXHandler));
+	xmlSAXHandler handler;
+	bzero(&handler, sizeof(xmlSAXHandler));
 	handler.characters = &charactersParsed;
+	handler.startElement = elementStarted;
+	handler.endElement = elementEnded;
+	handler.comment = commentParsed;
+	struct parserState state;
+	state.result = result;
+	state.level = 0;
+	state.enabled = 1;
+	state.logEnabled = 0;
+	state.disabledLevel = 0;
+    state.quoteLevel = 0;
+    state.hasText = NO;
 	
 	/* GCS: override structuredErrorFunc to mine so
 	 I can ignore errors */
@@ -543,7 +731,7 @@ static void structuredError(void * userData,
 							  &structuredError);
 	
 	htmlSAXParseDoc((xmlChar*)[self UTF8String], "utf-8",
-					&handler, result);
+					&handler, &state);
     
 	if (mem_base != xmlMemBlocks()) {
 		NSLog( @"Leak of %d blocks found in htmlSAXParseDoc",
