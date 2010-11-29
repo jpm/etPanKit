@@ -36,6 +36,7 @@
 @synthesize authType = _authType;
 @synthesize realm = _realm;
 @synthesize sessionsCount = _sessionsCount;
+@synthesize checkCertificate = _checkCertificate;
 
 @synthesize idleEnabled = _idleEnabled;
 
@@ -68,6 +69,7 @@
     [mailboxes release];
     
     _sessionsCount = 1;
+    _checkCertificate = YES;
     
 	return self;
 } 
@@ -135,6 +137,7 @@
         [session setPassword:[self password]];
         [session setAuthType:[self authType]];
         [session setRealm:[self realm]];
+        [session setCheckCertificate:[self checkCertificate]];
         [_sessions addObject:session];
         [session release];
     }

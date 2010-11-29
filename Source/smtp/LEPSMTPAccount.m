@@ -25,11 +25,13 @@
 @synthesize password = _password;
 @synthesize authType = _authType;
 @synthesize realm = _realm;
+@synthesize checkCertificate = _checkCertificate;
 
 - (id) init
 {
 	self = [super init];
-	
+	_checkCertificate = YES;
+    
 	return self;
 } 
 
@@ -54,6 +56,7 @@
 	[_session setPassword:[self password]];
 	[_session setAuthType:[self authType]];
 	[_session setRealm:[self realm]];
+    [_session setCheckCertificate:[self checkCertificate]];
 }
 
 - (void) _unsetupSession

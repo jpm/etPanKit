@@ -18,6 +18,7 @@
     NSMutableArray * _sessions;
     NSDictionary * _gmailMailboxNames;
     unsigned int _sessionsCount;
+    BOOL _checkCertificate;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -27,6 +28,7 @@
 @property (nonatomic) LEPAuthType authType;
 @property (nonatomic, copy) NSString * realm; // for NTLM
 @property (nonatomic) unsigned int sessionsCount;
+@property (nonatomic, assign) BOOL checkCertificate;
 
 @property (nonatomic, getter=isIdleEnabled) BOOL idleEnabled;
 

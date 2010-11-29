@@ -46,6 +46,7 @@ struct lepData {
 @synthesize authType = _authType;
 @synthesize realm = _realm;
 @synthesize error = _error;
+@synthesize checkCertificate = _checkCertificate;
 
 - (id) init
 {
@@ -54,7 +55,8 @@ struct lepData {
 	_lepData = calloc(1, sizeof(struct lepData));
 	_queue = [[NSOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
-	
+	_checkCertificate = YES;
+    
 	return self;
 }
 
@@ -104,6 +106,9 @@ static void progress(size_t current, size_t maximum, void * context)
 
 - (BOOL) _checkCertificate
 {
+    if (!_checkCertificate)
+        return YES;
+    
     return lepCheckCertificate(_smtp->stream, [self host]);
 }
 

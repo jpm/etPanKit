@@ -21,6 +21,7 @@
     LEPAuthType _authType;
 	NSString * _realm;
 	LEPSMTPSession * _session;
+    BOOL _checkCertificate;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -29,6 +30,7 @@
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
 @property (nonatomic, copy) NSString * realm; // for NTLM
+@property (nonatomic, assign) BOOL checkCertificate;
 
 - (LEPSMTPRequest *) sendRequest:(LEPMessage *)message;
 - (LEPSMTPRequest *) checkConnectionRequest;

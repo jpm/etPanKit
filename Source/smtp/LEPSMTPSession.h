@@ -22,6 +22,7 @@
     LEPAuthType _authType;
 	NSString * _realm;
     id _currentProgressDelegate;
+    BOOL _checkCertificate;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -30,6 +31,7 @@
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic) LEPAuthType authType;
 @property (nonatomic, copy) NSString * realm; // for NTLM
+@property (nonatomic, assign) BOOL checkCertificate;
 
 // result
 @property (nonatomic, readonly, copy) NSError * error;

@@ -501,6 +501,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 @synthesize password = _password;
 @synthesize authType = _authType;
 @synthesize realm = _realm;
+@synthesize checkCertificate = _checkCertificate;
 
 @synthesize error = _error;
 @synthesize resultUidSet = _resultUidSet;
@@ -516,6 +517,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 	_lepData = calloc(1, sizeof(struct lepData));
 	_queue = [[NSOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
+    _checkCertificate = YES;
     
 	return self;
 }
@@ -640,6 +642,9 @@ static void items_progress(size_t current, size_t maximum, void * context)
 
 - (BOOL) _checkCertificate
 {
+    if (!_checkCertificate)
+        return YES;
+    
     return lepCheckCertificate(_imap->imap_stream, [self host]);
 }
 
