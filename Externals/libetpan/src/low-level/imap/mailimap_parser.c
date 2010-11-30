@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.55 2010/11/28 17:01:26 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.56 2010/11/30 21:37:03 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -6469,7 +6469,7 @@ mailimap_media_basic_standard_parse(mailstream * fd, MMAPString * buffer,
     
   r = mailimap_dquote_parse(fd, buffer, &cur_token);
   if (r != MAILIMAP_NO_ERROR)
-    return FALSE;
+    return r;
 
   * indx = cur_token;
   * result = type;
@@ -7089,7 +7089,7 @@ mailimap_msg_att_internaldate_parse(mailstream * fd, MMAPString * buffer,
 
   r = mailimap_space_parse(fd, buffer, &cur_token);
   if (r != MAILIMAP_NO_ERROR)
-    return FALSE;
+    return r;
 
   r = mailimap_date_time_parse(fd, buffer, &cur_token, &date_time,
 			       progr_rate, progr_fun);
