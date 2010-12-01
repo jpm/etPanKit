@@ -637,6 +637,11 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 	if (state->logEnabled) {
 		LEPLog(@"parsed element %s", name);
 	}
+    
+    if (strcasecmp((const char *) name, "blockquote") == 0) {
+        state->quoteLevel ++;
+    }
+    
 	if (state->enabled) {
 		if (state->level == 1) {
 			if (strcasecmp((const char *) name, "head") == 0) {
@@ -662,7 +667,6 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
             returnToLineAtBeginningOfBlock(state);
         }
 		else if (strcasecmp((const char *) name, "blockquote") == 0) {
-            state->quoteLevel ++;
             if (!state->showBlockQuote) {
                 state->enabled = 0;
                 state->disabledLevel = state->level;
@@ -688,6 +692,11 @@ static void elementEnded(void * ctx, const xmlChar * name)
 	if (state->logEnabled) {
 		LEPLog(@"ended element %s", name);
 	}
+    
+    if (strcasecmp((const char *) name, "blockquote") == 0) {
+        state->quoteLevel --;
+    }
+    
 	state->level --;
 	if (!state->enabled) {
 		if (state->level == state->disabledLevel) {
@@ -712,7 +721,6 @@ static void elementEnded(void * ctx, const xmlChar * name)
     }
     else if (strcasecmp((const char *) name, "blockquote") == 0) {
         if (state->enabled) {
-            state->quoteLevel --;
             returnToLine(state);
         }
     }
