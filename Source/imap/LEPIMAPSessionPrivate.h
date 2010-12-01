@@ -54,7 +54,7 @@
 
 - (void) _idlePrepare;
 - (void) _idleUnprepare;
-- (void) _idlePath:(NSString *)path;
+- (void) _idlePath:(NSString *)path lastUID:(int64_t)lastUID;
 - (void) _idleDone;
 
 @end

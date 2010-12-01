@@ -39,3 +39,4 @@
 #import <EtPanKit/LEPIMAPIdleRequest.h>
 
 #import <EtPanKit/NSData+LEPUTF8.h>
+#import <EtPanKit/NSString+LEP.h>

@@ -513,6 +513,7 @@ struct parserState {
     int quoteLevel;
     BOOL hasText;
     BOOL lastCharIsWhitespace;
+    BOOL showBlockQuote;
 };
 
 static void charactersParsed(void* context,
@@ -601,6 +602,11 @@ static void structuredError(void * userData,
 
 static void appendQuote(struct parserState * state)
 {
+    if (state->quoteLevel > 0) {
+        NSLog(@"error consistency in quote level");
+        state->lastCharIsWhitespace = YES;
+        return;
+    }
     for(unsigned int i = 0 ; i < state->quoteLevel ; i ++) {
         [state->result appendString:@"> "];
     }
@@ -638,26 +644,36 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 				state->disabledLevel = state->level;
 			}
 		}
-		if (strcasecmp((const char *) name, "style") == 0) {
+		else if (strcasecmp((const char *) name, "style") == 0) {
 			state->enabled = 0;
 			state->disabledLevel = state->level;
 		}
-        if (strcasecmp((const char *) name, "div") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        if (strcasecmp((const char *) name, "td") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        if (strcasecmp((const char *) name, "p") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-		if (strcasecmp((const char *) name, "blockquote") == 0) {
-            state->quoteLevel ++;
-            returnToLine(state);
+		else if (strcasecmp((const char *) name, "script") == 0) {
+			state->enabled = 0;
+			state->disabledLevel = state->level;
 		}
-	}
-	if (strcasecmp((const char *) name, "br") == 0) {
-        returnToLine(state);
+        else if (strcasecmp((const char *) name, "div") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "td") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "p") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+		else if (strcasecmp((const char *) name, "blockquote") == 0) {
+            state->quoteLevel ++;
+            if (!state->showBlockQuote) {
+                state->enabled = 0;
+                state->disabledLevel = state->level;
+            }
+            else {
+                returnToLine(state);
+            }
+		}
+        else if (strcasecmp((const char *) name, "br") == 0) {
+            returnToLine(state);
+        }
 	}
 	
 	state->level ++;
@@ -678,18 +694,27 @@ static void elementEnded(void * ctx, const xmlChar * name)
 			state->enabled = 1;
 		}
 	}
+    
     if (strcasecmp((const char *) name, "div") == 0) {
-        returnToLine(state);
+        if (state->enabled) {
+            returnToLine(state);
+        }
     }
-    if (strcasecmp((const char *) name, "td") == 0) {
-        returnToLine(state);
+    else if (strcasecmp((const char *) name, "td") == 0) {
+        if (state->enabled) {
+            returnToLine(state);
+        }
     }
-    if (strcasecmp((const char *) name, "p") == 0) {
-        returnToLine(state);
+    else if (strcasecmp((const char *) name, "p") == 0) {
+        if (state->enabled) {
+            returnToLine(state);
+        }
     }
-    if (strcasecmp((const char *) name, "blockquote") == 0) {
-        state->quoteLevel --;
-        returnToLine(state);
+    else if (strcasecmp((const char *) name, "blockquote") == 0) {
+        if (state->enabled) {
+            state->quoteLevel --;
+            returnToLine(state);
+        }
     }
 }
 
@@ -704,7 +729,7 @@ static void commentParsed(void * ctx, const xmlChar * value)
 	}
 }
 
-- (NSString*) lepFlattenHTML
+- (NSString*) lepFlattenHTMLAndShowBlockquote:(BOOL)showBlockquote
 /*" Interpretes the receiver als HTML, removes all tags
  and returns the plain text. "*/
 {
@@ -724,6 +749,7 @@ static void commentParsed(void * ctx, const xmlChar * value)
 	state.disabledLevel = 0;
     state.quoteLevel = 0;
     state.hasText = NO;
+    state.showBlockQuote = showBlockquote;
 	
 	/* GCS: override structuredErrorFunc to mine so
 	 I can ignore errors */
@@ -738,6 +764,11 @@ static void commentParsed(void * ctx, const xmlChar * value)
 			  xmlMemBlocks() - mem_base);
 	}
 	return result;
+}
+
+- (NSString*) lepFlattenHTML
+{
+    return [self lepFlattenHTMLAndShowBlockquote:YES];
 }
 
 - (NSString *) lepDecodeFromModifiedUTF7

@@ -15,6 +15,7 @@
 - (NSData *) lepEncodedMIMEHeaderValue;
 - (NSData *) lepEncodedMIMEHeaderValueForSubject;
 
+- (NSString*) lepFlattenHTMLAndShowBlockquote:(BOOL)showBlockquote;
 - (NSString*) lepFlattenHTML;
 
 - (NSString *) lepDecodeFromModifiedUTF7;

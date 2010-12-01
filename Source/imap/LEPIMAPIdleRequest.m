@@ -13,11 +13,14 @@
 @implementation LEPIMAPIdleRequest
 
 @synthesize path = _path;
+@synthesize lastUID = _lastUID;
 
 - (id) init
 {
 	self = [super init];
 	
+    _lastUID = -1;
+    
 	return self;
 }
 
@@ -35,7 +38,7 @@
 
 - (void) mainRequest
 {
-	[_session _idlePath:_path];
+	[_session _idlePath:_path lastUID:_lastUID];
 }
 
 - (void) mainFinished

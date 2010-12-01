@@ -86,7 +86,7 @@
 		C6910ED61115CB4000623B9F /* NSString+LEPUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910ED41115CB4000623B9F /* NSString+LEPUUID.h */; };
 		C6910ED71115CB4000623B9F /* NSString+LEPUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */; };
 		C6910EE71115CD7B00623B9F /* LEPAddressPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910EE61115CD7B00623B9F /* LEPAddressPrivate.h */; };
-		C6910EEE1115CE1200623B9F /* NSString+LEP.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910EEC1115CE1200623B9F /* NSString+LEP.h */; };
+		C6910EEE1115CE1200623B9F /* NSString+LEP.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910EEC1115CE1200623B9F /* NSString+LEP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6910EEF1115CE1200623B9F /* NSString+LEP.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910EED1115CE1200623B9F /* NSString+LEP.m */; };
 		C691100811160DC400623B9F /* LEPIMAPAlternativeAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C691100611160DC400623B9F /* LEPIMAPAlternativeAttachment.h */; };
 		C691100911160DC400623B9F /* LEPIMAPAlternativeAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C691100711160DC400623B9F /* LEPIMAPAlternativeAttachment.m */; };

@@ -1838,7 +1838,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
     }
 }
 
-- (void) _idlePath:(NSString *)path
+- (void) _idlePath:(NSString *)path lastUID:(int64_t)lastUID
 {
     int r;
     
@@ -1846,6 +1846,23 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	if ([self error] != nil)
         return;
     
+    if (lastUID != -1) {
+        NSArray * msgs;
+        
+        msgs = [self _fetchFolderMessages:path fromUID:0 toUID:0 kind:0 folder:nil
+                         progressDelegate:nil];
+        if ([msgs count] > 0) {
+            LEPIMAPMessage * msg;
+            
+            msg = [msgs objectAtIndex:0];
+            if ([msg uid] > lastUID) {
+                LEPLog(@"found msg UID %i %i", [msg uid], lastUID);
+                return;
+            }
+        }
+    }
+    
+    _imap->imap_selection_info->sel_exists = 0;
     r = mailimap_idle(_imap);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1872,44 +1889,50 @@ static void items_progress(size_t current, size_t maximum, void * context)
         return;
 	}
     
-    int fd;
-    int maxfd;
-    fd_set readfds;
-    struct timeval delay;
-    
-    fd = mailimap_idle_get_fd(_imap);
-    LEPLog(@"wait %i %i", fd, _idleDone[0]);
-    
-    FD_ZERO(&readfds);
-    FD_SET(fd, &readfds);
-    FD_SET(_idleDone[0], &readfds);
-    maxfd = fd;
-    if (_idleDone[0] > maxfd) {
-        maxfd = _idleDone[0];
-    }
-    delay.tv_sec = MAX_IDLE_DELAY;
-    delay.tv_usec = 0;
-    
-    r = select(maxfd + 1, &readfds, NULL, NULL, &delay);
-    if (r == 0) {
-        // timeout
-    }
-    else if (r == -1) {
-        // do nothing
+    if (_imap->imap_selection_info->sel_exists == 0) {
+        int fd;
+        int maxfd;
+        fd_set readfds;
+        struct timeval delay;
+        
+        fd = mailimap_idle_get_fd(_imap);
+        LEPLog(@"wait %i %i", fd, _idleDone[0]);
+        
+        FD_ZERO(&readfds);
+        FD_SET(fd, &readfds);
+        FD_SET(_idleDone[0], &readfds);
+        maxfd = fd;
+        if (_idleDone[0] > maxfd) {
+            maxfd = _idleDone[0];
+        }
+        delay.tv_sec = MAX_IDLE_DELAY;
+        delay.tv_usec = 0;
+        
+        r = select(maxfd + 1, &readfds, NULL, NULL, &delay);
+        if (r == 0) {
+            // timeout
+        }
+        else if (r == -1) {
+            // do nothing
+        }
+        else {
+            if (FD_ISSET(fd, &readfds)) {
+                // has something on socket
+                
+                LEPLog(@"something on the socket");
+            }
+            if (FD_ISSET(_idleDone[0], &readfds)) {
+                // idle done by user
+                char ch;
+                
+                LEPLog(@"idle done requested");
+                read(_idleDone[0], &ch, 1);
+            }
+        }
+        LEPLog(@"found info in IDLE data");
     }
     else {
-        if (FD_ISSET(fd, &readfds)) {
-            // has something on socket
-            
-            LEPLog(@"something on the socket");
-        }
-        if (FD_ISSET(_idleDone[0], &readfds)) {
-            // idle done by user
-            char ch;
-            
-            LEPLog(@"idle done requested");
-            read(_idleDone[0], &ch, 1);
-        }
+        LEPLog(@"found info before idling");
     }
     
     r = mailimap_idle_done(_imap);

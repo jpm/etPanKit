@@ -11,9 +11,11 @@
 
 @interface LEPIMAPIdleRequest : LEPIMAPRequest {
     NSString * _path;
+    int64_t _lastUID;
 }
 
 @property (nonatomic, copy) NSString * path;
+@property (nonatomic, assign) int64_t lastUID;
 
 // call from main thread
 - (void) done;
