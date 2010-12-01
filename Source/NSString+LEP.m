@@ -602,7 +602,7 @@ static void structuredError(void * userData,
 
 static void appendQuote(struct parserState * state)
 {
-    if (state->quoteLevel > 0) {
+    if (state->quoteLevel < 0) {
         NSLog(@"error consistency in quote level");
         state->lastCharIsWhitespace = YES;
         return;
