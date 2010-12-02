@@ -1596,9 +1596,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	}
 	
 	attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:body];
-	for(LEPAbstractAttachment * attachment in attachments) {
-		[attachment setMessage:message];
-	}
+    [message _setAttachments:attachments];
 	
 	mailimap_body_free(body);
 	

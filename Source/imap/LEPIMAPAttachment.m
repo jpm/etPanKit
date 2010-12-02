@@ -17,6 +17,7 @@
 #import "LEPIMAPFetchAttachmentRequest.h"
 #import "LEPIMAPFetchMessageRequest.h"
 #import "LEPIMAPMessage.h"
+#import "LEPIMAPMessagePrivate.h"
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
 #import "LEPIMAPAccount.h"
@@ -65,10 +66,7 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
-	LEPIMAPAccount * account;
-	
-	account = [[(LEPIMAPMessage *) [self message] folder] account];
-	[account _setupRequest: request];
+	[(LEPIMAPMessage *) [self message] _setupRequest: request];
 }
 
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest

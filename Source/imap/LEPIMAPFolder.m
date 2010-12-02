@@ -47,6 +47,7 @@
 
 - (void) dealloc
 {
+    [_account release];
     [_path release];
 	[super dealloc];
 }

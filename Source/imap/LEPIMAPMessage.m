@@ -12,6 +12,7 @@
 #import "LEPIMAPFetchMessageStructureRequest.h"
 #import "LEPIMAPAccountPrivate.h"
 #import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
 #import "LEPError.h"
 #import "LEPUtils.h"
 #import "LEPMessageHeader.h"
@@ -63,7 +64,7 @@
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
 	LEPLog(@"setuprequest : %@ %@", _folder, [_folder account]);
-	[[_folder account] _setupRequest: request];
+	[_folder _setupRequest: request];
 }
 
 - (LEPIMAPFetchMessageStructureRequest *) fetchMessageStructureRequest;

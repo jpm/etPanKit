@@ -11,6 +11,7 @@
 
 @interface LEPIMAPMessage (LEPIMAPMessagePrivate)
 
+- (void) _setupRequest:(LEPIMAPRequest *)request;
 - (void) _setUid:(uint32_t)uid;
 - (void) _setAttachments:(NSArray *)attachments;
 
