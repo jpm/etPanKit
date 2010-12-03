@@ -944,7 +944,6 @@ static char * extract_subject(char * str)
 		}
 	}
 
-#if 0
 	if (env->env_subject != NULL) {
 		char * subject;
 		
@@ -952,7 +951,6 @@ static char * extract_subject(char * str)
 		subject = env->env_subject;
 		[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:subject]];
 	}
-#endif
 	
 	if (env->env_sender != NULL) {
 		if (env->env_sender->snd_list != NULL) {
