@@ -1,3 +1,8 @@
+2010-12-05 - libetpan-1.0cvs16 - hoa
+
+	* src/data-types/charconv.c
+	   use GBK instead of GB2312 and GB_2312-80
+
 2010-11-30 - libetpan-1.0cvs15 - hoa
 
 	* src/low-level/imap/mailimap_parser.c
