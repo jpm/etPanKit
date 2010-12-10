@@ -2061,4 +2061,12 @@ static void items_progress(size_t current, size_t maximum, void * context)
     [delegate LEPIMAPSession:self itemsProgressWithCurrent:current maximum:maximum];
 }
 
+- (void) cancel
+{
+    mailstream_cancel(_imap->imap_stream);
+    if (_idling) {
+        [self _idleDone];
+    }
+}
+
 @end

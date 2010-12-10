@@ -55,4 +55,6 @@
 - (void) queueOperation:(LEPIMAPRequest *)request;
 - (unsigned int) pendingRequestsCount;
 
+- (void) cancel;
+
 @end

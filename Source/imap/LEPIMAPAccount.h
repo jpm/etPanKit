@@ -48,4 +48,6 @@
 
 - (void) setupWithFoldersPaths:(NSArray *)paths;
 
+- (void) cancel;
+
 @end

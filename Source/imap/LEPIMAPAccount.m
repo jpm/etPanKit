@@ -332,4 +332,11 @@
     return isGmailFolder;
 }
 
+- (void) cancel
+{
+    for(LEPIMAPSession * session in _sessions) {
+        [session cancel];
+    }
+}
+
 @end
