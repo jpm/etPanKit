@@ -666,6 +666,24 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
         else if (strcasecmp((const char *) name, "p") == 0) {
             returnToLineAtBeginningOfBlock(state);
         }
+        else if (strcasecmp((const char *) name, "h1") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "h2") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "h3") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "h4") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "h5") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
+        else if (strcasecmp((const char *) name, "h6") == 0) {
+            returnToLineAtBeginningOfBlock(state);
+        }
 		else if (strcasecmp((const char *) name, "blockquote") == 0) {
             if (!state->showBlockQuote) {
                 state->enabled = 0;
@@ -686,7 +704,7 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 static void elementEnded(void * ctx, const xmlChar * name)
 {
 	struct parserState * state;
-	
+    
 	state = ctx;
 	
 	if (state->logEnabled) {
@@ -704,22 +722,41 @@ static void elementEnded(void * ctx, const xmlChar * name)
 		}
 	}
     
+	BOOL hasReturnToLine;
+    
+    hasReturnToLine = NO;
     if (strcasecmp((const char *) name, "div") == 0) {
-        if (state->enabled) {
-            returnToLine(state);
-        }
+        hasReturnToLine = YES;
     }
     else if (strcasecmp((const char *) name, "td") == 0) {
-        if (state->enabled) {
-            returnToLine(state);
-        }
+        hasReturnToLine = YES;
     }
     else if (strcasecmp((const char *) name, "p") == 0) {
-        if (state->enabled) {
-            returnToLine(state);
-        }
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h1") == 0) {
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h2") == 0) {
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h3") == 0) {
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h4") == 0) {
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h5") == 0) {
+        hasReturnToLine = YES;
+    }
+    else if (strcasecmp((const char *) name, "h6") == 0) {
+        hasReturnToLine = YES;
     }
     else if (strcasecmp((const char *) name, "blockquote") == 0) {
+        hasReturnToLine = YES;
+    }
+    
+    if (hasReturnToLine) {
         if (state->enabled) {
             returnToLine(state);
         }
