@@ -628,6 +628,43 @@ static void returnToLineAtBeginningOfBlock(struct parserState * state)
     }
 }
 
+static NSSet * blockElements(void)
+{
+    static NSMutableSet * elements = nil;
+    
+    if (elements == nil) {
+        elements = [[NSMutableSet alloc] init];
+        [elements addObject:@"div"];
+        [elements addObject:@"p"];
+        [elements addObject:@"h1"];
+        [elements addObject:@"h2"];
+        [elements addObject:@"h3"];
+        [elements addObject:@"h4"];
+        [elements addObject:@"h5"];
+        [elements addObject:@"h6"];
+        [elements addObject:@"pre"];
+        [elements addObject:@"ul"];
+        [elements addObject:@"ol"];
+        [elements addObject:@"li"];
+        [elements addObject:@"dl"];
+        [elements addObject:@"dt"];
+        [elements addObject:@"dd"];
+        [elements addObject:@"form"];
+        // tables
+        [elements addObject:@"col"];
+        [elements addObject:@"colgroup"];
+        [elements addObject:@"th"];
+        [elements addObject:@"tbody"];
+        [elements addObject:@"thead"];
+        [elements addObject:@"tfoot"];
+        [elements addObject:@"table"];
+        [elements addObject:@"tr"];
+        [elements addObject:@"td"];
+    }
+    
+    return elements;
+}
+
 static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** atts)
 {
 	struct parserState * state;
@@ -657,31 +694,7 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 			state->enabled = 0;
 			state->disabledLevel = state->level;
 		}
-        else if (strcasecmp((const char *) name, "div") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "td") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "p") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h1") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h2") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h3") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h4") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h5") == 0) {
-            returnToLineAtBeginningOfBlock(state);
-        }
-        else if (strcasecmp((const char *) name, "h6") == 0) {
+        else if ([blockElements() containsObject:[[NSString stringWithUTF8String:(const char *) name] lowercaseString]]) {
             returnToLineAtBeginningOfBlock(state);
         }
 		else if (strcasecmp((const char *) name, "blockquote") == 0) {
@@ -725,31 +738,7 @@ static void elementEnded(void * ctx, const xmlChar * name)
 	BOOL hasReturnToLine;
     
     hasReturnToLine = NO;
-    if (strcasecmp((const char *) name, "div") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "td") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "p") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h1") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h2") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h3") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h4") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h5") == 0) {
-        hasReturnToLine = YES;
-    }
-    else if (strcasecmp((const char *) name, "h6") == 0) {
+    if ([blockElements() containsObject:[[NSString stringWithUTF8String:(const char *) name] lowercaseString]]) {
         hasReturnToLine = YES;
     }
     else if (strcasecmp((const char *) name, "blockquote") == 0) {
