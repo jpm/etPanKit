@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.56 2010/11/30 21:37:03 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.57 2010/12/15 09:46:50 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -3752,6 +3752,8 @@ mailimap_continue_req_parse(mailstream * fd, MMAPString * buffer,
       /* do nothing */
     }
     else if (r == MAILIMAP_ERROR_PARSE) {
+      mailimap_base64_free(base64);
+      base64 = NULL;
       cur_token = saved_token;
     }
     else {
@@ -3772,6 +3774,8 @@ mailimap_continue_req_parse(mailstream * fd, MMAPString * buffer,
         /* do nothing */
       }
       else if (r == MAILIMAP_ERROR_PARSE) {
+        mailimap_resp_text_free(resp_text);
+        resp_text = NULL;
         cur_token = saved_token;
       }
       else {
