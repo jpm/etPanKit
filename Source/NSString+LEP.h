@@ -21,4 +21,6 @@
 - (NSString *) lepDecodeFromModifiedUTF7;
 - (NSString *) lepEncodeToModifiedUTF7;
 
+- (NSString *) lepExtractedSubject;
+
 @end

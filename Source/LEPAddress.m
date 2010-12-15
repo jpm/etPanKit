@@ -427,3 +427,47 @@ static NSArray * lep_address_list_from_lep_addr(struct mailimf_address_list * ad
 }
 
 @end
+
+@implementation NSArray (LEPNSArray)
+
+- (NSString *) lepRFC822String
+{
+    NSMutableString * result;
+    BOOL first;
+    
+    result = [NSMutableString string];
+    first = YES;
+    for(LEPAddress * address in self) {
+        if (first) {
+            first = NO;
+        }
+        else {
+            [result appendString:@", "];
+        }
+        [result appendString:[address RFC822String]];
+    }
+    
+    return result;
+}
+
+- (NSString *) lepNonEncodedRFC822String
+{
+    NSMutableString * result;
+    BOOL first;
+    
+    result = [NSMutableString string];
+    first = YES;
+    for(LEPAddress * address in self) {
+        if (first) {
+            first = NO;
+        }
+        else {
+            [result appendString:@", "];
+        }
+        [result appendString:[address nonEncodedRFC822String]];
+    }
+    
+    return result;
+}
+
+@end
