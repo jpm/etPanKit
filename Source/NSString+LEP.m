@@ -800,7 +800,6 @@ static char * extract_subject(char * str)
 	NSString * result;
     
     if (* phrase == '\0') {
-        decoded = strdup("");
         return @"";
     }
     
@@ -933,6 +932,7 @@ static void charactersParsed(void* context,
                 state->hasText = YES;
             }
         }
+        [modifiedString release];
     }
 	[parsedString release];
 }
