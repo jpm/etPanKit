@@ -384,6 +384,28 @@ static inline void get_word(char * begin, char ** pend, int subject, int * pto_b
 	* pend = cur;
 }
 
+static char * etpan_make_full_quoted_printable(char * display_charset,
+                                               char * phrase)
+{
+    int needs_quote;
+    char * str;
+    
+    needs_quote = to_be_quoted(phrase, strlen(phrase), 0);
+    if (needs_quote) {
+        MMAPString * mmapstr;
+        
+        mmapstr = mmap_string_new("");
+        quote_word(display_charset, mmapstr, phrase, strlen(phrase));
+        str = strdup(mmapstr->str);
+        mmap_string_free(mmapstr);
+    }
+    else {
+        str = strdup(phrase);
+    }
+	
+	return str;
+}
+
 static char * etpan_make_quoted_printable(char * display_charset,
 										  char * phrase, int subject)
 {
@@ -821,6 +843,18 @@ static char * extract_subject(char * str)
     free(decoded);
 	
 	return result;
+}
+
+- (NSData *) lepEncodedAddressDisplayNameValue
+{
+	char * str;
+	NSData * result;
+	
+    str = etpan_make_full_quoted_printable(DEFAULT_DISPLAY_CHARSET, (char *) [self UTF8String]);
+	result = [NSData dataWithBytes:str length:strlen(str) + 1];
+	free(str);
+    
+    return result;
 }
 
 - (NSData *) lepEncodedMIMEHeaderValue

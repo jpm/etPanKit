@@ -12,6 +12,7 @@
 @interface NSString (LEP)
 
 + (NSString *) lepStringByDecodingMIMEHeaderValue:(const char *)phrase;
+- (NSData *) lepEncodedAddressDisplayNameValue;
 - (NSData *) lepEncodedMIMEHeaderValue;
 - (NSData *) lepEncodedMIMEHeaderValueForSubject;
 
