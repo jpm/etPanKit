@@ -43,12 +43,12 @@
 
 - (void) mainFinished
 {
-    [_session _idleUnprepare];
 }
 
 - (void) done
 {
     [_session _idleDone];
+    [_session _idleUnprepare];
 }
 
 @end
