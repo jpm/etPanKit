@@ -2063,7 +2063,11 @@ static void items_progress(size_t current, size_t maximum, void * context)
 
 - (void) cancel
 {
-    mailstream_cancel(_imap->imap_stream);
+    if (_imap != NULL) {
+        if (_imap->imap_stream != NULL) {
+            mailstream_cancel(_imap->imap_stream);
+        }
+    }
     if (_idling) {
         [self _idleDone];
     }
