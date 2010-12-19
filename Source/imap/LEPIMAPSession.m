@@ -1970,11 +1970,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
 
 - (void) _idleDone
 {
-    int r;
-    char c;
-    
-    c = 0;
-    r = write(_idleDone[1], &c, 1);
+    if (_idling) {
+        int r;
+        char c;
+        
+        c = 0;
+        r = write(_idleDone[1], &c, 1);
+    }
 }
 
 - (void) _idleUnprepare

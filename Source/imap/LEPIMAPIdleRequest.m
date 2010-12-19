@@ -32,7 +32,9 @@
 
 - (void) startRequest
 {
+    // can cancel idle enabled
     [_session _idlePrepare];
+    
     [super startRequest];
 }
 
@@ -43,12 +45,14 @@
 
 - (void) mainFinished
 {
+    // can cancel idle disabled
+    [_session _idleUnprepare];
 }
 
 - (void) done
 {
+    // cancel idle if needed
     [_session _idleDone];
-    [_session _idleUnprepare];
 }
 
 @end
