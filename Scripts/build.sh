@@ -18,7 +18,7 @@ etpankitsvnurl="https://libetpan.svn.sourceforge.net/svnroot/libetpan/etPanKit/t
 
 svn co -q "$etpankitsvnurl" "$srcdir"
 
-cd "$srcdir/Externals"
+cd "$srcdir/Scripts"
 
 ./prepare.sh build
 

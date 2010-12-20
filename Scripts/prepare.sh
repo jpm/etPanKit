@@ -19,7 +19,7 @@ rm -rf "$tmpdir"
 mkdir -p "$tmpdir"
 
 update_libetpan=1
-if $1 == build ; then
+if test x$1 = xbuild ; then
 	update_libetpan=0
 fi
 
