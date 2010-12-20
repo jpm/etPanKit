@@ -24,4 +24,6 @@
 
 - (NSString *) lepExtractedSubject;
 
++ (void) lepInitializeLibXML;
+
 @end

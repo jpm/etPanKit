@@ -10,6 +10,7 @@
 
 #import <libetpan/libetpan.h>
 #import "LEPUtils.h"
+#include <pthread.h>
 
 //#include <libxml2/libxml/xmlmemory.h>
 //#include <libxml2/libxml/HTMLparser.h>
@@ -1147,6 +1148,8 @@ static void commentParsed(void * ctx, const xmlChar * value)
 /*" Interpretes the receiver als HTML, removes all tags
  and returns the plain text. "*/
 {
+    [NSString lepInitializeLibXML];    
+    
 	int mem_base = xmlMemBlocks();
 	NSMutableString* result = [NSMutableString string];
 	xmlSAXHandler handler;
@@ -1227,6 +1230,19 @@ static void commentParsed(void * ctx, const xmlChar * value)
 	free(result);
 	
 	return str;
+}
+
++ (void) lepInitializeLibXML
+{
+    static BOOL initDone = NO;
+    static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+    
+    pthread_mutex_lock(&lock);
+    if (!initDone) {
+        initDone = YES;
+        xmlInitParser();
+    }
+    pthread_mutex_unlock(&lock);
 }
 
 @end
