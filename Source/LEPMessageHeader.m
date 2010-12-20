@@ -337,6 +337,8 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	return [self _initWithDate:YES messageID:YES];
 }
 
+#define MAX_HOSTNAME 512
+
 - (id) _initWithDate:(BOOL)generateDate messageID:(BOOL)generateMessageID
 {
 	static NSString * hostname = nil;
@@ -354,7 +356,20 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	if (generateMessageID) {
 		pthread_mutex_lock(&lock);
 		if (hostname == nil) {
-			hostname = [[[NSProcessInfo processInfo] hostName] copy];
+            char name[MAX_HOSTNAME];
+            int r;
+            
+            r = gethostname(name, MAX_HOSTNAME);
+            if (r < 0) {
+                hostname = nil;
+            }
+            else {
+                hostname = [[NSString alloc] initWithUTF8String:name];
+            }
+            
+            if (hostname == nil) {
+                hostname = [@"localhost" retain];
+            }
 		}
 		pthread_mutex_unlock(&lock);
 		messageID = [[NSString alloc] initWithFormat:@"%@@%@", [NSString lepUUIDString], hostname];
