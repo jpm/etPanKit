@@ -23,23 +23,24 @@ if test x$1 = xbuild ; then
 	update_libetpan=0
 fi
 
-cd "$external"
-mkdir -p Externals
-cd Externals
-echo press [ENTER] when the password is asked.
-cvs -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan login
-cvs -z3 -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan co -P -d libetpan-cvs libetpan
-cd libetpan-cvs
-#cd ..
-cd build-mac
-./update.sh
-cd ..
-find . -name 'CVS' -print0 | xargs -0 rm -rf
-find . -name '.cvsignore' -print0 | xargs -0 rm
-cd ..
-cp -R libetpan-cvs/ libetpan/
-rm -rf libetpan-cvs
-
+if test x$update_libetpan = 1 ; then
+	cd "$external"
+	mkdir -p Externals
+	cd Externals
+	echo press [ENTER] when the password is asked.
+	cvs -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan login
+	cvs -z3 -d:pserver:anonymous@libetpan.cvs.sourceforge.net:/cvsroot/libetpan co -P -d libetpan-cvs libetpan
+	cd libetpan-cvs
+	#cd ..
+	cd build-mac
+	./update.sh
+	cd ..
+	find . -name 'CVS' -print0 | xargs -0 rm -rf
+	find . -name '.cvsignore' -print0 | xargs -0 rm
+	cd ..
+	cp -R libetpan-cvs/ libetpan/
+	rm -rf libetpan-cvs
+fi
 
 libxml2_enabled=1
 if test -d "$external/libxml2" ; then
