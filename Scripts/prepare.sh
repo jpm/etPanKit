@@ -18,6 +18,11 @@ mkdir -p "$logdir"
 rm -rf "$tmpdir"
 mkdir -p "$tmpdir"
 
+update_libetpan=1
+if $1 == build ; then
+	update_libetpan=0
+fi
+
 cd "$external"
 mkdir -p Externals
 cd Externals

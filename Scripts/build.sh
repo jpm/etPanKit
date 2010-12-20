@@ -16,7 +16,11 @@ mkdir -p "$srcdir"
 
 etpankitsvnurl="https://libetpan.svn.sourceforge.net/svnroot/libetpan/etPanKit/trunk"
 
-svn co -q "$etpankitsvnurl" "$rootdir/etPanKit"
+svn co -q "$etpankitsvnurl" "$srcdir"
+
+cd "$srcdir/Externals"
+
+./prepare.sh build
 
 cd "$srcdir"
 
