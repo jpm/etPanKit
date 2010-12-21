@@ -51,10 +51,12 @@ mv "EtPanKit.framework.dSYM" "EtPanKit-$buildversion"
 zip -qry "$resultdir/EtPanKit-$buildversion.zip" "EtPanKit-$buildversion"
 rm -f "$resultdir/EtPanKit-latest.zip"
 cd "$resultdir"
-ln -s "$resultdir/EtPanKit-$buildversion.zip" "$resultdir/EtPanKit-latest.zip"
+ln -s "EtPanKit-$buildversion.zip" "EtPanKit-latest.zip"
 
 echo build of etPanKit-$buildversion done
 
 echo sync
 rsync -azv $HOME/EtPanKit-Builds/builds/ download.etpan.org:/opt/EtPanKit/builds/etpankit/
 
+echo cleaning
+rm -rf "$tempbuilddir"
