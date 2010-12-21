@@ -11,7 +11,7 @@ for current_arch in $arch ; do
 	arch_flags="$arch_flags -arch $current_arch"
 done
 
-builddir="$HOME/Sparrow-Dependencies"
+builddir="$HOME/EtPanKit-Builds/dependencies"
 BUILD_TIMESTAMP=`date +'%Y%m%d%H%M%S'`
 tempbuilddir="$builddir/workdir/$BUILD_TIMESTAMP"
 mkdir -p "$tempbuilddir"

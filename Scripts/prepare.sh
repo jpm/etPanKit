@@ -12,7 +12,7 @@ if test x$command = xrebuild ; then
 	done
 fi
 
-builddir="$HOME/Sparrow-Dependencies"
+builddir="$HOME/EtPanKit-Builds/dependencies"
 bindir="$builddir/builds"
 
 srcdir="$rootdir"
@@ -27,7 +27,7 @@ rm -rf "$external/libxml2"
 
 cd "$tmpdir"
 
-echo ctemplate
+echo libxml2
 curl -O "$libxml2url"
 unzip -qo "libxml2-latest.zip"
 cp -R "$tmpdir"/libxml2-*/libxml2 "$external/"
