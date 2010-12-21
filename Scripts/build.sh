@@ -20,7 +20,7 @@ svn co -q "$etpankitsvnurl" "$srcdir"
 
 cd "$srcdir/Scripts"
 
-./prepare.sh build
+./prepare.sh
 
 cd "$srcdir"
 
