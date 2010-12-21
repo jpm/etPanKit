@@ -234,7 +234,7 @@
 	return [self fetchMessagesUIDRequestFromUID:uid toUID:0];
 }
 
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
 {
 	LEPIMAPFetchFolderMessagesRequest * request;
 	
@@ -287,7 +287,7 @@
 	return [self fetchMessagesUIDFlagsRequestFromUID:uid toUID:0];
 }
 
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
 {
 	LEPIMAPFetchFolderMessagesRequest * request;
 	

@@ -35,11 +35,11 @@
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32_t)uid;
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)uid;
-- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32)fromUID toUID:(uint32_t)toUID;
+- (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesUIDFlagsRequestFromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
 
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequest;
 - (LEPIMAPFetchFolderMessagesRequest *) fetchMessagesWithStructureRequestFromUID:(uint32_t)uid;

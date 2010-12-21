@@ -17,6 +17,7 @@
 #import "LEPUtils.h"
 #include <libetpan/libetpan.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #pragma mark IMAP mailbox conversion
 

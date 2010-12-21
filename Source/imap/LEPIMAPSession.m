@@ -22,6 +22,8 @@
 #import "LEPIMAPAttachmentPrivate.h"
 #import <libetpan/libetpan.h>
 #import "LEPCertificateUtils.h"
+#include <sys/types.h>
+#include <unistd.h>
 
 #define MAX_IDLE_DELAY (28 * 60)
 
