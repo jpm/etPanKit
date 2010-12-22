@@ -521,8 +521,15 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 	int prefix;
 	
 	cur_token = * begin;
-	
 	prefix = 0;
+	if (!prefix) {
+		if (length >= 7) {
+			if (strncasecmp(subj + cur_token, "Antwort", 7) == 0) {
+				cur_token += 1;
+				prefix = 1;
+			}
+		}
+	}
 	if (!prefix) {
 		if (length >= 5) {
 			// é is 2 chars in utf-8
@@ -572,6 +579,14 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 			}
 			else if (strncasecmp(subj + cur_token, "aw", 2) == 0) {
 				cur_token += 2;
+				prefix = 1;
+			}
+		}
+	}
+	if (!prefix) {
+		if (length >= 1) {
+			if (strncasecmp(subj + cur_token, "r", 1) == 0) {
+				cur_token += 1;
 				prefix = 1;
 			}
 		}
