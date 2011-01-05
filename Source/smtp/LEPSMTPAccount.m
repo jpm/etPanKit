@@ -91,7 +91,7 @@
 	
 	request = [[LEPSMTPSendMessageRequest alloc] init];
 	
-	[request setMessageData:[message data]];
+	[request setMessageData:[message dataForSending:YES]];
 	[request setFrom:[[message header] from]];
 	
 	recipient = [[NSMutableArray alloc] init];

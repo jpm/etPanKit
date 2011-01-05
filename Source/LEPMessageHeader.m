@@ -772,7 +772,7 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	[self setInternalDate:[NSDate dateWithTimeIntervalSince1970:timestamp_from_imap_date(date)]];
 }
 
-- (struct mailimf_fields *) createIMFFields
+- (struct mailimf_fields *) createIMFFieldsForSending:(BOOL)filter
 {
 	struct mailimf_date_time * date;
 	char * msgid;
@@ -808,11 +808,11 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 		cc = lep_address_list_from_array([self cc]);
 	}
 	bcc = NULL;
-#if 0
-	if ([[self bcc] count] > 0) {
-		bcc = lep_address_list_from_array([self bcc]);
-	}
-#endif
+    if (!filter) {
+        if ([[self bcc] count] > 0) {
+            bcc = lep_address_list_from_array([self bcc]);
+        }
+    }
 	msgid = NULL;
 	if ([self messageID] != nil) {
 		msgid = strdup([[self messageID] UTF8String]);

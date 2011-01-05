@@ -15,7 +15,7 @@
 - (id) _initWithDate:(BOOL)generateDate messageID:(BOOL)generateMessageID;
 
 - (void) setFromIMFFields:(struct mailimf_fields *)fields;
-- (struct mailimf_fields *) createIMFFields;
+- (struct mailimf_fields *) createIMFFieldsForSending:(BOOL)filter;
 
 - (void) setFromIMAPReferences:(NSData *)data;
 - (void) setFromIMAPEnvelope:(struct mailimap_envelope *)env;

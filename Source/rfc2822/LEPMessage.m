@@ -213,9 +213,9 @@ err:
     return res;
 }
 
-static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments);
+static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments, int filterForSending);
 
-static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment)
+static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment, int filterForSending)
 {
 	if (([attachment respondsToSelector:@selector(data)]) || ([attachment isKindOfClass:[LEPAttachment class]])) {
 		struct mailmime * mime;
@@ -254,7 +254,7 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 			struct mailmime * submime;
 			
 			subAtt = [[altAttachment attachments] objectAtIndex:i];
-			submime = mime_from_attachment(subAtt);
+			submime = mime_from_attachment(subAtt, filterForSending);
 			mailmime_smart_add_part(mime, submime);
 		}
 		return mime;
@@ -265,20 +265,20 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		
 		msgAttachment = (LEPMessageAttachment *) attachment;
 		
-		mime = mime_from_attachments([msgAttachment header], [msgAttachment attachments]);
+		mime = mime_from_attachments([msgAttachment header], [msgAttachment attachments], filterForSending);
 		return mime;
 	}
 	
 	return NULL;
 }
 
-static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments)
+static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments, int filterForSending)
 {
 	struct mailimf_fields * fields;
 	unsigned int i;
 	struct mailmime * mime;
 	
-	fields = [header createIMFFields];
+	fields = [header createIMFFieldsForSending:filterForSending];
 	
 	mime = mailmime_new_message_data(NULL);
 	mailmime_set_imf_fields(mime, fields);
@@ -288,7 +288,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		struct mailmime * submime;
 		
 		attachment = [attachments objectAtIndex:i];
-		submime = mime_from_attachment(attachment);
+		submime = mime_from_attachment(attachment, filterForSending);
 		add_attachment(mime, submime);
 	}
 	
@@ -384,6 +384,11 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 - (NSData *) data
 {
+    return [self dataForSending:NO];
+}
+
+- (NSData *) dataForSending:(BOOL)filter
+{
 	NSArray * attachments;
 	struct mailmime * mime;
 	NSData * data;
@@ -439,7 +444,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		attachments = newArray;
 	}
 	
-	mime = mime_from_attachments([self header], attachments);
+	mime = mime_from_attachments([self header], attachments, filter);
 	str = mmap_string_new("");
 	col = 0;
 	mailmime_write_mem(str, &col, mime);

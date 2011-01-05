@@ -22,6 +22,7 @@
 
 - (void) parseData:(NSData *)data;
 - (NSData *) data;
+- (NSData *) dataForSending:(BOOL)filter;
 
 @end
 
