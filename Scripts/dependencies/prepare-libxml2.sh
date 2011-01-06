@@ -72,7 +72,7 @@ ln -s "libxml2-$version.zip" "libxml2-latest.zip"
 echo build of libxml2-$version done
 
 echo sync
-rsync -azv $HOME/Sparrow-Dependencies/builds/ download.etpan.org:/opt/EtPanKit/builds/sparrow-dependencies/
+rsync -azv $HOME/EtPanKit-Builds/dependencies/builds/ download.etpan.org:/opt/EtPanKit/builds/etpankit-dependencies/
 
 echo cleaning
 rm -rf "$tempbuilddir"

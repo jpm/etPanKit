@@ -233,6 +233,10 @@
 			}
 		}
 	}
+    
+    if (extension->bd_loc != NULL) {
+        [self setContentLocation:[NSString stringWithUTF8String:extension->bd_loc]];
+    }
 }
 
 + (LEPAbstractAttachment *) _attachmentWithIMAPBody1PartBasic:(struct mailimap_body_type_basic *)basic

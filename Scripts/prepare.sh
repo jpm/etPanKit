@@ -2,13 +2,14 @@
 
 rootdir=`pwd`/..
 
-libxml2url="http://download.etpan.org/sparrow-dependencies/libxml2-latest.zip"
+libxml2url="http://download.etpan.org/etpankit-dependencies/libxml2-latest.zip"
 
 command="$1"
 
 if test x$command = xrebuild ; then
 	for script in dependencies/prepare-*.sh ; do
-		sh "$script"
+		echo sh "$script" rebuild
+		sh "$script" rebuild
 	done
 fi
 

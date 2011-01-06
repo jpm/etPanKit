@@ -17,6 +17,7 @@
 @synthesize inlineAttachment = _inlineAttachment;
 @synthesize message = _message;
 @synthesize contentID = _contentID;
+@synthesize contentLocation = _contentLocation;
 
 - (id) init
 {
@@ -27,6 +28,7 @@
 
 - (void) dealloc
 {
+    [_contentLocation release];
     [_contentID release];
 	[_charset release];
 	[_filename release];
@@ -48,7 +50,8 @@
 	_charset = [[decoder decodeObjectForKey:@"charset"] retain];
 	_inlineAttachment = [decoder decodeBoolForKey:@"inlineAttachment"];
 	_contentID = [[decoder decodeObjectForKey:@"contentID"] retain];
-	
+	_contentLocation = [[decoder decodeObjectForKey:@"contentLocation"] retain];
+    
 	return self;
 }
 
@@ -59,6 +62,7 @@
 	[encoder encodeObject:_charset forKey:@"charset"];
 	[encoder encodeBool:_inlineAttachment forKey:@"inlineAttachment"];
     [encoder encodeObject:_contentID forKey:@"contentID"];
+    [encoder encodeObject:_contentLocation forKey:@"contentLocation"];
 }
 
 - (id) copyWithZone:(NSZone *)zone
@@ -71,6 +75,7 @@
 	[attachment setMimeType:[self mimeType]];
 	[attachment setCharset:[self charset]];
 	[attachment setContentID:[self contentID]];
+	[attachment setContentLocation:[self contentLocation]];
 	[attachment setInlineAttachment:[self isInlineAttachment]];
 	[attachment setMessage:_message];
 	
