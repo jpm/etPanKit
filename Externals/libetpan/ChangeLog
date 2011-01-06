@@ -1,3 +1,14 @@
+2010-01-06 - libetpan-1.0cvs18 - hoa
+
+	* src/driver/implementation/imap/imapdriver_tools.c
+	* src/engine/mailprivacy_tools.c
+	* src/low-level/imap/mailimap_parser.c
+	* src/low-level/imap/mailimap_types.[ch]
+	* src/low-level/mime/mailmime.[ch]
+	* src/low-level/mime/mailmime_types.[ch]
+	* src/low-level/mime/mailmime_types_helper.c
+	   support for Content-Location. breaks binary compatibility.
+
 2010-12-15 - libetpan-1.0cvs17 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

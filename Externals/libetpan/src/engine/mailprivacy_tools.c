@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_tools.c,v 1.17 2010/04/05 17:46:53 hoa Exp $
+ * $Id: mailprivacy_tools.c,v 1.18 2011/01/06 00:09:52 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -857,7 +857,7 @@ static void prepare_mime_single(struct mailmime * mime)
         return;
       
       field = mailmime_field_new(MAILMIME_FIELD_TRANSFER_ENCODING,
-          NULL, mechanism, NULL, NULL, 0, NULL, NULL);
+          NULL, mechanism, NULL, NULL, 0, NULL, NULL, NULL);
       if (field == NULL) {
         mailmime_mechanism_free(mechanism);
         return;

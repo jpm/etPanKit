@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_types.c,v 1.29 2010/07/22 07:05:01 hoa Exp $
+ * $Id: mailimap_types.c,v 1.30 2011/01/06 00:09:52 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -295,6 +295,7 @@ struct mailimap_body_ext_1part *
 mailimap_body_ext_1part_new(char * bd_md5,
 			    struct mailimap_body_fld_dsp * bd_disposition,
 			    struct mailimap_body_fld_lang * bd_language,
+          char * bd_loc,
 			    clist * bd_extension_list)
 {
   struct mailimap_body_ext_1part * body_ext_1part;
@@ -306,6 +307,7 @@ mailimap_body_ext_1part_new(char * bd_md5,
   body_ext_1part->bd_md5 = bd_md5;
   body_ext_1part->bd_disposition = bd_disposition;
   body_ext_1part->bd_language = bd_language;
+  body_ext_1part->bd_loc = bd_loc;
   body_ext_1part->bd_extension_list = bd_extension_list;
 
   return body_ext_1part;
@@ -321,15 +323,17 @@ mailimap_body_ext_1part_free(struct mailimap_body_ext_1part * body_ext_1part)
     mailimap_body_fld_lang_free(body_ext_1part->bd_language);
   if (body_ext_1part->bd_extension_list)
     mailimap_body_ext_list_free(body_ext_1part->bd_extension_list);
+  mailimap_body_fld_loc_free(body_ext_1part->bd_loc);
 
   free(body_ext_1part);
 }
 
 struct mailimap_body_ext_mpart *
 mailimap_body_ext_mpart_new(struct mailimap_body_fld_param * bd_parameter,
-    struct mailimap_body_fld_dsp * bd_disposition,
-    struct mailimap_body_fld_lang * bd_language,
-    clist * bd_extension_list)
+                            struct mailimap_body_fld_dsp * bd_disposition,
+                            struct mailimap_body_fld_lang * bd_language,
+                            char * bd_loc,
+                            clist * bd_extension_list)
 {
   struct mailimap_body_ext_mpart * body_ext_mpart;
 
@@ -341,6 +345,7 @@ mailimap_body_ext_mpart_new(struct mailimap_body_fld_param * bd_parameter,
   body_ext_mpart->bd_disposition = bd_disposition;
   body_ext_mpart->bd_language = bd_language;
   body_ext_mpart->bd_extension_list = bd_extension_list;
+  body_ext_mpart->bd_loc = bd_loc;
 
   return body_ext_mpart;
 }
@@ -356,6 +361,7 @@ mailimap_body_ext_mpart_free(struct mailimap_body_ext_mpart * body_ext_mpart)
     mailimap_body_fld_lang_free(body_ext_mpart->bd_language);
   if (body_ext_mpart->bd_extension_list)
     mailimap_body_ext_list_free(body_ext_mpart->bd_extension_list);
+  mailimap_body_fld_loc_free(body_ext_mpart->bd_loc);
   free(body_ext_mpart);
 }
 
@@ -508,6 +514,10 @@ void mailimap_body_fld_md5_free(char * body_fld_md5)
   mailimap_nstring_free(body_fld_md5);
 }
 
+void mailimap_body_fld_loc_free(char * body_fld_loc)
+{
+  mailimap_nstring_free(body_fld_loc);
+}
 
 
 struct mailimap_single_body_fld_param *
