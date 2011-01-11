@@ -1099,7 +1099,7 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
                 state->disabledLevel = state->level;
             }
             else {
-                returnToLine(state);
+                returnToLineAtBeginningOfBlock(state);
             }
 		}
         else if (strcasecmp((const char *) name, "br") == 0) {
