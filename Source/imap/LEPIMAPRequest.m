@@ -64,7 +64,7 @@
 	
 	[self mainRequest];
 	
-	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:YES];
+	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:NO];
 }
 
 - (void) mainRequest
