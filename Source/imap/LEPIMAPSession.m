@@ -622,6 +622,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 
 - (void) _selectIfNeeded:(NSString *)mailbox
 {
+    _uidValidity = 0;
 	[self _loginIfNeeded];
 	if ([self error] != nil)
 		return;
@@ -898,7 +899,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
         _currentMailbox = nil;
 		return;
 	}
-	
+    
 	[_currentMailbox release];
 	_currentMailbox = [mailbox copy];
 	if (_imap->imap_selection_info != NULL) {
