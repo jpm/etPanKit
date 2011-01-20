@@ -33,14 +33,17 @@
 - (void) startRequest
 {
     // can cancel idle enabled
-    [_session _idlePrepare];
+    _prepared = [_session _idlePrepare];
     
     [super startRequest];
 }
 
 - (void) mainRequest
 {
-	[_session _idlePath:_path lastUID:_lastUID];
+    if (!_prepared)
+        return;
+    
+    [_session _idlePath:_path lastUID:_lastUID];
 }
 
 - (void) mainFinished

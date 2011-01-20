@@ -1963,12 +1963,15 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	}
 }
 
-- (void) _idlePrepare
+- (BOOL) _idlePrepare
 {
-    LEPAssert(!_idling);
+    if (_idling)
+        return NO;
     
     _idling = YES;
     pipe(_idleDone);
+    
+    return YES;
 }
 
 - (void) _idleDone
