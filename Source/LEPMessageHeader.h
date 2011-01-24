@@ -41,6 +41,7 @@
 @property (nonatomic, copy) NSArray * /* LEPAddress */ replyTo;
 @property (nonatomic, retain) NSString * subject;
 @property (nonatomic, retain, readonly) NSString * extractedSubject;
+@property (nonatomic, retain, readonly) NSString * partialExtractedSubject;
 
 // X-Mailer, currently only used when generating message
 @property (nonatomic, copy) NSString * userAgent;

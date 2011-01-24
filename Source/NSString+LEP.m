@@ -471,8 +471,11 @@ static char * etpan_make_quoted_printable(char * display_charset,
 #pragma mark extract subject
 
 static inline int skip_subj_blob(char * subj, size_t * begin,
-								 size_t length)
+								 size_t length, int keep_bracket)
 {
+    if (keep_bracket)
+        return 0;
+    
 	/* subj-blob       = "[" *BLOBCHAR "]" *WSP */
 	size_t cur_token;
 	
@@ -514,7 +517,7 @@ static inline int skip_subj_blob(char * subj, size_t * begin,
 }
 
 static inline int skip_subj_refwd(char * subj, size_t * begin,
-								  size_t length)
+								  size_t length, int keep_bracket)
 {
 	/* subj-refwd      = ("re" / ("fw" ["d"])) *WSP [subj-blob] ":" */
 	size_t cur_token;
@@ -605,7 +608,7 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 		cur_token ++;
 	}
 	
-	skip_subj_blob(subj, &cur_token, length);
+	skip_subj_blob(subj, &cur_token, length, keep_bracket);
 	
 	if (subj[cur_token] != ':')
 		return 0;
@@ -618,7 +621,7 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 }
 
 static inline int skip_subj_leader(char * subj, size_t * begin,
-								   size_t length)
+								   size_t length, int keep_bracket)
 {
 	size_t cur_token;
 	
@@ -631,10 +634,10 @@ static inline int skip_subj_leader(char * subj, size_t * begin,
 	}
 	else {
 		while (cur_token < length) {
-			if (!skip_subj_blob(subj, &cur_token, length))
+			if (!skip_subj_blob(subj, &cur_token, length, keep_bracket))
 				break;
 		}
-		if (!skip_subj_refwd(subj, &cur_token, length))
+		if (!skip_subj_refwd(subj, &cur_token, length, keep_bracket))
 			return 0;
 	}
 	
@@ -643,7 +646,7 @@ static inline int skip_subj_leader(char * subj, size_t * begin,
 	return 1;
 }
 
-static char * extract_subject(char * str)
+static char * extract_subject(char * str, int keep_bracket)
 {
 	char * subj;
 	char * cur;
@@ -755,7 +758,7 @@ static char * extract_subject(char * str)
 			 subj-leader ABNF.
 			 */
 			
-			if (skip_subj_leader(subj, &begin, len))
+			if (skip_subj_leader(subj, &begin, len, keep_bracket))
 				do_repeat_5 = 1;
 			
 			/*
@@ -765,7 +768,7 @@ static char * extract_subject(char * str)
 			 */
 			
 			saved_begin = begin;
-			if (skip_subj_blob(subj, &begin, len)) {
+			if (skip_subj_blob(subj, &begin, len, keep_bracket)) {
 				if (begin == len) {
 					/* this will leave a empty subject base */
 					begin = saved_begin;
@@ -1237,10 +1240,15 @@ static void commentParsed(void * ctx, const xmlChar * value)
 
 - (NSString *) lepExtractedSubject
 {
+    return [self lepExtractedSubjectAndKeepBracket:NO];
+}
+
+- (NSString *) lepExtractedSubjectAndKeepBracket:(BOOL)keepBracket
+{
 	char * result;
 	NSString * str;
 	
-	result = extract_subject((char *) [self UTF8String]);
+	result = extract_subject((char *) [self UTF8String], keepBracket);
 	str = [NSString stringWithUTF8String:result];
 	free(result);
 	

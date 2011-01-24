@@ -23,6 +23,7 @@
 - (NSString *) lepEncodeToModifiedUTF7;
 
 - (NSString *) lepExtractedSubject;
+- (NSString *) lepExtractedSubjectAndKeepBracket:(BOOL)keepBracket;
 
 + (void) lepInitializeLibXML;
 

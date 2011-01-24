@@ -862,6 +862,11 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
     return [[self subject] lepExtractedSubject];
 }
 
+- (NSString *) partialExtractedSubject
+{
+    return [[self subject] lepExtractedSubjectAndKeepBracket:YES];
+}
+
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	self = [super init];
