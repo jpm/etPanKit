@@ -908,11 +908,15 @@ struct parserState {
 	int disabledLevel;
 	NSMutableString * result;
 	int logEnabled;
+    int hasQuote;
     int quoteLevel;
     BOOL hasText;
     BOOL lastCharIsWhitespace;
     BOOL showBlockQuote;
+    BOOL hasReturnToLine;
 };
+
+static void appendQuote(struct parserState * state);
 
 static void charactersParsed(void* context,
 							 const xmlChar* ch, int len)
@@ -936,6 +940,11 @@ static void charactersParsed(void* context,
 					NSUTF8StringEncoding freeWhenDone: NO];
     if (parsedString != nil) {
         NSMutableString * modifiedString;
+        
+        if (!state->hasQuote) {
+            appendQuote(state);
+            state->hasQuote = YES;
+        }
         
         modifiedString = [parsedString mutableCopy];
         [modifiedString replaceOccurrencesOfString:@"\r\n" withString:@" " options:0 range:NSMakeRange(0, [modifiedString length])];
@@ -1014,10 +1023,17 @@ static void appendQuote(struct parserState * state)
 
 static void returnToLine(struct parserState * state)
 {
+    if (!state->hasQuote) {
+        appendQuote(state);
+        state->hasQuote = YES;
+    }
+    
     [state->result appendString:@"\n"];
-    appendQuote(state);
+    //appendQuote(state);
     state->hasText = NO;
     state->lastCharIsWhitespace = YES;
+    state->hasQuote = NO;
+    state->hasReturnToLine = NO;
 }
 
 static void returnToLineAtBeginningOfBlock(struct parserState * state)
@@ -1107,6 +1123,7 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 		}
         else if (strcasecmp((const char *) name, "br") == 0) {
             returnToLine(state);
+            state->hasReturnToLine = YES;
         }
 	}
 	
@@ -1146,7 +1163,9 @@ static void elementEnded(void * ctx, const xmlChar * name)
     
     if (hasReturnToLine) {
         if (state->enabled) {
-            returnToLine(state);
+            if (!state->hasReturnToLine) {
+                returnToLine(state);
+            }
         }
     }
 }
@@ -1184,6 +1203,8 @@ static void commentParsed(void * ctx, const xmlChar * value)
 	state.disabledLevel = 0;
     state.quoteLevel = 0;
     state.hasText = NO;
+    state.hasQuote = NO;
+    state.hasReturnToLine = NO;
     state.showBlockQuote = showBlockquote;
 	
 	/* GCS: override structuredErrorFunc to mine so
