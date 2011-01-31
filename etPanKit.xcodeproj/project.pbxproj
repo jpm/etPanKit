@@ -111,7 +111,7 @@
 		C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */; };
 		C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */; };
 		C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */; };
-		C6A9E37B12F5A53C009C12A8 /* provider-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A9E37A12F5A53C009C12A8 /* provider-info.plist */; };
+		C6A9E37B12F5A53C009C12A8 /* providers.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A9E37A12F5A53C009C12A8 /* providers.plist */; };
 		C6A9E39412F5B9B2009C12A8 /* LEPMailProvidersManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E39212F5B9B2009C12A8 /* LEPMailProvidersManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6A9E39512F5B9B2009C12A8 /* LEPMailProvidersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A9E39312F5B9B2009C12A8 /* LEPMailProvidersManager.m */; };
 		C6A9E39E12F5BB3B009C12A8 /* LEPSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E39D12F5BB3B009C12A8 /* LEPSingleton.h */; };
@@ -276,7 +276,7 @@
 		C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPFolder+Gmail.m"; sourceTree = "<group>"; };
 		C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPStoreFlagsRequest.h; sourceTree = "<group>"; };
 		C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPStoreFlagsRequest.m; sourceTree = "<group>"; };
-		C6A9E37A12F5A53C009C12A8 /* provider-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "provider-info.plist"; path = "Resources/provider-info.plist"; sourceTree = "<group>"; };
+		C6A9E37A12F5A53C009C12A8 /* providers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = providers.plist; path = Resources/providers.plist; sourceTree = "<group>"; };
 		C6A9E39212F5B9B2009C12A8 /* LEPMailProvidersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMailProvidersManager.h; sourceTree = "<group>"; };
 		C6A9E39312F5B9B2009C12A8 /* LEPMailProvidersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMailProvidersManager.m; sourceTree = "<group>"; };
 		C6A9E39D12F5BB3B009C12A8 /* LEPSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSingleton.h; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 				C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
-				C6A9E37A12F5A53C009C12A8 /* provider-info.plist */,
+				C6A9E37A12F5A53C009C12A8 /* providers.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -628,7 +628,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* libetpan */ = {
+		8DC2EF4F0486A6940098B216 /* etPanKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "etPanKit" */;
 			buildPhases = (
@@ -674,7 +674,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* libetpan */,
+				8DC2EF4F0486A6940098B216 /* etPanKit */,
 			);
 		};
 /* End PBXProject section */
@@ -710,7 +710,7 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				C64A6DFC1141C3E900966BB1 /* localized-mailbox.plist in Resources */,
-				C6A9E37B12F5A53C009C12A8 /* provider-info.plist in Resources */,
+				C6A9E37B12F5A53C009C12A8 /* providers.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

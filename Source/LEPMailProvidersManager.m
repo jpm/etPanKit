@@ -20,23 +20,13 @@
 - (id) init
 {
     NSString * filename;
-    NSDictionary * providersInfos;
     
     self = [super init];
     
     _providers = [[NSMutableDictionary alloc] init];
     
-    filename =  [[NSBundle bundleForClass:[self class]] pathForResource:@"provider-info" ofType:@"plist"];
-    providersInfos = [[NSDictionary alloc] initWithContentsOfFile:filename];
-    for(NSString * identifier in providersInfos) {
-        LEPMailProvider * provider;
-        
-        provider = [[LEPMailProvider alloc] initWithInfo:[providersInfos objectForKey:identifier]];
-        [provider setIdentifier:identifier];
-        [_providers setObject:provider forKey:identifier];
-        [provider release];
-    }
-    [providersInfos release];
+    filename =  [[NSBundle bundleForClass:[self class]] pathForResource:@"providers" ofType:@"plist"];
+    [self registerProvidersFilename:filename];
     
     return self;
 }
@@ -45,6 +35,27 @@
 {
     [_providers release];
     [super dealloc];
+}
+
+- (void) registerProviders:(NSDictionary *)providers
+{
+    for(NSString * identifier in providers) {
+        LEPMailProvider * provider;
+        
+        provider = [[LEPMailProvider alloc] initWithInfo:[providers objectForKey:identifier]];
+        [provider setIdentifier:identifier];
+        [_providers setObject:provider forKey:identifier];
+        [provider release];
+    }
+}
+
+- (void) registerProvidersFilename:(NSString *)filename
+{
+    NSDictionary * providersInfos;
+    
+    providersInfos = [[NSDictionary alloc] initWithContentsOfFile:filename];
+    [self registerProviders:providersInfos];
+    [providersInfos release];
 }
 
 - (LEPMailProvider *) providerForEmail:(NSString *)email

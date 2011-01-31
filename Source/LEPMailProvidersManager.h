@@ -18,5 +18,7 @@
 
 - (LEPMailProvider *) providerForEmail:(NSString *)email;
 - (LEPMailProvider *) providerForIdentifier:(NSString *)identifier;
+- (void) registerProviders:(NSDictionary *)providers;
+- (void) registerProvidersFilename:(NSString *)filename;
 
 @end
