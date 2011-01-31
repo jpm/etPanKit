@@ -13,4 +13,6 @@
 
 - (LEPIMAPFetchAttachmentRequest *) fetchRequest;
 
+- (size_t) decodedSize;
+
 @end

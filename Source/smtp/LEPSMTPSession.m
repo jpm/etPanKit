@@ -116,7 +116,7 @@ static void progress(size_t current, size_t maximum, void * context)
 {
 	int r;
 	
-    switch (_authType) {
+    switch (_authType & LEPAuthTypeConnectionMask) {
 		case LEPAuthTypeStartTLS:
 			LEPLog(@"connect %@ %u", [self host], (unsigned int) [self port]);
 			r = mailsmtp_socket_connect(_smtp, [[self host] UTF8String], [self port]);
@@ -170,6 +170,25 @@ static void progress(size_t current, size_t maximum, void * context)
                 return;
             }
 			
+			LEPLog(@"init after starttls");
+			r = mailsmtp_init(_smtp);
+			if (r == MAILSMTP_ERROR_STREAM) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+				[self setError:error];
+				[error release];
+				return;
+			}
+			else if (r != MAILSMTP_NO_ERROR) {
+				NSError * error;
+				
+				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+				[self setError:error];
+				[error release];
+				return;
+			}
+            
 			break;
 			
 		case LEPAuthTypeTLS:
@@ -254,10 +273,8 @@ static void progress(size_t current, size_t maximum, void * context)
 		return;
 	}
 	
-	switch ([self authType]) {
-		case LEPAuthTypeClear:
-		case LEPAuthTypeStartTLS:
-		case LEPAuthTypeTLS:
+	switch ([self authType] & LEPAuthTypeMechanismMask) {
+        case 0:
 		default:
 			r = mailesmtp_auth_sasl(_smtp, "PLAIN",
 									NULL,

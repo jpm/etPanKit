@@ -20,5 +20,8 @@
 - (void) _setupRequest:(LEPIMAPRequest *)request;
 
 - (BOOL) _isGmailFolder:(LEPIMAPFolder *)folder;
+- (BOOL) _isYahooFolder:(LEPIMAPFolder *)folder;
+- (BOOL) _isMobileMeFolder:(LEPIMAPFolder *)folder;
+- (BOOL) _isAOLFolder:(LEPIMAPFolder *)folder;
 
 @end

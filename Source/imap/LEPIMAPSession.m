@@ -659,7 +659,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	
 	LEPAssert(_state == STATE_DISCONNECTED);
 	
-    switch (_authType) {
+    switch (_authType & LEPAuthTypeConnectionMask) {
 		case LEPAuthTypeStartTLS:
             LEPLog(@"STARTTLS connect");
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
@@ -745,10 +745,8 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	
 	LEPAssert(_state == STATE_CONNECTED);
 	
-	switch ([self authType]) {
-		case LEPAuthTypeClear:
-		case LEPAuthTypeStartTLS:
-		case LEPAuthTypeTLS:
+	switch ([self authType] & LEPAuthTypeMechanismMask) {
+        case 0:
 		default:
 			r = mailimap_login(_imap, [[self login] UTF8String], [[self password] UTF8String]);
 			break;
@@ -946,6 +944,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
         struct mailimap_mailbox_list * mb_list;
         int flags;
         LEPIMAPFolder * folder;
+        NSString * path;
         
         mb_list = cur->data;
         
@@ -954,7 +953,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
             flags = imap_mailbox_flags_to_flags(mb_list->mb_flag);
         
         folder = [[LEPIMAPFolder alloc] init];
-        [folder _setPath:[NSString stringWithUTF8String:mb_list->mb_name]];
+        path = [NSString stringWithUTF8String:mb_list->mb_name];
+        if ([[path uppercaseString] isEqualToString:@"INBOX"]) {
+            [folder _setPath:@"INBOX"];
+        }
+        else {
+            [folder _setPath:path];
+        }
         [folder _setDelimiter:mb_list->mb_delimiter];
         [folder _setFlags:flags];
         [folder _setAccount:account];
@@ -1307,7 +1312,105 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	}
 }
 
+- (NSDictionary *) _fetchFolderMessagesMessageNumberUIDMappingForPath:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID
+{
+    struct mailimap_set * imap_set;
+    struct mailimap_fetch_type * fetch_type;
+    clist * fetch_result;
+    NSMutableDictionary * result;
+    struct mailimap_fetch_att * fetch_att;
+    int r;
+    clistiter * iter;
+    
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return nil;
+    
+    result = [NSMutableDictionary dictionary];
+    
+    imap_set = mailimap_set_new_interval(fromUID, toUID);
+    fetch_type = mailimap_fetch_type_new_fetch_att_list_empty();
+    fetch_att = mailimap_fetch_att_new_uid();
+    mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+    
+    r = mailimap_uid_fetch(_imap, imap_set, fetch_type, &fetch_result);
+    mailimap_fetch_type_free(fetch_type);
+    mailimap_set_free(imap_set);
+    
+    [_currentProgressDelegate release];
+    _currentProgressDelegate = nil;
+    
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        LEPLog(@"error stream");
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        LEPLog(@"error parse");
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+        LEPLog(@"error fetch");
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+    
+    for(iter = clist_begin(fetch_result) ; iter != NULL ; iter = clist_next(iter)) {
+        struct mailimap_msg_att * msg_att;
+        clistiter * item_iter;
+        uint32_t uid;
+        
+        msg_att = clist_content(iter);
+        uid = 0;
+        for(item_iter = clist_begin(msg_att->att_list) ; item_iter != NULL ; item_iter = clist_next(item_iter)) {
+            struct mailimap_msg_att_item * att_item;
+            
+            att_item = clist_content(item_iter);
+            if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
+                struct mailimap_msg_att_static * att_static;
+                
+                att_static = att_item->att_data.att_static;
+                if (att_static->att_type == MAILIMAP_MSG_ATT_UID) {
+                    uid = att_static->att_data.att_uid;
+                }
+            }
+        }
+		
+		if (uid < fromUID) {
+			uid = 0;
+		}
+        
+        if (uid != 0) {
+            [result setObject:[NSNumber numberWithLongLong:uid] forKey:[NSNumber numberWithLongLong:msg_att->att_number]];
+        }
+    }
+    
+    mailimap_fetch_list_free(fetch_result);
+    
+    return result;
+}
+
 - (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
+                  progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
+{
+    return [self _fetchFolderMessages:path fromUID:fromUID toUID:toUID kind:kind folder:folder mapping:nil progressDelegate:progressDelegate];
+}
+
+- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
+                           mapping:(NSDictionary *)mapping
                   progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate
 {
     struct mailimap_set * imap_set;
@@ -1339,6 +1442,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
         fetch_att = mailimap_fetch_att_new_flags();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
     }
+    if ((kind & LEPIMAPMessagesRequestKindFullHeaders) != 0) {
+        struct mailimap_section * section;
+        
+        section = mailimap_section_new_header();
+        fetch_att = mailimap_fetch_att_new_body_peek_section(section);
+        mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+    }
     if ((kind & LEPIMAPMessagesRequestKindHeaders) != 0) {
         clist * hdrlist;
         char * header;
@@ -1354,8 +1464,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
         hdrlist = clist_new();
         header = strdup("References");
         clist_append(hdrlist, header);
-        header = strdup("Subject");
-        clist_append(hdrlist, header);
+        if ((kind & LEPIMAPMessagesRequestKindHeaderSubject) != 0) {
+            header = strdup("Subject");
+            clist_append(hdrlist, header);
+        }
         imap_hdrlist = mailimap_header_list_new(hdrlist);
         section = mailimap_section_new_header_fields(imap_hdrlist);
         fetch_att = mailimap_fetch_att_new_body_peek_section(section);
@@ -1419,6 +1531,9 @@ static void items_progress(size_t current, size_t maximum, void * context)
 		
         msg_att = clist_content(iter);
         uid = 0;
+        if (mapping != nil) {
+            uid = [[mapping objectForKey:[NSNumber numberWithLongLong:msg_att->att_number]] longLongValue];
+        }
         for(item_iter = clist_begin(msg_att->att_list) ; item_iter != NULL ; item_iter = clist_next(item_iter)) {
             struct mailimap_msg_att_item * att_item;
             
@@ -1445,15 +1560,25 @@ static void items_progress(size_t current, size_t maximum, void * context)
 					[[msg header] setFromIMAPEnvelope:env];
                 }
                 else if (att_static->att_type == MAILIMAP_MSG_ATT_BODY_SECTION) {
-                    char * references;
-                    size_t ref_size;
-                    
-                    // references
-                    references = att_static->att_data.att_body_section->sec_body_part;
-                    ref_size = att_static->att_data.att_body_section->sec_length;
-					
-					[[msg header] setFromIMAPReferences:[NSData dataWithBytes:references length:ref_size]];
-					
+                    if ((kind & LEPIMAPMessagesRequestKindFullHeaders) != 0) {
+                        char * bytes;
+                        size_t length;
+                        
+                        bytes = att_static->att_data.att_body_section->sec_body_part;
+                        length = att_static->att_data.att_body_section->sec_length;
+                        
+                        [[msg header] setFromHeadersData:[NSData dataWithBytes:bytes length:length]];
+                    }
+                    else {
+                        char * references;
+                        size_t ref_size;
+                        
+                        // references
+                        references = att_static->att_data.att_body_section->sec_body_part;
+                        ref_size = att_static->att_data.att_body_section->sec_length;
+                        
+                        [[msg header] setFromIMAPReferences:[NSData dataWithBytes:references length:ref_size]];
+					}
 				}
 				else if (att_static->att_type == MAILIMAP_MSG_ATT_BODYSTRUCTURE) {
 					NSArray * attachments;

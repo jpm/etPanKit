@@ -1049,6 +1049,7 @@ static NSSet * blockElements(void)
     
     if (elements == nil) {
         elements = [[NSMutableSet alloc] init];
+        [elements addObject:@"address"];
         [elements addObject:@"div"];
         [elements addObject:@"p"];
         [elements addObject:@"h1"];

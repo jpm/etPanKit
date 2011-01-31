@@ -719,26 +719,6 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 
 - (void) setFromIMAPReferences:(NSData *)data
 {
-#if 0
-	size_t cur_token;
-	//clist * msg_id_list;
-	int r;
-	struct mailimf_references * references;
-	
-	cur_token = 0;
-	//LEPLog(@"%@", [data lepUTF8String]);
-	//r = mailimf_msg_id_list_parse([data bytes], [data length], &cur_token, &msg_id_list);
-	r = mailimf_references_parse([data bytes], [data length], &cur_token, &references);
-	if (r == MAILIMF_NO_ERROR) {
-		NSArray * msgids;
-		
-		msgids = msg_id_to_string_array(references->mid_list);
-		[self setReferences:msgids];
-		//clist_foreach(msg_id_list, (clist_func) mailimf_msg_id_free, NULL);
-		//clist_free(msg_id_list);
-		mailimf_references_free(references);
-	}
-#else
 	size_t cur_token;
 	struct mailimf_fields * fields;
 	int r;
@@ -764,7 +744,21 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	}
 	
 	mailimf_fields_free(fields);
-#endif
+}
+
+- (void) setFromHeadersData:(NSData *)data
+{
+	size_t cur_token;
+	struct mailimf_fields * fields;
+	int r;
+	
+	cur_token = 0;
+	r = mailimf_fields_parse([data bytes], [data length], &cur_token, &fields);
+	if (r != MAILIMF_NO_ERROR) {
+		return;
+	}
+    
+    [self setFromIMFFields:fields];
 }
 
 - (void) _setFromInternalDate:(struct mailimap_date_time *)date

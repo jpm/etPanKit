@@ -22,4 +22,6 @@
 
 - (void) _setFromInternalDate:(struct mailimap_date_time *)date;
 
+- (void) setFromHeadersData:(NSData *)data;
+
 @end

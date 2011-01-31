@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6056E2B11397D6400DEB02F /* LEPIMAPAccount+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */; settings = {ATTRIBUTES = (); }; };
 		C6056E2C11397D6400DEB02F /* LEPIMAPAccount+Gmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C6056E2A11397D6400DEB02F /* LEPIMAPAccount+Gmail.m */; };
 		C6179F59111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6179F57111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6179F5A111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6179F58111EF4D0000FCE35 /* LEPIMAPFetchFoldersRequest.m */; };
@@ -75,6 +75,8 @@
 		C681665310F5142D00B07764 /* LEPSMTPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = C681663F10F5142D00B07764 /* LEPSMTPSession.h */; };
 		C681665410F5142D00B07764 /* LEPSMTPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C681664010F5142D00B07764 /* LEPSMTPSession.m */; };
 		C681666F10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */; };
+		C687ADC912F61F90001A6164 /* LEPIMAPFolder+Provider.h in Headers */ = {isa = PBXBuildFile; fileRef = C687ADC712F61F90001A6164 /* LEPIMAPFolder+Provider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C687ADCA12F61F90001A6164 /* LEPIMAPFolder+Provider.m in Sources */ = {isa = PBXBuildFile; fileRef = C687ADC812F61F90001A6164 /* LEPIMAPFolder+Provider.m */; };
 		C6910C5F1114F1C500623B9F /* LEPIMAPFetchMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910C5D1114F1C500623B9F /* LEPIMAPFetchMessageRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6910C601114F1C500623B9F /* LEPIMAPFetchMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6910C5E1114F1C500623B9F /* LEPIMAPFetchMessageRequest.m */; };
 		C6910C631114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6910C611114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -105,10 +107,20 @@
 		C69114E11117B25E00623B9F /* LEPSMTPSessionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E01117B25E00623B9F /* LEPSMTPSessionPrivate.h */; };
 		C69114E71117B30C00623B9F /* LEPSMTPSendMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C69114E51117B30C00623B9F /* LEPSMTPSendMessageRequest.h */; };
 		C69114E81117B30C00623B9F /* LEPSMTPSendMessageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C69114E61117B30C00623B9F /* LEPSMTPSendMessageRequest.m */; };
-		C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C694B600128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h in Headers */ = {isa = PBXBuildFile; fileRef = C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */; settings = {ATTRIBUTES = (); }; };
 		C694B601128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */; };
 		C6A1EE141130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */; };
 		C6A1EE151130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */; };
+		C6A9E37B12F5A53C009C12A8 /* provider-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A9E37A12F5A53C009C12A8 /* provider-info.plist */; };
+		C6A9E39412F5B9B2009C12A8 /* LEPMailProvidersManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E39212F5B9B2009C12A8 /* LEPMailProvidersManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6A9E39512F5B9B2009C12A8 /* LEPMailProvidersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A9E39312F5B9B2009C12A8 /* LEPMailProvidersManager.m */; };
+		C6A9E39E12F5BB3B009C12A8 /* LEPSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E39D12F5BB3B009C12A8 /* LEPSingleton.h */; };
+		C6A9E3A312F5BE7E009C12A8 /* LEPMailProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E3A112F5BE7E009C12A8 /* LEPMailProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6A9E3A412F5BE7E009C12A8 /* LEPMailProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A9E3A212F5BE7E009C12A8 /* LEPMailProvider.m */; };
+		C6A9E3AB12F5CAC6009C12A8 /* LEPNetService.h in Headers */ = {isa = PBXBuildFile; fileRef = C6A9E3A912F5CAC6009C12A8 /* LEPNetService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6A9E3AC12F5CAC6009C12A8 /* LEPNetService.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A9E3AA12F5CAC6009C12A8 /* LEPNetService.m */; };
+		C6CAA11412F5E7EF00564ECE /* LEPIMAPAccount+Provider.h in Headers */ = {isa = PBXBuildFile; fileRef = C6CAA11212F5E7EF00564ECE /* LEPIMAPAccount+Provider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6CAA11512F5E7EF00564ECE /* LEPIMAPAccount+Provider.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CAA11312F5E7EF00564ECE /* LEPIMAPAccount+Provider.m */; };
 		C6E572451103998300897274 /* LEPError.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572441103998300897274 /* LEPError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E572541103E2D200897274 /* LEPIMAPAccountPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */; };
 		C6E572571103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */; };
@@ -228,6 +240,8 @@
 		C681663F10F5142D00B07764 /* LEPSMTPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSMTPSession.h; sourceTree = "<group>"; };
 		C681664010F5142D00B07764 /* LEPSMTPSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPSMTPSession.m; sourceTree = "<group>"; };
 		C681666E10F5E6CB00B07764 /* LEPIMAPSessionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPSessionPrivate.h; sourceTree = "<group>"; };
+		C687ADC712F61F90001A6164 /* LEPIMAPFolder+Provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEPIMAPFolder+Provider.h"; sourceTree = "<group>"; };
+		C687ADC812F61F90001A6164 /* LEPIMAPFolder+Provider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPFolder+Provider.m"; sourceTree = "<group>"; };
 		C6910C5D1114F1C500623B9F /* LEPIMAPFetchMessageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchMessageRequest.h; sourceTree = "<group>"; };
 		C6910C5E1114F1C500623B9F /* LEPIMAPFetchMessageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchMessageRequest.m; sourceTree = "<group>"; };
 		C6910C611114F2B900623B9F /* LEPIMAPFetchMessageStructureRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchMessageStructureRequest.h; sourceTree = "<group>"; };
@@ -262,6 +276,16 @@
 		C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPFolder+Gmail.m"; sourceTree = "<group>"; };
 		C6A1EE121130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPStoreFlagsRequest.h; sourceTree = "<group>"; };
 		C6A1EE131130836E00D2D4DA /* LEPIMAPStoreFlagsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPStoreFlagsRequest.m; sourceTree = "<group>"; };
+		C6A9E37A12F5A53C009C12A8 /* provider-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "provider-info.plist"; path = "Resources/provider-info.plist"; sourceTree = "<group>"; };
+		C6A9E39212F5B9B2009C12A8 /* LEPMailProvidersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMailProvidersManager.h; sourceTree = "<group>"; };
+		C6A9E39312F5B9B2009C12A8 /* LEPMailProvidersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMailProvidersManager.m; sourceTree = "<group>"; };
+		C6A9E39D12F5BB3B009C12A8 /* LEPSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPSingleton.h; sourceTree = "<group>"; };
+		C6A9E3A112F5BE7E009C12A8 /* LEPMailProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPMailProvider.h; sourceTree = "<group>"; };
+		C6A9E3A212F5BE7E009C12A8 /* LEPMailProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPMailProvider.m; sourceTree = "<group>"; };
+		C6A9E3A912F5CAC6009C12A8 /* LEPNetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPNetService.h; sourceTree = "<group>"; };
+		C6A9E3AA12F5CAC6009C12A8 /* LEPNetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPNetService.m; sourceTree = "<group>"; };
+		C6CAA11212F5E7EF00564ECE /* LEPIMAPAccount+Provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LEPIMAPAccount+Provider.h"; sourceTree = "<group>"; };
+		C6CAA11312F5E7EF00564ECE /* LEPIMAPAccount+Provider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LEPIMAPAccount+Provider.m"; sourceTree = "<group>"; };
 		C6E572441103998300897274 /* LEPError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPError.h; sourceTree = "<group>"; };
 		C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPAccountPrivate.h; sourceTree = "<group>"; };
 		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
@@ -325,6 +349,7 @@
 				C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				C6A9E37A12F5A53C009C12A8 /* provider-info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -407,6 +432,13 @@
 				C6910ED51115CB4000623B9F /* NSString+LEPUUID.m */,
 				C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */,
 				C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */,
+				C6A9E39212F5B9B2009C12A8 /* LEPMailProvidersManager.h */,
+				C6A9E39312F5B9B2009C12A8 /* LEPMailProvidersManager.m */,
+				C6A9E3A112F5BE7E009C12A8 /* LEPMailProvider.h */,
+				C6A9E3A212F5BE7E009C12A8 /* LEPMailProvider.m */,
+				C6A9E3A912F5CAC6009C12A8 /* LEPNetService.h */,
+				C6A9E3AA12F5CAC6009C12A8 /* LEPNetService.m */,
+				C6A9E39D12F5BB3B009C12A8 /* LEPSingleton.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -418,6 +450,8 @@
 				C681662D10F5142D00B07764 /* LEPIMAPAccount.m */,
 				C6056E2911397D6400DEB02F /* LEPIMAPAccount+Gmail.h */,
 				C6056E2A11397D6400DEB02F /* LEPIMAPAccount+Gmail.m */,
+				C6CAA11212F5E7EF00564ECE /* LEPIMAPAccount+Provider.h */,
+				C6CAA11312F5E7EF00564ECE /* LEPIMAPAccount+Provider.m */,
 				C6E572531103E2D200897274 /* LEPIMAPAccountPrivate.h */,
 				C691100611160DC400623B9F /* LEPIMAPAlternativeAttachment.h */,
 				C691100711160DC400623B9F /* LEPIMAPAlternativeAttachment.m */,
@@ -452,6 +486,8 @@
 				C681663310F5142D00B07764 /* LEPIMAPFolder.m */,
 				C694B5FE128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.h */,
 				C694B5FF128F586B00FF0FE4 /* LEPIMAPFolder+Gmail.m */,
+				C687ADC712F61F90001A6164 /* LEPIMAPFolder+Provider.h */,
+				C687ADC812F61F90001A6164 /* LEPIMAPFolder+Provider.m */,
 				C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */,
 				C681663410F5142D00B07764 /* LEPIMAPMessage.h */,
 				C681663510F5142D00B07764 /* LEPIMAPMessage.m */,
@@ -580,13 +616,19 @@
 				C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */,
 				C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */,
 				C6F956D2129ED302005852A4 /* LEPSMTPCheckRequest.h in Headers */,
+				C6A9E39412F5B9B2009C12A8 /* LEPMailProvidersManager.h in Headers */,
+				C6A9E39E12F5BB3B009C12A8 /* LEPSingleton.h in Headers */,
+				C6A9E3A312F5BE7E009C12A8 /* LEPMailProvider.h in Headers */,
+				C6A9E3AB12F5CAC6009C12A8 /* LEPNetService.h in Headers */,
+				C6CAA11412F5E7EF00564ECE /* LEPIMAPAccount+Provider.h in Headers */,
+				C687ADC912F61F90001A6164 /* LEPIMAPFolder+Provider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* etPanKit */ = {
+		8DC2EF4F0486A6940098B216 /* libetpan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "etPanKit" */;
 			buildPhases = (
@@ -632,7 +674,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* etPanKit */,
+				8DC2EF4F0486A6940098B216 /* libetpan */,
 			);
 		};
 /* End PBXProject section */
@@ -668,6 +710,7 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				C64A6DFC1141C3E900966BB1 /* localized-mailbox.plist in Resources */,
+				C6A9E37B12F5A53C009C12A8 /* provider-info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +769,11 @@
 				C64619B21294911600C8B9DE /* LEPIMAPIdleRequest.m in Sources */,
 				C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */,
 				C6F956D3129ED302005852A4 /* LEPSMTPCheckRequest.m in Sources */,
+				C6A9E39512F5B9B2009C12A8 /* LEPMailProvidersManager.m in Sources */,
+				C6A9E3A412F5BE7E009C12A8 /* LEPMailProvider.m in Sources */,
+				C6A9E3AC12F5CAC6009C12A8 /* LEPNetService.m in Sources */,
+				C6CAA11512F5E7EF00564ECE /* LEPIMAPAccount+Provider.m in Sources */,
+				C687ADCA12F61F90001A6164 /* LEPIMAPFolder+Provider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

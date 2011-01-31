@@ -36,6 +36,12 @@
 
 - (void) _expunge:(NSString *)path;
 
+- (NSDictionary *) _fetchFolderMessagesMessageNumberUIDMappingForPath:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID;
+
+- (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
+                           mapping:(NSDictionary *)mapping
+                  progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
+
 - (NSArray *) _fetchFolderMessages:(NSString *)path fromUID:(uint32_t)fromUID toUID:(uint32_t)toUID kind:(LEPIMAPMessagesRequestKind)kind folder:(LEPIMAPFolder *)folder
                   progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
 

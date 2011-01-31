@@ -27,6 +27,7 @@
 @synthesize fetchKind = _fetchKind;
 @synthesize folder = _folder;
 @synthesize progressCount = _progressCount;
+@synthesize workaround = _workaround;
 
 - (id) init
 {
@@ -46,7 +47,19 @@
 - (void) mainRequest
 {
 	LEPLog(@"request messages");
-	_messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind folder:_folder
+    if ((_workaround & LEPIMAPWorkaroundYahoo) != 0) {
+        if ((_fetchKind & LEPIMAPMessagesRequestKindHeaders) != 0) {
+            _fetchKind &= ~LEPIMAPMessagesRequestKindHeaders;
+            _fetchKind |= LEPIMAPMessagesRequestKindFullHeaders;
+        }
+    }
+    if ((_workaround & LEPIMAPWorkaroundGmail) != 0) {
+        if ((_fetchKind & LEPIMAPMessagesRequestKindHeaders) != 0) {
+            _fetchKind |= LEPIMAPMessagesRequestKindHeaderSubject;
+        }
+    }
+    
+    _messages = [[_session _fetchFolderMessages:_path fromUID:_fromUID toUID:_toUID kind:_fetchKind folder:_folder
                                progressDelegate:self] retain];
 }
 

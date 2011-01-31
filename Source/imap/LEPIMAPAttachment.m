@@ -411,4 +411,15 @@
     return attachment;
 }
 
+- (size_t) decodedSize
+{
+	switch (_encoding) {
+		case MAILIMAP_BODY_FLD_ENC_BASE64:
+            return _size * 3 / 4;
+            
+        default:
+            return _size;
+	}
+}
+
 @end

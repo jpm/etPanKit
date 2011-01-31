@@ -8,17 +8,19 @@
  */
 
 typedef enum {
-	LEPAuthTypeClear,
-	LEPAuthTypeStartTLS,
-	LEPAuthTypeTLS,
-	LEPAuthTypeSASLCRAMMD5,
-	LEPAuthTypeSASLPlain,
-	LEPAuthTypeSASLGSSAPI,
-	LEPAuthTypeSASLDIGESTMD5,
-	LEPAuthTypeSASLLogin,
-	LEPAuthTypeSASLSRP,
-	LEPAuthTypeSASLNTLM,
-	LEPAuthTypeSASLKerberosV4,
+	LEPAuthTypeClear             = 1 << 0,
+	LEPAuthTypeStartTLS          = 1 << 1,
+	LEPAuthTypeTLS               = 1 << 2,
+	LEPAuthTypeSASLCRAMMD5       = 1 << 8,
+	LEPAuthTypeSASLPlain         = 1 << 9,
+	LEPAuthTypeSASLGSSAPI        = 1 << 10,
+	LEPAuthTypeSASLDIGESTMD5     = 1 << 11,
+	LEPAuthTypeSASLLogin         = 1 << 12,
+	LEPAuthTypeSASLSRP           = 1 << 13,
+	LEPAuthTypeSASLNTLM          = 1 << 14,
+	LEPAuthTypeSASLKerberosV4    = 1 << 15,
+	LEPAuthTypeConnectionMask    = LEPAuthTypeClear | LEPAuthTypeStartTLS | LEPAuthTypeTLS,
+	LEPAuthTypeMechanismMask     = ~LEPAuthTypeConnectionMask,
 } LEPAuthType;
 
 typedef enum {
@@ -44,7 +46,9 @@ typedef enum {
     LEPIMAPMessagesRequestKindFlags         = 1 << 0,
     LEPIMAPMessagesRequestKindHeaders       = 1 << 1,
     LEPIMAPMessagesRequestKindStructure     = 1 << 2,
-	LEPIMAPMessagesRequestKindInternalDate   = 1 << 3,
+	LEPIMAPMessagesRequestKindInternalDate  = 1 << 3,
+    LEPIMAPMessagesRequestKindFullHeaders   = 1 << 4,
+    LEPIMAPMessagesRequestKindHeaderSubject = 1 << 5,
 } LEPIMAPMessagesRequestKind;
 
 typedef enum {
@@ -52,3 +56,8 @@ typedef enum {
 	LEPIMAPStoreFlagsRequestKindRemove,
 	LEPIMAPStoreFlagsRequestKindSet,
 } LEPIMAPStoreFlagsRequestKind;
+
+typedef enum {
+    LEPIMAPWorkaroundGmail = 1 << 0,
+    LEPIMAPWorkaroundYahoo = 1 << 1,
+} LEPIMAPWorkaround;
