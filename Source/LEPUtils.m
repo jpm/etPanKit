@@ -39,6 +39,7 @@ void LEPLogInternal(const char * filename, unsigned int line, int dumpStack, NSS
     
     NSString * fn;
     fn = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:filename length:strlen(filename)];
+    fn = [fn lastPathComponent];
     if (![enabledFilesSet containsObject:fn]) {
         [pool release];
         return;
