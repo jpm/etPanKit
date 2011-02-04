@@ -20,6 +20,9 @@
 @property (nonatomic, assign) int port;
 @property (nonatomic, assign) LEPAuthType authType;
 
++ (LEPNetService *) netServiceWithInfo:(NSDictionary *)info;
+
 - (id) initWithInfo:(NSDictionary *)info;
+- (NSDictionary *) info;
 
 @end

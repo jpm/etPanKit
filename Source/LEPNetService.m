@@ -51,4 +51,28 @@
     return self;
 }
 
+- (NSDictionary *) info
+{
+    NSMutableDictionary * result;
+    
+    result = [NSMutableDictionary dictionary];
+    [result setObject:[self hostname] forKey:@"hostname"];
+    [result setObject:[NSNumber numberWithInt:[self port]] forKey:@"port"];
+    switch (_authType & LEPAuthTypeConnectionMask) {
+        case LEPAuthTypeTLS:
+            [result setObject:[NSNumber numberWithBool:YES] forKey:@"ssl"];
+            break;
+        case LEPAuthTypeStartTLS:
+            [result setObject:[NSNumber numberWithBool:YES] forKey:@"starttls"];
+            break;
+    }
+    
+    return result;
+}
+
++ (LEPNetService *) netServiceWithInfo:(NSDictionary *)info
+{
+    return [[[LEPNetService alloc] initWithInfo:info] autorelease];
+}
+
 @end
