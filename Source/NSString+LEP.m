@@ -584,6 +584,10 @@ static inline int skip_subj_refwd(char * subj, size_t * begin,
 				cur_token += 2;
 				prefix = 1;
 			}
+			else if (strncasecmp(subj + cur_token, "sv", 2) == 0) {
+				cur_token += 2;
+				prefix = 1;
+			}
 		}
 	}
 	if (!prefix) {
