@@ -75,7 +75,7 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
 {
-	[_account _setupRequest: request];
+	[_account _setupRequest:request forMailbox:[self path]];
 }
 
 - (LEPIMAPRequest *) deleteRequest

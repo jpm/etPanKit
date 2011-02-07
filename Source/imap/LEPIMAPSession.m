@@ -2206,4 +2206,9 @@ static void items_progress(size_t current, size_t maximum, void * context)
     }
 }
 
+- (BOOL) _matchMailbox:(NSString *)mailbox
+{
+    return [_currentMailbox isEqualToString:mailbox];
+}
+
 @end

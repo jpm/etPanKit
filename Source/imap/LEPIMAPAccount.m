@@ -8,8 +8,10 @@
 
 #import "LEPIMAPAccount.h"
 #import "LEPIMAPAccount+Gmail.h"
+#import "LEPIMAPAccountPrivate.h"
 
 #import "LEPIMAPSession.h"
+#import "LEPIMAPSessionPrivate.h"
 #import "LEPUtils.h"
 #import "LEPIMAPFetchSubscribedFoldersRequest.h"
 #import "LEPIMAPFetchAllFoldersRequest.h"
@@ -21,7 +23,7 @@
 
 @interface LEPIMAPAccount ()
 
-- (void) _setupRequest:(LEPIMAPRequest *)request;
+//- (void) _setupRequest:(LEPIMAPRequest *)request;
 - (void) _setupSession;
 - (void) _unsetupSession;
 
@@ -337,6 +339,18 @@
     [pathSet release];
     
     return result;
+}
+
+- (void) _setupRequest:(LEPIMAPRequest *)request forMailbox:(NSString *)mailbox
+{
+    for(LEPIMAPSession * currentSession in _sessions) {
+        if ([currentSession _matchMailbox:mailbox]) {
+            [request setSession:currentSession];
+            return;
+        }
+    }
+    
+    [self _setupRequest:request];
 }
 
 @end

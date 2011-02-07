@@ -18,6 +18,7 @@
 - (void) _unsetupSession;
 
 - (void) _setupRequest:(LEPIMAPRequest *)request;
+- (void) _setupRequest:(LEPIMAPRequest *)request forMailbox:(NSString *)mailbox;
 
 - (BOOL) _isGmailFolder:(LEPIMAPFolder *)folder;
 - (BOOL) _isYahooFolder:(LEPIMAPFolder *)folder;
