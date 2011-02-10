@@ -24,6 +24,7 @@
 @synthesize error = _error;
 @synthesize session = _session;
 @synthesize resultUidSet = _resultUidSet;
+@synthesize mailboxSelectionPath = _mailboxSelectionPath;
 
 - (id) init
 {
@@ -34,6 +35,7 @@
 
 - (void) dealloc
 {
+    [_mailboxSelectionPath release];
     [_resultUidSet release];
 	[_error release];
 	[_session release];

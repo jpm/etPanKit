@@ -24,6 +24,7 @@
 #import "LEPCertificateUtils.h"
 #include <sys/types.h>
 #include <unistd.h>
+#import "LEPIMAPIdleRequest.h"
 
 #define MAX_IDLE_DELAY (28 * 60)
 
@@ -585,7 +586,15 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	
     LEPLog(@"queue operation %@", request);
 	//[request setSession:self];
+    
+    // interrupt pending idle requests
+    for(LEPIMAPRequest * request in [_queue operations]) {
+        if ([request isKindOfClass:[LEPIMAPIdleRequest class]]) {
+            [(LEPIMAPIdleRequest *) request done];
+        }
+    }
 	[_queue addOperation:request];
+    [self _setLastMailbox:[request mailboxSelectionPath]];
 }
 
 - (void) _connectIfNeeded
@@ -2206,9 +2215,15 @@ static void items_progress(size_t current, size_t maximum, void * context)
     }
 }
 
-- (BOOL) _matchMailbox:(NSString *)mailbox
+- (BOOL) _matchLastMailbox:(NSString *)mailbox
 {
-    return [_currentMailbox isEqualToString:mailbox];
+    return [_lastMailboxPath isEqualToString:mailbox];
+}
+
+- (void) _setLastMailbox:(NSString *)mailbox
+{
+    [_lastMailboxPath release];
+    _lastMailboxPath = [mailbox copy];
 }
 
 @end

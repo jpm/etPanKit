@@ -9,9 +9,11 @@
 	NSError * _error;
     NSMutableArray * _resultUidSet;
 	BOOL _started;
+    NSString * _mailboxSelectionPath;
 }
 
-@property (assign) id <LEPIMAPRequestDelegate> delegate;
+@property (nonatomic, assign) id <LEPIMAPRequestDelegate> delegate;
+@property (nonatomic, copy) NSString * mailboxSelectionPath;
 
 // response
 @property (nonatomic, readonly, copy) NSError * error;

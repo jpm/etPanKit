@@ -343,14 +343,13 @@
 
 - (void) _setupRequest:(LEPIMAPRequest *)request forMailbox:(NSString *)mailbox
 {
-#if 0
+    [request setMailboxSelectionPath:mailbox];
     for(LEPIMAPSession * currentSession in _sessions) {
-        if ([currentSession _matchMailbox:mailbox]) {
+        if ([currentSession _matchLastMailbox:mailbox]) {
             [request setSession:currentSession];
             return;
         }
     }
-#endif
     
     [self _setupRequest:request];
 }

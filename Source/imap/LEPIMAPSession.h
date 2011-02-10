@@ -36,6 +36,7 @@
     id _currentProgressDelegate;
   unsigned int _progressItemsCount;
     BOOL _checkCertificate;
+    NSString * _lastMailboxPath;
 }
 
 @property (nonatomic, copy) NSString * host;
