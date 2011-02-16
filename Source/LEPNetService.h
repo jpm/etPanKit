@@ -10,7 +10,7 @@
 
 #import <EtPanKit/LEPConstants.h>
 
-@interface LEPNetService : NSObject {
+@interface LEPNetService : NSObject <NSCopying> {
     NSString * _hostname;
     int _port;
     LEPAuthType _authType;

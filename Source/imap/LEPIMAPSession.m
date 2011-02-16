@@ -510,6 +510,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 @synthesize resultUidSet = _resultUidSet;
 @synthesize uidValidity = _uidValidity;
 @synthesize uidNext = _uidNext;
+@synthesize welcomeString = _welcomeString;
 
 - (id) init
 {
@@ -529,6 +530,7 @@ static struct mailimap_set * setFromArray(NSArray * array)
 {
 	[self _unsetup];
 	
+    [_welcomeString release];
     [_resultUidSet release];
     
 	[_realm release];
@@ -742,6 +744,11 @@ static void items_progress(size_t current, size_t maximum, void * context)
 			break;
     }
 	
+    if (_imap->imap_response != NULL) {
+        [_welcomeString release];
+        _welcomeString = [[NSString alloc] initWithUTF8String:_imap->imap_response];
+    }
+    
 	_state = STATE_CONNECTED;
 	LEPLog(@"connect ok");
 }
@@ -754,6 +761,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	
 	LEPAssert(_state == STATE_CONNECTED);
 	
+    if ([self login] == nil) {
+        [self setLogin:@""];
+    }
+    if ([self password] == nil) {
+        [self setPassword:@""];
+    }
+    
 	switch ([self authType] & LEPAuthTypeMechanismMask) {
         case 0:
 		default:

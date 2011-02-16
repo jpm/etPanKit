@@ -61,3 +61,25 @@ typedef enum {
     LEPIMAPWorkaroundGmail = 1 << 0,
     LEPIMAPWorkaroundYahoo = 1 << 1,
 } LEPIMAPWorkaround;
+
+typedef enum {
+    LEPIMAPCapabilityACL                  = 1 << 0,
+    LEPIMAPCapabilityBinary               = 1 << 1,
+    LEPIMAPCapabilityCatenate             = 1 << 2,
+    LEPIMAPCapabilityChildren             = 1 << 3,
+    LEPIMAPCapabilityCompressDeflate      = 1 << 4,
+    LEPIMAPCapabilityCondstore            = 1 << 5,
+    LEPIMAPCapabilityEnable               = 1 << 6,
+    LEPIMAPCapabilityIdle                 = 1 << 7,
+    LEPIMAPCapabilityLiteralPlus          = 1 << 8,
+    LEPIMAPCapabilityMultiAppend          = 1 << 9,
+    LEPIMAPCapabilityNamespace            = 1 << 10,
+    LEPIMAPCapabilityQResync              = 1 << 11,
+    LEPIMAPCapabilityQuota                = 1 << 12,
+    LEPIMAPCapabilitySort                 = 1 << 13,
+    LEPIMAPCapabilityStartTLS             = 1 << 14,
+    LEPIMAPCapabilityThreadOrderedSubject = 1 << 15,
+    LEPIMAPCapabilityThreadReferences     = 1 << 16,
+    LEPIMAPCapabilityUIDPlus              = 1 << 17,
+    LEPIMAPCapabilityUnselect             = 1 << 18,
+} LEPIMAPCapability;

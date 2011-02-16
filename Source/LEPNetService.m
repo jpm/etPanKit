@@ -27,6 +27,11 @@
     [super dealloc];
 }
 
+- (id) copyWithZone:(NSZone *)zone
+{
+    return [[LEPNetService netServiceWithInfo:[self info]] retain];
+}
+
 - (id) initWithInfo:(NSDictionary *)info
 {
     BOOL ssl;
@@ -56,8 +61,12 @@
     NSMutableDictionary * result;
     
     result = [NSMutableDictionary dictionary];
-    [result setObject:[self hostname] forKey:@"hostname"];
-    [result setObject:[NSNumber numberWithInt:[self port]] forKey:@"port"];
+    if ([self hostname] != nil) {
+        [result setObject:[self hostname] forKey:@"hostname"];
+    }
+    if ([self port] != 0) {
+        [result setObject:[NSNumber numberWithInt:[self port]] forKey:@"port"];
+    }
     switch (_authType & LEPAuthTypeConnectionMask) {
         case LEPAuthTypeTLS:
             [result setObject:[NSNumber numberWithBool:YES] forKey:@"ssl"];

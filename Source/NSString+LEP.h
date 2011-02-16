@@ -25,6 +25,8 @@
 - (NSString *) lepExtractedSubject;
 - (NSString *) lepExtractedSubjectAndKeepBracket:(BOOL)keepBracket;
 
+- (NSURL *) lepBaseURLFromHTMLString:(NSString *)html;
+
 + (void) lepInitializeLibXML;
 
 @end

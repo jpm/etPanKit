@@ -1212,11 +1212,6 @@ static void commentParsed(void * ctx, const xmlChar * value)
     state.hasReturnToLine = NO;
     state.showBlockQuote = showBlockquote;
 	
-	/* GCS: override structuredErrorFunc to mine so
-	 I can ignore errors */
-	xmlSetStructuredErrorFunc(xmlGenericErrorContext,
-							  &structuredError);
-	
 	htmlSAXParseDoc((xmlChar*)[self UTF8String], "utf-8",
 					&handler, &state);
     
@@ -1290,8 +1285,86 @@ static void commentParsed(void * ctx, const xmlChar * value)
     if (!initDone) {
         initDone = YES;
         xmlInitParser();
+        
+        /* GCS: override structuredErrorFunc to mine so
+         I can ignore errors */
+        xmlSetStructuredErrorFunc(xmlGenericErrorContext,
+                                  &structuredError);
     }
     pthread_mutex_unlock(&lock);
 }
+
+
+struct baseURLParserState {
+    int headClosed;
+    NSString * baseURL;
+};
+
+static void baseURLElementStarted(void * ctx, const xmlChar * name, const xmlChar ** atts)
+{
+	struct baseURLParserState * state;
+	
+	state = ctx;
+    
+    // fast path
+    if (state->headClosed)
+        return;
+	
+    if (atts == NULL)
+        return;
+    
+    if (strcasecmp((const char *) name, "base") != 0) {
+        return;
+    }
+    
+    for(const xmlChar ** curAtt = atts ; * curAtt != NULL ; curAtt += 2) {
+        const xmlChar * attrName;
+        const xmlChar * attrValue;
+        
+        attrName = * curAtt;
+        attrValue = * (curAtt + 1);
+        if (strcasecmp((const char *) attrName, "href") == 0) {
+            state->baseURL = [NSString stringWithUTF8String:(const char *) attrValue];
+        }
+    }
+}
+
+static void baseURLElementEnded(void * ctx, const xmlChar * name)
+{
+	struct baseURLParserState * state;
+	
+	state = ctx;
+    
+    // fast path
+    if (state->headClosed)
+        return;
+    
+    if (strcasecmp((const char *) name, "head") == 0) {
+        state->headClosed = 1;
+    }
+}
+
+- (NSURL *) lepBaseURLFromHTMLString:(NSString *)html
+{
+    // init
+    [NSString lepInitializeLibXML];
+    
+	xmlSAXHandler handler;
+	bzero(&handler, sizeof(handler));
+	handler.startElement = baseURLElementStarted;
+    handler.endElement = baseURLElementEnded;
+    
+	struct baseURLParserState state;
+    bzero(&state, sizeof(state));
+    
+	htmlSAXParseDoc((xmlChar*)[self UTF8String], "utf-8",
+					&handler, &state);
+    
+    if (state.baseURL == nil)
+        return nil;
+    
+    return [NSURL URLWithString:state.baseURL];
+}
+
 
 @end

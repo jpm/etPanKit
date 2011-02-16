@@ -13,6 +13,7 @@
 
 @property (nonatomic, copy) NSError * error;
 @property (nonatomic, retain) NSArray * resultUidSet;
+@property (nonatomic, retain) NSString * welcomeString;
 
 - (void) _finished;
 
@@ -25,6 +26,7 @@
 @synthesize session = _session;
 @synthesize resultUidSet = _resultUidSet;
 @synthesize mailboxSelectionPath = _mailboxSelectionPath;
+@synthesize welcomeString = _welcomeString;
 
 - (id) init
 {
@@ -35,6 +37,7 @@
 
 - (void) dealloc
 {
+    [_welcomeString release];
     [_mailboxSelectionPath release];
     [_resultUidSet release];
 	[_error release];
@@ -87,6 +90,9 @@
 		return;
 	}
 	
+    if ([_session welcomeString] != nil) {
+        [self setWelcomeString:[_session welcomeString]];
+    }
     if ([_session error] != nil) {
         [self setError:[_session error]];
     }

@@ -10,6 +10,7 @@
     NSMutableArray * _resultUidSet;
 	BOOL _started;
     NSString * _mailboxSelectionPath;
+    NSString * _welcomeString;
 }
 
 @property (nonatomic, assign) id <LEPIMAPRequestDelegate> delegate;
@@ -19,6 +20,7 @@
 @property (nonatomic, readonly, copy) NSError * error;
 @property (nonatomic, retain) LEPIMAPSession * session;
 @property (nonatomic, readonly, retain) NSArray * resultUidSet;
+@property (nonatomic, readonly, retain) NSString * welcomeString;
 
 // progress
 @property (nonatomic, assign, readonly) size_t currentProgress;
