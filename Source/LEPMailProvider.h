@@ -17,6 +17,7 @@
     NSMutableArray * _smtpServices;
     NSMutableArray * _popServices;
     NSDictionary * _mailboxPaths;
+    NSMutableSet * _mxSet;
 }
 
 @property (nonatomic, copy) NSString * identifier;
@@ -28,6 +29,7 @@
 - (NSArray * /* LEPNetService */) popServices;
 
 - (BOOL) matchEmail:(NSString *)email;
+- (BOOL) matchMX:(NSString *)hostname;
 
 - (NSString *) sentMailFolderPath;
 - (NSString *) starredFolderPath;

@@ -22,12 +22,14 @@
     _imapServices = [[NSMutableArray alloc] init];
     _smtpServices = [[NSMutableArray alloc] init];
     _popServices = [[NSMutableArray alloc] init];
+    _mxSet = [[NSMutableSet alloc] init];
     
     return self;
 }
 
 - (void) dealloc
 {
+    [_mxSet release];
     [_domainMatch release];
     [_imapServices release];
     [_smtpServices release];
@@ -43,11 +45,14 @@
     NSArray * smtpInfos;
     NSArray * popInfos;
     NSDictionary * serverInfo;
+    NSArray * mxs;
     
     self = [self init];
     
     _domainMatch = [[info objectForKey:@"domain-match"] retain];
     _mailboxPaths = [[info objectForKey:@"mailboxes"] retain];
+    mxs = [info objectForKey:@"mx"];
+    [_mxSet addObjectsFromArray:mxs];
     
     serverInfo = [info objectForKey:@"servers"];
     imapInfos = [serverInfo objectForKey:@"imap"];
@@ -125,6 +130,11 @@
     }
     
     return NO;
+}
+
+- (BOOL) matchMX:(NSString *)hostname
+{
+    return [_mxSet containsObject:hostname];
 }
 
 - (NSString *) sentMailFolderPath

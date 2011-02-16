@@ -17,6 +17,7 @@
 + (LEPMailProvidersManager *) sharedManager;
 
 - (LEPMailProvider *) providerForEmail:(NSString *)email;
+- (LEPMailProvider *) providerForMX:(NSString *)hostname;
 - (LEPMailProvider *) providerForIdentifier:(NSString *)identifier;
 - (void) registerProviders:(NSDictionary *)providers;
 - (void) registerProvidersFilename:(NSString *)filename;

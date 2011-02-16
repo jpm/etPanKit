@@ -71,6 +71,19 @@
     return nil;
 }
 
+- (LEPMailProvider *) providerForMX:(NSString *)hostname
+{
+    for(NSString * identifier in _providers) {
+        LEPMailProvider * provider;
+        
+        provider = [_providers objectForKey:identifier];
+        if ([provider matchMX:hostname])
+            return provider;
+    }
+    
+    return nil;
+}
+
 - (LEPMailProvider *) providerForIdentifier:(NSString *)identifier
 {
     return [_providers objectForKey:identifier];

@@ -4,6 +4,14 @@
 <dict>
 	<key>gmail</key>
 	<dict>
+		<key>mx</key>
+		<array>
+			<string>aspmx2.googlemail.com</string>
+			<string>aspmx.l.google.com</string>
+			<string>aspmx3.googlemail.com</string>
+			<string>alt1.aspmx.l.google.com</string>
+			<string>alt2.aspmx.l.google.com</string>
+		</array>
 		<key>domain-match</key>
 		<array>
 			<string>googlemail\.com</string>
