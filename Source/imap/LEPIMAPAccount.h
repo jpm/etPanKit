@@ -5,6 +5,7 @@
 @class LEPIMAPSession;
 @class LEPIMAPFetchFoldersRequest;
 @class LEPIMAPFolder;
+@class LEPIMAPCapabilityRequest;
 
 @interface LEPIMAPAccount : NSObject {
     NSString * _host;
@@ -45,6 +46,8 @@
 
 - (LEPIMAPFolder *) inboxFolder;
 - (LEPIMAPFolder *) folderWithPath:(NSString *)path;
+
+- (LEPIMAPCapabilityRequest *) capabilityRequest;
 
 - (void) setupWithFoldersPaths:(NSArray *)paths;
 

@@ -19,6 +19,7 @@
 #import "LEPError.h"
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
+#import "LEPIMAPCapabilityRequest.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAccount ()
@@ -122,6 +123,16 @@
     return [request autorelease];
 }
 
+- (LEPIMAPCapabilityRequest *) capabilityRequest
+{
+	LEPIMAPCapabilityRequest * request;
+	
+	request = [[LEPIMAPCapabilityRequest alloc] init];
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
 - (void) _setupSession
 {
 	LEPAssert(_sessions == nil);
@@ -202,9 +213,35 @@
 	NSDictionary * bestItem;
 	unsigned int countGmail;
 	unsigned int countGoogleMail;
-	
+	NSMutableSet * detectableMailbox;
+    
 	isGoogleMail = NO;
     LEPLog(@"finished ! %@", paths);
+    
+    detectableMailbox = [[NSMutableSet alloc] init];
+    localizedMailbox = [[NSArray alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"localized-mailbox" ofType:@"plist"]];
+    for(NSDictionary * item in localizedMailbox) {
+        NSArray * mailboxNames;
+        BOOL match;
+		NSMutableSet * currentSet;
+		
+        mailboxNames = [item allValues];
+        for(NSString * name in mailboxNames) {
+            NSString * str;
+            
+            str = nil;
+            if ([name hasPrefix:@"[Gmail]/"]) {
+                str = [name substringFromIndex:8];
+            }
+            else if ([name hasPrefix:@"[Google Mail]/"]) {
+                str = [name substringFromIndex:14];
+            }
+            
+			if (str != nil) {
+                [detectableMailbox addObject:str];
+			}
+        }
+    }
     
     //folderNameSet = [[NSMutableSet alloc] init];
     folderNameArray = [[NSMutableArray alloc] init];
@@ -217,24 +254,44 @@
         str = nil;
         if ([path hasPrefix:@"[Gmail]/"]) {
             str = [path substringFromIndex:8];
-			countGmail ++;
+            if ([detectableMailbox containsObject:str]) {
+                countGmail ++;
+            }
         }
         else if ([path hasPrefix:@"[Google Mail]/"]) {
             str = [path substringFromIndex:14];
-			countGoogleMail ++;
-        }
-        if (str != nil) {
-            //[folderNameSet addObject:str];
-			[folderNameArray addObject:str];
+            if ([detectableMailbox containsObject:str]) {
+                countGoogleMail ++;
+            }
         }
     }
+    //NSLog(@"gmail: %u, google mail: %u", countGmail, countGoogleMail);
 	if (countGoogleMail > countGmail) {
 		isGoogleMail = YES;
 	}
     
+    for(NSString * path in paths) {
+        NSString * str;
+        
+        str = nil;
+        if ([path hasPrefix:@"[Gmail]/"]) {
+            if (!isGoogleMail) {
+                str = [path substringFromIndex:8];
+            }
+        }
+        else if ([path hasPrefix:@"[Google Mail]/"]) {
+            if (isGoogleMail) {
+                str = [path substringFromIndex:14];
+            }
+        }
+        
+        if (str != nil) {
+			[folderNameArray addObject:str];
+        }
+    }
+    
 	bestItem = nil;
 	bestScore = 0;
-    localizedMailbox = [[NSArray alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"localized-mailbox" ofType:@"plist"]];
     //LEPLog(@"%@", localizedMailbox);
     for(NSDictionary * item in localizedMailbox) {
         NSArray * mailboxNames;
@@ -307,10 +364,10 @@
 		[gmailMailboxes release];
 	}
 	
-    [localizedMailbox release];
-    
     //[folderNameSet release];
 	[folderNameArray release];
+    [detectableMailbox release];
+    [localizedMailbox release];
 }
 
 - (void) cancel

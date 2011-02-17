@@ -7,6 +7,7 @@
 @class LEPIMAPAccount;
 @class LEPIMAPFolder;
 @class LEPIMAPIdleRequest;
+@class LEPIMAPCapabilityRequest;
 
 @interface LEPIMAPFolder : NSObject {
     LEPIMAPAccount * _account;
@@ -66,5 +67,6 @@
 - (LEPIMAPRequest *) setFlagsToMessagesRequest:(NSArray * /* LEPIMAPMessage */)messages flags:(LEPIMAPMessageFlag)flags;
 
 - (LEPIMAPIdleRequest *) idleRequest;
+- (LEPIMAPCapabilityRequest *) capabilityRequest;
 
 @end

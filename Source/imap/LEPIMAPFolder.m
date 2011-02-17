@@ -28,6 +28,7 @@
 #import "LEPIMAPStoreFlagsRequest.h"
 #import "LEPConstants.h"
 #import "LEPIMAPIdleRequest.h"
+#import "LEPIMAPCapabilityRequest.h"
 #import <libetpan/libetpan.h>
 
 @implementation LEPIMAPFolder
@@ -450,6 +451,17 @@
     [self _setupRequest:request];
     
 	return [request autorelease];
+}
+
+- (LEPIMAPCapabilityRequest *) capabilityRequest
+{
+	LEPIMAPCapabilityRequest * request;
+	
+	request = [[LEPIMAPCapabilityRequest alloc] init];
+    [request setSelectionEnabled:YES];
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 + (NSString *) encodePathName:(NSString *)path

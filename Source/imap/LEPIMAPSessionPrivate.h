@@ -63,6 +63,8 @@
 - (void) _idlePath:(NSString *)path lastUID:(int64_t)lastUID;
 - (void) _idleDone;
 
+- (NSIndexSet *) _capabilitiesForSelection:(BOOL)selectFirst;
+
 - (BOOL) _matchLastMailbox:(NSString *)mailbox;
 - (void) _setLastMailbox:(NSString *)mailbox;
 

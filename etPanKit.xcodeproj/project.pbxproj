@@ -28,6 +28,8 @@
 		C64619B11294911600C8B9DE /* LEPIMAPIdleRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C64619AF1294911600C8B9DE /* LEPIMAPIdleRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C64619B21294911600C8B9DE /* LEPIMAPIdleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C64619B01294911600C8B9DE /* LEPIMAPIdleRequest.m */; };
 		C64A6DFC1141C3E900966BB1 /* localized-mailbox.plist in Resources */ = {isa = PBXBuildFile; fileRef = C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */; };
+		C6516645130D29A2004ADD56 /* LEPIMAPCapabilityRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6516643130D29A2004ADD56 /* LEPIMAPCapabilityRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6516646130D29A2004ADD56 /* LEPIMAPCapabilityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6516644130D29A2004ADD56 /* LEPIMAPCapabilityRequest.m */; };
 		C655A78210F11344009E6B45 /* LEPAbstractAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C655A78310F11344009E6B45 /* LEPAbstractMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C655A77110F11344009E6B45 /* LEPAbstractMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6560A64111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,6 +195,8 @@
 		C64619AF1294911600C8B9DE /* LEPIMAPIdleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPIdleRequest.h; sourceTree = "<group>"; };
 		C64619B01294911600C8B9DE /* LEPIMAPIdleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPIdleRequest.m; sourceTree = "<group>"; };
 		C64A6DFB1141C3E900966BB1 /* localized-mailbox.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "localized-mailbox.plist"; path = "Resources/localized-mailbox.plist"; sourceTree = "<group>"; };
+		C6516643130D29A2004ADD56 /* LEPIMAPCapabilityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPCapabilityRequest.h; sourceTree = "<group>"; };
+		C6516644130D29A2004ADD56 /* LEPIMAPCapabilityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPCapabilityRequest.m; sourceTree = "<group>"; };
 		C655A77010F11344009E6B45 /* LEPAbstractAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractAttachment.h; sourceTree = "<group>"; };
 		C655A77110F11344009E6B45 /* LEPAbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPAbstractMessage.h; sourceTree = "<group>"; };
 		C6560A62111A2BC800BF7565 /* LEPIMAPFetchAttachmentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAttachmentRequest.h; sourceTree = "<group>"; };
@@ -511,6 +515,8 @@
 				C673590B11068CB0004D4928 /* LEPIMAPUnsubscribeFolderRequest.m */,
 				C64619AF1294911600C8B9DE /* LEPIMAPIdleRequest.h */,
 				C64619B01294911600C8B9DE /* LEPIMAPIdleRequest.m */,
+				C6516643130D29A2004ADD56 /* LEPIMAPCapabilityRequest.h */,
+				C6516644130D29A2004ADD56 /* LEPIMAPCapabilityRequest.m */,
 			);
 			path = imap;
 			sourceTree = "<group>";
@@ -622,13 +628,14 @@
 				C6A9E3AB12F5CAC6009C12A8 /* LEPNetService.h in Headers */,
 				C6CAA11412F5E7EF00564ECE /* LEPIMAPAccount+Provider.h in Headers */,
 				C687ADC912F61F90001A6164 /* LEPIMAPFolder+Provider.h in Headers */,
+				C6516645130D29A2004ADD56 /* LEPIMAPCapabilityRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* libetpan */ = {
+		8DC2EF4F0486A6940098B216 /* etPanKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "etPanKit" */;
 			buildPhases = (
@@ -674,7 +681,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* libetpan */,
+				8DC2EF4F0486A6940098B216 /* etPanKit */,
 			);
 		};
 /* End PBXProject section */
@@ -774,6 +781,7 @@
 				C6A9E3AC12F5CAC6009C12A8 /* LEPNetService.m in Sources */,
 				C6CAA11512F5E7EF00564ECE /* LEPIMAPAccount+Provider.m in Sources */,
 				C687ADCA12F61F90001A6164 /* LEPIMAPFolder+Provider.m in Sources */,
+				C6516646130D29A2004ADD56 /* LEPIMAPCapabilityRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

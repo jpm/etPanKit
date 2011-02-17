@@ -2240,4 +2240,125 @@ static void items_progress(size_t current, size_t maximum, void * context)
     _lastMailboxPath = [mailbox copy];
 }
 
+struct capability_value {
+    NSString * name;
+    char value;
+};
+
+struct capability_value capability_values[] = {
+    {@"ACL", LEPIMAPCapabilityACL},
+    {@"BINARY", LEPIMAPCapabilityBinary},
+    {@"CATENATE", LEPIMAPCapabilityCatenate},
+    {@"CHILDREN", LEPIMAPCapabilityChildren},
+    {@"COMPRESS=DEFLATE", LEPIMAPCapabilityCompressDeflate},
+    {@"CONDSTORE", LEPIMAPCapabilityCondstore},
+    {@"ENABLE", LEPIMAPCapabilityEnable},
+    {@"IDLE", LEPIMAPCapabilityIdle},
+    {@"LITERAL+", LEPIMAPCapabilityLiteralPlus},
+    {@"MULTIAPPEND", LEPIMAPCapabilityMultiAppend},
+    {@"NAMESPACE", LEPIMAPCapabilityNamespace},
+    {@"QRESYNC", LEPIMAPCapabilityQResync},
+    {@"QUOTA", LEPIMAPCapabilityQuota},
+    {@"SORT", LEPIMAPCapabilitySort},
+    {@"STARTLS", LEPIMAPCapabilityStartTLS},
+    {@"THREAD=ORDEREDSUBJECT", LEPIMAPCapabilityThreadOrderedSubject},
+    {@"THREAD=REFERENCES", LEPIMAPCapabilityThreadReferences},
+    {@"UIDPLUS", LEPIMAPCapabilityUIDPlus},
+    {@"UNSELECT", LEPIMAPCapabilityUnselect},
+    {@"AUTH=ANONYMOUS", LEPIMAPCapabilityAuthAnonymous},
+    {@"AUTH=CRAM-MD5", LEPIMAPCapabilityAuthCRAMMD5},
+    {@"AUTH=DIGEST-MD5", LEPIMAPCapabilityAuthDigestMD5},
+    {@"AUTH=EXTERNAL", LEPIMAPCapabilityAuthExternal},
+    {@"AUTH=GSSAPI", LEPIMAPCapabilityAuthGSSAPI},
+    {@"AUTH=KERBEROS_V4", LEPIMAPCapabilityAuthKerberosV4},
+    {@"AUTH=LOGIN", LEPIMAPCapabilityAuthLogin},
+    {@"AUTH=NTLM", LEPIMAPCapabilityAuthNTLM},
+    {@"AUTH=OTP", LEPIMAPCapabilityAuthOTP},
+    {@"AUTH=PLAIN", LEPIMAPCapabilityAuthPlain},
+    {@"AUTH=SKEY", LEPIMAPCapabilityAuthSKey},
+    {@"AUTH=SRP", LEPIMAPCapabilityAuthSRP}
+};
+
+- (NSIndexSet *) _capabilitiesForSelection:(BOOL)selectFirst
+{
+    int r;
+    struct mailimap_capability_data * capabilities;
+    NSMutableIndexSet * result;
+    NSMutableDictionary * capabilityDict;
+    
+    if (selectFirst) {
+        [self _selectIfNeeded:@"INBOX"];
+        if ([self error] != nil)
+            return nil;
+    }
+    else {
+        [self _connectIfNeeded];
+        if ([self error] != nil)
+            return nil;
+    }
+    
+    r = mailimap_capability(_imap, &capabilities);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorIdle userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+    
+    result = [NSMutableIndexSet indexSet];
+    
+    capabilityDict = [[NSMutableDictionary alloc] init];
+    for(unsigned int i = 0 ; i < sizeof(capability_values) / sizeof(capability_values[0]) ; i ++) {
+        [capabilityDict setObject:[NSNumber numberWithInt:capability_values[i].value] forKey:capability_values[i].name];
+    }
+    
+    for(clistiter * cur = clist_begin(capabilities->cap_list) ; cur != NULL ; cur = cur->next) {
+        struct mailimap_capability * capability;
+        NSString * name;
+        NSNumber * nbValue;
+        
+        capability = clist_content(cur);
+        name = nil;
+        switch (capability->cap_type) {
+            case MAILIMAP_CAPABILITY_AUTH_TYPE:
+                name = [@"AUTH=" stringByAppendingString:[NSString stringWithUTF8String:capability->cap_data.cap_auth_type]];
+                break;
+            case MAILIMAP_CAPABILITY_NAME:
+                name = [NSString stringWithUTF8String:capability->cap_data.cap_name];
+                break;
+        }
+        if (name == nil)
+            continue;
+        
+        nbValue = [capabilityDict objectForKey:[name uppercaseString]];
+        if (nbValue != nil) {
+            [result addIndex:[nbValue intValue]];
+        }
+    }
+    
+    [capabilityDict release];
+    
+    mailimap_capability_data_free(capabilities);
+    
+    return result;
+}
+
 @end
