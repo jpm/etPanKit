@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.h,v 1.21 2010/11/28 17:01:26 hoa Exp $
+ * $Id: mailimap.h,v 1.22 2011/02/19 13:49:42 hoa Exp $
  */
 
 #ifndef MAILIMAP_H
@@ -52,6 +52,8 @@ extern "C" {
 #include <libetpan/annotatemore.h>
 #include <libetpan/uidplus.h>
 #include <libetpan/idle.h>
+#include <libetpan/quota.h>
+#include <libetpan/namespace.h>
 
 /*
   mailimap_connect()

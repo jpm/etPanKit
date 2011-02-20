@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.58 2011/01/06 00:09:52 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.59 2011/02/19 13:49:42 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -600,19 +600,11 @@ mailimap_msg_att_static_parse_progress(mailstream * fd, MMAPString * buffer,
                                        mailprogress_function * items_progr_fun,
                                        void * context);
 
-static int mailimap_nil_parse(mailstream * fd, MMAPString * buffer,
-			      size_t * indx);
-
 static int
 mailimap_quoted_parse(mailstream * fd, MMAPString * buffer,
 		      size_t * indx, char ** result,
 		      size_t progr_rate,
 		      progress_function * progr_fun);
-
-static int
-mailimap_quoted_char_parse(mailstream * fd, MMAPString * buffer,
-			   size_t * indx, char * result);
-
 
 static int
 mailimap_quoted_specials_parse(mailstream * fd, MMAPString * buffer,
@@ -899,7 +891,7 @@ static int mailimap_cbracket_parse(mailstream * fd, MMAPString * buffer,
   return mailimap_unstrict_char_parse(fd, buffer, indx, ']');
 }
 
-static int mailimap_dquote_parse(mailstream * fd, MMAPString * buffer,
+int mailimap_dquote_parse(mailstream * fd, MMAPString * buffer,
 				 size_t * indx)
 {
   return mailimap_char_parse(fd, buffer, indx, '\"');
@@ -7774,8 +7766,8 @@ mailimap_msg_att_static_parse(mailstream * fd, MMAPString * buffer,
    nil             = "NIL"
 */
 
-static int mailimap_nil_parse(mailstream * fd, MMAPString * buffer,
-			      size_t * indx)
+int mailimap_nil_parse(mailstream * fd, MMAPString * buffer,
+                       size_t * indx)
 {
   return mailimap_token_case_insensitive_parse(fd, buffer, indx, "NIL");
 }
@@ -8023,7 +8015,7 @@ mailimap_quoted_parse(mailstream * fd, MMAPString * buffer,
 
 static int is_quoted_specials(char ch);
 
-static int
+int
 mailimap_quoted_char_parse(mailstream * fd, MMAPString * buffer,
 			   size_t * indx, char * result)
 {

@@ -222,12 +222,12 @@ if test "x$with_gnutls" != "xno"; then
   OCPPFLAGS="$CPPFLAGS"
   OLDFLAGS="$LDFLAGS"
   if test "x$with_gnutls" != "xyes" ; then
-    CPPFLAGS="CRPPFLAGS -I$with_gnutls/include"
+    CPPFLAGS="CPPFLAGS -I$with_gnutls/include"
     LDFLAGS="$LDFLAGS -L$with_gnutls/lib"
   fi
   GNUTLSLIB=""
   AC_CHECK_HEADER(gnutls/gnutls.h, [
-   AC_CHECK_LIB(gnutls, gnutls_global_deinit, with_gnutls=yes, [GNUTLSLIB="-lgnutls"])
+   AC_CHECK_LIB(gnutls, gnutls_global_deinit, with_gnutls=yes, [GNUTLSLIB="-lgnutls -lgcrypt -lgpg-error -lz"])
   ])
   if test "x$with_gnutls" != "xyes"; then
    CPPFLAGS="$OCPPFLAGS"
@@ -239,7 +239,7 @@ fi
 if test "x$with_gnutls" = "xyes"; then
   AC_DEFINE([USE_GNUTLS],1, [Define to use GnuTLS])
   AC_DEFINE([USE_SSL], 1, [Define to use OpenSSL])
-  GNUTLSLIB="-lgnutls"
+  GNUTLSLIB="-lgnutls -lgcrypt -lgpg-error -lz"
 else
   GNUTLSLIB=""
 fi
@@ -455,11 +455,11 @@ if test "x$enable_threads" = "xyes"; then
   for flag in "pthreads" "pthread"; do
     if test "x$checkpthread" = "xyes"; then
       AC_MSG_CHECKING([for pthread_create with -$flag])
-      OLDFLAGS="$LDFLAGS"
-      LDFLAGS="-$flag $LDFLAGS"
+      OLDLIBS="$LIBS"
+      LIBS="$LIBS -$flag"
       AC_TRY_LINK([], [pthread_create();], 
                       [pthflag=yes; checkpthread=no], 
-                      [pthflag=no; LDFLAGS="$OLDFLAGS"])
+                      [pthflag=no; LIBS="$OLDLIBS"])
       AC_MSG_RESULT($pthflag)
     fi
   done

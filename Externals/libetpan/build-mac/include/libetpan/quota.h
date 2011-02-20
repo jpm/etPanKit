@@ -33,8 +33,9 @@
 
 #define QUOTA_H
 
+#include <libetpan/libetpan-config.h>
 #include <libetpan/mailimap_extension.h>
-#include "quota_types.h"
+#include <libetpan/quota_types.h>
 
 #ifdef __cplusplus
 extern "C" {

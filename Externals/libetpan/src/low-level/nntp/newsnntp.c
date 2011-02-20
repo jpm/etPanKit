@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: newsnntp.c,v 1.29 2010/04/05 14:21:36 hoa Exp $
+ * $Id: newsnntp.c,v 1.30 2011/02/19 13:49:42 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2374,7 +2374,7 @@ static clist * read_xover_resp_list(newsnntp * f)
 
       r = clist_append(values_list, line);
       if (r < 0)
-	goto free_values_list;
+        goto free_values_list;
       line = p;
     }
 
@@ -2388,7 +2388,10 @@ static clist * read_xover_resp_list(newsnntp * f)
       clist_free(values_list);
       continue;
     }
-    article = atoi((char *) clist_content(current));
+    article = 0;
+    if (clist_content(current) != NULL) {
+      article = atoi((char *) clist_content(current));
+    }
 
     current = clist_next(current);
     if (current == NULL) {
@@ -2430,14 +2433,20 @@ static clist * read_xover_resp_list(newsnntp * f)
       clist_free(values_list);
       continue;
     }
-    size = atoi((char *) clist_content(current));
+    size = 0;
+    if (clist_content(current) != NULL) {
+      size = atoi((char *) clist_content(current));
+    }
 
     current = clist_next(current);
     if (current == NULL) {
       clist_free(values_list);
       continue;
     }
-    line_count = atoi((char *) clist_content(current));
+    line_count = 0;
+    if (clist_content(current) != NULL) {
+      line_count = atoi((char *) clist_content(current));
+    }
 
     current = clist_next(current);
 

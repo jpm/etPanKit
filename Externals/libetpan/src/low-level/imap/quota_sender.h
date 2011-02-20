@@ -29,12 +29,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef ANNOTATEMORE_SENDER_H
+#ifndef QUOTA_SENDER_H
 
-#define ANNOTATEMORE_SENDER_H
+#define QUOTA_SENDER_H
 
 #include "mailimap_sender.h"
-#include "annotatemore_types.h"
 
 #ifdef __cplusplus
 extern "C" {

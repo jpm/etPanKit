@@ -1,3 +1,37 @@
+2010-02-20 - libetpan-1.0cvs21 - hoa
+
+	* src/low-level/imap/namespace_parser.c
+	   workaround Yahoo IMAP server.
+
+2010-02-20 - libetpan-1.0cvs20 - hoa
+
+	* src/low-level/imap/namespace.c
+	* src/low-level/imap/namespace_parser.c
+	   fixed parser.
+	   fixed crash.
+
+2010-02-19 - libetpan-1.0cvs19 - hoa
+
+	* configure.ac
+	* build-mac/libetpan.xcodeproj/project.pbxproj
+	* src/low-level/imap/Makefile.am
+	* src/low-level/imap/acl.h
+	* src/low-level/imap/annotatemore.h
+	* src/low-level/imap/mailimap.h
+	* src/low-level/imap/mailimap_extension.c
+	* src/low-level/imap/mailimap_extension_types.h
+	* src/low-level/imap/mailimap_parser.[ch]
+	* src/low-level/imap/quota.[ch]
+	* src/low-level/imap/quota_sender.h
+	* src/low-level/nntp/newsnntp.c
+	* src/low-level/imap/namespace.[ch]
+	* src/low-level/imap/namespace_parser.[ch]
+	* src/low-level/imap/namespace_sender.[ch]
+	* src/low-level/imap/namespace_types.[ch]
+	   implemented namespace.
+	   fixed build system.
+	   fixed some warnings.
+
 2010-01-06 - libetpan-1.0cvs18 - hoa
 
 	* src/driver/implementation/imap/imapdriver_tools.c
