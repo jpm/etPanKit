@@ -236,10 +236,10 @@
                 }
             }
         }
-    }
-    
-    if (extension->bd_loc != NULL) {
-        [self setContentLocation:[NSString stringWithUTF8String:extension->bd_loc]];
+        
+        if (extension->bd_loc != NULL) {
+            [self setContentLocation:[NSString stringWithUTF8String:extension->bd_loc]];
+        }
     }
 }
 
