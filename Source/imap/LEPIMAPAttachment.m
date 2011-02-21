@@ -179,7 +179,9 @@
 					extension:(struct mailimap_body_ext_1part *)extension
 {
 	[self _setSize:fields->bd_size];
-	[self _setEncoding:fields->bd_encoding->enc_type];
+    if (fields->bd_encoding != NULL) {
+        [self _setEncoding:fields->bd_encoding->enc_type];
+    }
 	
 	if (fields->bd_parameter != NULL) {
 		clistiter * cur;
@@ -213,26 +215,28 @@
 		}
     }
 	
-	if (extension->bd_disposition != NULL) {
-		if (strcasecmp(extension->bd_disposition->dsp_type, "inline") == 0) {
-			[self setInlineAttachment:YES];
-		}
-		
-		if (extension->bd_disposition->dsp_attributes != NULL) {
-			clistiter * cur;
-			
-			for(cur = clist_begin(extension->bd_disposition->dsp_attributes->pa_list) ; cur != NULL ;
-				cur = clist_next(cur)) {
-				struct mailimap_single_body_fld_param * imap_param;
-				
-				imap_param = clist_content(cur);
-				
-				if (strcasecmp(imap_param->pa_name, "filename") == 0) {
-					[self setFilename:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
-				}
-			}
-		}
-	}
+    if (extension != NULL) {
+        if (extension->bd_disposition != NULL) {
+            if (strcasecmp(extension->bd_disposition->dsp_type, "inline") == 0) {
+                [self setInlineAttachment:YES];
+            }
+            
+            if (extension->bd_disposition->dsp_attributes != NULL) {
+                clistiter * cur;
+                
+                for(cur = clist_begin(extension->bd_disposition->dsp_attributes->pa_list) ; cur != NULL ;
+                    cur = clist_next(cur)) {
+                    struct mailimap_single_body_fld_param * imap_param;
+                    
+                    imap_param = clist_content(cur);
+                    
+                    if (strcasecmp(imap_param->pa_name, "filename") == 0) {
+                        [self setFilename:[NSString lepStringByDecodingMIMEHeaderValue:imap_param->pa_value]];
+                    }
+                }
+            }
+        }
+    }
     
     if (extension->bd_loc != NULL) {
         [self setContentLocation:[NSString stringWithUTF8String:extension->bd_loc]];

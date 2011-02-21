@@ -759,6 +759,8 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	}
     
     [self setFromIMFFields:fields];
+    
+    mailimf_fields_free(fields);
 }
 
 - (void) _setFromInternalDate:(struct mailimap_date_time *)date
