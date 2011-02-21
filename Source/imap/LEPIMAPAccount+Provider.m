@@ -10,10 +10,24 @@
 
 #import "LEPIMAPAccount+Gmail.h"
 #import "LEPMailProvider.h"
+#import "LEPIMAPNamespace.h"
 
 #define GMAIL_PROVIDER_IDENTIFIER @"gmail"
 
 @implementation LEPIMAPAccount (Provider)
+
+- (LEPIMAPFolder *) _providerFolderWithPath:(NSString *)path
+{
+    NSString * fullPath;
+    
+    if ([self defaultNamespace] == nil) {
+        fullPath = path;
+    }
+    else {
+        fullPath = [[[self defaultNamespace] mainPrefix] stringByAppendingString:path];
+    }
+    return [self folderWithPath:fullPath];
+}
 
 - (LEPIMAPFolder *) sentMailFolderForProvider:(LEPMailProvider *)provider
 {
@@ -24,7 +38,7 @@
     if ([provider sentMailFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider sentMailFolderPath]];
+	return [self _providerFolderWithPath:[provider sentMailFolderPath]];
 }
 
 - (LEPIMAPFolder *) starredFolderForProvider:(LEPMailProvider *)provider
@@ -36,7 +50,7 @@
     if ([provider starredFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider starredFolderPath]];
+	return [self _providerFolderWithPath:[provider starredFolderPath]];
 }
 
 - (LEPIMAPFolder *) allMailFolderForProvider:(LEPMailProvider *)provider;
@@ -48,7 +62,7 @@
     if ([provider allMailFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider allMailFolderPath]];
+	return [self _providerFolderWithPath:[provider allMailFolderPath]];
 }
 
 - (LEPIMAPFolder *) trashFolderForProvider:(LEPMailProvider *)provider;
@@ -60,7 +74,7 @@
     if ([provider trashFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider trashFolderPath]];
+	return [self _providerFolderWithPath:[provider trashFolderPath]];
 }
 
 - (LEPIMAPFolder *) draftsFolderForProvider:(LEPMailProvider *)provider;
@@ -72,7 +86,7 @@
     if ([provider draftsFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider draftsFolderPath]];
+	return [self _providerFolderWithPath:[provider draftsFolderPath]];
 }
 
 - (LEPIMAPFolder *) spamFolderForProvider:(LEPMailProvider *)provider;
@@ -84,7 +98,7 @@
     if ([provider spamFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider spamFolderPath]];
+	return [self _providerFolderWithPath:[provider spamFolderPath]];
 }
 
 - (LEPIMAPFolder *) importantFolderForProvider:(LEPMailProvider *)provider;
@@ -96,7 +110,7 @@
     if ([provider importantFolderPath] == nil)
         return nil;
     
-	return [self folderWithPath:[provider importantFolderPath]];
+	return [self _providerFolderWithPath:[provider importantFolderPath]];
 }
 
 @end

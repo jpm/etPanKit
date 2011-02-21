@@ -20,6 +20,8 @@
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
 #import "LEPIMAPCapabilityRequest.h"
+#import "LEPIMAPNamespaceRequest.h"
+#import "LEPIMAPNamespacePrivate.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAccount ()
@@ -128,6 +130,17 @@
 	LEPIMAPCapabilityRequest * request;
 	
 	request = [[LEPIMAPCapabilityRequest alloc] init];
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPNamespaceRequest *) namespaceRequest
+{
+	LEPIMAPNamespaceRequest * request;
+	
+	request = [[LEPIMAPNamespaceRequest alloc] init];
+    [request setAccount:self];
     [self _setupRequest:request];
     
     return [request autorelease];
@@ -409,6 +422,38 @@
     }
     
     [self _setupRequest:request];
+}
+
+- (void) _setDefaultDelimiter:(char)delimiter
+{
+    _defaultDelimiter = delimiter;
+}
+
+- (LEPIMAPNamespace *) defaultNamespace
+{
+    if (_defaultNamespace != nil)
+        return _defaultNamespace;
+    
+    if (_defaultDelimiter == 0)
+        return nil;
+    
+    return [LEPIMAPNamespace _defaultNamespaceWithDelimiter:_defaultDelimiter];
+}
+
+- (void) _setDefaultNamespace:(LEPIMAPNamespace *)ns
+{
+    [_defaultNamespace release];
+    _defaultNamespace = [ns retain];
+}
+
+- (void) setupNamespaceWithPrefix:(NSString *)prefix delimiter:(char)delimiter;
+{
+    if (prefix == nil) {
+        [self _setDefaultDelimiter:delimiter];
+        return;
+    }
+    
+    [self _setDefaultNamespace:[LEPIMAPNamespace namespaceWithPrefix:prefix delimiter:delimiter]];
 }
 
 @end

@@ -30,4 +30,5 @@ enum {
 	LEPErrorStorageLimit,
     LEPErrorIdle,
 	LEPErrorCertificate,
+    LEPErrorNamespace,
 };

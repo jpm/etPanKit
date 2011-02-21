@@ -69,6 +69,16 @@
 	
 	[self mainRequest];
 	
+    if ([_session welcomeString] != nil) {
+        [self setWelcomeString:[_session welcomeString]];
+    }
+    if ([_session error] != nil) {
+        [self setError:[_session error]];
+    }
+	if ([_session resultUidSet] != nil) {
+		[self setResultUidSet:[_session resultUidSet]];
+	}
+    
 	[self performSelectorOnMainThread:@selector(_finished) withObject:nil waitUntilDone:NO];
 }
 
@@ -90,15 +100,6 @@
 		return;
 	}
 	
-    if ([_session welcomeString] != nil) {
-        [self setWelcomeString:[_session welcomeString]];
-    }
-    if ([_session error] != nil) {
-        [self setError:[_session error]];
-    }
-	if ([_session resultUidSet] != nil) {
-		[self setResultUidSet:[_session resultUidSet]];
-	}
 	[self mainFinished];
 	[[self delegate] LEPIMAPRequest_finished:self];
     

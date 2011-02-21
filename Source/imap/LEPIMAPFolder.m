@@ -71,7 +71,16 @@
 
 - (NSArray *) pathComponents
 {
-    return [[self path] componentsSeparatedByString:[NSString stringWithFormat:@"%c", _delimiter]];
+    NSArray * values;
+    NSMutableArray * result;
+    
+    values = [[self path] componentsSeparatedByString:[NSString stringWithFormat:@"%c", _delimiter]];
+    result = [NSMutableArray array];
+    for(NSString * value in values) {
+        [result addObject:[value lepDecodeFromModifiedUTF7]];
+    }
+    
+    return result;
 }
 
 - (void) _setupRequest:(LEPIMAPRequest *)request
@@ -472,6 +481,11 @@
 + (NSString *) decodePathName:(NSString *)path
 {
 	return [path lepDecodeFromModifiedUTF7];
+}
+
+- (char) _delimiter
+{
+    return _delimiter;
 }
 
 @end

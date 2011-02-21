@@ -64,6 +64,7 @@
 - (void) _idleDone;
 
 - (NSIndexSet *) _capabilitiesForSelection:(BOOL)selectFirst;
+- (NSDictionary *) _namespace;
 
 - (BOOL) _matchLastMailbox:(NSString *)mailbox;
 - (void) _setLastMailbox:(NSString *)mailbox;

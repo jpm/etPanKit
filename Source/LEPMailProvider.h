@@ -39,6 +39,6 @@
 - (NSString *) spamFolderPath;
 - (NSString *) importantFolderPath;
 
-- (BOOL) isMainFolder:(NSString *)folderPath;
+- (BOOL) isMainFolder:(NSString *)folderPath prefix:(NSString *)prefix;
 
 @end

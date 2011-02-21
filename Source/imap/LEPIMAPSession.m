@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #import "LEPIMAPIdleRequest.h"
+#import "LEPIMAPNamespacePrivate.h"
 
 #define MAX_IDLE_DELAY (28 * 60)
 
@@ -2357,6 +2358,71 @@ struct capability_value capability_values[] = {
     [capabilityDict release];
     
     mailimap_capability_data_free(capabilities);
+    
+    return result;
+}
+
+- (NSDictionary *) _namespace
+{
+    NSMutableDictionary * result;
+    struct mailimap_namespace_data * namespace_data;
+    int r;
+    
+	[self _loginIfNeeded];
+	if ([self error] != nil)
+        return nil;
+    
+    result = [NSMutableDictionary dictionary];
+    r = mailimap_namespace(_imap, &namespace_data);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorNamespace userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+    
+    LEPIMAPNamespace * namespace;
+    
+    if (namespace_data->ns_personal != NULL) {
+        namespace = [[LEPIMAPNamespace alloc] init];
+        [namespace _setFromNamespace:namespace_data->ns_personal];
+        [result setObject:namespace forKey:LEPIMAPNamespacePersonal];
+        [namespace release];
+    }
+    
+    if (namespace_data->ns_other != NULL) {
+        namespace = [[LEPIMAPNamespace alloc] init];
+        [namespace _setFromNamespace:namespace_data->ns_other];
+        [result setObject:namespace forKey:LEPIMAPNamespaceOther];
+        [namespace release];
+    }
+    
+    if (namespace_data->ns_shared != NULL) {
+        namespace = [[LEPIMAPNamespace alloc] init];
+        [namespace _setFromNamespace:namespace_data->ns_shared];
+        [result setObject:namespace forKey:LEPIMAPNamespaceShared];
+        [namespace release];
+    }
+    
+    mailimap_namespace_data_free(namespace_data);
     
     return result;
 }

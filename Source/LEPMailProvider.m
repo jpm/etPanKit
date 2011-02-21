@@ -172,9 +172,23 @@
     return [_mailboxPaths objectForKey:@"important"];
 }
 
-- (BOOL) isMainFolder:(NSString *)folderPath
+- (BOOL) isMainFolder:(NSString *)folderPath prefix:(NSString *)prefix
 {
-    return [[_mailboxPaths allValues] containsObject:folderPath];
+    for(NSString * path in [_mailboxPaths allValues]) {
+        NSString * fullPath;
+        
+        if (prefix != nil) {
+            fullPath = [prefix stringByAppendingString:path];
+        }
+        else {
+            fullPath = path;
+        }
+        
+        if ([fullPath isEqualToString:folderPath])
+            return YES;
+    }
+    
+    return NO;
 }
 
 @end

@@ -9,6 +9,8 @@
 #import "LEPIMAPFolder+Provider.h"
 #import "LEPIMAPFolder+Gmail.h"
 
+#import "LEPIMAPAccount.h"
+#import "LEPIMAPNamespace.h"
 #import "LEPMailProvider.h"
 
 @implementation LEPIMAPFolder (Provider)
@@ -19,7 +21,7 @@
         return [self isGmailFolder];
     }
     else {
-        return [provider isMainFolder:[self path]];
+        return [provider isMainFolder:[self path] prefix:[[_account defaultNamespace] mainPrefix]];
     }
 }
 

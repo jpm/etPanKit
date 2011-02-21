@@ -95,3 +95,7 @@ typedef enum {
     LEPIMAPCapabilityAuthSKey,
     LEPIMAPCapabilityAuthSRP,
 } LEPIMAPCapability;
+
+#define LEPIMAPNamespacePersonal @"LEPIMAPNamespacePersonal"
+#define LEPIMAPNamespaceOther @"LEPIMAPNamespaceOther"
+#define LEPIMAPNamespaceShared @"LEPIMAPNamespaceShared"

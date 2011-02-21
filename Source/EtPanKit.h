@@ -38,6 +38,8 @@
 #import <EtPanKit/LEPIMAPFetchAttachmentRequest.h>
 #import <EtPanKit/LEPIMAPIdleRequest.h>
 #import <EtPanKit/LEPIMAPCapabilityRequest.h>
+#import <EtPanKit/LEPIMAPNamespaceRequest.h>
+#import <EtPanKit/LEPIMAPNamespace.h>
 
 #import <EtPanKit/NSData+LEPUTF8.h>
 #import <EtPanKit/NSString+LEP.h>

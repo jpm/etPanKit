@@ -6,6 +6,8 @@
 @class LEPIMAPFetchFoldersRequest;
 @class LEPIMAPFolder;
 @class LEPIMAPCapabilityRequest;
+@class LEPIMAPNamespaceRequest;
+@class LEPIMAPNamespace;
 
 @interface LEPIMAPAccount : NSObject {
     NSString * _host;
@@ -20,6 +22,8 @@
     NSDictionary * _gmailMailboxNames;
     unsigned int _sessionsCount;
     BOOL _checkCertificate;
+    char _defaultDelimiter;
+    LEPIMAPNamespace * _defaultNamespace;
 }
 
 @property (nonatomic, copy) NSString * host;
@@ -48,9 +52,13 @@
 - (LEPIMAPFolder *) folderWithPath:(NSString *)path;
 
 - (LEPIMAPCapabilityRequest *) capabilityRequest;
-
-- (void) setupWithFoldersPaths:(NSArray *)paths;
+- (LEPIMAPNamespaceRequest *) namespaceRequest;
 
 - (void) cancel;
+
+- (LEPIMAPNamespace *) defaultNamespace;
+
+- (void) setupWithFoldersPaths:(NSArray *)paths;
+- (void) setupNamespaceWithPrefix:(NSString *)prefix delimiter:(char)delimiter;
 
 @end

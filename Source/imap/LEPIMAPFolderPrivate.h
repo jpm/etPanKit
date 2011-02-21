@@ -9,6 +9,8 @@
 
 @interface LEPIMAPFolder (LEPIMAPFolderPrivate)
 
+- (char) _delimiter;
+
 - (void) _setupRequest:(LEPIMAPRequest *)request;
 
 - (void) _setDelimiter:(char)delimiter;

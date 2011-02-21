@@ -462,15 +462,15 @@
 		<key>mailboxes</key>
 		<dict>
 			<key>drafts</key>
-			<string>INBOX.Drafts</string>
+			<string>Drafts</string>
 			<key>sentmail</key>
-			<string>INBOX.Sent Items</string>
+			<string>Sent Items</string>
 			<key>spam</key>
-			<string>INBOX.Junk Mail</string>
+			<string>Junk Mail</string>
 			<key>trash</key>
-			<string>INBOX.Trash</string>
+			<string>Trash</string>
 			<key>allmail</key>
-			<string>INBOX.Archive</string>
+			<string>Archive</string>
 		</dict>
 	</dict>
 	<key>zimbra</key>
@@ -834,6 +834,225 @@
 			<string>Junk</string>
 			<key>trash</key>
 			<string>Trash</string>
+			<key>allmail</key>
+			<string>Archive</string>
+		</dict>
+	</dict>
+	<key>rackspace</key>
+	<dict>
+		<key>mx-disabled</key>
+		<array>
+			<string>mx1.emailsrvr.com</string>
+			<string>mx2.emailsrvr.com</string>
+		</array>
+		<key>servers</key>
+		<dict>
+			<key>imap</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>993</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>143</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>143</integer>
+				</dict>
+			</array>
+			<key>smtp</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>465</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>587</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>25</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>587</integer>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>secure.emailsrvr.com</string>
+					<key>port</key>
+					<integer>25</integer>
+				</dict>
+			</array>
+		</dict>
+		<key>mailboxes</key>
+		<dict>
+			<key>drafts</key>
+			<string>Drafts</string>
+			<key>sentmail</key>
+			<string>Sent Messages</string>
+			<key>spam</key>
+			<string>Junk</string>
+			<key>trash</key>
+			<string>Deleted Messages</string>
+			<key>allmail</key>
+			<string>Archive</string>
+		</dict>
+	</dict>
+	<key>ovh</key>
+	<dict>
+		<key>mx-disabled</key>
+		<array>
+			<string>mx0.ovh.net</string>
+			<string>mx1.ovh.net</string>
+			<string>mx2.ovh.net</string>
+			<string>mx3.ovh.net</string>
+			<string>mx4.ovh.net</string>
+		</array>
+		<key>servers</key>
+		<dict>
+			<key>imap</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>ssl0.ovh.net</string>
+					<key>port</key>
+					<integer>993</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>143</integer>
+				</dict>
+			</array>
+			<key>smtp</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>ssl0.ovh.net</string>
+					<key>port</key>
+					<integer>465</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>587</integer>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>25</integer>
+				</dict>
+			</array>
+		</dict>
+		<key>mailboxes</key>
+		<dict>
+			<key>drafts</key>
+			<string>Drafts</string>
+			<key>sentmail</key>
+			<string>Sent Messages</string>
+			<key>spam</key>
+			<string>Junk</string>
+			<key>trash</key>
+			<string>Deleted Messages</string>
+			<key>allmail</key>
+			<string>Archive</string>
+		</dict>
+	</dict>
+	<key>dreamhost</key>
+	<dict>
+		<key>mx-disabled</key>
+		<array>
+			<string>mx1.sub4.homie.mail.dreamhost.com</string>
+			<string>mx2.sub4.homie.mail.dreamhost.com</string>
+		</array>
+		<key>servers</key>
+		<dict>
+			<key>imap</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>ssl0.ovh.net</string>
+					<key>port</key>
+					<integer>993</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>143</integer>
+				</dict>
+			</array>
+			<key>smtp</key>
+			<array>
+				<dict>
+					<key>hostname</key>
+					<string>ssl0.ovh.net</string>
+					<key>port</key>
+					<integer>465</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>587</integer>
+				</dict>
+				<dict>
+					<key>hostname</key>
+					<string>ns0.ovh.net</string>
+					<key>port</key>
+					<integer>25</integer>
+				</dict>
+			</array>
+		</dict>
+		<key>mailboxes</key>
+		<dict>
+			<key>drafts</key>
+			<string>Drafts</string>
+			<key>sentmail</key>
+			<string>Sent Messages</string>
+			<key>spam</key>
+			<string>Junk</string>
+			<key>trash</key>
+			<string>Deleted Messages</string>
 			<key>allmail</key>
 			<string>Archive</string>
 		</dict>

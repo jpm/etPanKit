@@ -13,6 +13,7 @@
 #import "LEPIMAPSession.h"
 #import "LEPIMAPSessionPrivate.h"
 #import "LEPIMAPFolder.h"
+#import "LEPIMAPFolderPrivate.h"
 #import "LEPUtils.h"
 
 @implementation LEPIMAPFetchAllFoldersRequest
@@ -29,6 +30,9 @@
     paths = [[NSMutableArray alloc] init];
     for(LEPIMAPFolder * folder in _folders) {
         [paths addObject:[folder path]];
+        if ([[folder path] isEqualToString:@"INBOX"]) {
+            [_account _setDefaultDelimiter:[folder _delimiter]];
+        }
     }
     [_account setupWithFoldersPaths:paths];
     [paths release];

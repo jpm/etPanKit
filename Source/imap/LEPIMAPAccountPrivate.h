@@ -25,4 +25,7 @@
 - (BOOL) _isMobileMeFolder:(LEPIMAPFolder *)folder;
 - (BOOL) _isAOLFolder:(LEPIMAPFolder *)folder;
 
+- (void) _setDefaultDelimiter:(char)delimiter;
+- (void) _setDefaultNamespace:(LEPIMAPNamespace *)ns;
+
 @end
