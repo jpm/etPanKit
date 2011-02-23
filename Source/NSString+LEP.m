@@ -113,7 +113,7 @@ static char * utf7_to_utf8(const char *u7, size_t u7len, char ** u8, size_t * u8
 	return buf;
 	
 bail:
-	free(&buf);
+	free(buf);
 	return NULL;
 }
 
@@ -219,7 +219,7 @@ static char *utf8_to_utf7(const char * u8, size_t u8len, char ** u7, size_t * u7
 	return buf;
 	
 bail:
-	free(&buf);
+	free(buf);
 	return NULL;
 }
 
