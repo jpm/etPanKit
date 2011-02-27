@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.36 2010/11/28 17:01:26 hoa Exp $
+ * $Id: mailsmtp.c,v 1.37 2011/02/27 00:25:58 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -638,6 +638,8 @@ int auth_map_errors(int err)
     return MAILSMTP_ERROR_AUTH_TEMPORARY_FAILTURE;
   case 501:
     return MAILSMTP_ERROR_AUTH_LOGIN;
+  case 503:
+    return MAILSMTP_ERROR_BAD_SEQUENCE_OF_COMMAND;
   case 504:
     return MAILSMTP_ERROR_AUTH_NOT_SUPPORTED;
   case 530:

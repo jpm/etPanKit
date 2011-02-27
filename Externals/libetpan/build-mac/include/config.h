@@ -119,7 +119,7 @@
 #define LIBETPAN_REENTRANT 1
 
 /* Define this to the version of libEtPan */
-#define LIBETPAN_VERSION "1.0-dev-20110220"
+#define LIBETPAN_VERSION "1.0-dev-20110227"
 
 /* Define this to the major version of libEtPan */
 #define LIBETPAN_VERSION_MAJOR 1

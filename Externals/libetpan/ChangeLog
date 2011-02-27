@@ -1,3 +1,13 @@
+2010-02-27 - libetpan-1.0cvs23 - hoa
+
+	* src/low-level/smtp/mailsmtp.c
+	   fixed error check for SMTP.
+	
+2010-02-20 - libetpan-1.0cvs22 - hoa
+
+	* src/low-level/imap/namespace_parser.c
+	   fixed build.
+
 2010-02-20 - libetpan-1.0cvs21 - hoa
 
 	* src/low-level/imap/namespace_parser.c
