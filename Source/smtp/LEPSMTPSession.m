@@ -319,14 +319,6 @@ static void progress(size_t current, size_t maximum, void * context)
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
 									[[self password] UTF8String], NULL);
-			if (r != MAILIMAP_NO_ERROR) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 			
 		case LEPAuthTypeSASLLogin:
