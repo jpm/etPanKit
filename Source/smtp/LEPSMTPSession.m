@@ -273,6 +273,33 @@ static void progress(size_t current, size_t maximum, void * context)
 		return;
 	}
 	
+    if (([self authType] & LEPAuthTypeMechanismMask) == 0) {
+        if (_smtp->auth & MAILSMTP_AUTH_CRAM_MD5) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLCRAMMD5];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_DIGEST_MD5) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLDIGESTMD5];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_PLAIN) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLPlain];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_LOGIN) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLLogin];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_GSSAPI) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLGSSAPI];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_SRP) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLSRP];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_NTLM) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLNTLM];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_KERBEROS_V4) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLKerberosV4];
+        }
+    }
+    
 	switch ([self authType] & LEPAuthTypeMechanismMask) {
         case 0:
 		default:
