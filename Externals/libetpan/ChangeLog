@@ -1,3 +1,15 @@
+2010-02-28 - libetpan-1.0cvs25 - hoa
+
+	* src/low-level/smtp/mailsmtp.c
+	* src/low-level/smtp/mailsmtp_types.h
+	   implements SMTP authentication availability.
+
+2010-02-27 - libetpan-1.0cvs24 - hoa
+
+	* src/data-types/connect.c
+	* src/data-types/mailstream_ssl.c
+	   fixed build for win32.
+
 2010-02-27 - libetpan-1.0cvs23 - hoa
 
 	* src/low-level/smtp/mailsmtp.c

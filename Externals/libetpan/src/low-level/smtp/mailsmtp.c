@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.37 2011/02/27 00:25:58 hoa Exp $
+ * $Id: mailsmtp.c,v 1.38 2011/02/28 22:40:02 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H

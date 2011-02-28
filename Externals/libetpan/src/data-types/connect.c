@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: connect.c,v 1.28 2010/09/03 22:05:13 hoa Exp $
+ * $Id: connect.c,v 1.29 2011/02/27 01:11:50 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -286,8 +286,10 @@ int mail_tcp_connect_with_local_address(const char * server, uint16_t port,
   return s;
   
  close_socket:
+#ifdef HAVE_IPV6
   if (res != NULL)
     freeaddrinfo(res);
+#endif
 #ifdef WIN32
   closesocket(s);
 #else

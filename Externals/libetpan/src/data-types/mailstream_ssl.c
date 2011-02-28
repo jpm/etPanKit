@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_ssl.c,v 1.73 2010/11/16 20:46:35 hoa Exp $
+ * $Id: mailstream_ssl.c,v 1.74 2011/02/27 01:11:50 hoa Exp $
  */
 
 /*
@@ -527,7 +527,7 @@ static void  ssl_data_close(struct mailstream_ssl_data * ssl_data)
   SSL_CTX_free(ssl_data->ssl_ctx);
   ssl_data->ssl_ctx  = NULL;
 #ifdef WIN32
-  closesocket(socket_data->fd);
+  closesocket(ssl_data->fd);
 #else
   close(ssl_data->fd);
 #endif
