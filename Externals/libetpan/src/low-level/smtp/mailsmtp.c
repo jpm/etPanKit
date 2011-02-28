@@ -426,6 +426,18 @@ int mailesmtp_parse_ehlo(mailsmtp * session)
 	} else if (strncasecmp(response, "DIGEST-MD5", 10) == 0) {
 	  session->auth |= MAILSMTP_AUTH_DIGEST_MD5;
 	  response += 10;
+	} else if (strncasecmp(response, "GSSAPI", 6) == 0) {
+    session->auth |= MAILSMTP_AUTH_GSSAPI;
+    response += 6;
+	} else if (strncasecmp(response, "SRP", 3) == 0) {
+    session->auth |= MAILSMTP_AUTH_SRP;
+    response += 3;
+	} else if (strncasecmp(response, "NTLM", 4) == 0) {
+    session->auth |= MAILSMTP_AUTH_NTLM;
+    response += 4;
+	} else if (strncasecmp(response, "KERBEROS_V4", 11) == 0) {
+    session->auth |= MAILSMTP_AUTH_KERBEROS_V4;
+    response += 11;
 	} else {
 	  /* unknown auth method - jump to next word or eol */
 	  while (!isdelim(response[0]) || response[0] == '\r')
