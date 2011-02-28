@@ -1038,7 +1038,7 @@
 			<array>
 				<dict>
 					<key>hostname</key>
-					<string>ssl0.ovh.net</string>
+					<string>mail.{domain}</string>
 					<key>port</key>
 					<integer>993</integer>
 					<key>ssl</key>
@@ -1046,7 +1046,7 @@
 				</dict>
 				<dict>
 					<key>hostname</key>
-					<string>ns0.ovh.net</string>
+					<string>mail.{domain}</string>
 					<key>port</key>
 					<integer>143</integer>
 				</dict>
@@ -1055,7 +1055,7 @@
 			<array>
 				<dict>
 					<key>hostname</key>
-					<string>ssl0.ovh.net</string>
+					<string>mail.{domain}</string>
 					<key>port</key>
 					<integer>465</integer>
 					<key>ssl</key>
@@ -1063,13 +1063,13 @@
 				</dict>
 				<dict>
 					<key>hostname</key>
-					<string>ns0.ovh.net</string>
+					<string>mail.{domain}</string>
 					<key>port</key>
 					<integer>587</integer>
 				</dict>
 				<dict>
 					<key>hostname</key>
-					<string>ns0.ovh.net</string>
+					<string>mail.{domain}</string>
 					<key>port</key>
 					<integer>25</integer>
 				</dict>
