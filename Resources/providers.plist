@@ -546,6 +546,61 @@
 					<key>starttls</key>
 					<true/>
 				</dict>
+			</array>
+			<key>smtp</key>
+			<array>
+				<dict>
+					<key>port</key>
+					<integer>465</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>port</key>
+					<integer>587</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>port</key>
+					<integer>25</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
+			</array>
+		</dict>
+		<key>mailboxes</key>
+		<dict>
+			<key>drafts</key>
+			<string>Drafts</string>
+			<key>sentmail</key>
+			<string>Sent Messages</string>
+			<key>spam</key>
+			<string>Junk</string>
+			<key>trash</key>
+			<string>Deleted Messages</string>
+			<key>allmail</key>
+			<string>Archive</string>
+		</dict>
+	</dict>
+	<key>insecure-default</key>
+	<dict>
+		<key>servers</key>
+		<dict>
+			<key>imap</key>
+			<array>
+				<dict>
+					<key>port</key>
+					<integer>993</integer>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>port</key>
+					<integer>143</integer>
+					<key>starttls</key>
+					<true/>
+				</dict>
 				<dict>
 					<key>port</key>
 					<integer>143</integer>
@@ -555,14 +610,14 @@
 			<array>
 				<dict>
 					<key>port</key>
-					<integer>587</integer>
-					<key>starttls</key>
+					<integer>465</integer>
+					<key>ssl</key>
 					<true/>
 				</dict>
 				<dict>
 					<key>port</key>
-					<integer>465</integer>
-					<key>ssl</key>
+					<integer>587</integer>
+					<key>starttls</key>
 					<true/>
 				</dict>
 				<dict>
@@ -596,6 +651,47 @@
 		</dict>
 	</dict>
 	<key>fixed-port</key>
+	<dict>
+		<key>servers</key>
+		<dict>
+			<key>imap</key>
+			<array>
+				<dict>
+					<key>ssl</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>starttls</key>
+					<true/>
+				</dict>
+			</array>
+			<key>smtp</key>
+			<array>
+				<dict>
+					<key>starttls</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>ssl</key>
+					<true/>
+				</dict>
+			</array>
+		</dict>
+		<key>mailboxes</key>
+		<dict>
+			<key>drafts</key>
+			<string>Drafts</string>
+			<key>sentmail</key>
+			<string>Sent Messages</string>
+			<key>spam</key>
+			<string>Junk</string>
+			<key>trash</key>
+			<string>Deleted Messages</string>
+			<key>allmail</key>
+			<string>Archive</string>
+		</dict>
+	</dict>
+	<key>insecure-fixed-port</key>
 	<dict>
 		<key>servers</key>
 		<dict>
@@ -840,7 +936,7 @@
 	</dict>
 	<key>rackspace</key>
 	<dict>
-		<key>mx-disabled</key>
+		<key>mx</key>
 		<array>
 			<string>mx1.emailsrvr.com</string>
 			<string>mx2.emailsrvr.com</string>
@@ -928,7 +1024,7 @@
 	</dict>
 	<key>ovh</key>
 	<dict>
-		<key>mx-disabled</key>
+		<key>mx</key>
 		<array>
 			<string>mx0.ovh.net</string>
 			<string>mx1.ovh.net</string>
@@ -995,7 +1091,7 @@
 	</dict>
 	<key>dreamhost</key>
 	<dict>
-		<key>mx-disabled</key>
+		<key>mx</key>
 		<array>
 			<string>mx1.sub4.homie.mail.dreamhost.com</string>
 			<string>mx2.sub4.homie.mail.dreamhost.com</string>
