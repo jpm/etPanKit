@@ -254,6 +254,10 @@ static NSArray * lep_address_list_from_lep_addr(struct mailimf_address_list * ad
 	
 	result = [NSMutableArray array];
 	
+    if (addr_list->ad_list == nil) {
+        return result;
+    }
+    
 	for(cur = clist_begin(addr_list->ad_list) ; cur != NULL ;
 		cur = clist_next(cur)) {
 		struct mailimf_address * addr;
