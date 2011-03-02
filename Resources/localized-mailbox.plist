@@ -40,7 +40,7 @@
 		<key>drafts</key>
 		<string>[Google Mail]/Esborranys</string>
 		<key>sentmail</key>
-		<string>[Google Mail]/Missatges enviats</string>
+		<string>[Google Mail]/Enviats</string>
 		<key>spam</key>
 		<string>[Google Mail]/Correu brossa</string>
 		<key>starred</key>
