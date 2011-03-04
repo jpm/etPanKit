@@ -591,12 +591,6 @@
 			<array>
 				<dict>
 					<key>port</key>
-					<integer>993</integer>
-					<key>ssl</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>port</key>
 					<integer>143</integer>
 					<key>starttls</key>
 					<true/>
@@ -608,12 +602,6 @@
 			</array>
 			<key>smtp</key>
 			<array>
-				<dict>
-					<key>port</key>
-					<integer>465</integer>
-					<key>ssl</key>
-					<true/>
-				</dict>
 				<dict>
 					<key>port</key>
 					<integer>587</integer>

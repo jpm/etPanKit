@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.59 2011/02/19 13:49:42 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.60 2011/03/04 01:05:50 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2573,7 +2573,21 @@ mailimap_body_fld_known_enc_parse(mailstream * fd, MMAPString * buffer,
   cur_token = * indx;
 
   r = mailimap_dquote_parse(fd, buffer, &cur_token);
-  if (r != MAILIMAP_NO_ERROR) {
+  if (r == MAILIMAP_ERROR_PARSE) {
+    /* workaround for exchange */
+    type = mailimap_encoding_get_token_value(fd, buffer, &cur_token);
+    
+    if (type == -1) {
+      res = MAILIMAP_ERROR_PARSE;
+      goto err;
+    }
+    
+    * result = type;
+    * indx = cur_token;
+    
+    return MAILIMAP_NO_ERROR;
+  }
+  else if (r != MAILIMAP_NO_ERROR) {
     res = r;
     goto err;
   }
@@ -2626,6 +2640,12 @@ mailimap_body_fld_enc_parse(mailstream * fd, MMAPString * buffer,
 
     r = mailimap_nstring_parse(fd, buffer, &cur_token, &value, NULL,
 			      progr_rate, progr_fun);
+    if (r == MAILIMAP_ERROR_PARSE) {
+      /* workaround for exchange */
+      r = mailimap_astring_parse(fd, buffer, &cur_token, &value,
+                                 progr_rate, progr_fun);
+    }
+    
     if (r != MAILIMAP_NO_ERROR) {
       res = r;
       goto err;
