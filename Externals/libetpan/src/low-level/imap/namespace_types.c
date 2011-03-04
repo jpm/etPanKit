@@ -60,6 +60,7 @@ void mailimap_namespace_response_extension_free(struct mailimap_namespace_respon
     value = clist_content(cur);
     mailimap_string_free(value);
   }
+  clist_free(ext->ns_values);
   mailimap_string_free(ext->ns_name);
   free(ext);
 }
@@ -91,6 +92,7 @@ void mailimap_namespace_info_free(struct mailimap_namespace_info * info)
       ext = clist_content(cur);
       mailimap_namespace_response_extension_free(ext);
     }
+    clist_free(info->ns_extensions);
   }
   mailimap_string_free(info->ns_prefix);
   free(info);
@@ -119,6 +121,7 @@ void mailimap_namespace_item_free(struct mailimap_namespace_item * item)
     info = clist_content(cur);
     mailimap_namespace_info_free(info);
   }
+  clist_free(item->ns_data_list);
   free(item);
 }
 
