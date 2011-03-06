@@ -22,6 +22,8 @@
 #import "LEPIMAPCapabilityRequest.h"
 #import "LEPIMAPNamespaceRequest.h"
 #import "LEPIMAPNamespacePrivate.h"
+#import "LEPIMAPRenameFolderRequest.h"
+#import "LEPIMAPDeleteFolderRequest.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAccount ()
@@ -454,6 +456,31 @@
     }
     
     [self _setDefaultNamespace:[LEPIMAPNamespace namespaceWithPrefix:prefix delimiter:delimiter]];
+}
+
+- (LEPIMAPRequest *) renameRequestPath:(NSString *)path toNewPath:(NSString *)newPath
+{
+	LEPIMAPRenameFolderRequest * request;
+	
+	request = [[LEPIMAPRenameFolderRequest alloc] init];
+    [request setOldPath:path];
+    [request setNewPath:newPath];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPRequest *) deleteRequestPath:(NSString *)path
+{
+	LEPIMAPDeleteFolderRequest * request;
+	
+	request = [[LEPIMAPDeleteFolderRequest alloc] init];
+    [request setPath:path];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
 }
 
 @end

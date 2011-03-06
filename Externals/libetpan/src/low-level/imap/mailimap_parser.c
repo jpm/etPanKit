@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.60 2011/03/04 01:05:50 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.61 2011/03/06 18:55:48 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2900,7 +2900,19 @@ static int mailimap_body_fld_octets_parse(mailstream * fd,
 					  MMAPString * buffer, size_t * indx,
 					  uint32_t * result)
 {
-  return mailimap_number_parse(fd, buffer, indx, result);
+  int r;
+  
+  r = mailimap_number_parse(fd, buffer, indx, result);
+  if (r == MAILIMAP_NO_ERROR)
+    return r;
+  
+  // workaround for Microsoft Exchange: it can provides -1 as octets
+  r = mailimap_token_case_insensitive_parse(fd, buffer, indx, "-1");
+  if (r == MAILIMAP_NO_ERROR) {
+    * result = 0;
+  }
+  
+  return MAILIMAP_NO_ERROR;
 }
 
 /*

@@ -1,3 +1,8 @@
+2010-03-06 - libetpan-1.0cvs28 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   implemented workaround for exchange IMAP server (for multipart/signed).
+
 2010-03-04 - libetpan-1.0cvs27 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

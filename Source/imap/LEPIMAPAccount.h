@@ -51,6 +51,9 @@
 - (LEPIMAPFolder *) inboxFolder;
 - (LEPIMAPFolder *) folderWithPath:(NSString *)path;
 
+- (LEPIMAPRequest *) renameRequestPath:(NSString *)path toNewPath:(NSString *)newPath;
+- (LEPIMAPRequest *) deleteRequestPath:(NSString *)path;
+
 - (LEPIMAPCapabilityRequest *) capabilityRequest;
 - (LEPIMAPNamespaceRequest *) namespaceRequest;
 
