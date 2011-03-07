@@ -52,7 +52,9 @@
     _domainMatch = [[info objectForKey:@"domain-match"] retain];
     _mailboxPaths = [[info objectForKey:@"mailboxes"] retain];
     mxs = [info objectForKey:@"mx"];
-    [_mxSet addObjectsFromArray:mxs];
+    for(NSString * mx in mxs) {
+        [_mxSet addObject:[mx lowercaseString]];
+    }
     
     serverInfo = [info objectForKey:@"servers"];
     imapInfos = [serverInfo objectForKey:@"imap"];
@@ -134,7 +136,7 @@
 
 - (BOOL) matchMX:(NSString *)hostname
 {
-    return [_mxSet containsObject:hostname];
+    return [_mxSet containsObject:[hostname lowercaseString]];
 }
 
 - (NSString *) sentMailFolderPath
