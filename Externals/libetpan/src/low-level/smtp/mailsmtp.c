@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.38 2011/02/28 22:40:02 hoa Exp $
+ * $Id: mailsmtp.c,v 1.39 2011/03/07 14:56:19 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -1114,6 +1114,10 @@ int mailesmtp_auth_sasl(mailsmtp * session, const char * auth_type,
     case 220:
     case 235:
       res = MAILSMTP_NO_ERROR;
+      goto free_sasl_conn;
+        
+    case 535:
+      res = MAILSMTP_ERROR_AUTH_LOGIN;
       goto free_sasl_conn;
       
     case 334:

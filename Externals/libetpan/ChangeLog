@@ -1,3 +1,8 @@
+2010-03-07 - libetpan-1.0cvs29 - hoa
+
+	* src/low-level/smtp/mailsmtp.c
+	   handle SMTP error code for authentication error.
+
 2010-03-06 - libetpan-1.0cvs28 - hoa
 
 	* src/low-level/imap/mailimap_parser.c
