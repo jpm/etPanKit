@@ -403,4 +403,93 @@ static char * get_content_type_str(struct mailmime_content * content)
 	return aCopy;
 }
 
++ (NSString *) contentTypeWithContent:(struct mailmime_content *)content
+{
+    char * str;
+    NSString * result;
+    
+    str = get_content_type_str(content);
+    result = [NSString stringWithUTF8String:str];
+    free(str);
+    
+    return result;
+}
+
++ (NSData *) dataForPartID:(NSString *)partID encoding:(int)encoding messageData:(NSData *)messageData
+{
+    size_t cur_token;
+    struct mailmime * messageMime;
+    int r;
+    struct mailmime_section * section;
+    struct mailmime * sectionResult;
+    clist * id_list;
+    NSArray * subPartIDs;
+    
+    cur_token = 0;
+    r = mailmime_parse([messageData bytes], [messageData length],
+                       &cur_token, &messageMime);
+    if (r != MAILIMF_NO_ERROR)
+        return nil;
+    
+    id_list = clist_new();
+    subPartIDs = [partID componentsSeparatedByString:@"."];
+    for(NSString * subID in subPartIDs) {
+        uint32_t * subIDValue;
+        
+        subIDValue = malloc(sizeof(* subIDValue));
+        * subIDValue = [subID intValue];
+        clist_append(id_list, subIDValue);
+    }
+    section = mailmime_section_new(id_list);
+    r = mailmime_get_section(messageMime, section, &sectionResult);
+    if (r != MAILIMF_NO_ERROR) {
+        return nil;
+    }
+    
+    char * text;
+    size_t text_length;
+    NSData * data;
+    
+    text = (char *) sectionResult->mm_body->dt_data.dt_text.dt_data;
+    text_length = sectionResult->mm_body->dt_data.dt_text.dt_length;
+    
+    switch (encoding) {
+        case MAILIMAP_BODY_FLD_ENC_7BIT:
+        case MAILIMAP_BODY_FLD_ENC_8BIT:
+        case MAILIMAP_BODY_FLD_ENC_BINARY:
+        case MAILIMAP_BODY_FLD_ENC_OTHER:
+        {
+            data = [NSData dataWithBytes:text length:text_length];
+            break;
+        }
+        case MAILIMAP_BODY_FLD_ENC_BASE64:
+        case MAILIMAP_BODY_FLD_ENC_QUOTED_PRINTABLE:
+        {
+            char * decoded;
+            size_t decoded_length;
+            size_t cur_token;
+            int mime_encoding;
+            
+            switch (encoding) {
+                case MAILIMAP_BODY_FLD_ENC_BASE64:
+                    mime_encoding = MAILMIME_MECHANISM_BASE64;
+                    break;
+                case MAILIMAP_BODY_FLD_ENC_QUOTED_PRINTABLE:
+                    mime_encoding = MAILMIME_MECHANISM_QUOTED_PRINTABLE;
+                    break;
+            }
+            
+            cur_token = 0;
+            mailmime_part_parse(text, text_length, &cur_token,
+                                mime_encoding, &decoded, &decoded_length);
+            data = [NSData dataWithBytes:decoded length:decoded_length];
+            mailmime_decoded_part_free(decoded);
+            break;
+        }
+    }
+    mailmime_section_free(section);
+    
+    return data;
+}
+
 @end

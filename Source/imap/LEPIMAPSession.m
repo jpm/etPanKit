@@ -26,6 +26,8 @@
 #include <unistd.h>
 #import "LEPIMAPIdleRequest.h"
 #import "LEPIMAPNamespacePrivate.h"
+#import "LEPAttachment.h"
+#import "LEPAttachmentPrivate.h"
 
 #define MAX_IDLE_DELAY (28 * 60)
 
@@ -2425,6 +2427,106 @@ struct capability_value capability_values[] = {
     mailimap_namespace_data_free(namespace_data);
     
     return result;
+}
+
+- (NSString *) _fetchContentTypeWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path
+{
+	struct mailimap_fetch_type * fetch_type;
+    struct mailimap_fetch_att * fetch_att;
+    struct mailimap_section * section;
+	struct mailimap_section_part * section_part;
+	clist * sec_list;
+	NSArray * partIDArray;
+	int r;
+	char * text;
+	size_t text_length;
+	
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return nil;
+	
+	partIDArray = [partID componentsSeparatedByString:@"."];
+	sec_list = clist_new();
+	for(NSString * element in partIDArray) {
+		uint32_t * value;
+		
+		value = malloc(sizeof(* value));
+		* value = [element integerValue];
+		clist_append(sec_list, value);
+	}
+	section_part = mailimap_section_part_new(sec_list);
+	section = mailimap_section_new_part_mime(section_part);
+	fetch_att = mailimap_fetch_att_new_body_peek_section(section);
+	fetch_type = mailimap_fetch_type_new_fetch_att(fetch_att);
+	
+	r = fetch_imap(_imap, uid, fetch_type, &text, &text_length);
+	mailimap_fetch_type_free(fetch_type);
+	
+    LEPLog(@"had error : %i", r);
+	if (r == MAILIMAP_ERROR_STREAM) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorConnection userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if (r == MAILIMAP_ERROR_PARSE) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    else if ([self _hasError:r]) {
+		NSError * error;
+		
+		error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorFetch userInfo:nil];
+		[self setError:error];
+		[error release];
+        return nil;
+	}
+	
+    //data = [NSData dataWithBytes:text length:text_length];
+    size_t cur_token;
+    struct mailimf_fields * fields;
+    struct mailmime_fields * mime_fields;
+    
+    cur_token = 0;
+    r = mailimf_fields_parse(text, text_length, &cur_token, &fields);
+    if (r != MAILIMF_NO_ERROR) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    
+	r = mailmime_fields_parse(fields, &mime_fields);
+    if (r != MAILIMF_NO_ERROR) {
+        NSError * error;
+        
+        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorParse userInfo:nil];
+        [self setError:error];
+        [error release];
+        return nil;
+    }
+    
+    struct mailmime_single_fields single_fields;
+    mailmime_single_fields_init(&single_fields, mime_fields, NULL);
+    NSString * contentType;
+    contentType = [LEPAttachment contentTypeWithContent:single_fields.fld_content];
+    
+	mailimap_nstring_free(text);
+	
+	return contentType;
+}
+
+- (void) _setError:(NSError *)error
+{
+    [self setError:error];
 }
 
 @end

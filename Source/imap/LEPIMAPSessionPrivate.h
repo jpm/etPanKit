@@ -54,6 +54,8 @@
                            expectedSize:(size_t)expectedSize
                        progressDelegate:(id <LEPIMAPSessionProgressDelegate>)progressDelegate;
 
+- (NSString *) _fetchContentTypeWithPartID:(NSString *)partID UID:(uint32_t)uid path:(NSString *)path;
+
 - (void) _select:(NSString *)mailbox;
 
 - (void) _storeFlags:(LEPIMAPMessageFlag)flags kind:(LEPIMAPStoreFlagsRequestKind)kind messagesUids:(NSArray *)uids path:(NSString *)path;
@@ -68,6 +70,8 @@
 
 - (BOOL) _matchLastMailbox:(NSString *)mailbox;
 - (void) _setLastMailbox:(NSString *)mailbox;
+
+- (void) _setError:(NSError *)error;
 
 @end
 

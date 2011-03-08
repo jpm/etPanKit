@@ -10,6 +10,7 @@
 
 #import "LEPIMAPFetchMessageRequest.h"
 #import "LEPIMAPFetchMessageStructureRequest.h"
+#import "LEPIMAPFetchAttachmentRequest.h"
 #import "LEPIMAPAccountPrivate.h"
 #import "LEPIMAPFolder.h"
 #import "LEPIMAPFolderPrivate.h"
@@ -18,6 +19,7 @@
 #import "LEPMessageHeader.h"
 #import "LEPAbstractAttachment.h"
 #import "LEPUtils.h"
+#include <libetpan/libetpan.h>
 
 @interface LEPIMAPMessage ()
 
@@ -88,6 +90,22 @@
 	request = [[LEPIMAPFetchMessageRequest alloc] init];
 	[request setPath:[_folder path]];
 	[request setUid:[self uid]];
+	
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPFetchAttachmentRequest *) fetchAttachmentRequestWithPartID:(NSString *)partID
+{
+	LEPIMAPFetchAttachmentRequest * request;
+	
+	request = [[LEPIMAPFetchAttachmentRequest alloc] init];
+	[request setPath:[_folder path]];
+	[request setUid:[self uid]];
+	[request setPartID:partID];
+	[request setEncoding:MAILMIME_MECHANISM_8BIT];
+    [request setSize:0];
 	
     [self _setupRequest:request];
     

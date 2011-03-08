@@ -4,6 +4,7 @@
 
 @class LEPIMAPFetchMessageRequest;
 @class LEPIMAPFetchMessageStructureRequest;
+@class LEPIMAPFetchAttachmentRequest;
 @class LEPIMAPFolder;
 
 @interface LEPIMAPMessage : LEPAbstractMessage <NSCoding, NSCopying> {
@@ -23,5 +24,6 @@
 
 - (LEPIMAPFetchMessageStructureRequest *) fetchMessageStructureRequest;
 - (LEPIMAPFetchMessageRequest *) fetchMessageRequest;
+- (LEPIMAPFetchAttachmentRequest *) fetchAttachmentRequestWithPartID:(NSString *)partID;
 
 @end

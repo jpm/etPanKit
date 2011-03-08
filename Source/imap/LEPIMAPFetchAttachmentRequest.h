@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <EtPanKit/LEPIMAPRequest.h>
+#import <EtPanKit/LEPConstants.h>
 
 @interface LEPIMAPFetchAttachmentRequest : LEPIMAPRequest {
 	NSData * _data;
@@ -18,6 +19,7 @@
     size_t _size;
     size_t _currentProgress;
     size_t _maximumProgress;
+    LEPIMAPWorkaround _workaround;
 }
 
 @property (nonatomic, copy) NSString * path;
@@ -25,6 +27,7 @@
 @property (nonatomic, assign) uint32_t uid;
 @property (nonatomic, assign) int encoding;
 @property (nonatomic, assign) size_t size;
+@property (nonatomic, assign) LEPIMAPWorkaround workaround;
 
 // result
 @property (nonatomic, readonly, retain) NSData * data;
