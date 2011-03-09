@@ -686,10 +686,6 @@
 			<key>imap</key>
 			<array>
 				<dict>
-					<key>ssl</key>
-					<true/>
-				</dict>
-				<dict>
 					<key>starttls</key>
 					<true/>
 				</dict>
@@ -699,10 +695,6 @@
 			<array>
 				<dict>
 					<key>starttls</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>ssl</key>
 					<true/>
 				</dict>
 				<dict/>
