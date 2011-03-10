@@ -56,6 +56,13 @@ static NSArray * msg_id_to_string_array(clist * msgids)
 		
 		msgid = clist_content(cur);
 		str = [NSString stringWithUTF8String:msgid];
+        if (str == nil) {
+            NSData * data;
+            
+            data = [[NSData alloc] initWithBytes:msgid length:strlen(msgid)];
+            str = [data lepStringWithCharset:@"utf-8"];
+            [data release];
+        }
 		[result addObject:str];
 	}
 	
@@ -502,9 +509,18 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	/* msgid */
 	if (single_fields.fld_message_id != NULL) {
 		char * msgid;
-		
+		NSString * str;
+        
 		msgid = single_fields.fld_message_id->mid_value;
-		[self setMessageID:[NSString stringWithUTF8String:msgid]];
+        str = [NSString stringWithUTF8String:msgid];
+        if (str == nil) {
+            NSData * data;
+            
+            data = [[NSData alloc] initWithBytes:msgid length:strlen(msgid)];
+            str = [data lepStringWithCharset:@"utf-8"];
+            [data release];
+        }
+		[self setMessageID:str];
 	}
 	
 	/* references */
@@ -719,7 +735,17 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 								 &cur_token, &msgid);
 		if (r == MAILIMF_NO_ERROR) {
 			// msg id
-			[self setMessageID:[NSString stringWithUTF8String:msgid]];
+            NSString * str;
+            
+            str = [NSString stringWithUTF8String:msgid];
+            if (str == nil) {
+                NSData * data;
+                
+                data = [[NSData alloc] initWithBytes:msgid length:strlen(msgid)];
+                str = [data lepStringWithCharset:@"utf-8"];
+                [data release];
+            }
+			[self setMessageID:str];
             mailimf_msg_id_free(msgid);
 		}
 	}
