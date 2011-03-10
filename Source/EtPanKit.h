@@ -23,6 +23,7 @@
 
 #import <EtPanKit/LEPSMTPAccount.h>
 #import <EtPanKit/LEPSMTPRequest.h>
+#import <EtPanKit/LEPSMTPCheckRequest.h>
 
 #import <EtPanKit/LEPIMAPAccount.h>
 #import <EtPanKit/LEPIMAPAccount+Provider.h>
@@ -40,6 +41,7 @@
 #import <EtPanKit/LEPIMAPCapabilityRequest.h>
 #import <EtPanKit/LEPIMAPNamespaceRequest.h>
 #import <EtPanKit/LEPIMAPNamespace.h>
+#import <EtPanKit/LEPIMAPCheckRequest.h>
 
 #import <EtPanKit/NSData+LEPUTF8.h>
 #import <EtPanKit/NSString+LEP.h>

@@ -409,6 +409,7 @@
 			<string>veryspeedy\.net</string>
 			<string>yepmail\.net</string>
 			<string>your-mail\.com</string>
+			<string>operamail\.com</string>
 		</array>
 		<key>servers</key>
 		<dict>
@@ -861,55 +862,6 @@
 			<string>Junk</string>
 			<key>trash</key>
 			<string>Deleted Messages</string>
-			<key>allmail</key>
-			<string>Archive</string>
-		</dict>
-	</dict>
-	<key>free</key>
-	<dict>
-		<key>domain-match</key>
-		<array>
-			<string>free\.fr</string>
-		</array>
-		<key>servers</key>
-		<dict>
-			<key>imap</key>
-			<array>
-				<dict>
-					<key>hostname</key>
-					<string>imap.free.fr</string>
-					<key>port</key>
-					<integer>993</integer>
-					<key>ssl</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>hostname</key>
-					<string>imap.free.fr</string>
-					<key>port</key>
-					<integer>143</integer>
-				</dict>
-			</array>
-			<key>smtp</key>
-			<array>
-				<dict>
-					<key>hostname</key>
-					<string>smtp.free.fr</string>
-					<key>port</key>
-					<integer>587</integer>
-				</dict>
-			</array>
-		</dict>
-		<key>mailboxes</key>
-		<dict>
-			<key>drafts</key>
-			<string>Drafts</string>
-			<key>sentmail</key>
-			<string>Sent</string>
-			<key>spam</key>
-			<string>Junk</string>
-			<key>trash</key>
-			<string>Trash</string>
 			<key>allmail</key>
 			<string>Archive</string>
 		</dict>

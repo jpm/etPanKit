@@ -12,6 +12,8 @@
 
 @implementation LEPSMTPCheckRequest
 
+@synthesize authType = _authType;
+
 - (id) init
 {
 	self = [super init];
@@ -26,7 +28,7 @@
 
 - (void) mainRequest
 {
-	[_session _checkConnection];
+	_authType = [_session _checkConnection];
 }
 
 @end

@@ -16,7 +16,7 @@
 
 - (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient
      progressDelegate:(id <LEPSMTPSessionProgressDelegate>)progressDelegate;
-- (void) _checkConnection;
+- (LEPAuthType) _checkConnection;
 
 @end
 

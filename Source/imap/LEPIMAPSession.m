@@ -28,6 +28,7 @@
 #import "LEPIMAPNamespacePrivate.h"
 #import "LEPAttachment.h"
 #import "LEPAttachmentPrivate.h"
+#import "LEPIMAPAccount.h"
 
 #define MAX_IDLE_DELAY (28 * 60)
 
@@ -779,7 +780,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLCRAMMD5:
 			r = mailimap_authenticate(_imap, "CRAM-MD5",
-									  NULL,
+									  [[self host] UTF8String],
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
@@ -788,7 +789,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLPlain:
 			r = mailimap_authenticate(_imap, "PLAIN",
-									  NULL,
+									  [[self host] UTF8String],
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
@@ -812,19 +813,11 @@ static void items_progress(size_t current, size_t maximum, void * context)
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
 									  [[self password] UTF8String], NULL);
-			if ([self _hasError:r]) {
-				NSError * error;
-				
-				error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-				[self setError:error];
-				[error release];
-				return;
-			}
 			break;
 
 		case LEPAuthTypeSASLLogin:
 			r = mailimap_authenticate(_imap, "LOGIN",
-									  NULL,
+									  [[self host] UTF8String],
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
@@ -833,7 +826,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLSRP:
 			r = mailimap_authenticate(_imap, "SRP",
-									  NULL,
+									  [[self host] UTF8String],
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
@@ -1010,7 +1003,12 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	if ([self error] != nil)
         return nil;
     
-	r = mailimap_lsub(_imap, "", "*", &imap_folders);
+    NSString * prefix;
+    prefix = [[account defaultNamespace] mainPrefix];
+    if (prefix == nil) {
+        prefix = @"";
+    }
+	r = mailimap_lsub(_imap, [prefix UTF8String], "*", &imap_folders);
 	LEPLog(@"fetch subscribed %u", r);
     return [self _getResultsFromError:r list:imap_folders account:account];
 }
@@ -1024,7 +1022,12 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	if ([self error] != nil)
         return nil;
 	
-	r = mailimap_list(_imap, "", "*", &imap_folders);
+    NSString * prefix;
+    prefix = [[account defaultNamespace] mainPrefix];
+    if (prefix == nil) {
+        prefix = @"";
+    }
+	r = mailimap_list(_imap, [prefix UTF8String], "*", &imap_folders);
     return [self _getResultsFromError:r list:imap_folders account:account];
 }
 
@@ -2527,6 +2530,77 @@ struct capability_value capability_values[] = {
 - (void) _setError:(NSError *)error
 {
     [self setError:error];
+}
+
+- (LEPAuthType) _checkConnection
+{
+    NSIndexSet * capabilities;
+    
+    int lepIMAPAuth[] = {LEPIMAPCapabilityAuthDigestMD5, LEPIMAPCapabilityAuthCRAMMD5, LEPIMAPCapabilityAuthGSSAPI,
+        LEPIMAPCapabilityAuthSRP, LEPIMAPCapabilityAuthNTLM, LEPIMAPCapabilityAuthKerberosV4,
+        LEPIMAPCapabilityAuthPlain, LEPIMAPCapabilityAuthLogin};
+    int imapAuth[] = {LEPAuthTypeSASLDIGESTMD5, LEPAuthTypeSASLCRAMMD5, LEPAuthTypeSASLGSSAPI,
+        LEPAuthTypeSASLSRP, LEPAuthTypeSASLNTLM, LEPAuthTypeSASLKerberosV4,
+        LEPAuthTypeSASLPlain, LEPAuthTypeSASLLogin};
+    
+    capabilities = [self _capabilitiesForSelection:NO];
+    if ([self error] != nil) {
+        return 0;
+    }
+    
+    for(unsigned int i = 0 ; i < sizeof(lepIMAPAuth) / sizeof(lepIMAPAuth[0]) ; i ++) {
+        if (![capabilities containsIndex:lepIMAPAuth[i]]) {
+            continue;
+        }
+        
+        LEPLog(@"login");
+        [self setError:nil];
+        
+        [self setAuthType:[self authType] & ~LEPAuthTypeMechanismMask];
+        [self setAuthType:[self authType] | imapAuth[i]];
+        
+        [self _login];
+        if ([self error] != nil) {
+            if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+                // disconnect
+                [self _unsetup];
+                
+                // then, retry
+                [self _setup];
+                [self _connectIfNeeded];
+                if ([self error] != nil) {
+                    break;
+                }
+                [self _login];
+            }
+        }
+        
+        if ([self error] == nil) {
+            return imapAuth[i];
+        }
+    }
+    
+    // last check: clear login
+    [self setError:nil];
+    [self setAuthType:[self authType] & ~LEPAuthTypeMechanismMask];
+    [self _login];
+    if ([self error] != nil) {
+        if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+            // disconnect
+            [self _unsetup];
+            
+            // then, retry
+            [self _setup];
+            [self _connectIfNeeded];
+            if ([self error] != nil) {
+                return 0;
+            }
+            
+            [self _login];
+        }
+    }
+    
+    return 0;
 }
 
 @end

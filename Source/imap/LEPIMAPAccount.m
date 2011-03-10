@@ -24,6 +24,7 @@
 #import "LEPIMAPNamespacePrivate.h"
 #import "LEPIMAPRenameFolderRequest.h"
 #import "LEPIMAPDeleteFolderRequest.h"
+#import "LEPIMAPCheckRequest.h"
 #import <libetpan/libetpan.h>
 
 @interface LEPIMAPAccount ()
@@ -143,6 +144,16 @@
 	
 	request = [[LEPIMAPNamespaceRequest alloc] init];
     [request setAccount:self];
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
+- (LEPIMAPCheckRequest *) checkRequest
+{
+	LEPIMAPCheckRequest * request;
+	
+	request = [[LEPIMAPCheckRequest alloc] init];
     [self _setupRequest:request];
     
     return [request autorelease];

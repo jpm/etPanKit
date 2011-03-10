@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LEPSMTPRequest.h"
+#import <EtPanKit/LEPSMTPRequest.h>
+#import <EtPanKit/LEPConstants.h>
 
 @interface LEPSMTPCheckRequest : LEPSMTPRequest {
-
+    LEPAuthType _authType;
 }
+
+@property (nonatomic, assign, readonly) LEPAuthType authType;
 
 @end

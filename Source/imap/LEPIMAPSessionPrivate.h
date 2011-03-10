@@ -71,6 +71,8 @@
 - (BOOL) _matchLastMailbox:(NSString *)mailbox;
 - (void) _setLastMailbox:(NSString *)mailbox;
 
+- (LEPAuthType) _checkConnection;
+
 - (void) _setError:(NSError *)error;
 
 @end

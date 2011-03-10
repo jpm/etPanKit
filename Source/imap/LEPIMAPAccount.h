@@ -8,6 +8,7 @@
 @class LEPIMAPCapabilityRequest;
 @class LEPIMAPNamespaceRequest;
 @class LEPIMAPNamespace;
+@class LEPIMAPCheckRequest;
 
 @interface LEPIMAPAccount : NSObject {
     NSString * _host;
@@ -56,6 +57,8 @@
 
 - (LEPIMAPCapabilityRequest *) capabilityRequest;
 - (LEPIMAPNamespaceRequest *) namespaceRequest;
+
+- (LEPIMAPCheckRequest *) checkRequest;
 
 - (void) cancel;
 

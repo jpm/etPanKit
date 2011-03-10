@@ -274,17 +274,11 @@ static void progress(size_t current, size_t maximum, void * context)
 	}
 	
     if (([self authType] & LEPAuthTypeMechanismMask) == 0) {
-        if (_smtp->auth & MAILSMTP_AUTH_CRAM_MD5) {
-            [self setAuthType:[self authType] | LEPAuthTypeSASLCRAMMD5];
-        }
-        else if (_smtp->auth & MAILSMTP_AUTH_DIGEST_MD5) {
+        if (_smtp->auth & MAILSMTP_AUTH_DIGEST_MD5) {
             [self setAuthType:[self authType] | LEPAuthTypeSASLDIGESTMD5];
         }
-        else if (_smtp->auth & MAILSMTP_AUTH_PLAIN) {
-            [self setAuthType:[self authType] | LEPAuthTypeSASLPlain];
-        }
-        else if (_smtp->auth & MAILSMTP_AUTH_LOGIN) {
-            [self setAuthType:[self authType] | LEPAuthTypeSASLLogin];
+        else if (_smtp->auth & MAILSMTP_AUTH_CRAM_MD5) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLCRAMMD5];
         }
         else if (_smtp->auth & MAILSMTP_AUTH_GSSAPI) {
             [self setAuthType:[self authType] | LEPAuthTypeSASLGSSAPI];
@@ -298,13 +292,19 @@ static void progress(size_t current, size_t maximum, void * context)
         else if (_smtp->auth & MAILSMTP_AUTH_KERBEROS_V4) {
             [self setAuthType:[self authType] | LEPAuthTypeSASLKerberosV4];
         }
+        else if (_smtp->auth & MAILSMTP_AUTH_PLAIN) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLPlain];
+        }
+        else if (_smtp->auth & MAILSMTP_AUTH_LOGIN) {
+            [self setAuthType:[self authType] | LEPAuthTypeSASLLogin];
+        }
     }
     
 	switch ([self authType] & LEPAuthTypeMechanismMask) {
         case 0:
 		default:
 			r = mailesmtp_auth_sasl(_smtp, "PLAIN",
-									NULL,
+									[[self host] UTF8String],
 									NULL,
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
@@ -313,7 +313,7 @@ static void progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLCRAMMD5:
 			r = mailesmtp_auth_sasl(_smtp, "CRAM-MD5",
-									NULL,
+									[[self host] UTF8String],
 									NULL,
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
@@ -322,7 +322,7 @@ static void progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLPlain:
 			r = mailesmtp_auth_sasl(_smtp, "PLAIN",
-									NULL,
+									[[self host] UTF8String],
 									NULL,
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
@@ -350,7 +350,7 @@ static void progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLLogin:
 			r = mailesmtp_auth_sasl(_smtp, "LOGIN",
-									NULL,
+									[[self host] UTF8String],
 									NULL,
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
@@ -359,7 +359,7 @@ static void progress(size_t current, size_t maximum, void * context)
 			
 		case LEPAuthTypeSASLSRP:
 			r = mailesmtp_auth_sasl(_smtp, "SRP",
-									NULL,
+									[[self host] UTF8String],
 									NULL,
 									NULL,
 									[[self login] UTF8String], [[self login] UTF8String],
@@ -404,7 +404,10 @@ static void progress(size_t current, size_t maximum, void * context)
 
 - (void) _disconnect
 {
-	mailsmtp_quit(_smtp);
+    if (_smtp == NULL)
+        return;
+    
+    mailsmtp_quit(_smtp);
 }
 
 - (void) _sendMessage:(NSData *)messageData from:(LEPAddress *)from recipient:(NSArray *)recipient
@@ -519,29 +522,77 @@ unsetup:
     [delegate LEPSMTPSession:self progressWithCurrent:current maximum:maximum];
 }
 
-- (void) _checkConnection
+- (LEPAuthType) _checkConnection
 {
-	LEPLog(@"setup");
-	[self _setup];
-	
-	LEPLog(@"connect");
-	[self _connect];
-	if ([self error] != nil) {
-		goto unsetup;
-	}
-	
-	LEPLog(@"login");
-	[self _login];
-	if ([self error] != nil) {
-        goto disconnect;
-	}
-	
-disconnect:
-	LEPLog(@"disconnect");
-	[self _disconnect];
-unsetup:
-	LEPLog(@"unsetup");
-	[self _unsetup];
+	if (([self login] == nil) || ([self password] == nil)) {
+        [self _setup];
+        [self _connect];
+        if ([self error] != nil) {
+            [self _unsetup];
+            return 0;
+        }
+        
+        [self _disconnect];
+        [self _unsetup];
+        return 0;
+    }
+    
+    int lepSmtpAuth[] = {MAILSMTP_AUTH_DIGEST_MD5, MAILSMTP_AUTH_CRAM_MD5, MAILSMTP_AUTH_GSSAPI,
+        MAILSMTP_AUTH_SRP, MAILSMTP_AUTH_NTLM, MAILSMTP_AUTH_KERBEROS_V4,
+        MAILSMTP_AUTH_PLAIN, MAILSMTP_AUTH_LOGIN};
+    int smtpAuth[] = {LEPAuthTypeSASLDIGESTMD5, LEPAuthTypeSASLCRAMMD5, LEPAuthTypeSASLGSSAPI,
+        LEPAuthTypeSASLSRP, LEPAuthTypeSASLNTLM, LEPAuthTypeSASLKerberosV4,
+        LEPAuthTypeSASLPlain, LEPAuthTypeSASLLogin};
+    
+    LEPLog(@"setup");
+    [self _setup];
+    
+    LEPLog(@"connect");
+    [self _connect];
+    if ([self error] != nil) {
+        [self _unsetup];
+        return 0;
+    }
+    
+    for(unsigned int i = 0 ; i < sizeof(lepSmtpAuth) / sizeof(lepSmtpAuth[0]) ; i ++) {
+        if ((_smtp->auth & lepSmtpAuth[i]) == 0) {
+            continue;
+        }
+        
+        LEPLog(@"login");
+        [self setError:nil];
+        
+        [self setAuthType:[self authType] & ~LEPAuthTypeMechanismMask];
+        [self setAuthType:[self authType] | smtpAuth[i]];
+        
+        [self _login];
+        if ([self error] != nil) {
+            if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+                // disconnect
+                [self _disconnect];
+                [self _unsetup];
+                
+                // then, retry
+                [self _setup];
+                [self _connect];
+                if ([self error] != nil) {
+                    [self _unsetup];
+                    break;
+                }
+                [self _login];
+            }
+        }
+        
+        if ([self error] == nil) {
+            [self _disconnect];
+            [self _unsetup];
+            return smtpAuth[i];
+        }
+    }
+    [self _disconnect];
+    [self _unsetup];
+    
+    return 0;
 }
 
 @end
