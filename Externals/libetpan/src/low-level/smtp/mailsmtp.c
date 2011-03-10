@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.39 2011/03/07 14:56:19 hoa Exp $
+ * $Id: mailsmtp.c,v 1.40 2011/03/10 10:47:51 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -396,53 +396,95 @@ int mailesmtp_parse_ehlo(mailsmtp * session)
      AUTH <mechanisms...>
   */
   while (response != NULL) {
-    if (!strncasecmp(response, "EXPN", 4) && isdelim(response[4])) 
+    if (!strncasecmp(response, "EXPN", 4) && isdelim(response[4])) {
       session->esmtp |= MAILSMTP_ESMTP_EXPN;
-    else if (!strncasecmp(response, "ETRN", 4) && isdelim(response[4]))
+    }
+    else if (!strncasecmp(response, "ETRN", 4) && isdelim(response[4])) {
       session->esmtp |= MAILSMTP_ESMTP_ETRN;
-    else if (!strncasecmp(response, "DSN", 3) && isdelim(response[3]))
+    }
+    else if (!strncasecmp(response, "DSN", 3) && isdelim(response[3])) {
       session->esmtp |= MAILSMTP_ESMTP_DSN;
-    else if (!strncasecmp(response, "8BITMIME", 8) && isdelim(response[8]))
+    }
+    else if (!strncasecmp(response, "8BITMIME", 8) && isdelim(response[8])) {
       session->esmtp |= MAILSMTP_ESMTP_8BITMIME;
-    else if (!strncasecmp(response, "STARTTLS", 8) && isdelim(response[8]))
+    }
+    else if (!strncasecmp(response, "STARTTLS", 8) && isdelim(response[8])) {
       session->esmtp |= MAILSMTP_ESMTP_STARTTLS;
+    }
     else if (!strncasecmp(response, "SIZE", 4) && isdelim(response[4])) {
       session->esmtp |= MAILSMTP_ESMTP_SIZE;
       session->smtp_max_msg_size = strtoul(response + 4, NULL, 10);
       /* TODO: grab optionnal max size */
-    } else if (!strncasecmp(response, "AUTH ", 5)) {
+    }
+    else if (!strncasecmp(response, "AUTH ", 5)) {
       response += 5;       /* remove "AUTH " */
       while (response[0] != '\n' && response[0] != '\0') {
-	while (response[0] == ' ') response++;
-	if (strncasecmp(response, "LOGIN", 5) == 0) {
-	  session->auth |= MAILSMTP_AUTH_LOGIN;
-	  response += 5;
-	} else if (strncasecmp(response, "CRAM-MD5", 8) == 0) {
-	  session->auth |= MAILSMTP_AUTH_CRAM_MD5;
-	  response += 8;
-	} else if (strncasecmp(response, "PLAIN", 5) == 0) {
-	  session->auth |= MAILSMTP_AUTH_PLAIN;
-	  response += 5;
-	} else if (strncasecmp(response, "DIGEST-MD5", 10) == 0) {
-	  session->auth |= MAILSMTP_AUTH_DIGEST_MD5;
-	  response += 10;
-	} else if (strncasecmp(response, "GSSAPI", 6) == 0) {
-    session->auth |= MAILSMTP_AUTH_GSSAPI;
-    response += 6;
-	} else if (strncasecmp(response, "SRP", 3) == 0) {
-    session->auth |= MAILSMTP_AUTH_SRP;
-    response += 3;
-	} else if (strncasecmp(response, "NTLM", 4) == 0) {
-    session->auth |= MAILSMTP_AUTH_NTLM;
-    response += 4;
-	} else if (strncasecmp(response, "KERBEROS_V4", 11) == 0) {
-    session->auth |= MAILSMTP_AUTH_KERBEROS_V4;
-    response += 11;
-	} else {
-	  /* unknown auth method - jump to next word or eol */
-	  while (!isdelim(response[0]) || response[0] == '\r')
-	    response++;
-	}
+        while (response[0] == ' ') response++;
+        if (strncasecmp(response, "LOGIN", 5) == 0) {
+          session->auth |= MAILSMTP_AUTH_LOGIN;
+          response += 5;
+        } else if (strncasecmp(response, "CRAM-MD5", 8) == 0) {
+          session->auth |= MAILSMTP_AUTH_CRAM_MD5;
+          response += 8;
+        } else if (strncasecmp(response, "PLAIN", 5) == 0) {
+          session->auth |= MAILSMTP_AUTH_PLAIN;
+          response += 5;
+        } else if (strncasecmp(response, "DIGEST-MD5", 10) == 0) {
+          session->auth |= MAILSMTP_AUTH_DIGEST_MD5;
+          response += 10;
+        } else if (strncasecmp(response, "GSSAPI", 6) == 0) {
+          session->auth |= MAILSMTP_AUTH_GSSAPI;
+          response += 6;
+        } else if (strncasecmp(response, "SRP", 3) == 0) {
+          session->auth |= MAILSMTP_AUTH_SRP;
+          response += 3;
+        } else if (strncasecmp(response, "NTLM", 4) == 0) {
+          session->auth |= MAILSMTP_AUTH_NTLM;
+          response += 4;
+        } else if (strncasecmp(response, "KERBEROS_V4", 11) == 0) {
+          session->auth |= MAILSMTP_AUTH_KERBEROS_V4;
+          response += 11;
+        } else {
+          /* unknown auth method - jump to next word or eol */
+          while (!isdelim(response[0]) || response[0] == '\r')
+            response++;
+        }
+      }
+    }
+    // for broken servers
+    else if (!strncasecmp(response, "AUTH=", 5)) {
+      response += 5;       /* remove "AUTH=" */
+      while (response[0] != '\n' && response[0] != '\0') {
+        while (response[0] == ' ') response++;
+        if (strncasecmp(response, "LOGIN", 5) == 0) {
+          session->auth |= MAILSMTP_AUTH_LOGIN;
+          response += 5;
+        } else if (strncasecmp(response, "CRAM-MD5", 8) == 0) {
+          session->auth |= MAILSMTP_AUTH_CRAM_MD5;
+          response += 8;
+        } else if (strncasecmp(response, "PLAIN", 5) == 0) {
+          session->auth |= MAILSMTP_AUTH_PLAIN;
+          response += 5;
+        } else if (strncasecmp(response, "DIGEST-MD5", 10) == 0) {
+          session->auth |= MAILSMTP_AUTH_DIGEST_MD5;
+          response += 10;
+        } else if (strncasecmp(response, "GSSAPI", 6) == 0) {
+          session->auth |= MAILSMTP_AUTH_GSSAPI;
+          response += 6;
+        } else if (strncasecmp(response, "SRP", 3) == 0) {
+          session->auth |= MAILSMTP_AUTH_SRP;
+          response += 3;
+        } else if (strncasecmp(response, "NTLM", 4) == 0) {
+          session->auth |= MAILSMTP_AUTH_NTLM;
+          response += 4;
+        } else if (strncasecmp(response, "KERBEROS_V4", 11) == 0) {
+          session->auth |= MAILSMTP_AUTH_KERBEROS_V4;
+          response += 11;
+        } else {
+          /* unknown auth method - jump to next word or eol */
+          while (!isdelim(response[0]) || response[0] == '\r')
+            response++;
+        }
       }
     }
     response = strpbrk(response, "\n");

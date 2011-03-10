@@ -1,3 +1,8 @@
+2010-03-10 - libetpan-1.0cvs30 - hoa
+
+	* src/low-level/smtp/mailsmtp.c
+	   support for broken AUTH advertisement.
+
 2010-03-07 - libetpan-1.0cvs29 - hoa
 
 	* src/low-level/smtp/mailsmtp.c
