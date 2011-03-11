@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: newsnntp.c,v 1.30 2011/02/19 13:49:42 hoa Exp $
+ * $Id: newsnntp.c,v 1.31 2011/03/11 21:49:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -81,6 +81,7 @@ static char * read_multiline(newsnntp * f, size_t size,
 static int parse_response(newsnntp * f, char * response);
 
 static int send_command(newsnntp * f, char * command);
+static int send_command_private(newsnntp * f, char * command, int can_be_published);
 
 newsnntp * newsnntp_new(size_t progr_rate, progress_function * progr_fun)
 {
@@ -589,7 +590,7 @@ int newsnntp_authinfo_username(newsnntp * f, const char * username)
   char * response;
 
   snprintf(command, NNTP_STRING_SIZE, "AUTHINFO USER %s\r\n", username);
-  r = send_command(f, command);
+  r = send_command_private(f, command, 0);
   if (r == -1)
     return NEWSNNTP_ERROR_STREAM;
 
@@ -624,7 +625,7 @@ int newsnntp_authinfo_password(newsnntp * f, const char * password)
   char * response;
 
   snprintf(command, NNTP_STRING_SIZE, "AUTHINFO PASS %s\r\n", password);
-  r = send_command(f, command);
+  r = send_command_private(f, command, 0);
   if (r == -1)
     return NEWSNNTP_ERROR_STREAM;
 
@@ -2508,8 +2509,14 @@ static clist * read_xover_resp_list(newsnntp * f)
 
 static int send_command(newsnntp * f, char * command)
 {
+  return send_command_private(f, command, 1);
+}
+
+static int send_command_private(newsnntp * f, char * command, int can_be_published)
+{
   ssize_t r;
 
+  mailstream_set_privacy(f->nntp_stream, can_be_published);
   r = mailstream_write(f->nntp_stream, command, strlen(command));
   if (r == -1)
     return -1;

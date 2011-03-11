@@ -32,7 +32,7 @@
  */
 
 /*
- * $Id: mailsmtp.c,v 1.40 2011/03/10 10:47:51 hoa Exp $
+ * $Id: mailsmtp.c,v 1.41 2011/03/11 21:49:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -152,6 +152,7 @@ void mailsmtp_free(mailsmtp * session)
 }
 
 static int send_command(mailsmtp * f, char * command);
+static int send_command_private(mailsmtp * f, char * command, int can_be_published);
 
 static int read_response(mailsmtp * session);
 
@@ -897,11 +898,16 @@ static int read_response(mailsmtp * session)
 
 
 
-
 static int send_command(mailsmtp * f, char * command)
+{
+  return send_command_private(f, command, 1);
+}
+
+static int send_command_private(mailsmtp * f, char * command, int can_be_published)
 {
   ssize_t r;
 
+  mailstream_set_privacy(f->stream, can_be_published);
   r = mailstream_write(f->stream, command, strlen(command));
   if (r == -1)
     return -1;
@@ -1144,7 +1150,7 @@ int mailesmtp_auth_sasl(mailsmtp * session, const char * auth_type,
     snprintf(command, SMTP_STRING_SIZE, "AUTH %s\r\n", auth_type);
   }
   
-  r = send_command(session, command);
+  r = send_command_private(session, command, 0);
   if (r == -1) {
     res = MAILSMTP_ERROR_STREAM;
     goto free_sasl_conn;

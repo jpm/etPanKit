@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.c,v 1.45 2010/11/28 17:01:26 hoa Exp $
+ * $Id: mailimap.c,v 1.46 2011/03/11 21:49:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -1460,20 +1460,30 @@ int mailimap_login(mailimap * session,
   if (session->imap_state != MAILIMAP_STATE_NON_AUTHENTICATED)
     return MAILIMAP_ERROR_BAD_STATE;
 
+  mailstream_set_privacy(session->imap_stream, 0);
   r = mailimap_send_current_tag(session);
-  if (r != MAILIMAP_NO_ERROR)
+  if (r != MAILIMAP_NO_ERROR) {
+    mailstream_set_privacy(session->imap_stream, 1);
     return r;
+  }
 
   r = mailimap_login_send(session->imap_stream, userid, password);
-  if (r != MAILIMAP_NO_ERROR)
+  if (r != MAILIMAP_NO_ERROR) {
+    mailstream_set_privacy(session->imap_stream, 1);
     return r;
+  }
 
   r = mailimap_crlf_send(session->imap_stream);
-  if (r != MAILIMAP_NO_ERROR)
+  if (r != MAILIMAP_NO_ERROR) {
+    mailstream_set_privacy(session->imap_stream, 1);
     return r;
+  }
 
-  if (mailstream_flush(session->imap_stream) == -1)
+  if (mailstream_flush(session->imap_stream) == -1) {
+    mailstream_set_privacy(session->imap_stream, 1);
     return MAILIMAP_ERROR_STREAM;
+  }
+  mailstream_set_privacy(session->imap_stream, 1);
 
   if (mailimap_read_line(session) == NULL)
     return MAILIMAP_ERROR_STREAM;
@@ -1641,6 +1651,7 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
     goto free_sasl_conn;
   }
   
+  mailstream_set_privacy(session->imap_stream, 0);
   r = mailimap_send_current_tag(session);
   if (r != MAILIMAP_NO_ERROR) {
     res = r;
@@ -1798,6 +1809,7 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
   }
   
  free_sasl_conn:
+  mailstream_set_privacy(session->imap_stream, 1);
   sasl_dispose((sasl_conn_t **) &session->imap_sasl.sasl_conn);
   session->imap_sasl.sasl_conn = NULL;
   mailsasl_unref();

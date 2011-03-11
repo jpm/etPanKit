@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_low.h,v 1.12 2010/09/03 22:05:13 hoa Exp $
+ * $Id: mailstream_low.h,v 1.13 2011/03/11 21:49:36 hoa Exp $
  */
 
 #ifndef MAILSTREAM_LOW_H
@@ -70,6 +70,9 @@ void mailstream_low_cancel(mailstream_low * s);
 LIBETPAN_EXPORT
 void mailstream_low_log_error(mailstream_low * s,
 	const void * buf, size_t count);
+
+LIBETPAN_EXPORT
+void mailstream_low_set_privacy(mailstream_low * s, int can_be_public);
 
 #ifdef __cplusplus
 }

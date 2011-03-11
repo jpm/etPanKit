@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream_low.c,v 1.22 2010/09/03 22:05:13 hoa Exp $
+ * $Id: mailstream_low.c,v 1.25 2011/03/11 22:13:37 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -164,7 +164,8 @@ mailstream_low * mailstream_low_new(void * data,
 
   s->data = data;
   s->driver = driver;
-
+  s->privacy = 1;
+  
   return s;
 }
 
@@ -217,7 +218,12 @@ ssize_t mailstream_low_write(mailstream_low * s,
 
 #ifdef STREAM_DEBUG
   STREAM_LOG(s, 1, ">>>>>>> send >>>>>>\n");
-  STREAM_LOG_BUF(s, 1, buf, count);
+  if (s->privacy) {
+    STREAM_LOG_BUF(s, 1, buf, count);
+  }
+  else {
+    STREAM_LOG_BUF(s, 2, buf, count);
+  }
   STREAM_LOG(s, 1, "\n");
   STREAM_LOG(s, 1, ">>>>>>> end send >>>>>>\n");
 #endif
@@ -240,4 +246,9 @@ void mailstream_low_log_error(mailstream_low * s,
     const void * buf, size_t count)
 {
 	STREAM_LOG_ERROR(s, 0, buf, count);
+}
+
+void mailstream_low_set_privacy(mailstream_low * s, int can_be_public)
+{
+  s->privacy = can_be_public;
 }

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailstream.c,v 1.24 2010/09/03 22:05:13 hoa Exp $
+ * $Id: mailstream.c,v 1.25 2011/03/11 21:49:36 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -315,6 +315,11 @@ void mailstream_cancel(mailstream * s)
 void mailstream_log_error(mailstream * s, char * buf, size_t count)
 {
 	mailstream_low_log_error(s->low, buf, count);
+}
+
+void mailstream_set_privacy(mailstream * s, int can_be_public)
+{
+  mailstream_low_set_privacy(s->low, can_be_public);
 }
 
 struct timeval mailstream_network_delay =

@@ -1,3 +1,24 @@
+2010-03-11 - libetpan-1.0cvs33 - hoa
+
+	* src/data-types/mailstream_low.c
+	   revert libetpan-1.0cvs32.
+
+2010-03-11 - libetpan-1.0cvs32 - hoa
+
+	* src/data-types/mailstream_low.c
+	   private log identifier is 3.
+
+2010-03-11 - libetpan-1.0cvs31 - hoa
+
+	* src/data-types/mailstream.[ch]
+	* src/data-types/mailstream_low.[ch]
+	* src/data-types/mailstream_types.h
+	* src/low-level/imap/mailimap.c
+	* src/low-level/nntp/newsnntp.c
+	* src/low-level/pop3/mailpop3.c
+	* src/low-level/smtp/mailsmtp.c
+	   authentication privacy.
+
 2010-03-10 - libetpan-1.0cvs30 - hoa
 
 	* src/low-level/smtp/mailsmtp.c

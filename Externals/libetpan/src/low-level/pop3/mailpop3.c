@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailpop3.c,v 1.35 2010/04/05 14:43:49 hoa Exp $
+ * $Id: mailpop3.c,v 1.36 2011/03/11 21:49:36 hoa Exp $
  */
 
 /*
@@ -275,6 +275,7 @@ void mailpop3_free(mailpop3 * f)
 #define RESPONSE_AUTH_CONT 1
 
 static int send_command(mailpop3 * f, char * command);
+static int send_command_private(mailpop3 * f, char * command, int can_be_published);
 
 static char * read_line(mailpop3 * f);
 
@@ -470,7 +471,7 @@ int mailpop3_apop(mailpop3 * f,
   /* send apop command */
   
   snprintf(command, POP3_STRING_SIZE, "APOP %s %s\r\n", user, md5string);
-  r = send_command(f, command);
+  r = send_command_private(f, command, 0);
   if (r == -1)
     return MAILPOP3_ERROR_STREAM;
 
@@ -499,7 +500,7 @@ int mailpop3_user(mailpop3 * f, const char * user)
   /* send user command */
     
   snprintf(command, POP3_STRING_SIZE, "USER %s\r\n", user);
-  r = send_command(f, command);
+  r = send_command_private(f, command, 0);
   if (r == -1)
     return MAILPOP3_ERROR_STREAM;
 
@@ -526,7 +527,7 @@ int mailpop3_pass(mailpop3 * f, const char * password)
   /* send password command */
 
   snprintf(command, POP3_STRING_SIZE, "PASS %s\r\n", password);
-  r = send_command(f, command);
+  r = send_command_private(f, command, 0);
   if (r == -1)
     return MAILPOP3_ERROR_STREAM;
 
@@ -1279,8 +1280,14 @@ static char * read_multiline(mailpop3 * f, size_t size,
 
 static int send_command(mailpop3 * f, char * command)
 {
+  return send_command_private(f, command, 1);
+}
+
+static int send_command_private(mailpop3 * f, char * command, int can_be_published)
+{
   ssize_t r;
 
+  mailstream_set_privacy(f->pop3_stream, can_be_published);
   r = mailstream_write(f->pop3_stream, command, strlen(command));
   if (r == -1)
     return -1;
