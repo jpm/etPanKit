@@ -1,3 +1,8 @@
+2010-03-12 - libetpan-1.0cvs34 - hoa
+
+	* src/low-level/imf/mailimf.c
+	   fixed MIME Content-ID and Message-ID parser.
+
 2010-03-11 - libetpan-1.0cvs33 - hoa
 
 	* src/data-types/mailstream_low.c
