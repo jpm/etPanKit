@@ -1,3 +1,8 @@
+2010-03-14 - libetpan-1.0cvs35 - hoa
+
+	* src/data-types/mmapstring.c
+	   fixed a possible crash.
+
 2010-03-12 - libetpan-1.0cvs34 - hoa
 
 	* src/low-level/imf/mailimf.c
