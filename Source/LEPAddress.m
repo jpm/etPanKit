@@ -153,6 +153,9 @@
 	if (mailbox->mb_addr_spec != NULL) {
 		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
 	}
+    else {
+        [address setMailbox:@""];
+    }
 	
     return [address autorelease];
 }
@@ -168,6 +171,9 @@
 	if (mailbox->mb_addr_spec != NULL) {
 		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
 	}
+    else {
+        [address setMailbox:@""];
+    }
 	
     return [address autorelease];
 }
