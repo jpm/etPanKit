@@ -803,7 +803,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
-									  [[self password] UTF8String], NULL);
+									  [[self password] UTF8String], [[self realm] UTF8String]);
 			break;
 			
 		case LEPAuthTypeSASLDIGESTMD5:
@@ -848,7 +848,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 									  NULL,
 									  NULL,
 									  [[self login] UTF8String], [[self login] UTF8String],
-									  [[self password] UTF8String], NULL);
+									  [[self password] UTF8String], [[self realm] UTF8String]);
 			break;
 	}
     if (r == MAILIMAP_ERROR_STREAM) {
