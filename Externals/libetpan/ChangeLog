@@ -1,3 +1,8 @@
+2010-03-15 - libetpan-1.0cvs36 - hoa
+
+	* src/data-types/charconv.c
+	   fixed charset conversation for hebrew (iso-8859-8-i and iso-8859-8-e)
+
 2010-03-14 - libetpan-1.0cvs35 - hoa
 
 	* src/data-types/mmapstring.c
@@ -14,7 +19,7 @@
 	   revert libetpan-1.0cvs32.
 
 2010-03-11 - libetpan-1.0cvs32 - hoa
-
+c
 	* src/data-types/mailstream_low.c
 	   private log identifier is 3.
 
