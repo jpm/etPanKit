@@ -2536,12 +2536,14 @@ struct capability_value capability_values[] = {
 {
     NSIndexSet * capabilities;
     
-    int lepIMAPAuth[] = {LEPIMAPCapabilityAuthDigestMD5, LEPIMAPCapabilityAuthCRAMMD5, LEPIMAPCapabilityAuthGSSAPI,
-        LEPIMAPCapabilityAuthSRP, LEPIMAPCapabilityAuthNTLM, LEPIMAPCapabilityAuthKerberosV4,
-        LEPIMAPCapabilityAuthPlain, LEPIMAPCapabilityAuthLogin};
-    int imapAuth[] = {LEPAuthTypeSASLDIGESTMD5, LEPAuthTypeSASLCRAMMD5, LEPAuthTypeSASLGSSAPI,
-        LEPAuthTypeSASLSRP, LEPAuthTypeSASLNTLM, LEPAuthTypeSASLKerberosV4,
-        LEPAuthTypeSASLPlain, LEPAuthTypeSASLLogin};
+    int lepIMAPAuth[] = {LEPIMAPCapabilityAuthDigestMD5, LEPIMAPCapabilityAuthCRAMMD5,
+        LEPIMAPCapabilityAuthPlain, LEPIMAPCapabilityAuthLogin,
+        LEPIMAPCapabilityAuthSRP, LEPIMAPCapabilityAuthNTLM,
+        LEPIMAPCapabilityAuthGSSAPI, LEPIMAPCapabilityAuthKerberosV4};
+    int imapAuth[] = {LEPAuthTypeSASLDIGESTMD5, LEPAuthTypeSASLCRAMMD5,
+        LEPAuthTypeSASLPlain, LEPAuthTypeSASLLogin,
+        LEPAuthTypeSASLSRP, LEPAuthTypeSASLNTLM,
+        LEPAuthTypeSASLGSSAPI, LEPAuthTypeSASLKerberosV4};
     
     capabilities = [self _capabilitiesForSelection:NO];
     if ([self error] != nil) {
