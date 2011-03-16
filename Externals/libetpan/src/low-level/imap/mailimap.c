@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap.c,v 1.46 2011/03/11 21:49:36 hoa Exp $
+ * $Id: mailimap.c,v 1.47 2011/03/16 22:40:04 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -1379,10 +1379,10 @@ mailimap_uid_fetch(mailimap * session,
     return MAILIMAP_ERROR_STREAM;
 
   r = mailimap_parse_response(session, &response);
-  
-  if (r != MAILIMAP_NO_ERROR)
+  if (r != MAILIMAP_NO_ERROR) {
     return r;
-
+  }
+  
   * result = session->imap_response_info->rsp_fetch_list;
   session->imap_response_info->rsp_fetch_list = NULL;
 
@@ -2445,16 +2445,22 @@ int mailimap_parse_response(mailimap * session,
 
   session->imap_response = session->imap_response_buffer->str;
 
-  if (response->rsp_resp_done->rsp_type == MAILIMAP_RESP_DONE_TYPE_FATAL)
+  if (response->rsp_resp_done->rsp_type == MAILIMAP_RESP_DONE_TYPE_FATAL) {
+    mailimap_response_free(response);
     return MAILIMAP_ERROR_FATAL;
+  }
 
   snprintf(tag_str, 15, "%i", session->imap_tag);
-  if (strcmp(response->rsp_resp_done->rsp_data.rsp_tagged->rsp_tag, tag_str) != 0)
+  if (strcmp(response->rsp_resp_done->rsp_data.rsp_tagged->rsp_tag, tag_str) != 0) {
+    mailimap_response_free(response);
     return MAILIMAP_ERROR_PROTOCOL;
+  }
   
   if (response->rsp_resp_done->rsp_data.rsp_tagged->rsp_cond_state->rsp_type ==
-      MAILIMAP_RESP_COND_STATE_BAD)
+      MAILIMAP_RESP_COND_STATE_BAD) {
+    mailimap_response_free(response);
     return MAILIMAP_ERROR_PROTOCOL;
+  }
 
   * result = response;
 

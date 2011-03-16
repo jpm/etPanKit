@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_types.c,v 1.30 2011/01/06 00:09:52 hoa Exp $
+ * $Id: mailimap_types.c,v 1.31 2011/03/16 22:40:04 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2930,12 +2930,14 @@ mailimap_response_info_new(void)
   resp_info->rsp_badcharset = NULL;
   resp_info->rsp_trycreate = FALSE;
   resp_info->rsp_mailbox_list = clist_new();
+  if (resp_info->rsp_mailbox_list == NULL)
+    goto free;
   resp_info->rsp_extension_list = clist_new();
   if (resp_info->rsp_extension_list == NULL)
-    goto free;
+    goto free_mb_list;
   resp_info->rsp_mailbox_lsub = clist_new();
   if (resp_info->rsp_mailbox_lsub == NULL)
-    goto free_mb_list;
+    goto free_extension_list;
   resp_info->rsp_search_result = clist_new();
   if (resp_info->rsp_search_result == NULL)
     goto free_mb_lsub;
@@ -2957,6 +2959,8 @@ mailimap_response_info_new(void)
   clist_free(resp_info->rsp_search_result);
  free_mb_lsub:
   clist_free(resp_info->rsp_mailbox_lsub);
+ free_extension_list:
+  clist_free(resp_info->rsp_extension_list);
  free_mb_list:
   clist_free(resp_info->rsp_mailbox_list);
  free:

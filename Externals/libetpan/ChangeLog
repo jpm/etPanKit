@@ -1,3 +1,9 @@
+2010-03-16 - libetpan-1.0cvs37 - hoa
+
+	* src/low-level/imap/mailimap.c
+	* src/low-level/imap/mailimap_types.c
+	   fixed memory leaks.
+
 2010-03-15 - libetpan-1.0cvs36 - hoa
 
 	* src/data-types/charconv.c
