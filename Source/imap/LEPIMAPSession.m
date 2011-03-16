@@ -1953,7 +1953,8 @@ static void items_progress(size_t current, size_t maximum, void * context)
 	}
 	r = mailimap_uid_store(_imap, imap_set, store_att_flags);
 	mailimap_store_att_flags_free(store_att_flags);
-	
+	mailimap_set_free(imap_set);
+    
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
         
