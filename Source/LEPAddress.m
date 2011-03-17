@@ -171,7 +171,7 @@
 	if (mailbox->mb_addr_spec != NULL) {
 		[address setMailbox:[NSString stringWithUTF8String:mailbox->mb_addr_spec]];
 	}
-    else {
+    if ([address mailbox] == nil) {
         [address setMailbox:@""];
     }
 	
