@@ -24,6 +24,13 @@
 
 @end
 
+struct mailmime * part_multiple_new(const char * type, const char * boundary_prefix);
+
+static struct mailmime *
+part_new_empty(struct mailmime_content * content,
+               struct mailmime_fields * mime_fields,
+               const char * boundary_prefix);
+
 struct mailmime * get_text_part(const char * mime_type, const char * charset, const char * content_id,
 								const char * text, size_t length, int encoding_type)
 {
@@ -52,7 +59,7 @@ struct mailmime * get_text_part(const char * mime_type, const char * charset, co
 		param = mailmime_param_new_with_data("charset", (char *) charset);
 	}
 	clist_append(content->ct_parameters, param);
-	mime = mailmime_new_empty(content, mime_fields);
+	mime = part_new_empty(content, mime_fields, NULL);
 	mailmime_set_body_text(mime, (char *) text, length);
 	
 	return mime;
@@ -104,23 +111,24 @@ static struct mailmime * get_file_part(const char * filename, const char * mime_
         dup_content_id = strdup(content_id);
 	mime_fields = mailmime_fields_new_with_data(encoding,
 												dup_content_id, NULL, disposition, NULL);
-	mime = mailmime_new_empty(content, mime_fields);
+	mime = part_new_empty(content, mime_fields, NULL);
 	mailmime_set_body_text(mime, (char *) text, length);
 	
 	return mime;
 }
 
-static struct mailmime * get_multipart_alternative(void)
+static struct mailmime * get_multipart_alternative(const char * boundary_prefix)
 {
 	struct mailmime * mime;
 	
-	mime = mailmime_multiple_new("multipart/alternative");
+	mime = part_multiple_new("multipart/alternative", boundary_prefix);
 	
 	return mime;
 }
 
 static int add_attachment(struct mailmime * mime,
-                          struct mailmime * mime_sub)
+                          struct mailmime * mime_sub,
+                          const char * boundary_prefix)
 {
     struct mailmime * saved_sub;
     struct mailmime * mp;
@@ -169,7 +177,7 @@ static int add_attachment(struct mailmime * mime,
     
     /* create a multipart */
     
-    mp = mailmime_multiple_new("multipart/mixed");
+    mp = part_multiple_new("multipart/mixed", boundary_prefix);
     if (mp == NULL) {
         res = MAILIMF_ERROR_MEMORY;
         goto err;
@@ -213,9 +221,12 @@ err:
     return res;
 }
 
-static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments, int filterForSending);
+static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments,
+                                               const char * boundary_prefix,
+                                               int filterForSending);
 
-static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment, int filterForSending)
+static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment, const char * boundary_prefix,
+                                              int filterForSending)
 {
 	if (([attachment respondsToSelector:@selector(data)]) || ([attachment isKindOfClass:[LEPAttachment class]])) {
 		struct mailmime * mime;
@@ -248,13 +259,13 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		
 		altAttachment = (LEPAlternativeAttachment *) attachment;
 		
-		mime = get_multipart_alternative();
+		mime = get_multipart_alternative(boundary_prefix);
 		for(i = 0 ; i < [[altAttachment attachments] count] ; i ++) {
 			LEPAbstractAttachment * subAtt;
 			struct mailmime * submime;
 			
 			subAtt = [[altAttachment attachments] objectAtIndex:i];
-			submime = mime_from_attachment(subAtt, filterForSending);
+			submime = mime_from_attachment(subAtt, boundary_prefix, filterForSending);
 			mailmime_smart_add_part(mime, submime);
 		}
 		return mime;
@@ -265,14 +276,16 @@ static struct mailmime * mime_from_attachment(LEPAbstractAttachment * attachment
 		
 		msgAttachment = (LEPMessageAttachment *) attachment;
 		
-		mime = mime_from_attachments([msgAttachment header], [msgAttachment attachments], filterForSending);
+		mime = mime_from_attachments([msgAttachment header], [msgAttachment attachments], boundary_prefix, filterForSending);
 		return mime;
 	}
 	
 	return NULL;
 }
 
-static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments, int filterForSending)
+static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArray * attachments,
+                                               const char * boundary_prefix,
+                                               int filterForSending)
 {
 	struct mailimf_fields * fields;
 	unsigned int i;
@@ -288,17 +301,177 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		struct mailmime * submime;
 		
 		attachment = [attachments objectAtIndex:i];
-		submime = mime_from_attachment(attachment, filterForSending);
-		add_attachment(mime, submime);
+		submime = mime_from_attachment(attachment, boundary_prefix, filterForSending);
+		add_attachment(mime, submime, boundary_prefix);
 	}
 	
 	return mime;
 }
 
+#pragma mark multipart
+
+#define MAX_MESSAGE_ID 512
+
+static char * generate_boundary(const char * boundary_prefix)
+{
+    char id[MAX_MESSAGE_ID];
+    time_t now;
+    char name[MAX_MESSAGE_ID];
+    long value;
+    
+    now = time(NULL);
+    value = random();
+    
+    gethostname(name, MAX_MESSAGE_ID);
+    
+    if (boundary_prefix == NULL)
+        boundary_prefix = "";
+    
+    snprintf(id, MAX_MESSAGE_ID, "%s%lx_%lx_%x", boundary_prefix, now, value, getpid());
+    
+    return strdup(id);
+}
+
+static struct mailmime *
+part_new_empty(struct mailmime_content * content,
+               struct mailmime_fields * mime_fields,
+               const char * boundary_prefix)
+{
+    struct mailmime * build_info;
+    clist * list;
+    int r;
+    int mime_type;
+    
+    list = NULL;
+    
+    switch (content->ct_type->tp_type) {
+        case MAILMIME_TYPE_DISCRETE_TYPE:
+            mime_type = MAILMIME_SINGLE;
+            break;
+            
+        case MAILMIME_TYPE_COMPOSITE_TYPE:
+            switch (content->ct_type->tp_data.tp_composite_type->ct_type) {
+                case MAILMIME_COMPOSITE_TYPE_MULTIPART:
+                    mime_type = MAILMIME_MULTIPLE;
+                    break;
+                    
+                case MAILMIME_COMPOSITE_TYPE_MESSAGE:
+                    if (strcasecmp(content->ct_subtype, "rfc822") == 0)
+                        mime_type = MAILMIME_MESSAGE;
+                    else
+                        mime_type = MAILMIME_SINGLE;
+                    break;
+                    
+                default:
+                    goto err;
+            }
+            break;
+            
+        default:
+            goto err;
+    }
+    
+    if (mime_type == MAILMIME_MULTIPLE) {
+        char * attr_name;
+        char * attr_value;
+        struct mailmime_parameter * param;
+        clist * parameters;
+        char * boundary;
+        
+        list = clist_new();
+        if (list == NULL)
+            goto err;
+        
+        attr_name = strdup("boundary");
+        if (attr_name == NULL)
+            goto free_list;
+        
+        boundary = generate_boundary(boundary_prefix);
+        attr_value = boundary;
+        if (attr_name == NULL) {
+            free(attr_name);
+            goto free_list;
+        }
+        
+        param = mailmime_parameter_new(attr_name, attr_value);
+        if (param == NULL) {
+            free(attr_value);
+            free(attr_name);
+            goto free_list;
+        }
+        
+        if (content->ct_parameters == NULL) {
+            parameters = clist_new();
+            if (parameters == NULL) {
+                mailmime_parameter_free(param);
+                goto free_list;
+            }
+        }
+        else
+            parameters = content->ct_parameters;
+        
+        r = clist_append(parameters, param);
+        if (r != 0) {
+            clist_free(parameters);
+            mailmime_parameter_free(param);
+            goto free_list;
+        }
+        
+        if (content->ct_parameters == NULL)
+            content->ct_parameters = parameters;
+    }
+    
+    build_info = mailmime_new(mime_type,
+                              NULL, 0, mime_fields, content,
+                              NULL, NULL, NULL, list,
+                              NULL, NULL);
+    if (build_info == NULL) {
+        clist_free(list);
+        return NULL;
+    }
+    
+    return build_info;
+    
+free_list:
+    clist_free(list);
+err:
+    return NULL;
+}
+
+struct mailmime * part_multiple_new(const char * type, const char * boundary_prefix)
+{
+    struct mailmime_fields * mime_fields;
+    struct mailmime_content * content;
+    struct mailmime * mp;
+    
+    mime_fields = mailmime_fields_new_encoding(MAILMIME_MECHANISM_8BIT);
+    if (mime_fields == NULL)
+        goto err;
+    
+    content = mailmime_content_new_with_str(type);
+    if (content == NULL)
+        goto free_fields;
+    
+    mp = part_new_empty(content, mime_fields, boundary_prefix);
+    if (mp == NULL)
+        goto free_content;
+    
+    return mp;
+    
+free_content:
+    mailmime_content_free(content);
+free_fields:
+    mailmime_fields_free(mime_fields);
+err:
+    return NULL;
+}
+
+
 @implementation LEPMessage
 
 @synthesize body = _body;
 @synthesize HTMLBody = _HTMLBody;
+@synthesize boundaryPrefix = _boundaryPrefix;
 
 - (id) init
 {
@@ -309,6 +482,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 
 - (void) dealloc
 {
+    [_boundaryPrefix release];
 	[_HTMLBody release];
 	[_body release];
 	[_attachments release];
@@ -444,7 +618,7 @@ static struct mailmime * mime_from_attachments(LEPMessageHeader * header, NSArra
 		attachments = newArray;
 	}
 	
-	mime = mime_from_attachments([self header], attachments, filter);
+	mime = mime_from_attachments([self header], attachments, [_boundaryPrefix UTF8String], filter);
 	str = mmap_string_new("");
 	col = 0;
 	mailmime_write_mem(str, &col, mime);

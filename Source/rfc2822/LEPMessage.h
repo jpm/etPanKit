@@ -7,6 +7,8 @@
 	NSString * _body;
 	NSString * _HTMLBody;
 	NSArray * _attachments;
+    // not serialized
+    NSString * _boundaryPrefix;
 }
 
 - (id) initWithData:(NSData *)data;
@@ -17,6 +19,7 @@
 @property (nonatomic, copy) NSString * HTMLBody;
 // can be LEPAttachment or LEPMessageAttachment
 @property (nonatomic, retain) NSArray * /* LEPAbstractAttachment */ attachments;
+@property (nonatomic, copy) NSString * boundaryPrefix;
 
 - (void) addAttachment:(LEPAbstractAttachment *)attachment;
 
