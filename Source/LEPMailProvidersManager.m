@@ -77,7 +77,7 @@
         LEPMailProvider * provider;
         
         provider = [_providers objectForKey:identifier];
-        if ([provider matchMX:hostname])
+        if ([provider matchMX:[hostname lowercaseString]])
             return provider;
     }
     

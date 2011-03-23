@@ -117,6 +117,7 @@
         regex_t r;
         BOOL matched;
         
+        match = [NSString stringWithFormat:@"^%@$", match];
         if (regcomp(&r, [match UTF8String], REG_EXTENDED | REG_ICASE | REG_NOSUB) != 0)
             continue;
         
