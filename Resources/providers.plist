@@ -135,6 +135,8 @@
 		<key>domain-match</key>
 		<array>
 			<string>yahoo\..*</string>
+			<string>ymail\.com</string>
+			<string>rocketmail\.com</string>
 		</array>
 		<key>servers</key>
 		<dict>
