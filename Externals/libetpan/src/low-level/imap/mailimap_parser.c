@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.62 2011/03/24 09:26:29 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.63 2011/03/24 09:46:05 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2508,6 +2508,20 @@ mailimap_body_fld_dsp_parse(mailstream * fd, MMAPString * buffer,
     if (r != MAILIMAP_NO_ERROR) {
       res = r;
       goto err;
+    }
+    
+    r = mailimap_space_parse(fd, buffer, &cur_token);
+    if (r != MAILIMAP_NO_ERROR) {
+      res = r;
+      goto string_free;
+    }
+    
+    r = mailimap_body_fld_param_parse(fd, buffer, &cur_token,
+                                      &body_fld_param,
+                                      progr_rate, progr_fun);
+    if (r != MAILIMAP_NO_ERROR) {
+      res = r;
+      goto string_free;
     }
     
     goto create_body_fld_dsp;

@@ -1,3 +1,8 @@
+2010-03-24 - libetpan-1.0cvs39 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   improved workaround for Exchange servers.
+
 2010-03-24 - libetpan-1.0cvs38 - hoa
 
 	* src/low-level/imap/mailimap_parser.c
