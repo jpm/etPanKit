@@ -567,7 +567,8 @@ unsetup:
         
         [self _login];
         if ([self error] != nil) {
-            if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+            if ([[[self error] domain] isEqualToString:LEPErrorDomain] &&
+                (([[self error] code] == LEPErrorConnection)) || ([[self error] code] == LEPErrorParse)) {
                 // disconnect
                 [self _disconnect];
                 [self _unsetup];

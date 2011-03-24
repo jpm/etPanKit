@@ -732,7 +732,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 			break;
 			
 		default:
-            LEPLog(@"socket connect");
+            LEPLog(@"socket connect %s %u", [[self host] UTF8String], [self port]);
 			r = mailimap_socket_connect(_imap, [[self host] UTF8String], [self port]);
             LEPLog(@"socket connect %i", r);
 			if ([self _hasError:r]) {
@@ -2564,7 +2564,8 @@ struct capability_value capability_values[] = {
         
         [self _login];
         if ([self error] != nil) {
-            if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+            if ([[[self error] domain] isEqualToString:LEPErrorDomain] &&
+                (([[self error] code] == LEPErrorConnection)) || ([[self error] code] == LEPErrorParse)) {
                 // disconnect
                 [self _unsetup];
                 
@@ -2588,7 +2589,8 @@ struct capability_value capability_values[] = {
     [self setAuthType:[self authType] & ~LEPAuthTypeMechanismMask];
     [self _login];
     if ([self error] != nil) {
-        if ([[[self error] domain] isEqualToString:LEPErrorDomain] && ([[self error] code] == LEPErrorConnection)) {
+        if ([[[self error] domain] isEqualToString:LEPErrorDomain] &&
+            (([[self error] code] == LEPErrorConnection)) || ([[self error] code] == LEPErrorParse)) {
             // disconnect
             [self _unsetup];
             
