@@ -953,21 +953,12 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	[encoder encodeObject:_messageID forKey:@"messageID"];
 	[encoder encodeObject:_references forKey:@"references"];
 	[encoder encodeObject:_inReplyTo forKey:@"inReplyTo"];
-#if 1
 	[encoder encodeObject:_sender forKey:@"sender"];
 	[encoder encodeObject:_from forKey:@"from"];
 	[encoder encodeObject:_to forKey:@"to"];
 	[encoder encodeObject:_cc forKey:@"cc"];
 	[encoder encodeObject:_bcc forKey:@"bcc"];
 	[encoder encodeObject:_replyTo forKey:@"replyTo"];
-#else
-    [encoder encodeObject:[_sender RFC822String] forKey:@"sender"];
-    [encoder encodeObject:[_from RFC822String] forKey:@"from"];
-    [encoder encodeObject:[_to lepRFC822String] forKey:@"to"];
-    [encoder encodeObject:[_cc lepRFC822String] forKey:@"cc"];
-    [encoder encodeObject:[_bcc lepRFC822String] forKey:@"bcc"];
-    [encoder encodeObject:[_replyTo lepRFC822String] forKey:@"replyTo"];
-#endif
 	[encoder encodeObject:_subject forKey:@"subject"];
 	[encoder encodeObject:_date forKey:@"date"];
 	[encoder encodeObject:_internalDate forKey:@"internalDate"];

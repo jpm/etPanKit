@@ -397,8 +397,8 @@
 {
 	[super encodeWithCoder:encoder];
 	[encoder encodeObject:_partID forKey:@"partID"];
-	[encoder encodeInt32:_encoding forKey:@"encoding"];
-	[encoder encodeInt32:_size forKey:@"size"];
+	[encoder encodeInt32:(int32_t)_encoding forKey:@"encoding"];
+	[encoder encodeInt32:(int32_t)_size forKey:@"size"];
 }
 
 - (id) copyWithZone:(NSZone *)zone

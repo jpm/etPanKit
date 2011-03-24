@@ -133,8 +133,8 @@
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
 	[super encodeWithCoder:encoder];
-	[encoder encodeInt32:_flags forKey:@"flags"];
-	[encoder encodeInt32:_originalFlags forKey:@"originalFlags"];
+	[encoder encodeInt32:(int32_t)_flags forKey:@"flags"];
+	[encoder encodeInt32:(int32_t)_originalFlags forKey:@"originalFlags"];
 	[encoder encodeInt32:(int32_t)_uid forKey:@"uid"];
 	[encoder encodeObject:_attachments forKey:@"attachments"];
 }
