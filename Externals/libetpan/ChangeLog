@@ -1,3 +1,8 @@
+2010-03-24 - libetpan-1.0cvs38 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   workaround for Exchange servers that fails providing conformance in regards to Content-Disposition.
+
 2010-03-16 - libetpan-1.0cvs37 - hoa
 
 	* src/low-level/imap/mailimap.c
