@@ -1,3 +1,13 @@
+2010-03-25 - libetpan-1.0cvs41 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   workaround for Mbox Mail for Mac.
+
+2010-03-25 - libetpan-1.0cvs40 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   workaround for Exchange (blank lines between response).
+
 2010-03-24 - libetpan-1.0cvs39 - hoa
 
 	* src/low-level/imap/mailimap_parser.c

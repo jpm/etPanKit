@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.63 2011/03/24 09:46:05 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.65 2011/03/25 18:31:40 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -2932,9 +2932,17 @@ static int mailimap_body_fld_octets_parse(mailstream * fd,
   r = mailimap_token_case_insensitive_parse(fd, buffer, indx, "-1");
   if (r == MAILIMAP_NO_ERROR) {
     * result = 0;
+    return MAILIMAP_NO_ERROR;
   }
   
-  return MAILIMAP_NO_ERROR;
+  // workaround for mbox mail for mac
+  r = mailimap_nil_parse(fd, buffer, indx);
+  if (r == MAILIMAP_NO_ERROR) {
+    * result = 0;
+    return MAILIMAP_NO_ERROR;
+  }
+  
+  return MAILIMAP_ERROR_PARSE;
 }
 
 /*
@@ -3048,7 +3056,10 @@ mailimap_body_fld_param_parse(mailstream * fd,
 					(mailimap_struct_destructor *)
 					mailimap_single_body_fld_param_free,
 					progr_rate, progr_fun);
-  if (r != MAILIMAP_NO_ERROR) {
+  if (r == MAILIMAP_ERROR_PARSE) {
+    // do nothing, workaround for mbox mail parser
+  }
+  else if (r != MAILIMAP_NO_ERROR) {
     res = r;
     goto err;
   }
@@ -3058,7 +3069,14 @@ mailimap_body_fld_param_parse(mailstream * fd,
     res = r;
     goto free;
   }
-
+  
+  if (param_list == NULL) {
+    * result = NULL;
+    * indx = cur_token;
+    
+    return MAILIMAP_NO_ERROR;
+  }
+  
   fld_param = mailimap_body_fld_param_new(param_list);
   if (fld_param == NULL) {
     res = MAILIMAP_ERROR_MEMORY;
@@ -6626,6 +6644,14 @@ mailimap_media_basic_parse(mailstream * fd, MMAPString * buffer,
     if (r == MAILIMAP_NO_ERROR)
       type = MAILIMAP_MEDIA_BASIC_OTHER;
   }
+  
+  // workaround for mbox mail for mac
+  if (r == MAILIMAP_ERROR_PARSE) {
+    r = mailimap_nil_parse(fd, buffer, &cur_token);
+    if (r == MAILIMAP_NO_ERROR) {
+      type = MAILIMAP_MEDIA_BASIC_APPLICATION;
+    }
+  }
 
   if (r != MAILIMAP_NO_ERROR) {
     res = r;
@@ -6640,11 +6666,26 @@ mailimap_media_basic_parse(mailstream * fd, MMAPString * buffer,
 
   r = mailimap_media_subtype_parse(fd, buffer, &cur_token, &subtype,
 				   progr_rate, progr_fun);
-  if (r != MAILIMAP_NO_ERROR) {
+  if (r == MAILIMAP_ERROR_PARSE) {
+    // workaround for mbox mail for mac
+  }
+  else if (r != MAILIMAP_NO_ERROR) {
     res = r;
     goto free_basic_type;
   }
-
+  
+  if (r == MAILIMAP_ERROR_PARSE) {
+    // workaround for mbox mail for mac
+    r = mailimap_nil_parse(fd, buffer, &cur_token);
+    if (r == MAILIMAP_NO_ERROR) {
+      subtype = strdup("DATA"); // application data
+      if (subtype == NULL) {
+        res = MAILIMAP_ERROR_MEMORY;
+        goto free_basic_type;
+      }
+    }
+  }
+  
   media_basic = mailimap_media_basic_new(type, basic_type, subtype);
   if (media_basic == NULL) {
     res = MAILIMAP_ERROR_MEMORY;
@@ -8182,6 +8223,19 @@ mailimap_cont_req_or_resp_data_parse_progress(mailstream * fd, MMAPString * buff
   resp_data = NULL;
   type = MAILIMAP_RESP_ERROR; /* XXX - removes a gcc warning */
 
+  // skip blank lines (workaround for exchange)
+  while (1) {
+    r = mailimap_crlf_parse(fd, buffer, &cur_token);
+    if (r == MAILIMAP_NO_ERROR) {
+      if (!mailstream_read_line_append(fd, buffer)) {
+        res = MAILIMAP_ERROR_STREAM;
+        goto free;
+      }
+      continue;
+    }
+    break;
+  }
+  
   r = mailimap_continue_req_parse(fd, buffer, &cur_token, &cont_req,
 				  progr_rate, progr_fun);
   if (r == MAILIMAP_NO_ERROR)
