@@ -137,6 +137,7 @@
 			<string>yahoo\..*</string>
 			<string>ymail\.com</string>
 			<string>rocketmail\.com</string>
+			<string>xtra\.co\.nz</string>
 		</array>
 		<key>servers</key>
 		<dict>
