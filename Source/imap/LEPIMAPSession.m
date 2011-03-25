@@ -1449,6 +1449,9 @@ static void items_progress(size_t current, size_t maximum, void * context)
     struct mailimap_fetch_att * fetch_att;
     int r;
     clistiter * iter;
+    BOOL needsHeader;
+    BOOL needsBody;
+    BOOL needsFlags;
     
     [self _selectIfNeeded:path];
 	if ([self error] != nil)
@@ -1462,6 +1465,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
     
     result = [NSMutableArray array];    
     
+    needsHeader = NO;
+    needsBody = NO;
+    needsFlags = NO;
+    
     imap_set = mailimap_set_new_interval(fromUID, toUID);
     fetch_type = mailimap_fetch_type_new_fetch_att_list_empty();
     fetch_att = mailimap_fetch_att_new_uid();
@@ -1470,6 +1477,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 		LEPLog(@"request flags");
         fetch_att = mailimap_fetch_att_new_flags();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+        needsFlags = YES;
     }
     if ((kind & LEPIMAPMessagesRequestKindFullHeaders) != 0) {
         struct mailimap_section * section;
@@ -1477,6 +1485,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
         section = mailimap_section_new_header();
         fetch_att = mailimap_fetch_att_new_body_peek_section(section);
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+        needsHeader = YES;
     }
     if ((kind & LEPIMAPMessagesRequestKindHeaders) != 0) {
         clist * hdrlist;
@@ -1501,12 +1510,14 @@ static void items_progress(size_t current, size_t maximum, void * context)
         section = mailimap_section_new_header_fields(imap_hdrlist);
         fetch_att = mailimap_fetch_att_new_body_peek_section(section);
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+        needsHeader = YES;
     }
 	if ((kind & LEPIMAPMessagesRequestKindStructure) != 0) {
 		// message structure
 		LEPLog(@"request bodystructure");
 		fetch_att = mailimap_fetch_att_new_bodystructure();
         mailimap_fetch_type_new_fetch_att_list_add(fetch_type, fetch_att);
+        needsBody = YES;
 	}
 	if ((kind & LEPIMAPMessagesRequestKindInternalDate) != 0) {
 		// internal date
@@ -1554,6 +1565,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
         clistiter * item_iter;
         uint32_t uid;
         LEPIMAPMessage * msg;
+        BOOL hasHeader;
+        BOOL hasBody;
+        BOOL hasFlags;
+        
+        hasHeader = NO;
+        hasBody = NO;
+        hasFlags = NO;
         
         msg = [[LEPIMAPMessage alloc] init];
         [msg setFolder:folder];
@@ -1573,6 +1591,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 				flags = flags_from_lep_att_dynamic(att_item->att_data.att_dyn);
 				[msg setFlags:flags];
 				[msg setOriginalFlags:flags];
+                hasFlags = YES;
             }
             else if (att_item->att_type == MAILIMAP_MSG_ATT_ITEM_STATIC) {
                 struct mailimap_msg_att_static * att_static;
@@ -1587,6 +1606,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 					LEPLog(@"parse envelope %lu", (unsigned long) uid);
                     env = att_static->att_data.att_env;
 					[[msg header] setFromIMAPEnvelope:env];
+                    hasHeader = YES;
                 }
                 else if (att_static->att_type == MAILIMAP_MSG_ATT_BODY_SECTION) {
                     if ((kind & LEPIMAPMessagesRequestKindFullHeaders) != 0) {
@@ -1597,6 +1617,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
                         length = att_static->att_data.att_body_section->sec_length;
                         
                         [[msg header] setFromHeadersData:[NSData dataWithBytes:bytes length:length]];
+                        hasHeader = YES;
                     }
                     else {
                         char * references;
@@ -1615,6 +1636,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
 					// bodystructure
 					attachments = [LEPIMAPAttachment attachmentsWithIMAPBody:att_static->att_data.att_body];
 					[msg _setAttachments:attachments];
+                    hasBody = YES;
 				}
             }
         }
@@ -1631,11 +1653,24 @@ static void items_progress(size_t current, size_t maximum, void * context)
                 }
             }
         }
-		
+        
 		if (uid < fromUID) {
 			uid = 0;
 		}
 		
+        if (needsBody && !hasBody) {
+            [msg release];
+            continue;
+        }
+        if (needsHeader && !hasHeader) {
+            [msg release];
+            continue;
+        }
+        if (needsFlags && !hasFlags) {
+            [msg release];
+            continue;
+        }
+        
         if (uid != 0) {
             [msg _setUid:uid];
         }
