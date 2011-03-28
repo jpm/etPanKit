@@ -64,7 +64,8 @@ static char * get_content_type_str(struct mailmime_content * content)
 {
 	char * str;
 	char * result;
-	
+	char * subtype;
+    
 	str = "unknown";
 	
 	switch (content->ct_type->tp_type) {
@@ -79,7 +80,10 @@ static char * get_content_type_str(struct mailmime_content * content)
 	
 	if (str == NULL)
 		str = "unknown";
-	
+	subtype = content->ct_subtype;
+    if (subtype == NULL)
+        subtype = "unknown";
+    
 	result = malloc(strlen(str) + strlen(content->ct_subtype) + 2);
 	strcpy(result, str);
 	strcat(result, "/");
