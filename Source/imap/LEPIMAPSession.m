@@ -649,6 +649,12 @@ static void items_progress(size_t current, size_t maximum, void * context)
 		if (![_currentMailbox isEqualToString:mailbox]) {
 			[self _select:mailbox];
 		}
+        else {
+            if (_imap->imap_selection_info != NULL) {
+                _uidValidity = _imap->imap_selection_info->sel_uidvalidity;
+                _uidNext = _imap->imap_selection_info->sel_uidnext;
+            }
+        }
 	}
 }
 
