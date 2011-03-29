@@ -1106,7 +1106,7 @@ static void elementStarted(void * ctx, const xmlChar * name, const xmlChar ** at
 				state->disabledLevel = state->level;
 			}
 		}
-		else if (strcasecmp((const char *) name, "style") == 0) {
+		if (strcasecmp((const char *) name, "style") == 0) {
 			state->enabled = 0;
 			state->disabledLevel = state->level;
 		}
