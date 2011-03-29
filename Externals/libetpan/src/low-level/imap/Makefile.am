@@ -41,7 +41,8 @@ etpaninclude_HEADERS = \
 	uidplus.h uidplus_types.h \
 	quota.h quota_parser.h quota_sender.h quota_types.h \
 	idle.h \
-	namespace.h namespace_parser.h namespace_sender.h namespace_types.h
+	namespace.h namespace_parser.h namespace_sender.h namespace_types.h \
+	xlist.h
 
 AM_CPPFLAGS = -I$(top_builddir)/include \
 	-I$(top_srcdir)/src/data-types
@@ -73,4 +74,5 @@ libimap_la_SOURCES = \
 	uidplus_parser.h uidplus_parser.c \
 	idle.c \
 	quota.c quota_parser.c quota_sender.c quota_types.c \
-	namespace.c namespace_parser.c namespace_sender.c namespace_types.c
+	namespace.c namespace_parser.c namespace_sender.c namespace_types.c \
+	xlist.c

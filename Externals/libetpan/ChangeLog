@@ -1,7 +1,13 @@
+2010-03-30 - libetpan-1.0cvs43 - hoa
+
+	* src/low-level/imap/Makefile.am
+	* src/low-level/imap/xlist.c
+  	   implemented XLIST (available on Gmail and Zimbra).
+
 2010-03-29 - libetpan-1.0cvs42 - hoa
 
-    * src/data-types/charconv.c
-       korean charset workaround.
+	* src/data-types/charconv.c
+  	    korean charset workaround.
 
 2010-03-25 - libetpan-1.0cvs41 - hoa
 
