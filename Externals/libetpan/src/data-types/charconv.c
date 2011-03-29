@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: charconv.c,v 1.24 2011/03/15 15:43:08 hoa Exp $
+ * $Id: charconv.c,v 1.25 2011/03/29 14:39:55 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -175,7 +175,10 @@ int charconv(const char * tocode, const char * fromcode,
         (strcasecmp(fromcode, "iso8859-8-e") == 0)) {
     fromcode = "iso-8859-8";
   }
-  
+  else if (strcasecmp(fromcode, "ks_c_5601-1987") == 0) {
+	fromcode = "euckr";
+  }
+
   conv = iconv_open(tocode, fromcode);
   if (conv == (iconv_t) -1) {
     res = MAIL_CHARCONV_ERROR_UNKNOWN_CHARSET;

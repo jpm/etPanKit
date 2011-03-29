@@ -1,3 +1,8 @@
+2010-03-29 - libetpan-1.0cvs42 - hoa
+
+    * src/data-types/charconv.c
+       korean charset workaround.
+
 2010-03-25 - libetpan-1.0cvs41 - hoa
 
 	* src/low-level/imap/mailimap_parser.c
@@ -45,7 +50,7 @@
 	   revert libetpan-1.0cvs32.
 
 2010-03-11 - libetpan-1.0cvs32 - hoa
-c
+
 	* src/data-types/mailstream_low.c
 	   private log identifier is 3.
 
