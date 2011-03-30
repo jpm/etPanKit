@@ -202,6 +202,10 @@
 		C6517A0E130E86D3004ADD56 /* namespace_sender.c in Sources */ = {isa = PBXBuildFile; fileRef = C6517A0C130E86D3004ADD56 /* namespace_sender.c */; };
 		C6517A0F130E86D3004ADD56 /* namespace_sender.c in Sources */ = {isa = PBXBuildFile; fileRef = C6517A0C130E86D3004ADD56 /* namespace_sender.c */; };
 		C6517A10130E86D3004ADD56 /* namespace_sender.c in Sources */ = {isa = PBXBuildFile; fileRef = C6517A0C130E86D3004ADD56 /* namespace_sender.c */; };
+		C6667DEF1342ACCD00969A8E /* xlist.c in Sources */ = {isa = PBXBuildFile; fileRef = C6667DED1342ACCD00969A8E /* xlist.c */; };
+		C6667DF01342ACCD00969A8E /* xlist.h in Headers */ = {isa = PBXBuildFile; fileRef = C6667DEE1342ACCD00969A8E /* xlist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6667DF11342ACCD00969A8E /* xlist.c in Sources */ = {isa = PBXBuildFile; fileRef = C6667DED1342ACCD00969A8E /* xlist.c */; };
+		C6667DF21342ACCE00969A8E /* xlist.c in Sources */ = {isa = PBXBuildFile; fileRef = C6667DED1342ACCD00969A8E /* xlist.c */; };
 		C68C6206130FFE7E00F16728 /* namespace_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = C68C61FE130FFE7E00F16728 /* namespace_parser.h */; };
 		C68C6207130FFE7E00F16728 /* namespace_sender.h in Headers */ = {isa = PBXBuildFile; fileRef = C68C61FF130FFE7E00F16728 /* namespace_sender.h */; };
 		C68C6208130FFE7E00F16728 /* namespace_types.h in Headers */ = {isa = PBXBuildFile; fileRef = C68C6200130FFE7E00F16728 /* namespace_types.h */; };
@@ -855,6 +859,8 @@
 		C6517A06130E86C6004ADD56 /* namespace_types.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = namespace_types.c; sourceTree = "<group>"; };
 		C6517A0B130E86D3004ADD56 /* namespace_sender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = namespace_sender.h; sourceTree = "<group>"; };
 		C6517A0C130E86D3004ADD56 /* namespace_sender.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = namespace_sender.c; sourceTree = "<group>"; };
+		C6667DED1342ACCD00969A8E /* xlist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xlist.c; sourceTree = "<group>"; };
+		C6667DEE1342ACCD00969A8E /* xlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xlist.h; sourceTree = "<group>"; };
 		C68C61FE130FFE7E00F16728 /* namespace_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = namespace_parser.h; sourceTree = "<group>"; };
 		C68C61FF130FFE7E00F16728 /* namespace_sender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = namespace_sender.h; sourceTree = "<group>"; };
 		C68C6200130FFE7E00F16728 /* namespace_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = namespace_types.h; sourceTree = "<group>"; };
@@ -2042,6 +2048,8 @@
 				C6F9EA20105335BC0059C3BA /* uidplus_sender.h */,
 				C6F9EA21105335BC0059C3BA /* uidplus_types.c */,
 				C6F9EA22105335BC0059C3BA /* uidplus_types.h */,
+				C6667DED1342ACCD00969A8E /* xlist.c */,
+				C6667DEE1342ACCD00969A8E /* xlist.h */,
 			);
 			path = imap;
 			sourceTree = "<group>";
@@ -2532,6 +2540,7 @@
 				C68C620B130FFE7E00F16728 /* quota_sender.h in Headers */,
 				C68C620C130FFE7E00F16728 /* quota_types.h in Headers */,
 				C68C620D130FFE7E00F16728 /* quota.h in Headers */,
+				C6667DF01342ACCD00969A8E /* xlist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2790,6 +2799,7 @@
 				C65179F5130E85CA004ADD56 /* namespace_parser.c in Sources */,
 				C6517A08130E86C6004ADD56 /* namespace_types.c in Sources */,
 				C6517A0E130E86D3004ADD56 /* namespace_sender.c in Sources */,
+				C6667DEF1342ACCD00969A8E /* xlist.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2954,6 +2964,7 @@
 				C65179F2130E85CA004ADD56 /* namespace_parser.c in Sources */,
 				C6517A0A130E86C6004ADD56 /* namespace_types.c in Sources */,
 				C6517A10130E86D3004ADD56 /* namespace_sender.c in Sources */,
+				C6667DF11342ACCD00969A8E /* xlist.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3118,6 +3129,7 @@
 				C65179F3130E85CA004ADD56 /* namespace_parser.c in Sources */,
 				C6517A09130E86C6004ADD56 /* namespace_types.c in Sources */,
 				C6517A0F130E86D3004ADD56 /* namespace_sender.c in Sources */,
+				C6667DF21342ACCE00969A8E /* xlist.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
