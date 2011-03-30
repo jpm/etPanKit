@@ -11,6 +11,7 @@
 #import "LEPIMAPAccount+Gmail.h"
 #import "LEPMailProvider.h"
 #import "LEPIMAPNamespace.h"
+#import "LEPIMAPFolder.h"
 
 #define GMAIL_PROVIDER_IDENTIFIER @"gmail"
 
@@ -111,6 +112,72 @@
         return nil;
     
 	return [self _providerFolderWithPath:[provider importantFolderPath]];
+}
+
+- (void) setXListMapping:(NSDictionary *)mapping
+{
+    [_xListMapping release];
+    _xListMapping = [mapping copy];
+}
+
+- (NSDictionary *) XListMapping
+{
+    return _xListMapping;
+}
+
+- (void) setupWithFoldersPaths:(NSArray *)paths xListHints:(NSDictionary *)mapping
+{
+    NSSet * pathsSet;
+    unsigned int count;
+    
+    count = 0;
+    pathsSet = [[NSSet alloc] initWithArray:paths];
+    for(NSString * value in [mapping allValues]) {
+        if ([pathsSet containsObject:value]) {
+            count ++;
+        }
+    }
+    [pathsSet release];
+    
+    if (count > 0) {
+		[self setXListMapping:mapping];
+    }
+    [self setupWithFoldersPaths:paths];
+}
+
++ (NSDictionary *) XListMappingWithFolders:(NSArray * /* LEPIMAPFolder */ )folders
+{
+    NSMutableDictionary * result;
+    
+    result = [NSMutableDictionary dictionary];
+    for(LEPIMAPFolder * folder in folders) {
+        if (([folder flags] & LEPIMAPMailboxFlagInbox) != 0) {
+            [result setObject:[folder path] forKey:@"inbox"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagSentMail) != 0) {
+            [result setObject:[folder path] forKey:@"sentmail"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagStarred) != 0) {
+            [result setObject:[folder path] forKey:@"starred"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagAllMail) != 0) {
+            [result setObject:[folder path] forKey:@"allmail"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagTrash) != 0) {
+            [result setObject:[folder path] forKey:@"trash"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagDrafts) != 0) {
+            [result setObject:[folder path] forKey:@"drafts"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagSpam) != 0) {
+            [result setObject:[folder path] forKey:@"spam"];
+        }
+        else if (([folder flags] & LEPIMAPMailboxFlagImportant) != 0) {
+            [result setObject:[folder path] forKey:@"important"];
+        }
+    }
+    
+    return result;
 }
 
 @end

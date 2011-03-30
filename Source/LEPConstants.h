@@ -28,13 +28,14 @@ typedef enum {
     LEPIMAPMailboxFlagUnmarked    = 1 << 1,
     LEPIMAPMailboxFlagNoSelect    = 1 << 2,
     LEPIMAPMailboxFlagNoInferiors = 1 << 3,
-    LEPIMAPMailboxFlagSentMail    = 1 << 4,
-    LEPIMAPMailboxFlagStarred     = 1 << 5,
-    LEPIMAPMailboxFlagAllMail     = 1 << 6,
-    LEPIMAPMailboxFlagTrash       = 1 << 7,
-    LEPIMAPMailboxFlagDrafts      = 1 << 8,
-    LEPIMAPMailboxFlagSpam        = 1 << 9,
-    LEPIMAPMailboxFlagImportant   = 1 << 10,
+    LEPIMAPMailboxFlagInbox       = 1 << 4,
+    LEPIMAPMailboxFlagSentMail    = 1 << 5,
+    LEPIMAPMailboxFlagStarred     = 1 << 6,
+    LEPIMAPMailboxFlagAllMail     = 1 << 7,
+    LEPIMAPMailboxFlagTrash       = 1 << 8,
+    LEPIMAPMailboxFlagDrafts      = 1 << 9,
+    LEPIMAPMailboxFlagSpam        = 1 << 10,
+    LEPIMAPMailboxFlagImportant   = 1 << 11,
 } LEPMailboxFlags;
 
 typedef enum {

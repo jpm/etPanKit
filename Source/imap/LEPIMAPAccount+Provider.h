@@ -21,4 +21,10 @@
 - (LEPIMAPFolder *) spamFolderForProvider:(LEPMailProvider *)provider;
 - (LEPIMAPFolder *) importantFolderForProvider:(LEPMailProvider *)provider;
 
+- (void) setXListMapping:(NSDictionary *)mapping;
+- (NSDictionary *) XListMapping;
+
+- (void) setupWithFoldersPaths:(NSArray *)paths xListHints:(NSDictionary *)mapping;
++ (NSDictionary *) XListMappingWithFolders:(NSArray * /* LEPIMAPFolder */ )folders;
+
 @end

@@ -21,6 +21,7 @@
 	//LEPIMAPSession * _session;
     NSMutableArray * _sessions;
     NSDictionary * _gmailMailboxNames;
+    NSDictionary * _xListMapping;
     unsigned int _sessionsCount;
     BOOL _checkCertificate;
     char _defaultDelimiter;

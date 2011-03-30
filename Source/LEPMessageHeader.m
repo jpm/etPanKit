@@ -189,7 +189,7 @@ static struct mailimf_date_time * get_date_from_timestamp(time_t timeval)
 	gmtime_r(&timeval, &gmt);
 	localtime_r(&timeval, &lt);
 	
-	off = (mkgmtime(&lt) - mkgmtime(&gmt)) / (60 * 60) * 100;
+	off = (mkgmtime(&lt) - mkgmtime(&gmt)) * 100 / (60 * 60);
 	
 	date_time = mailimf_date_time_new(lt.tm_mday, lt.tm_mon + 1,
 									  lt.tm_year + 1900,

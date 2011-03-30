@@ -8,6 +8,7 @@
 
 #import "LEPIMAPAccount.h"
 #import "LEPIMAPAccount+Gmail.h"
+#import "LEPIMAPAccount+Provider.h"
 #import "LEPIMAPAccountPrivate.h"
 
 #import "LEPIMAPSession.h"
@@ -85,6 +86,7 @@
 - (void) dealloc
 {
     [self _unsetupSession];
+    [_xListMapping release];
 	[_realm release];
     [_host release];
     [_login release];

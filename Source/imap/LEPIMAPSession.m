@@ -247,6 +247,20 @@ err:
 
 #pragma mark mailbox flags conversion
 
+static struct {
+    char * name;
+    int flag;
+} mb_keyword_flag[] = {
+    {"Inbox",     LEPIMAPMailboxFlagInbox},
+    {"AllMail",   LEPIMAPMailboxFlagAllMail},
+    {"Sent",      LEPIMAPMailboxFlagSentMail},
+    {"Spam",      LEPIMAPMailboxFlagSpam},
+    {"Starred",   LEPIMAPMailboxFlagStarred},
+    {"Trash",     LEPIMAPMailboxFlagTrash},
+    {"Important", LEPIMAPMailboxFlagImportant},
+    {"Drafts",    LEPIMAPMailboxFlagDrafts},
+};
+
 static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_flags)
 {
     int flags;
@@ -279,7 +293,11 @@ static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_fla
                 break;
                 
             case MAILIMAP_MBX_LIST_OFLAG_FLAG_EXT:
-                NSLog(@"%s", oflag->of_flag_ext);
+                for(unsigned int i = 0 ; i < sizeof(mb_keyword_flag) / sizeof(mb_keyword_flag[0]) ; i ++) {
+                    if (strcasecmp(mb_keyword_flag[i].name, oflag->of_flag_ext) == 0) {
+                        flags |= mb_keyword_flag[i].flag;
+                    }
+                }
                 break;
         }
     }
@@ -1038,7 +1056,6 @@ static void items_progress(size_t current, size_t maximum, void * context)
         prefix = @"";
     }
     if (useXList) {
-        NSLog(@"fetch using XLIST");
         r = mailimap_xlist(_imap, [prefix UTF8String], "*", &imap_folders);
     }
     else {
