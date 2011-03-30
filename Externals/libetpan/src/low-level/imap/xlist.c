@@ -18,7 +18,7 @@ static int mailimap_xlist_send(mailstream * fd,
 {
   int r;
   
-  r = mailimap_token_send(fd, "LIST");
+  r = mailimap_token_send(fd, "XLIST");
   if (r != MAILIMAP_NO_ERROR)
     return r;
   

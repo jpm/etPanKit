@@ -277,6 +277,10 @@ static int imap_mailbox_flags_to_flags(struct mailimap_mbx_list_flags * imap_fla
             case MAILIMAP_MBX_LIST_OFLAG_NOINFERIORS:
                 flags |= LEPIMAPMailboxFlagNoInferiors;
                 break;
+                
+            case MAILIMAP_MBX_LIST_OFLAG_FLAG_EXT:
+                NSLog(@"%s", oflag->of_flag_ext);
+                break;
         }
     }
     
@@ -1019,7 +1023,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
     return [self _getResultsFromError:r list:imap_folders account:account];
 }
 
-- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account
+- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account usingXList:(BOOL)useXList
 {
     int r;
     clist * imap_folders;
@@ -1033,7 +1037,13 @@ static void items_progress(size_t current, size_t maximum, void * context)
     if (prefix == nil) {
         prefix = @"";
     }
-	r = mailimap_list(_imap, [prefix UTF8String], "*", &imap_folders);
+    if (useXList) {
+        NSLog(@"fetch using XLIST");
+        r = mailimap_xlist(_imap, [prefix UTF8String], "*", &imap_folders);
+    }
+    else {
+        r = mailimap_list(_imap, [prefix UTF8String], "*", &imap_folders);
+    }
     return [self _getResultsFromError:r list:imap_folders account:account];
 }
 
@@ -1148,6 +1158,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
 {
     int r;
     
+    [self _selectIfNeeded:@"INBOX"];
+	if ([self error] != nil)
+        return;
+    
     r = mailimap_subscribe(_imap, [path UTF8String]);
 	if (r == MAILIMAP_ERROR_STREAM) {
         NSError * error;
@@ -1178,6 +1192,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
 - (void) _unsubscribeFolder:(NSString *)path
 {
     int r;
+    
+    [self _selectIfNeeded:@"INBOX"];
+	if ([self error] != nil)
+        return;
     
     r = mailimap_unsubscribe(_imap, [path UTF8String]);
 	if (r == MAILIMAP_ERROR_STREAM) {
@@ -1213,6 +1231,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
     struct mailimap_flag_list * flag_list;
     uint32_t uidvalidity;
 	uint32_t uidresult;
+    
+    [self _selectIfNeeded:path];
+	if ([self error] != nil)
+        return;
     
     _currentProgressDelegate = progressDelegate;
     [_currentProgressDelegate retain];
@@ -2024,6 +2046,8 @@ static void items_progress(size_t current, size_t maximum, void * context)
 
 - (void) _logout
 {
+    [self setError:nil];
+    
     if (_imap == NULL)
         return;
     
@@ -2046,7 +2070,7 @@ static void items_progress(size_t current, size_t maximum, void * context)
     if (lastUID != -1) {
         NSArray * msgs;
         
-        msgs = [self _fetchFolderMessages:path fromUID:0 toUID:0 kind:0 folder:nil
+        msgs = [self _fetchFolderMessages:path fromUID:lastUID toUID:0 kind:0 folder:nil
                          progressDelegate:nil];
         if ([msgs count] > 0) {
             LEPIMAPMessage * msg;
@@ -2313,6 +2337,7 @@ struct capability_value capability_values[] = {
     {@"THREAD=REFERENCES", LEPIMAPCapabilityThreadReferences},
     {@"UIDPLUS", LEPIMAPCapabilityUIDPlus},
     {@"UNSELECT", LEPIMAPCapabilityUnselect},
+    {@"XLIST", LEPIMAPCapabilityXList},
     {@"AUTH=ANONYMOUS", LEPIMAPCapabilityAuthAnonymous},
     {@"AUTH=CRAM-MD5", LEPIMAPCapabilityAuthCRAMMD5},
     {@"AUTH=DIGEST-MD5", LEPIMAPCapabilityAuthDigestMD5},

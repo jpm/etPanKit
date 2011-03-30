@@ -10,6 +10,9 @@
 #import "LEPIMAPFetchFoldersRequest.h"
 
 @interface LEPIMAPFetchAllFoldersRequest : LEPIMAPFetchFoldersRequest {
+    BOOL _useXList;
 }
+
+@property (nonatomic, assign) BOOL useXList;
 
 @end

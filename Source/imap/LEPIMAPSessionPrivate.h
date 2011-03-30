@@ -20,7 +20,7 @@
 - (void) _selectIfNeeded:(NSString *)mailbox;
 
 - (NSArray *) _fetchSubscribedFoldersWithAccount:(LEPIMAPAccount *)account;
-- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account;
+- (NSArray *) _fetchAllFoldersWithAccount:(LEPIMAPAccount *)account usingXList:(BOOL)useXList;
 
 - (void) _renameFolder:(NSString *)path withNewPath:(NSString *)newPath;
 - (void) _deleteFolder:(NSString *)path;

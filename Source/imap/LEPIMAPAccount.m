@@ -116,6 +116,19 @@
     return [request autorelease];
 }
 
+- (LEPIMAPFetchFoldersRequest *) fetchAllFoldersUsingXListRequest
+{
+	LEPIMAPFetchAllFoldersRequest * request;
+	
+	request = [[LEPIMAPFetchAllFoldersRequest alloc] init];
+    [request setUseXList:YES];
+	[request setAccount:self];
+    
+    [self _setupRequest:request];
+    
+    return [request autorelease];
+}
+
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)path
 {
 	LEPIMAPCreateFolderRequest * request;

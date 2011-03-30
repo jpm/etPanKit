@@ -18,9 +18,11 @@
 
 @implementation LEPIMAPFetchAllFoldersRequest
 
+@synthesize useXList = _useXList;
+
 - (void) mainRequest
 {
-	_folders = [[_session _fetchAllFoldersWithAccount:_account] retain];
+	_folders = [[_session _fetchAllFoldersWithAccount:_account usingXList:_useXList] retain];
 }
 
 - (void) mainFinished

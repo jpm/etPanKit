@@ -24,10 +24,17 @@ typedef enum {
 } LEPAuthType;
 
 typedef enum {
-    LEPIMAPMailboxFlagMarked      = 1,
-    LEPIMAPMailboxFlagUnmarked    = 2,
-    LEPIMAPMailboxFlagNoSelect    = 4,
-    LEPIMAPMailboxFlagNoInferiors = 8,
+    LEPIMAPMailboxFlagMarked      = 1 << 0,
+    LEPIMAPMailboxFlagUnmarked    = 1 << 1,
+    LEPIMAPMailboxFlagNoSelect    = 1 << 2,
+    LEPIMAPMailboxFlagNoInferiors = 1 << 3,
+    LEPIMAPMailboxFlagSentMail    = 1 << 4,
+    LEPIMAPMailboxFlagStarred     = 1 << 5,
+    LEPIMAPMailboxFlagAllMail     = 1 << 6,
+    LEPIMAPMailboxFlagTrash       = 1 << 7,
+    LEPIMAPMailboxFlagDrafts      = 1 << 8,
+    LEPIMAPMailboxFlagSpam        = 1 << 9,
+    LEPIMAPMailboxFlagImportant   = 1 << 10,
 } LEPMailboxFlags;
 
 typedef enum {
@@ -82,6 +89,7 @@ typedef enum {
     LEPIMAPCapabilityThreadReferences,
     LEPIMAPCapabilityUIDPlus,
     LEPIMAPCapabilityUnselect,
+    LEPIMAPCapabilityXList,
     LEPIMAPCapabilityAuthAnonymous,
     LEPIMAPCapabilityAuthCRAMMD5,
     LEPIMAPCapabilityAuthDigestMD5,

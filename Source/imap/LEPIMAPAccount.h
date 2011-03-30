@@ -46,6 +46,7 @@
 
 // after the operation is created, it should be started
 - (LEPIMAPFetchFoldersRequest *) fetchAllFoldersRequest;
+- (LEPIMAPFetchFoldersRequest *) fetchAllFoldersUsingXListRequest;
 
 - (LEPIMAPRequest *) createFolderRequest:(NSString *)path;
 
