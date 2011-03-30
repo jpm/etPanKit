@@ -1,3 +1,11 @@
+2010-03-30 - libetpan-1.0cvs44 - hoa
+
+	* src/low-level/imap/mailimap_extension.c
+	* src/low-level/imap/mailimap_extension_types.h
+	* src/low-level/imap/mailimap_parser.[ch]
+	* src/low-level/imap/xlist.[ch]
+	   fixed XLIST implementation.
+
 2010-03-30 - libetpan-1.0cvs43 - hoa
 
 	* src/low-level/imap/Makefile.am

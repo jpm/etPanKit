@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.65 2011/03/25 18:31:40 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.66 2011/03/30 13:29:49 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -511,15 +511,6 @@ static int
 mailimap_mbx_list_sflag_parse(mailstream * fd, MMAPString * buffer,
 			      size_t * indx,
 			      int * result);
-
-
-static int
-mailimap_mailbox_list_parse(mailstream * fd, MMAPString * buffer,
-			    size_t * indx,
-			    struct mailimap_mailbox_list ** result,
-			    size_t progr_rate,
-			    progress_function * progr_fun);
-
 
 
 static int
@@ -6250,7 +6241,7 @@ mailimap_mailbox_list_quoted_char_parse(mailstream * fd, MMAPString * buffer,
   return MAILIMAP_NO_ERROR;
 }
 
-static int
+int
 mailimap_mailbox_list_parse(mailstream * fd, MMAPString * buffer,
 			    size_t * indx,
 			    struct mailimap_mailbox_list ** result,

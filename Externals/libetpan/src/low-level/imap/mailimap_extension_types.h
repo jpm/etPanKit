@@ -12,7 +12,8 @@ enum {
   MAILIMAP_EXTENSION_ACL,           /* the acl capability */
   MAILIMAP_EXTENSION_UIDPLUS,       /* UIDPLUS */
   MAILIMAP_EXTENSION_QUOTA,         /* quota */
-  MAILIMAP_EXTENSION_NAMESPACE      /* namespace */
+  MAILIMAP_EXTENSION_NAMESPACE,     /* namespace */
+  MAILIMAP_EXTENSION_XLIST          /* XLIST (Gmail and Zimbra have this) */
 };
 
 
