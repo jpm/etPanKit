@@ -565,6 +565,7 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
             [self setInternalDate:date];
 			mailimf_date_time_free(date_time);
 		}
+#if 0 // it crashes
 		else {
 			static NSMutableArray * formatters = nil;
 			static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
@@ -636,6 +637,7 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 				}
 			}
 		}
+#endif
 	}
 
 	if (env->env_subject != NULL) {
