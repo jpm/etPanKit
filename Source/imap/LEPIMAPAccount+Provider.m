@@ -32,6 +32,12 @@
 
 - (LEPIMAPFolder *) sentMailFolderForProvider:(LEPMailProvider *)provider
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"sentmail"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"sentmail"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self sentMailFolder];
     }
@@ -44,6 +50,12 @@
 
 - (LEPIMAPFolder *) starredFolderForProvider:(LEPMailProvider *)provider
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"starred"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"starred"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self starredFolder];
     }
@@ -56,6 +68,12 @@
 
 - (LEPIMAPFolder *) allMailFolderForProvider:(LEPMailProvider *)provider;
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"allmail"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"allmail"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self allMailFolder];
     }
@@ -68,6 +86,12 @@
 
 - (LEPIMAPFolder *) trashFolderForProvider:(LEPMailProvider *)provider;
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"trash"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"trash"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self trashFolder];
     }
@@ -80,6 +104,12 @@
 
 - (LEPIMAPFolder *) draftsFolderForProvider:(LEPMailProvider *)provider;
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"drafts"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"drafts"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self draftsFolder];
     }
@@ -92,6 +122,12 @@
 
 - (LEPIMAPFolder *) spamFolderForProvider:(LEPMailProvider *)provider;
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"spam"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"spam"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self spamFolder];
     }
@@ -104,6 +140,12 @@
 
 - (LEPIMAPFolder *) importantFolderForProvider:(LEPMailProvider *)provider;
 {
+    if (_xListMapping != nil) {
+        if ([_xListMapping objectForKey:@"important"] != nil) {
+            return [self _providerFolderWithPath:[_xListMapping objectForKey:@"important"]];
+        }
+    }
+    
     if ([[provider identifier] isEqualToString:GMAIL_PROVIDER_IDENTIFIER]) {
         return [self importantFolder];
     }
