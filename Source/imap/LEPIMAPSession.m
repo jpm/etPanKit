@@ -1311,6 +1311,10 @@ static void items_progress(size_t current, size_t maximum, void * context)
         return;
     
     set = setFromArray(uidSet);
+    if (clist_count(set->set_list) == 0) {
+        return;
+    }
+    
     //r = mailimap_uid_copy(_imap, set, [toPath UTF8String]);
     r = mailimap_uidplus_uid_copy(_imap, set, [toPath UTF8String],
 								  &uidvalidity, &src_uid, &dest_uid);
