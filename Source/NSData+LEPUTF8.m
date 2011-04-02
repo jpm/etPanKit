@@ -21,6 +21,7 @@
 	char * utf8str;
 	NSString * result;
 	
+#if 0
     utf8str = NULL;
 	charconv("utf-8", (char *) [charset UTF8String], (char *) [self bytes], [self length], &utf8str);
     if (utf8str == NULL) {
@@ -30,6 +31,27 @@
         result = [NSString stringWithUTF8String:utf8str];
     }
 	free(utf8str);
+#else
+    size_t utf8len;
+    utf8len = 0;
+    utf8str = NULL;
+    charconv_buffer("utf-8", (char *) [charset UTF8String],
+                        (char *) [self bytes], [self length],
+                    &utf8str, &utf8len);
+    for(size_t i = 0 ; i < utf8len ; i ++) {
+        if (utf8str[i] == 0) {
+            utf8str[i] = ' ';
+        }
+    }
+    //fprintf(stderr, "%u %u\n", strlen(utf8str), utf8len);
+    if (utf8str == NULL) {
+        result = nil;
+    }
+    else {
+        result = [NSString stringWithUTF8String:utf8str];
+    }
+    charconv_buffer_free(utf8str);
+#endif
 	
 	return result;
 }
