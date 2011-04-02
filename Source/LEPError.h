@@ -31,4 +31,6 @@ enum {
     LEPErrorIdle,
 	LEPErrorCertificate,
     LEPErrorNamespace,
+    LEPErrorGmailIMAPNotEnabled,
+    LEPErrorGmailExceededBandwidthLimit,
 };

@@ -897,10 +897,27 @@ static void items_progress(size_t current, size_t maximum, void * context)
     }
     else if ([self _hasError:r]) {
         NSError * error;
+        NSString * response;
         
-        error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
-        [self setError:error];
-        [error release];
+        response = @"";
+        if (_imap->imap_response != NULL) {
+            response = [NSString stringWithUTF8String:_imap->imap_response];
+        }
+        if ([response rangeOfString:@"not enabled for IMAP use"].location != NSNotFound) {
+            error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorGmailIMAPNotEnabled userInfo:nil];
+            [self setError:error];
+            [error release];
+        }
+        else if ([response rangeOfString:@"exceeded bandwidth limits"].location != NSNotFound) {
+            error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorGmailExceededBandwidthLimit userInfo:nil];
+            [self setError:error];
+            [error release];
+        }
+        else {
+            error = [[NSError alloc] initWithDomain:LEPErrorDomain code:LEPErrorAuthentication userInfo:nil];
+            [self setError:error];
+            [error release];
+        }
         return;
     }
     
