@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimap_parser.c,v 1.66 2011/03/30 13:29:49 hoa Exp $
+ * $Id: mailimap_parser.c,v 1.67 2011/04/02 13:54:28 hoa Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -3080,10 +3080,12 @@ mailimap_body_fld_param_parse(mailstream * fd,
   return MAILIMAP_NO_ERROR;
 
  free:
-  clist_foreach(param_list,
-		(clist_func) mailimap_single_body_fld_param_free,
-		NULL);
-  clist_free(param_list);
+  if (param_list != NULL) {
+    clist_foreach(param_list,
+                  (clist_func) mailimap_single_body_fld_param_free,
+                  NULL);
+    clist_free(param_list);
+  }
  err:
   return res;
 }

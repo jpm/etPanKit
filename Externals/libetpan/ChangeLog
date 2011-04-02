@@ -1,3 +1,8 @@
+2010-04-02 - libetpan-1.0cvs45 - hoa
+
+	* src/low-level/imap/mailimap_parser.c
+	   fixed a crash.
+
 2010-03-30 - libetpan-1.0cvs44 - hoa
 
 	* src/low-level/imap/mailimap_extension.c
