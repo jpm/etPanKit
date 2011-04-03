@@ -11,6 +11,7 @@
 #import <libetpan/libetpan.h>
 #import "LEPUtils.h"
 #include <pthread.h>
+#import "NSData+LEPUTF8.h"
 
 //#include <libxml2/libxml/xmlmemory.h>
 //#include <libxml2/libxml/HTMLparser.h>
@@ -843,9 +844,24 @@ static char * extract_subject(char * str, int keep_bracket)
     size_t cur_token;
     char * decoded;
 	NSString * result;
+    BOOL hasEncoding;
+    
+    if (phrase == NULL)
+        return @"";
     
     if (* phrase == '\0') {
         return @"";
+    }
+    
+    hasEncoding = NO;
+    if (strstr(phrase, "=?") != NULL) {
+        if ((strcasestr(phrase, "?Q?") != NULL) || (strcasestr(phrase, "?B?") != NULL)) {
+            hasEncoding = YES;
+        }
+    }
+    
+    if (!hasEncoding) {
+        return [[NSData dataWithBytes:phrase length:strlen(phrase)] lepStringWithDetectedCharset];
     }
     
     cur_token = 0;

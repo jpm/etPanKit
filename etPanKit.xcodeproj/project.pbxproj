@@ -138,6 +138,8 @@
 		C6E572581103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */; };
 		C6E5725C1103E73000897274 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
 		C6E572F71103F15600897274 /* LEPIMAPFolderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */; settings = {ATTRIBUTES = (); }; };
+		C6E9BDC91347DF33005F4C2C /* NSData+LEPCharsetDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E9BD221347DF33005F4C2C /* NSData+LEPCharsetDetection.h */; };
+		C6E9BDCA1347DF33005F4C2C /* NSData+LEPCharsetDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E9BD231347DF33005F4C2C /* NSData+LEPCharsetDetection.m */; };
 		C6F94F24129E6776005852A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F94F23129E6776005852A4 /* Security.framework */; };
 		C6F952AC129E8EB8005852A4 /* LEPCertificateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */; };
 		C6F952AD129E8EB8005852A4 /* LEPCertificateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */; };
@@ -313,6 +315,8 @@
 		C6E572551103E71700897274 /* LEPIMAPFetchAllFoldersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFetchAllFoldersRequest.h; sourceTree = "<group>"; };
 		C6E572561103E71700897274 /* LEPIMAPFetchAllFoldersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPIMAPFetchAllFoldersRequest.m; sourceTree = "<group>"; };
 		C6E572F61103F15600897274 /* LEPIMAPFolderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPIMAPFolderPrivate.h; sourceTree = "<group>"; };
+		C6E9BD221347DF33005F4C2C /* NSData+LEPCharsetDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+LEPCharsetDetection.h"; sourceTree = "<group>"; };
+		C6E9BD231347DF33005F4C2C /* NSData+LEPCharsetDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+LEPCharsetDetection.m"; sourceTree = "<group>"; };
 		C6F94F23129E6776005852A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C6F952AA129E8EB8005852A4 /* LEPCertificateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEPCertificateUtils.h; sourceTree = "<group>"; };
 		C6F952AB129E8EB8005852A4 /* LEPCertificateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEPCertificateUtils.m; sourceTree = "<group>"; };
@@ -424,6 +428,7 @@
 		C655A76610F11344009E6B45 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C6E9BC791347DF33005F4C2C /* icu */,
 				C681662B10F5142D00B07764 /* imap */,
 				C69112A211164F1B00623B9F /* rfc2822 */,
 				C681663A10F5142D00B07764 /* smtp */,
@@ -582,6 +587,15 @@
 			path = rfc2822;
 			sourceTree = "<group>";
 		};
+		C6E9BC791347DF33005F4C2C /* icu */ = {
+			isa = PBXGroup;
+			children = (
+				C6E9BD221347DF33005F4C2C /* NSData+LEPCharsetDetection.h */,
+				C6E9BD231347DF33005F4C2C /* NSData+LEPCharsetDetection.m */,
+			);
+			path = icu;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -661,6 +675,7 @@
 				C68C776B1310490D00F16728 /* LEPIMAPNamespaceItem.h in Headers */,
 				C6C65274131170790061B309 /* LEPIMAPNamespaceRequest.h in Headers */,
 				C65BF08713291E3E00372160 /* LEPIMAPCheckRequest.h in Headers */,
+				C6E9BDC91347DF33005F4C2C /* NSData+LEPCharsetDetection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,6 +833,7 @@
 				C68C776C1310490D00F16728 /* LEPIMAPNamespaceItem.m in Sources */,
 				C6C65275131170790061B309 /* LEPIMAPNamespaceRequest.m in Sources */,
 				C65BF08813291E3E00372160 /* LEPIMAPCheckRequest.m in Sources */,
+				C6E9BDCA1347DF33005F4C2C /* NSData+LEPCharsetDetection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +873,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
+				ICU_LDFLAGS = "$(SRCROOT)/Externals/icu/lib/libicui18n.a $(SRCROOT)/Externals/icu/lib/libicuuc.a $(SRCROOT)/Externals/icu/lib/libicudata.a";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -883,6 +900,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = etPanKit_Prefix.pch;
+				ICU_LDFLAGS = "$(SRCROOT)/Externals/icu/lib/libicui18n.a $(SRCROOT)/Externals/icu/lib/libicuuc.a $(SRCROOT)/Externals/icu/lib/libicudata.a";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (

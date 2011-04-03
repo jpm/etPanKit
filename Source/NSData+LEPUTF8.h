@@ -12,5 +12,7 @@
 
 - (NSString *) lepUTF8String;
 - (NSString *) lepStringWithCharset:(NSString *)charset;
+- (NSString *) lepStringWithDetectedCharset;
+- (NSString *) lepHTMLStringWithDetectedCharset;
 
 @end

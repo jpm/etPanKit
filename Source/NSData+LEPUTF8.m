@@ -8,6 +8,7 @@
 
 #import "NSData+LEPUTF8.h"
 #import <libetpan/libetpan.h>
+#import "NSData+LEPCharsetDetection.h"
 
 @implementation NSData (LEPUTF8)
 
@@ -54,6 +55,30 @@
 #endif
 	
 	return result;
+}
+
+- (NSString *) lepStringWithDetectedCharset
+{
+    NSString * charset;
+    
+    charset = [self lepCharsetForFilteredHTML:NO];
+    if (charset == nil) {
+        charset = @"iso-8859-1";
+    }
+    
+    return [self lepStringWithCharset:charset];
+}
+
+- (NSString *) lepHTMLStringWithDetectedCharset
+{
+    NSString * charset;
+    
+    charset = [self lepCharsetForFilteredHTML:YES];
+    if (charset == nil) {
+        charset = @"iso-8859-1";
+    }
+    
+    return [self lepStringWithCharset:charset];
 }
 
 @end

@@ -18,6 +18,7 @@
 #include <libetpan/libetpan.h>
 #include <pthread.h>
 #include <unistd.h>
+#import "NSData+LEPCharsetDetection.h"
 
 #pragma mark IMAP mailbox conversion
 
@@ -775,7 +776,28 @@ static struct mailimf_address_list * lep_address_list_from_array(NSArray * addre
 	}
 	if (single_fields.fld_subject != NULL) {
 		if (single_fields.fld_subject->sbj_value != NULL) {
-			[self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:single_fields.fld_subject->sbj_value]];
+            BOOL broken;
+            char * value;
+            BOOL isASCII;
+            
+            broken = NO;
+            value = single_fields.fld_subject->sbj_value;
+            
+            isASCII = YES;
+            for(char * p = value ; * p != 0 ; p ++) {
+                if ((unsigned char) * p >= 128) {
+                    isASCII = NO;
+                }
+            }
+            if (isASCII) {
+                broken = YES;
+            }
+            
+            //NSLog(@"charset: %s %@", value, charset);
+            
+            if (!broken) {
+                [self setSubject:[NSString lepStringByDecodingMIMEHeaderValue:single_fields.fld_subject->sbj_value]];
+            }
 		}
 	}
 	
